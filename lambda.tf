@@ -20,7 +20,7 @@ EOF
 }
 
 resource "aws_lambda_function" "getVideos" {
-  filename = "getVideos.zip"
+  filename = "VideoLambdas/getVideos.zip"
   function_name = "getVideos"
   role = "${aws_iam_role.IamForVideoLambda.arn}"
   handler = "getVideos.lambda_handler"
