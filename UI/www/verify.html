@@ -5,13 +5,7 @@
 </head>
 <body>
   <script src="https://sdk.amazonaws.com/js/aws-sdk-2.3.7.min.js"></script>
-	<script>
-  AWS.config.region = '<REGION>';
-	AWS.config.credentials = new AWS.CognitoIdentityCredentials({
-    IdentityPoolId: '<IDENTITY_POOL_ID>'
-  });
-  var lambda = new AWS.Lambda();
-	</script>
+  <script src="aws-config.js"></script>
   <h1>Sample Verify User Page</h1>
   <div id="info">
   Verifying...

@@ -20,7 +20,7 @@ resource "aws_lambda_permission" "allow_api_gateway" {
 
 // Auth
 resource "aws_lambda_function" "createUser" {
-  filename = "Lambda/CreateUser.zip"
+  filename = "Lambda/Auth/CreateUser.zip"
   function_name = "CreateUser"
   role = "${aws_iam_role.LambdAuthCreateUser.arn}"
   handler = "index.handler"
@@ -28,7 +28,7 @@ resource "aws_lambda_function" "createUser" {
 }
 
 resource "aws_lambda_function" "changePassword" {
-  filename = "Lambda/ChangePassword.zip"
+  filename = "Lambda/Auth/ChangePassword.zip"
   function_name = "ChangePassword"
   role = "${aws_iam_role.LambdAuthChangePassword.arn}"
   handler = "index.handler"
@@ -36,7 +36,7 @@ resource "aws_lambda_function" "changePassword" {
 }
 
 resource "aws_lambda_function" "login" {
-  filename = "Lambda/Login.zip"
+  filename = "Lambda/Auth/Login.zip"
   function_name = "Login"
   role = "${aws_iam_role.LambdAuthLogin.arn}"
   handler = "index.handler"
@@ -44,7 +44,7 @@ resource "aws_lambda_function" "login" {
 }
 
 resource "aws_lambda_function" "lostPassword" {
-  filename = "Lambda/LostPassword.zip"
+  filename = "Lambda/Auth/LostPassword.zip"
   function_name = "LostPassword"
   role = "${aws_iam_role.LambdAuthLostPassword.arn}"
   handler = "index.handler"
@@ -52,7 +52,7 @@ resource "aws_lambda_function" "lostPassword" {
 }
 
 resource "aws_lambda_function" "resetPassword" {
-  filename = "Lambda/ResetPassword.zip"
+  filename = "Lambda/Auth/ResetPassword.zip"
   function_name = "ResetPassword"
   role = "${aws_iam_role.LambdAuthResetPassword.arn}"
   handler = "index.handler"
@@ -60,7 +60,7 @@ resource "aws_lambda_function" "resetPassword" {
 }
 
 resource "aws_lambda_function" "verifyUser" {
-  filename = "Lambda/VerifyUser.zip"
+  filename = "Lambda/Auth/VerifyUser.zip"
   function_name = "VerifyUser"
   role = "${aws_iam_role.LambdAuthVerifyUser.arn}"
   handler = "index.handler"
