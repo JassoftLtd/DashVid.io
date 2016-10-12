@@ -3,7 +3,7 @@ language: noe_js
 sudo: required
 
 before_install:
-  - sudo apt-get -qq update
+  - sudo apt-get install -y terraform
 
 install:
   - sh ./build.sh
