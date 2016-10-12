@@ -69,7 +69,7 @@
 					password: password.value
 	      };
 	      lambda.invoke({
-	        FunctionName: 'LambdAuthResetPassword',
+	        FunctionName: 'ResetPassword',
 	        Payload: JSON.stringify(input)
 	      }, function(err, data) {
 	        if (err) console.log(err, err.stack);

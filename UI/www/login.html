@@ -47,7 +47,7 @@
         password: password.value
       };
       lambda.invoke({
-        FunctionName: 'LambdAuthLogin',
+        FunctionName: 'Login',
         Payload: JSON.stringify(input)
       }, function(err, data) {
         if (err) console.log(err, err.stack);

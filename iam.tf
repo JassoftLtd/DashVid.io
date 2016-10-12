@@ -1,5 +1,5 @@
 // IAM
-# iam-data/Cognito_LambdAuthAuth_Role.json
+# iam-data/Cognito_Auth_Role.json
 
 resource "aws_iam_role" "IamForVideoLambda" {
   name = "iam_for_video_lambda"
@@ -20,8 +20,8 @@ resource "aws_iam_role" "IamForVideoLambda" {
 EOF
 }
 
-resource "aws_iam_role" "Cognito_LambdAuthAuth" {
-  name = "Cognito_LambdAuthAuth"
+resource "aws_iam_role" "Cognito_Auth" {
+  name = "Cognito_Auth"
   assume_role_policy = <<EOF
 {
   "Version": "2012-10-17",
@@ -39,9 +39,9 @@ resource "aws_iam_role" "Cognito_LambdAuthAuth" {
 EOF
 }
 
-resource "aws_iam_policy" "Cognito_LambdAuthAuth" {
-  name = "Cognito_LambdAuthAuth-policy"
-  description = "Cognito_LambdAuthAuth policy"
+resource "aws_iam_policy" "Cognito_Auth" {
+  name = "Cognito_Auth-policy"
+  description = "Cognito_Auth policy"
   policy = <<EOF
 {
     "Version": "2012-10-17",
@@ -62,13 +62,13 @@ resource "aws_iam_policy" "Cognito_LambdAuthAuth" {
                 "lambda:InvokeFunction"
             ],
             "Resource" : [
-                "arn:aws:lambda:${var.aws_region}:${var.aws_account_id}:function:LambdAuthCreateUser",
-                "arn:aws:lambda:${var.aws_region}:${var.aws_account_id}:function:LambdAuthVerifyUser",
-                "arn:aws:lambda:${var.aws_region}:${var.aws_account_id}:function:LambdAuthChangePassword",
-                "arn:aws:lambda:${var.aws_region}:${var.aws_account_id}:function:LambdAuthLostUser",
-                "arn:aws:lambda:${var.aws_region}:${var.aws_account_id}:function:LambdAuthLostPassword",
-                "arn:aws:lambda:${var.aws_region}:${var.aws_account_id}:function:LambdAuthResetPassword",
-                "arn:aws:lambda:${var.aws_region}:${var.aws_account_id}:function:LambdAuthLogin"
+                "arn:aws:lambda:${var.aws_region}:${var.aws_account_id}:function:CreateUser",
+                "arn:aws:lambda:${var.aws_region}:${var.aws_account_id}:function:VerifyUser",
+                "arn:aws:lambda:${var.aws_region}:${var.aws_account_id}:function:ChangePassword",
+                "arn:aws:lambda:${var.aws_region}:${var.aws_account_id}:function:LostUser",
+                "arn:aws:lambda:${var.aws_region}:${var.aws_account_id}:function:LostPassword",
+                "arn:aws:lambda:${var.aws_region}:${var.aws_account_id}:function:ResetPassword",
+                "arn:aws:lambda:${var.aws_region}:${var.aws_account_id}:function:Login"
             ]
         }
     ]
@@ -77,8 +77,8 @@ resource "aws_iam_policy" "Cognito_LambdAuthAuth" {
 EOF
 }
 
-resource "aws_iam_role" "Cognito_LambdAuthUnauth" {
-  name = "Cognito_LambdAuthUnauth"
+resource "aws_iam_role" "Cognito_Unauth" {
+  name = "Cognito_Unauth"
   assume_role_policy = <<EOF
 {
   "Version": "2012-10-17",
@@ -96,9 +96,9 @@ resource "aws_iam_role" "Cognito_LambdAuthUnauth" {
 EOF
 }
 
-resource "aws_iam_policy" "Cognito_LambdAuthUnauth" {
-  name = "Cognito_LambdAuthUnauth-policy"
-  description = "Cognito_LambdAuthUnauth policy"
+resource "aws_iam_policy" "Cognito_Unauth" {
+  name = "Cognito_Unauth-policy"
+  description = "Cognito_Unauth policy"
   policy = <<EOF
 {
     "Version": "2012-10-17",
@@ -119,12 +119,12 @@ resource "aws_iam_policy" "Cognito_LambdAuthUnauth" {
                 "lambda:InvokeFunction"
             ],
             "Resource": [
-                "arn:aws:lambda:${var.aws_region}:${var.aws_account_id}:function:LambdAuthCreateUser",
-                "arn:aws:lambda:${var.aws_region}:${var.aws_account_id}:function:LambdAuthVerifyUser",
-                "arn:aws:lambda:${var.aws_region}:${var.aws_account_id}:function:LambdAuthLostUser",
-                "arn:aws:lambda:${var.aws_region}:${var.aws_account_id}:function:LambdAuthLostPassword",
-                "arn:aws:lambda:${var.aws_region}:${var.aws_account_id}:function:LambdAuthResetPassword",
-                "arn:aws:lambda:${var.aws_region}:${var.aws_account_id}:function:LambdAuthLogin"
+                "arn:aws:lambda:${var.aws_region}:${var.aws_account_id}:function:CreateUser",
+                "arn:aws:lambda:${var.aws_region}:${var.aws_account_id}:function:VerifyUser",
+                "arn:aws:lambda:${var.aws_region}:${var.aws_account_id}:function:LostUser",
+                "arn:aws:lambda:${var.aws_region}:${var.aws_account_id}:function:LostPassword",
+                "arn:aws:lambda:${var.aws_region}:${var.aws_account_id}:function:ResetPassword",
+                "arn:aws:lambda:${var.aws_region}:${var.aws_account_id}:function:Login"
             ]
         }
     ]
@@ -132,8 +132,8 @@ resource "aws_iam_policy" "Cognito_LambdAuthUnauth" {
 EOF
 }
 
-resource "aws_iam_role" "LambdAuthChangePassword" {
-  name = "LambdAuthChangePassword"
+resource "aws_iam_role" "ChangePassword" {
+  name = "ChangePassword"
   assume_role_policy = <<EOF
 {
   "Version": "2012-10-17",
@@ -151,9 +151,9 @@ resource "aws_iam_role" "LambdAuthChangePassword" {
 EOF
 }
 
-resource "aws_iam_policy" "LambdAuthChangePassword" {
-  name = "LambdAuthChangePassword-policy"
-  description = "LambdAuthChangePassword policy"
+resource "aws_iam_policy" "ChangePassword" {
+  name = "ChangePassword-policy"
+  description = "ChangePassword policy"
   policy = <<EOF
 {
     "Version": "2012-10-17",
@@ -179,8 +179,8 @@ resource "aws_iam_policy" "LambdAuthChangePassword" {
 EOF
 }
 
-resource "aws_iam_role" "LambdAuthCreateUser" {
-  name = "LambdAuthCreateUser"
+resource "aws_iam_role" "CreateUser" {
+  name = "CreateUser"
   assume_role_policy = <<EOF
 {
   "Version": "2012-10-17",
@@ -198,9 +198,9 @@ resource "aws_iam_role" "LambdAuthCreateUser" {
 EOF
 }
 
-resource "aws_iam_policy" "LambdAuthCreateUser" {
-  name = "LambdAuthCreateUser-policy"
-  description = "LambdAuthCreateUser policy"
+resource "aws_iam_policy" "CreateUser" {
+  name = "CreateUser-policy"
+  description = "CreateUser policy"
   policy = <<EOF
 {
     "Version": "2012-10-17",
@@ -233,8 +233,8 @@ resource "aws_iam_policy" "LambdAuthCreateUser" {
 EOF
 }
 
-resource "aws_iam_role" "LambdAuthLogin" {
-  name = "LambdAuthLogin"
+resource "aws_iam_role" "Login" {
+  name = "Login"
   assume_role_policy = <<EOF
 {
   "Version": "2012-10-17",
@@ -252,9 +252,9 @@ resource "aws_iam_role" "LambdAuthLogin" {
 EOF
 }
 
-resource "aws_iam_policy" "LambdAuthLogin" {
-  name = "LambdAuthLogin-policy"
-  description = "LambdAuthLogin policy"
+resource "aws_iam_policy" "Login" {
+  name = "Login-policy"
+  description = "Login policy"
   policy = <<EOF
 {
     "Version": "2012-10-17",
@@ -271,7 +271,7 @@ resource "aws_iam_policy" "LambdAuthLogin" {
             "Action": [
                 "cognito-identity:GetOpenIdTokenForDeveloperIdentity"
             ],
-            "Resource": "arn:aws:cognito-identity:${var.aws_region}:${var.aws_account_id}:identitypool/IDENTITY_POOL_ID"
+            "Resource": "arn:aws:cognito-identity:${var.aws_region}:${var.aws_account_id}:identitypool/${var.aws_identity_pool}"
         },
         {
             "Sid": "",
@@ -286,8 +286,8 @@ resource "aws_iam_policy" "LambdAuthLogin" {
 EOF
 }
 
-resource "aws_iam_role" "LambdAuthLostPassword" {
-  name = "LambdAuthLostPassword"
+resource "aws_iam_role" "LostPassword" {
+  name = "LostPassword"
   assume_role_policy = <<EOF
 {
   "Version": "2012-10-17",
@@ -305,9 +305,9 @@ resource "aws_iam_role" "LambdAuthLostPassword" {
 EOF
 }
 
-resource "aws_iam_policy" "LambdAuthLostPassword" {
-  name = "LambdAuthLostPassword-policy"
-  description = "LambdAuthLostPassword policy"
+resource "aws_iam_policy" "LostPassword" {
+  name = "LostPassword-policy"
+  description = "LostPassword policy"
   policy = <<EOF
 {
     "Version": "2012-10-17",
@@ -341,8 +341,8 @@ resource "aws_iam_policy" "LambdAuthLostPassword" {
 EOF
 }
 
-resource "aws_iam_role" "LambdAuthResetPassword" {
-  name = "LambdAuthResetPassword"
+resource "aws_iam_role" "ResetPassword" {
+  name = "ResetPassword"
   assume_role_policy = <<EOF
 {
   "Version": "2012-10-17",
@@ -360,9 +360,9 @@ resource "aws_iam_role" "LambdAuthResetPassword" {
 EOF
 }
 
-resource "aws_iam_policy" "LambdAuthResetPassword" {
-  name = "LambdAuthResetPassword-policy"
-  description = "LambdAuthResetPassword policy"
+resource "aws_iam_policy" "ResetPassword" {
+  name = "ResetPassword-policy"
+  description = "ResetPassword policy"
   policy = <<EOF
 {
     "Version": "2012-10-17",
@@ -388,8 +388,8 @@ resource "aws_iam_policy" "LambdAuthResetPassword" {
 EOF
 }
 
-resource "aws_iam_role" "LambdAuthVerifyUser" {
-  name = "LambdAuthVerifyUser"
+resource "aws_iam_role" "VerifyUser" {
+  name = "VerifyUser"
   assume_role_policy = <<EOF
 {
   "Version": "2012-10-17",
@@ -407,9 +407,9 @@ resource "aws_iam_role" "LambdAuthVerifyUser" {
 EOF
 }
 
-resource "aws_iam_policy" "LambdAuthVerifyUser" {
-  name = "LambdAuthVerifyUser-policy"
-  description = "LambdAuthVerifyUser policy"
+resource "aws_iam_policy" "VerifyUser" {
+  name = "VerifyUser-policy"
+  description = "VerifyUser policy"
   policy = <<EOF
 {
     "Version": "2012-10-17",
@@ -450,7 +450,7 @@ resource "aws_iam_role" "trust_policy_cognito_auth" {
       "Action": "sts:AssumeRoleWithWebIdentity",
       "Condition": {
         "StringEquals": {
-          "cognito-identity.amazonaws.com:aud": "IDENTITY_POOL_ID"
+          "cognito-identity.amazonaws.com:aud": "${var.aws_identity_pool}"
         },
         "ForAnyValue:StringLike": {
           "cognito-identity.amazonaws.com:amr": "authenticated"
@@ -477,7 +477,7 @@ resource "aws_iam_role" "trust_policy_cognito_unauth" {
       "Action": "sts:AssumeRoleWithWebIdentity",
       "Condition": {
         "StringEquals": {
-          "cognito-identity.amazonaws.com:aud": "IDENTITY_POOL_ID"
+          "cognito-identity.amazonaws.com:aud": "${var.aws_identity_pool}"
         },
         "ForAnyValue:StringLike": {
           "cognito-identity.amazonaws.com:amr": "unauthenticated"

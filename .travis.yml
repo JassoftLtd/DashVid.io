@@ -1,0 +1,10 @@
+language: noe_js
+
+sudo: required
+
+before_install:
+  - sudo apt-get -qq update
+
+install:
+  - sh ./build.sh
+  - terraform apply

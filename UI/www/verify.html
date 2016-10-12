@@ -37,7 +37,7 @@
         verify: urlParams['verify']
       };
       lambda.invoke({
-        FunctionName: 'LambdAuthVerifyUser',
+        FunctionName: 'VerifyUser',
         Payload: JSON.stringify(input)
       }, function(err, data) {
         if (err) console.log(err, err.stack);

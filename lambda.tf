@@ -22,7 +22,7 @@ resource "aws_lambda_permission" "allow_api_gateway" {
 resource "aws_lambda_function" "createUser" {
   filename = "Lambda/Auth/CreateUser.zip"
   function_name = "CreateUser"
-  role = "${aws_iam_role.LambdAuthCreateUser.arn}"
+  role = "${aws_iam_role.CreateUser.arn}"
   handler = "index.handler"
   runtime = "nodejs4.3"
 }
@@ -30,7 +30,7 @@ resource "aws_lambda_function" "createUser" {
 resource "aws_lambda_function" "changePassword" {
   filename = "Lambda/Auth/ChangePassword.zip"
   function_name = "ChangePassword"
-  role = "${aws_iam_role.LambdAuthChangePassword.arn}"
+  role = "${aws_iam_role.ChangePassword.arn}"
   handler = "index.handler"
   runtime = "nodejs4.3"
 }
@@ -38,7 +38,7 @@ resource "aws_lambda_function" "changePassword" {
 resource "aws_lambda_function" "login" {
   filename = "Lambda/Auth/Login.zip"
   function_name = "Login"
-  role = "${aws_iam_role.LambdAuthLogin.arn}"
+  role = "${aws_iam_role.Login.arn}"
   handler = "index.handler"
   runtime = "nodejs4.3"
 }
@@ -46,7 +46,7 @@ resource "aws_lambda_function" "login" {
 resource "aws_lambda_function" "lostPassword" {
   filename = "Lambda/Auth/LostPassword.zip"
   function_name = "LostPassword"
-  role = "${aws_iam_role.LambdAuthLostPassword.arn}"
+  role = "${aws_iam_role.LostPassword.arn}"
   handler = "index.handler"
   runtime = "nodejs4.3"
 }
@@ -54,7 +54,7 @@ resource "aws_lambda_function" "lostPassword" {
 resource "aws_lambda_function" "resetPassword" {
   filename = "Lambda/Auth/ResetPassword.zip"
   function_name = "ResetPassword"
-  role = "${aws_iam_role.LambdAuthResetPassword.arn}"
+  role = "${aws_iam_role.ResetPassword.arn}"
   handler = "index.handler"
   runtime = "nodejs4.3"
 }
@@ -62,7 +62,7 @@ resource "aws_lambda_function" "resetPassword" {
 resource "aws_lambda_function" "verifyUser" {
   filename = "Lambda/Auth/VerifyUser.zip"
   function_name = "VerifyUser"
-  role = "${aws_iam_role.LambdAuthVerifyUser.arn}"
+  role = "${aws_iam_role.VerifyUser.arn}"
   handler = "index.handler"
   runtime = "nodejs4.3"
 }
