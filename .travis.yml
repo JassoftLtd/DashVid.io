@@ -1,4 +1,4 @@
-language: noe_js
+language: node_js
 
 sudo: required
 
@@ -11,5 +11,6 @@ before_install:
 install:
   - sh ./build.sh
   - terraform get -update
-  - terraform apply -var "aws_account_id=$aws_account_id" -var "aws_region=$aws_region" -var "aws_access_key=$aws_access_key" -var "aws_secret_key=$aws_secret_key" -var "aws_identity_pool=$aws_identity_pool"
+  - terraform plan -refresh=True
+#  - terraform apply -var "aws_account_id=$aws_account_id" -var "aws_region=$aws_region" -var "aws_access_key=$aws_access_key" -var "aws_secret_key=$aws_secret_key" -var "aws_identity_pool=$aws_identity_pool"
 
