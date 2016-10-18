@@ -5,7 +5,8 @@ sudo: required
 before_install:
   - curl -O https://releases.hashicorp.com/terraform/0.7.7/terraform_0.7.7_linux_amd64.zip
   - unzip terraform_0.7.7_linux_amd64.zip
+  - PATH=/usr/local/terraform/bin:$(pwd)/terraform:$PATH
 
 install:
   - sh ./build.sh
-  - ./terraform apply
+  - terraform apply
