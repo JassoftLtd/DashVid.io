@@ -7,4 +7,4 @@ gopath
 
 # Generated Content
 s3_dash-cam-ui.tf
-Lambda/Auth/*.zip
+Lambda/VideoLambdas/*.zip
