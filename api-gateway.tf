@@ -29,6 +29,20 @@ resource "aws_api_gateway_integration" "Video-getVideos-integration" {
   integration_http_method = "${aws_api_gateway_method.Video-GET.http_method}"
 }
 
+resource "aws_api_gateway_method_response" "Video-GET-200" {
+  rest_api_id = "${aws_api_gateway_rest_api.DashCamAPI.id}"
+  resource_id = "${aws_api_gateway_resource.Video.id}"
+  http_method = "${aws_api_gateway_method.Video-GET.http_method}"
+  status_code = "200"
+}
+
+resource "aws_api_gateway_integration_response" "Video-OPTIONS-Integration-Response" {
+  rest_api_id = "${aws_api_gateway_rest_api.DashCamAPI.id}"
+  resource_id = "${aws_api_gateway_resource.Video.id}"
+  http_method = "${aws_api_gateway_method.Video-GET.http_method}"
+  status_code = "${aws_api_gateway_method_response.Video-GET-200.status_code}"
+}
+
 // /video OPTIONS
 resource "aws_api_gateway_method" "Video-OPTIONS" {
   rest_api_id = "${aws_api_gateway_rest_api.DashCamAPI.id}"
@@ -37,7 +51,7 @@ resource "aws_api_gateway_method" "Video-OPTIONS" {
   authorization = "NONE"
 }
 
-resource "aws_api_gateway_method_response" "200" {
+resource "aws_api_gateway_method_response" "Video-OPTIONS-200" {
   rest_api_id = "${aws_api_gateway_rest_api.DashCamAPI.id}"
   resource_id = "${aws_api_gateway_resource.Video.id}"
   http_method = "${aws_api_gateway_method.Video-OPTIONS.http_method}"
@@ -55,7 +69,7 @@ resource "aws_api_gateway_integration_response" "Video-OPTIONS-Integration-Respo
   rest_api_id = "${aws_api_gateway_rest_api.DashCamAPI.id}"
   resource_id = "${aws_api_gateway_resource.Video.id}"
   http_method = "${aws_api_gateway_method.Video-OPTIONS.http_method}"
-  status_code = "${aws_api_gateway_method_response.200.status_code}"
+  status_code = "${aws_api_gateway_method_response.Video-OPTIONS-200.status_code}"
 //  response_parameters = {
 //    "method.response.header.Access-Control-Allow-Headers" = ""
 //    "method.response.header.Access-Control-Allow-Methods" = "method.response.header.Access-Control-Allow-Methods",
