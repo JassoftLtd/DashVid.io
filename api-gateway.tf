@@ -156,10 +156,3 @@ resource "aws_api_gateway_integration_response" "Video-PUT-Integration-Response"
   http_method = "${aws_api_gateway_method.Video-PUT.http_method}"
   status_code = "${aws_api_gateway_method_response.Video-PUT-200.status_code}"
 }
-
-
-
-
-
-//You are about to give API Gateway permission to invoke your Lambda function:
-//arn:aws:lambda:eu-west-1:568622326617:function:getVideos
