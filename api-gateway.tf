@@ -5,42 +5,23 @@ resource "aws_api_gateway_rest_api" "DashCamAPI" {
     description = "This is my API for DashCam UI"
 }
 
+resource "aws_api_gateway_deployment" "DevDeployment" {
+  rest_api_id = "${aws_api_gateway_rest_api.DashCamAPI.id}"
+  stage_name = "Dev"
+}
+
+// /v1
+resource "aws_api_gateway_resource" "v1" {
+  rest_api_id = "${aws_api_gateway_rest_api.DashCamAPI.id}"
+  parent_id = "${aws_api_gateway_rest_api.DashCamAPI.root_resource_id}"
+  path_part = "v1"
+}
+
 // /video
 resource "aws_api_gateway_resource" "Video" {
   rest_api_id = "${aws_api_gateway_rest_api.DashCamAPI.id}"
-  parent_id = "${aws_api_gateway_rest_api.DashCamAPI.root_resource_id}"
+  parent_id = "${aws_api_gateway_resource.v1.id}"
   path_part = "video"
-}
-
-// /video GET
-resource "aws_api_gateway_method" "Video-GET" {
-  rest_api_id = "${aws_api_gateway_rest_api.DashCamAPI.id}"
-  resource_id = "${aws_api_gateway_resource.Video.id}"
-  http_method = "GET"
-  authorization = "NONE"
-}
-
-resource "aws_api_gateway_integration" "Video-getVideos-integration" {
-  rest_api_id = "${aws_api_gateway_rest_api.DashCamAPI.id}"
-  resource_id = "${aws_api_gateway_resource.Video.id}"
-  http_method = "${aws_api_gateway_method.Video-GET.http_method}"
-  type = "AWS"
-  uri = "arn:aws:apigateway:${var.aws_region}:lambda:path/2015-03-31/functions/arn:aws:lambda:${var.aws_region}:${var.aws_account_id}:function:${aws_lambda_function.getVideos.function_name}/invocations"
-  integration_http_method = "${aws_api_gateway_method.Video-GET.http_method}"
-}
-
-resource "aws_api_gateway_method_response" "Video-GET-200" {
-  rest_api_id = "${aws_api_gateway_rest_api.DashCamAPI.id}"
-  resource_id = "${aws_api_gateway_resource.Video.id}"
-  http_method = "${aws_api_gateway_method.Video-GET.http_method}"
-  status_code = "200"
-}
-
-resource "aws_api_gateway_integration_response" "Video-OPTIONS-Integration-Response" {
-  rest_api_id = "${aws_api_gateway_rest_api.DashCamAPI.id}"
-  resource_id = "${aws_api_gateway_resource.Video.id}"
-  http_method = "${aws_api_gateway_method.Video-GET.http_method}"
-  status_code = "${aws_api_gateway_method_response.Video-GET-200.status_code}"
 }
 
 // /video OPTIONS
@@ -77,9 +58,108 @@ resource "aws_api_gateway_integration_response" "Video-OPTIONS-Integration-Respo
 //  }
 }
 
-
-
-resource "aws_api_gateway_deployment" "DevDeployment" {
+// /video GET
+resource "aws_api_gateway_method" "Video-GET" {
   rest_api_id = "${aws_api_gateway_rest_api.DashCamAPI.id}"
-  stage_name = "Dev"
+  resource_id = "${aws_api_gateway_resource.Video.id}"
+  http_method = "GET"
+  authorization = "NONE"
 }
+
+resource "aws_api_gateway_integration" "Video-getVideos-integration" {
+  rest_api_id = "${aws_api_gateway_rest_api.DashCamAPI.id}"
+  resource_id = "${aws_api_gateway_resource.Video.id}"
+  http_method = "${aws_api_gateway_method.Video-GET.http_method}"
+  type = "AWS"
+  uri = "arn:aws:apigateway:${var.aws_region}:lambda:path/2015-03-31/functions/arn:aws:lambda:${var.aws_region}:${var.aws_account_id}:function:${aws_lambda_function.getVideos.function_name}/invocations"
+  integration_http_method = "${aws_api_gateway_method.Video-GET.http_method}"
+  passthrough_behavior = "WHEN_NO_MATCH"
+  credentials = "arn:aws:iam::${var.aws_account_id}:role/${aws_iam_role.IamForGetVideoLambda.name}"
+}
+
+resource "aws_api_gateway_method_response" "Video-GET-200" {
+  rest_api_id = "${aws_api_gateway_rest_api.DashCamAPI.id}"
+  resource_id = "${aws_api_gateway_resource.Video.id}"
+  http_method = "${aws_api_gateway_method.Video-GET.http_method}"
+  status_code = "200"
+}
+
+resource "aws_api_gateway_integration_response" "Video-GET-Integration-Response" {
+  rest_api_id = "${aws_api_gateway_rest_api.DashCamAPI.id}"
+  resource_id = "${aws_api_gateway_resource.Video.id}"
+  http_method = "${aws_api_gateway_method.Video-GET.http_method}"
+  status_code = "${aws_api_gateway_method_response.Video-GET-200.status_code}"
+}
+
+// /video POST
+resource "aws_api_gateway_method" "Video-POST" {
+  rest_api_id = "${aws_api_gateway_rest_api.DashCamAPI.id}"
+  resource_id = "${aws_api_gateway_resource.Video.id}"
+  http_method = "POST"
+  authorization = "NONE"
+}
+
+resource "aws_api_gateway_integration" "Video-createVideo-integration" {
+  rest_api_id = "${aws_api_gateway_rest_api.DashCamAPI.id}"
+  resource_id = "${aws_api_gateway_resource.Video.id}"
+  http_method = "${aws_api_gateway_method.Video-POST.http_method}"
+  type = "AWS"
+  uri = "arn:aws:apigateway:${var.aws_region}:lambda:path/2015-03-31/functions/arn:aws:lambda:${var.aws_region}:${var.aws_account_id}:function:${aws_lambda_function.createVideo.function_name}/invocations"
+  integration_http_method = "${aws_api_gateway_method.Video-POST.http_method}"
+  passthrough_behavior = "WHEN_NO_MATCH"
+  credentials = "arn:aws:iam::${var.aws_account_id}:role/${aws_iam_role.IamForCreateVideoLambda.name}"
+}
+
+resource "aws_api_gateway_method_response" "Video-POST-200" {
+  rest_api_id = "${aws_api_gateway_rest_api.DashCamAPI.id}"
+  resource_id = "${aws_api_gateway_resource.Video.id}"
+  http_method = "${aws_api_gateway_method.Video-POST.http_method}"
+  status_code = "200"
+}
+
+resource "aws_api_gateway_integration_response" "Video-POST-Integration-Response" {
+  rest_api_id = "${aws_api_gateway_rest_api.DashCamAPI.id}"
+  resource_id = "${aws_api_gateway_resource.Video.id}"
+  http_method = "${aws_api_gateway_method.Video-POST.http_method}"
+  status_code = "${aws_api_gateway_method_response.Video-POST-200.status_code}"
+}
+
+// /video POST
+resource "aws_api_gateway_method" "Video-PUT" {
+  rest_api_id = "${aws_api_gateway_rest_api.DashCamAPI.id}"
+  resource_id = "${aws_api_gateway_resource.Video.id}"
+  http_method = "PUT"
+  authorization = "NONE"
+}
+
+resource "aws_api_gateway_integration" "Video-uploadVideo-integration" {
+  rest_api_id = "${aws_api_gateway_rest_api.DashCamAPI.id}"
+  resource_id = "${aws_api_gateway_resource.Video.id}"
+  http_method = "${aws_api_gateway_method.Video-PUT.http_method}"
+  type = "AWS"
+  uri = "arn:aws:apigateway:${var.aws_region}:lambda:path/2015-03-31/functions/arn:aws:lambda:${var.aws_region}:${var.aws_account_id}:function:${aws_lambda_function.uploadVideo.function_name}/invocations"
+  integration_http_method = "${aws_api_gateway_method.Video-PUT.http_method}"
+  passthrough_behavior = "WHEN_NO_MATCH"
+  credentials = "arn:aws:iam::${var.aws_account_id}:role/${aws_iam_role.IamForUploadVideoLambda.name}"
+}
+
+resource "aws_api_gateway_method_response" "Video-PUT-200" {
+  rest_api_id = "${aws_api_gateway_rest_api.DashCamAPI.id}"
+  resource_id = "${aws_api_gateway_resource.Video.id}"
+  http_method = "${aws_api_gateway_method.Video-PUT.http_method}"
+  status_code = "200"
+}
+
+resource "aws_api_gateway_integration_response" "Video-PUT-Integration-Response" {
+  rest_api_id = "${aws_api_gateway_rest_api.DashCamAPI.id}"
+  resource_id = "${aws_api_gateway_resource.Video.id}"
+  http_method = "${aws_api_gateway_method.Video-PUT.http_method}"
+  status_code = "${aws_api_gateway_method_response.Video-PUT-200.status_code}"
+}
+
+
+
+
+
+//You are about to give API Gateway permission to invoke your Lambda function:
+//arn:aws:lambda:eu-west-1:568622326617:function:getVideos

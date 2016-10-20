@@ -3,4 +3,4 @@
 
 Running
 
-run `terraform apply` to see it work.
+run `terraform apply -parallelism=1` to see it work.

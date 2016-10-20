@@ -5,11 +5,11 @@ exports.handler = function(event, context) {
 	var responseCode = 200;
 	console.log("request: " + JSON.stringify(event));
 
-	var videosFromDynamoDB = []
+	var videoFromDynamoDB = {}
 
 
 	var responseBody = {
-		videos: videosFromDynamoDB
+		video: videosFromDynamoDB
 	};
 	var response = {
 		statusCode: responseCode,
