@@ -54,8 +54,9 @@ resource "aws_api_gateway_integration" "Video-getVideos-integration" {
   resource_id = "${aws_api_gateway_resource.Video.id}"
   http_method = "${aws_api_gateway_method.Video-GET.http_method}"
   type = "AWS_PROXY"
-  uri = "arn:aws:apigateway:${var.aws_region}:lambda:path/2015-03-31/functions/arn:aws:lambda:${var.aws_region}:${var.aws_account_id}:function:${aws_lambda_function.getVideos.function_name}/invocations"
+  uri = "arn:aws:apigateway:${var.aws_region}:lambda:path/2015-03-31/functions/${aws_lambda_function.getVideos.arn}/invocations"
   integration_http_method = "${aws_api_gateway_method.Video-GET.http_method}"
+  credentials = "${aws_iam_role.IamForGetVideoLambda.arn}"
 }
 
 resource "aws_api_gateway_method_response" "Video-GET-200" {
@@ -85,8 +86,9 @@ resource "aws_api_gateway_integration" "Video-createVideo-integration" {
   resource_id = "${aws_api_gateway_resource.Video.id}"
   http_method = "${aws_api_gateway_method.Video-POST.http_method}"
   type = "AWS_PROXY"
-  uri = "arn:aws:apigateway:${var.aws_region}:lambda:path/2015-03-31/functions/arn:aws:lambda:${var.aws_region}:${var.aws_account_id}:function:${aws_lambda_function.createVideo.function_name}/invocations"
+  uri = "arn:aws:apigateway:${var.aws_region}:lambda:path/2015-03-31/functions/${aws_lambda_function.createVideo.arn}/invocations"
   integration_http_method = "${aws_api_gateway_method.Video-POST.http_method}"
+  credentials = "${aws_iam_role.IamForCreateVideoLambda.arn}"
 }
 
 resource "aws_api_gateway_method_response" "Video-POST-200" {
@@ -116,8 +118,9 @@ resource "aws_api_gateway_integration" "Video-uploadVideo-integration" {
   resource_id = "${aws_api_gateway_resource.Video.id}"
   http_method = "${aws_api_gateway_method.Video-PUT.http_method}"
   type = "AWS_PROXY"
-  uri = "arn:aws:apigateway:${var.aws_region}:lambda:path/2015-03-31/functions/arn:aws:lambda:${var.aws_region}:${var.aws_account_id}:function:${aws_lambda_function.uploadVideo.function_name}/invocations"
+  uri = "arn:aws:apigateway:${var.aws_region}:lambda:path/2015-03-31/functions/${aws_lambda_function.uploadVideo.arn}/invocations"
   integration_http_method = "${aws_api_gateway_method.Video-PUT.http_method}"
+  credentials = "${aws_iam_role.IamForUploadVideoLambda.arn}"
 }
 
 resource "aws_api_gateway_method_response" "Video-PUT-200" {
