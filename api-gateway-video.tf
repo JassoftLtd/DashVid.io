@@ -55,8 +55,7 @@ resource "aws_api_gateway_integration" "Video-getVideos-integration" {
   http_method = "${aws_api_gateway_method.Video-GET.http_method}"
   type = "AWS_PROXY"
   uri = "arn:aws:apigateway:${var.aws_region}:lambda:path/2015-03-31/functions/${aws_lambda_function.getVideos.arn}/invocations"
-  integration_http_method = "${aws_api_gateway_method.Video-GET.http_method}"
-  credentials = "${aws_iam_role.IamForGetVideoLambda.arn}"
+  integration_http_method = "POST"
 }
 
 resource "aws_api_gateway_method_response" "Video-GET-200" {
@@ -87,8 +86,7 @@ resource "aws_api_gateway_integration" "Video-createVideo-integration" {
   http_method = "${aws_api_gateway_method.Video-POST.http_method}"
   type = "AWS_PROXY"
   uri = "arn:aws:apigateway:${var.aws_region}:lambda:path/2015-03-31/functions/${aws_lambda_function.createVideo.arn}/invocations"
-  integration_http_method = "${aws_api_gateway_method.Video-POST.http_method}"
-  credentials = "${aws_iam_role.IamForCreateVideoLambda.arn}"
+  integration_http_method = "POST"
 }
 
 resource "aws_api_gateway_method_response" "Video-POST-200" {
@@ -105,7 +103,7 @@ resource "aws_api_gateway_integration_response" "Video-POST-Integration-Response
   status_code = "${aws_api_gateway_method_response.Video-POST-200.status_code}"
 }
 
-// /video POST
+// /video PUT
 resource "aws_api_gateway_method" "Video-PUT" {
   rest_api_id = "${aws_api_gateway_rest_api.DashCamAPI.id}"
   resource_id = "${aws_api_gateway_resource.Video.id}"
@@ -119,8 +117,7 @@ resource "aws_api_gateway_integration" "Video-uploadVideo-integration" {
   http_method = "${aws_api_gateway_method.Video-PUT.http_method}"
   type = "AWS_PROXY"
   uri = "arn:aws:apigateway:${var.aws_region}:lambda:path/2015-03-31/functions/${aws_lambda_function.uploadVideo.arn}/invocations"
-  integration_http_method = "${aws_api_gateway_method.Video-PUT.http_method}"
-  credentials = "${aws_iam_role.IamForUploadVideoLambda.arn}"
+  integration_http_method = "POST"
 }
 
 resource "aws_api_gateway_method_response" "Video-PUT-200" {
