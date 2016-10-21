@@ -9,10 +9,13 @@ go install github.com/saymedia/terraform-s3-dir
 
 $GOPATH/bin/terraform-s3-dir ./UI/www/ dash-cam-ui > s3_dash-cam-ui.tf
 
+find ./Lambda/* -maxdepth 2 -name package.json -execdir npm install \;
+
 cd Lambda/VideoLambdas/
 
 rm *.zip
 
 for f in $(ls); do
-    zip -9 $f.zip $f/*
+    echo "Zipping $f"
+    zip -9 -r $f.zip $f/*
 done

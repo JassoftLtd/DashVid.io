@@ -8,3 +8,4 @@ gopath
 # Generated Content
 s3_dash-cam-ui.tf
 Lambda/VideoLambdas/*.zip
+**/node_modules

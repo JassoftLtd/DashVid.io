@@ -22,8 +22,8 @@ EOF
 
 
 resource "aws_iam_role_policy" "IamForGetVideoLambda" {
-  name   = "IamForGetVideoLambda"
-  role   = "${aws_iam_role.IamForGetVideoLambda.id}"
+  name = "IamForGetVideoLambda"
+  role = "${aws_iam_role.IamForGetVideoLambda.id}"
   policy = <<EOF
 {
   "Version": "2012-10-17",
@@ -78,42 +78,55 @@ resource "aws_iam_role" "IamForCreateVideoLambda" {
 EOF
 }
 
+data "aws_iam_policy_document" "IamForCreateVideoLambda" {
+  "statement" = {
+      "effect" = "Allow",
+      "actions" = [
+        "dynamodb:PutItem",
+      ],
+      "resources" = [
+        "${aws_dynamodb_table.videos-table.arn}"
+        ]
+    }
 
-resource "aws_iam_role_policy" "IamForCreateVideoLambda" {
-  name   = "IamForCreateVideoLambda"
-  role   = "${aws_iam_role.IamForCreateVideoLambda.id}"
-  policy = <<EOF
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Effect": "Allow",
-      "Action": [
+  "statement" = {
+      "effect" = "Allow",
+      "actions" = [
         "logs:CreateLogGroup",
         "logs:CreateLogStream",
         "logs:PutLogEvents"
       ],
-      "Resource": "*"
-    },
-    {
-      "Effect": "Allow",
-      "Action": [
+      "resources" = [
+          "*"
+        ]
+    }
+
+  "statement" = {
+      "effect" = "Allow",
+      "actions" = [
         "lambda:InvokeFunction"
       ],
-      "Resource": "*"
-    },
-    {
-      "Effect": "Allow",
-      "Action": [
+      "resources" = [
+        "*"
+        ]
+    }
+  "statement" = {
+      "effect" = "Allow",
+      "actions" = [
         "cloudwatch:Describe*",
         "cloudwatch:Get*",
         "cloudwatch:List*"
       ],
-      "Resource": "*"
+      "resources" = [
+        "*"
+        ]
     }
-  ]
 }
-EOF
+
+resource "aws_iam_role_policy" "IamForCreateVideoLambda" {
+  name = "IamForCreateVideoLambda"
+  role = "${aws_iam_role.IamForCreateVideoLambda.id}"
+  policy = "${data.aws_iam_policy_document.IamForCreateVideoLambda.json}"
 }
 
 // uploadVideo
@@ -138,8 +151,8 @@ EOF
 
 
 resource "aws_iam_role_policy" "IamForUploadVideoLambda" {
-  name   = "IamForUploadVideoLambda"
-  role   = "${aws_iam_role.IamForUploadVideoLambda.id}"
+  name = "IamForUploadVideoLambda"
+  role = "${aws_iam_role.IamForUploadVideoLambda.id}"
   policy = <<EOF
 {
   "Version": "2012-10-17",
