@@ -1,9 +1,9 @@
 'use strict';
-console.log('Loading videos for User');
+console.log('adding video for User');
 
 var AWS = require('aws-sdk');
 // Get reference to AWS clients
-var dynamodb = new AWS.DynamoDB();
+var dynamodb = new AWS.DynamoDB.DocumentClient();
 
 var uuid = require('node-uuid');
 
@@ -15,18 +15,12 @@ exports.handler = function(event, context) {
 	var currentUser = "TestUser";
 	var uploadedDate = new Date().getTime().toString();
 
-	dynamodb.putItem({
+	dynamodb.put({
 		TableName: "Videos",
 		Item: {
-			Id: {
-				S: generatedId
-			},
-			User: {
-				S: currentUser
-			},
-			Uploaded: {
-				S: uploadedDate
-			}
+			Id: generatedId,
+			User: currentUser,
+			Uploaded: uploadedDate
 		}
 	}, function(err, data) {
 		if (err)

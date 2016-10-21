@@ -1,8 +1,8 @@
 // IAM
 
-// getVideo
-resource "aws_iam_role" "IamForGetVideoLambda" {
-  name = "iam_for_get_video_lambda"
+// getVideos
+resource "aws_iam_role" "IamForGetVideosLambda" {
+  name = "iam_for_get_videos_lambda"
   assume_role_policy = <<EOF
 {
   "Version": "2012-10-17",
@@ -20,42 +20,55 @@ resource "aws_iam_role" "IamForGetVideoLambda" {
 EOF
 }
 
+data "aws_iam_policy_document" "IamForGetVideosLambda" {
+  "statement" = {
+    "effect" = "Allow",
+    "actions" = [
+      "dynamodb:Query",
+    ],
+    "resources" = [
+      "${aws_dynamodb_table.videos-table.arn}/index/UserVideosByDate"
+    ]
+  }
 
-resource "aws_iam_role_policy" "IamForGetVideoLambda" {
-  name = "IamForGetVideoLambda"
-  role = "${aws_iam_role.IamForGetVideoLambda.id}"
-  policy = <<EOF
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Effect": "Allow",
-      "Action": [
-        "logs:CreateLogGroup",
-        "logs:CreateLogStream",
-        "logs:PutLogEvents"
-      ],
-      "Resource": "*"
-    },
-    {
-      "Effect": "Allow",
-      "Action": [
-        "lambda:InvokeFunction"
-      ],
-      "Resource": "*"
-    },
-    {
-      "Effect": "Allow",
-      "Action": [
-        "cloudwatch:Describe*",
-        "cloudwatch:Get*",
-        "cloudwatch:List*"
-      ],
-      "Resource": "*"
-    }
-  ]
+  "statement" = {
+    "effect" = "Allow",
+    "actions" = [
+      "logs:CreateLogGroup",
+      "logs:CreateLogStream",
+      "logs:PutLogEvents"
+    ],
+    "resources" = [
+      "*"
+    ]
+  }
+
+  "statement" = {
+    "effect" = "Allow",
+    "actions" = [
+      "lambda:InvokeFunction"
+    ],
+    "resources" = [
+      "*"
+    ]
+  }
+  "statement" = {
+    "effect" = "Allow",
+    "actions" = [
+      "cloudwatch:Describe*",
+      "cloudwatch:Get*",
+      "cloudwatch:List*"
+    ],
+    "resources" = [
+      "*"
+    ]
+  }
 }
-EOF
+
+resource "aws_iam_role_policy" "IamForGetVideosLambda" {
+  name = "IamForGetVideosLambda"
+  role = "${aws_iam_role.IamForGetVideosLambda.id}"
+  policy = "${data.aws_iam_policy_document.IamForGetVideosLambda.json}"
 }
 
 // createVideo
@@ -185,4 +198,76 @@ resource "aws_iam_role_policy" "IamForUploadVideoLambda" {
   ]
 }
 EOF
+}
+
+
+// getVideo
+resource "aws_iam_role" "IamForGetVideoLambda" {
+  name = "iam_for_get_video_lambda"
+  assume_role_policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Action": "sts:AssumeRole",
+      "Principal": {
+        "Service": "lambda.amazonaws.com"
+      },
+      "Effect": "Allow",
+      "Sid": ""
+    }
+  ]
+}
+EOF
+}
+
+data "aws_iam_policy_document" "IamForGetVideoLambda" {
+  "statement" = {
+    "effect" = "Allow",
+    "actions" = [
+      "dynamodb:GetItem",
+    ],
+    "resources" = [
+      "${aws_dynamodb_table.videos-table.arn}"
+    ]
+  }
+
+  "statement" = {
+    "effect" = "Allow",
+    "actions" = [
+      "logs:CreateLogGroup",
+      "logs:CreateLogStream",
+      "logs:PutLogEvents"
+    ],
+    "resources" = [
+      "*"
+    ]
+  }
+
+  "statement" = {
+    "effect" = "Allow",
+    "actions" = [
+      "lambda:InvokeFunction"
+    ],
+    "resources" = [
+      "*"
+    ]
+  }
+  "statement" = {
+    "effect" = "Allow",
+    "actions" = [
+      "cloudwatch:Describe*",
+      "cloudwatch:Get*",
+      "cloudwatch:List*"
+    ],
+    "resources" = [
+      "*"
+    ]
+  }
+}
+
+resource "aws_iam_role_policy" "IamForGetVideoLambda" {
+  name = "IamForGetVideoLambda"
+  role = "${aws_iam_role.IamForGetVideoLambda.id}"
+  policy = "${data.aws_iam_policy_document.IamForGetVideoLambda.json}"
 }

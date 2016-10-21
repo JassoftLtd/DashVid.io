@@ -9,19 +9,15 @@ exports.handler = function(event, context) {
 	var responseCode = 200;
 	console.log("request: " + JSON.stringify(event));
 
+	var videoId = event.pathParameters["id"];
 	var currentUser = "TestUser";
 
-	dynamodb.query({
-		IndexName: "UserVideosByDate",
-		KeyConditionExpression:"#user = :user",
-		ExpressionAttributeNames: {
-			"#user":"User",
-		},
-		ExpressionAttributeValues: {
-			":user":currentUser
-		},
-		"Limit": "10",
-		"TableName": "Videos"
+
+	dynamodb.get({
+		TableName: "Videos",
+		Key:{
+			"Id": videoId
+		}
 	}, function(err, data) {
 		if (err)
 			return context.fail(err);
@@ -31,7 +27,7 @@ exports.handler = function(event, context) {
 			headers: {
 			},
 			body: JSON.stringify({
-				videos: data.Items
+				video: data.Item
 			})
 		};
 		console.log("response: " + JSON.stringify(response))
