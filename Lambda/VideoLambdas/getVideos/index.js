@@ -7,7 +7,6 @@ var dynamodb = new AWS.DynamoDB.DocumentClient();
 
 exports.handler = function(event, context) {
 	var responseCode = 200;
-	console.log("request: " + JSON.stringify(event));
 
 	var currentUser = "TestUser";
 

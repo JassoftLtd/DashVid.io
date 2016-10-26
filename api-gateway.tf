@@ -8,6 +8,12 @@ resource "aws_api_gateway_rest_api" "DashCamAPI" {
 resource "aws_api_gateway_deployment" "DevDeployment" {
   rest_api_id = "${aws_api_gateway_rest_api.DashCamAPI.id}"
   stage_name = "Dev"
+  variables = {
+    "auth_email_from_address" = "${var.auth_email_from_address}"
+    "auth_db_table" = "${aws_dynamodb_table.videos-table.name}"
+    "auth_application_name" = "My Application"
+    "auth_verification_page" = "http://${aws_s3_bucket.dash-cam-ui-bucket.website_endpoint}/verify.html"
+  }
 }
 
 // /v1

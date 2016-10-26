@@ -22,3 +22,8 @@ variable "aws_identity_pool" {
   description = "The Identity Pool ID."
   default     = ""
 }
+
+variable "auth_email_from_address" {
+  description = "The Identity Pool ID."
+  default     = ""
+}

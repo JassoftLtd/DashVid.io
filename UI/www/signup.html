@@ -2,10 +2,9 @@
 <head>
   <title>Sample Sign Up Page</title>
 	<link rel="stylesheet" type="text/css" href="style.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
 </head>
 <body>
-  <script src="https://sdk.amazonaws.com/js/aws-sdk-2.3.7.min.js"></script>
-  <script src="aws-config.js"></script>
   <h1>Sample Sign Up Page</h1>
   <div id="info">
   Sign Up
@@ -53,20 +52,16 @@
         email: email.value,
         password: password.value,
       };
-      lambda.invoke({
-        FunctionName: 'CreateUser',
-        Payload: JSON.stringify(input)
-      }, function(err, data) {
-        if (err) console.log(err, err.stack);
-        else {
-          var output = JSON.parse(data.Payload);
-          if (output.created) {
-            info.innerHTML = 'User ' + input.email + ' created. Please check your email to validate the user and enable login.';
-          } else {
-            info.innerHTML = 'User <b>not</b> created.';
-          }
-        }
-      });
+
+          $.ajax({
+            type: "POST",
+            contentType: "application/json",
+            url: 'https://0qomu2q3rb.execute-api.eu-west-1.amazonaws.com/Dev/v1/auth/signup',
+            data: input,
+            success: function(){info.innerHTML = 'User ' + input.email + ' created. Please check your email to validate the user and enable login.';},
+            error: function(){info.innerHTML = 'User <b>not</b> created.';},
+          });
+
     }
   });
   </script>
