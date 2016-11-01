@@ -57,7 +57,8 @@
             type: "POST",
             contentType: "application/json",
             url: 'https://0qomu2q3rb.execute-api.eu-west-1.amazonaws.com/Dev/v1/auth/signup',
-            data: input,
+            data: JSON.stringify(input),
+            dataType: "json",
             success: function(){info.innerHTML = 'User ' + input.email + ' created. Please check your email to validate the user and enable login.';},
             error: function(){info.innerHTML = 'User <b>not</b> created.';},
           });

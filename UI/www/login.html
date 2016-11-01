@@ -2,9 +2,9 @@
 <head>
   <title>Sample Login Page</title>
 	<link rel="stylesheet" type="text/css" href="style.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
 </head>
 <body>
-  <script src="https://sdk.amazonaws.com/js/aws-sdk-2.3.7.min.js"></script>
   <script src="aws-config.js"></script>
   <h1>Sample Login Page</h1>
   <div id="info">
@@ -46,27 +46,34 @@
         email: email.value,
         password: password.value
       };
-      lambda.invoke({
-        FunctionName: 'Login',
-        Payload: JSON.stringify(input)
-      }, function(err, data) {
-        if (err) console.log(err, err.stack);
-        else {
+
+      $.ajax({
+        type: "POST",
+        contentType: "application/json",
+        url: 'https://0qomu2q3rb.execute-api.eu-west-1.amazonaws.com/Dev/v1/auth/login',
+        data: JSON.stringify(input),
+        dataType: "json",
+        success: function(){
           var output = JSON.parse(data.Payload);
           if (!output.login) {
             info.innerHTML = '<b>Not</b> logged in';
           } else {
             info.innerHTML = 'Logged in with IdentityId: ' + output.identityId + '<br>';
             var creds = AWS.config.credentials;
-	    creds.params.IdentityId = output.identityId;
-	    creds.params.Logins = {
-	      'cognito-identity.amazonaws.com': output.token
-	    };
-	    creds.expired = true;
-	    // Do something with the authenticated role
+            creds.params.IdentityId = output.identityId;
+            creds.params.Logins = {
+              'cognito-identity.amazonaws.com': output.token
+            };
+            creds.expired = true;
+            // Do something with the authenticated role
           }
-        }
+        },
+        error: function(){
+          info.innerHTML = 'User <b>not</b> logged in.';
+        },
       });
+
+
 		}
   });
   </script>
