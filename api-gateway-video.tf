@@ -8,37 +8,11 @@ resource "aws_api_gateway_resource" "Video" {
 }
 
 // /video OPTIONS
-resource "aws_api_gateway_method" "Video-OPTIONS" {
-  rest_api_id = "${aws_api_gateway_rest_api.DashCamAPI.id}"
+module "Video-OptionsCORS" {
+  source = "github.com/carrot/terraform-api-gateway-cors-module"
+  resource_name = "${aws_api_gateway_resource.Video.path}"
   resource_id = "${aws_api_gateway_resource.Video.id}"
-  http_method = "OPTIONS"
-  authorization = "NONE"
-}
-
-resource "aws_api_gateway_method_response" "Video-OPTIONS-200" {
   rest_api_id = "${aws_api_gateway_rest_api.DashCamAPI.id}"
-  resource_id = "${aws_api_gateway_resource.Video.id}"
-  http_method = "${aws_api_gateway_method.Video-OPTIONS.http_method}"
-  status_code = "200"
-}
-
-resource "aws_api_gateway_integration" "Video-OPTIONS-Integration" {
-  rest_api_id = "${aws_api_gateway_rest_api.DashCamAPI.id}"
-  resource_id = "${aws_api_gateway_resource.Video.id}"
-  http_method = "${aws_api_gateway_method.Video-OPTIONS.http_method}"
-  type = "MOCK"
-}
-
-resource "aws_api_gateway_integration_response" "Video-OPTIONS-Integration-Response" {
-  rest_api_id = "${aws_api_gateway_rest_api.DashCamAPI.id}"
-  resource_id = "${aws_api_gateway_resource.Video.id}"
-  http_method = "${aws_api_gateway_method.Video-OPTIONS.http_method}"
-  status_code = "${aws_api_gateway_method_response.Video-OPTIONS-200.status_code}"
-//  response_parameters = {
-//    "method.response.header.Access-Control-Allow-Headers" = ""
-//    "method.response.header.Access-Control-Allow-Methods" = "method.response.header.Access-Control-Allow-Methods",
-//    "method.response.header.Access-Control-Allow-Origin" = "method.response.header.Access-Control-Allow-Origin"
-//  }
 }
 
 // /video GET
@@ -63,6 +37,7 @@ resource "aws_api_gateway_method_response" "Video-GET-200" {
   resource_id = "${aws_api_gateway_resource.Video.id}"
   http_method = "${aws_api_gateway_method.Video-GET.http_method}"
   status_code = "200"
+  response_parameters = { "method.response.header.Access-Control-Allow-Origin" = "*" }
 }
 
 resource "aws_api_gateway_integration_response" "Video-GET-Integration-Response" {
@@ -94,6 +69,7 @@ resource "aws_api_gateway_method_response" "Video-POST-200" {
   resource_id = "${aws_api_gateway_resource.Video.id}"
   http_method = "${aws_api_gateway_method.Video-POST.http_method}"
   status_code = "200"
+  response_parameters = { "method.response.header.Access-Control-Allow-Origin" = "*" }
 }
 
 resource "aws_api_gateway_integration_response" "Video-POST-Integration-Response" {
@@ -108,6 +84,13 @@ resource "aws_api_gateway_resource" "VideoDetail" {
   rest_api_id = "${aws_api_gateway_rest_api.DashCamAPI.id}"
   parent_id = "${aws_api_gateway_resource.Video.id}"
   path_part = "{id}"
+}
+
+module "VideoDetail-OptionsCORS" {
+  source = "github.com/carrot/terraform-api-gateway-cors-module"
+  resource_name = "${aws_api_gateway_resource.VideoDetail.path}"
+  resource_id = "${aws_api_gateway_resource.VideoDetail.id}"
+  rest_api_id = "${aws_api_gateway_rest_api.DashCamAPI.id}"
 }
 
 // /video GET
@@ -132,6 +115,7 @@ resource "aws_api_gateway_method_response" "VideoDetail-GET-200" {
   resource_id = "${aws_api_gateway_resource.VideoDetail.id}"
   http_method = "${aws_api_gateway_method.VideoDetail-GET.http_method}"
   status_code = "200"
+  response_parameters = { "method.response.header.Access-Control-Allow-Origin" = "*" }
 }
 
 resource "aws_api_gateway_integration_response" "VideoDetail-GET-Integration-Response" {
@@ -163,6 +147,7 @@ resource "aws_api_gateway_method_response" "Video-PUT-200" {
   resource_id = "${aws_api_gateway_resource.VideoDetail.id}"
   http_method = "${aws_api_gateway_method.Video-PUT.http_method}"
   status_code = "200"
+  response_parameters = { "method.response.header.Access-Control-Allow-Origin" = "*" }
 }
 
 resource "aws_api_gateway_integration_response" "Video-PUT-Integration-Response" {
