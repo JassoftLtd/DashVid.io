@@ -3,7 +3,19 @@
   <title>Sample Login Page</title>
 	<link rel="stylesheet" type="text/css" href="style.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
-  <script src="https://sdk.amazonaws.com/js/aws-sdk-2.3.7.min.js"></script>
+  <script src="https://sdk.amazonaws.com/js/aws-sdk-2.6.15.min.js"></script>
+
+    <script type="text/javascript" src="apiGateway-js-sdk-2/lib/axios/dist/axios.standalone.js"></script>
+    <script type="text/javascript" src="apiGateway-js-sdk-2/lib/CryptoJS/rollups/hmac-sha256.js"></script>
+    <script type="text/javascript" src="apiGateway-js-sdk-2/lib/CryptoJS/rollups/sha256.js"></script>
+    <script type="text/javascript" src="apiGateway-js-sdk-2/lib/CryptoJS/components/hmac.js"></script>
+    <script type="text/javascript" src="apiGateway-js-sdk-2/lib/CryptoJS/components/enc-base64.js"></script>
+    <script type="text/javascript" src="apiGateway-js-sdk-2/lib/url-template/url-template.js"></script>
+    <script type="text/javascript" src="apiGateway-js-sdk-2/lib/apiGatewayCore/sigV4Client.js"></script>
+    <script type="text/javascript" src="apiGateway-js-sdk-2/lib/apiGatewayCore/apiGatewayClient.js"></script>
+    <script type="text/javascript" src="apiGateway-js-sdk-2/lib/apiGatewayCore/simpleHttpClient.js"></script>
+    <script type="text/javascript" src="apiGateway-js-sdk-2/lib/apiGatewayCore/utils.js"></script>
+    <script type="text/javascript" src="apiGateway-js-sdk-2/apigClient.js"></script>
 </head>
 <body>
   <h1>Sample Login Page</h1>
@@ -58,30 +70,57 @@
           if (!output.login) {
             info.innerHTML = '<b>Not</b> logged in';
           } else {
-            info.innerHTML = 'Logged in with IdentityId: ' + output.identityId + '<br>';
+              info.innerHTML = 'Logged in with IdentityId: ' + output.identityId + '<br>';
 
-            AWS.config.region = 'eu-west-1'; // Region
+              AWS.config.region = 'eu-west-1'; // Region
 
-            AWS.config.credentials = new AWS.CognitoIdentityCredentials({
-              IdentityPoolId: 'eu-west-1:ac18a09a-6c09-47f2-a297-f3ce8a40f1b4',
-              IdentityId: output.identityId,
-              Logins: {
-                'cognito-identity.amazonaws.com': output.token
+
+
+
+              var params = {
+                  IdentityPoolId: 'eu-west-1:ac18a09a-6c09-47f2-a297-f3ce8a40f1b4',
+                  IdentityId: output.identityId,
+                  Logins: {
+                      'cognito-identity.amazonaws.com': output.token
+                  }
               }
-            });
 
-            AWS.config.credentials.get(function (err) {
-              // now I'm using authenticated credentials
-              if(err)
-              {
-                console.log('error in autheticatig AWS'+err);
-              }
-              else
-              {
-                console.log(AWS.config.credentials.identityId);
+                AWS.config.credentials = new AWS.CognitoIdentityCredentials(params);
 
-              }
-            });
+              AWS.config.update({
+                  credentials: params
+              });
+
+              var cognitoidentityParams = {
+                  IdentityId: output.identityId, /* required */
+                  Logins: {
+                      'cognito-identity.amazonaws.com': output.token
+                  }
+              };
+
+              var cognitoidentity = new AWS.CognitoIdentity({apiVersion: '2014-06-30'});
+              cognitoidentity.getCredentialsForIdentity(cognitoidentityParams, function(err, data) {
+                  if (err) {
+                      console.log(err, err.stack); // an error occurred
+                  }
+                  else {
+                      console.log(data);           // successful response
+                      var apigClient = apigClientFactory.newClient({
+                          accessKey: data.Credentials.AccessKeyId,
+                          secretKey: data.Credentials.AccessKeyId,
+                          sessionToken: data.Credentials.SessionToken,
+                          region: AWS.config.region
+                      });
+
+                      var videos = apigClient.v1VideoGet().then(function(result){
+                          //This is where you would put a success callback
+                          console.log(result)
+                      }).catch( function(result){
+                          //This is where you would put an error callback
+                          console.log(result)
+                      });
+                  }
+              });
 
           }
         },
