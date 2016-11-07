@@ -15,9 +15,16 @@ resource "aws_api_gateway_deployment" "DevDeployment" {
     "auth_verification_page" = "http://${aws_s3_bucket.dash-cam-ui-bucket.website_endpoint}/verify.html"
     "auth_reset_page" = "http://${aws_s3_bucket.dash-cam-ui-bucket.website_endpoint}/reset.html"
     "auth_identity_pool" = "${var.aws_identity_pool}"
-    "auth_developer_provider_name" = "login.mycompany.myapp"
+    "auth_developer_provider_name" = "${var.auth_developer_provider_name}"
   }
 }
+
+// Auth
+//resource "aws_api_gateway_authorizer" "Dashcam" {
+//  name = "Dashcam"
+//  rest_api_id = "${aws_api_gateway_rest_api.DashCamAPI.id}"
+//  authorizer_uri = "arn:aws:apigateway:region:lambda:path/2015-03-31/functions/${aws_lambda_function.authorizer.arn}/invocations"
+//}
 
 // /v1
 resource "aws_api_gateway_resource" "v1" {

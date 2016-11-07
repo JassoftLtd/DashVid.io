@@ -2,10 +2,9 @@
 <head>
   <title>Sample Verify User Page</title>
 	<link rel="stylesheet" type="text/css" href="style.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
 </head>
 <body>
-  <script src="https://sdk.amazonaws.com/js/aws-sdk-2.3.7.min.js"></script>
-  <script src="aws-config.js"></script>
   <h1>Sample Verify User Page</h1>
   <div id="info">
   Verifying...
@@ -36,20 +35,17 @@
         email: urlParams['email'],
         verify: urlParams['verify']
       };
-      lambda.invoke({
-        FunctionName: 'VerifyUser',
-        Payload: JSON.stringify(input)
-      }, function(err, data) {
-        if (err) console.log(err, err.stack);
-        else {
-          var output = JSON.parse(data.Payload);
-          if (output.verified) {
-            info.innerHTML = 'User ' + input.email + ' has been <b>Verified</b>, thanks!'
-          } else {
-            info.innerHTML = 'User ' + input.email + ' has <b>not</b> been Verified, sorry.'
-          }
-        }
+
+      $.ajax({
+        type: "POST",
+        contentType: "application/json",
+        url: 'https://0qomu2q3rb.execute-api.eu-west-1.amazonaws.com/Dev/v1/auth/verifyUser',
+        data: JSON.stringify(input),
+        dataType: "json",
+        success: function(){info.innerHTML = 'User ' + input.email + ' has been <b>Verified</b>, thanks!'},
+        error: function(){info.innerHTML = 'User ' + input.email + ' has <b>not</b> been Verified, sorry.'},
       });
+
     }
   }
   window.onload = init();

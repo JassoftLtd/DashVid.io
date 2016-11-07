@@ -31,18 +31,3 @@ EOF
         index_document = "index.html"
     }
 }
-
-data "template_file" "init" {
-    template = "${file("./UI/aws-config.tpl")}"
-
-    vars {
-        aws_region = "${var.aws_region}"
-        identity_pool_id = "${var.aws_identity_pool}"
-    }
-}
-
-resource "aws_s3_bucket_object" "object" {
-    bucket = "dash-cam-ui"
-    key = "aws-config.js"
-    content = "${data.template_file.init.rendered}"
-}

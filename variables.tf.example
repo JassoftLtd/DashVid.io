@@ -23,6 +23,11 @@ variable "aws_identity_pool" {
   default     = ""
 }
 
+variable "auth_developer_provider_name" {
+  description = "The Developer Provider name."
+  default     = ""
+}
+
 variable "auth_email_from_address" {
   description = "The Identity Pool ID."
   default     = ""

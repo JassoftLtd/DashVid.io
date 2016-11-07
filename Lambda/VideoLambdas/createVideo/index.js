@@ -32,6 +32,7 @@ exports.handler = function(event, context) {
 			var response = {
 				statusCode: responseCode,
 				headers: {
+					'Access-Control-Allow-Origin': '*'
 				},
 				body: JSON.stringify(responseBody)
 			};

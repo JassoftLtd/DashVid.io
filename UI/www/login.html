@@ -3,9 +3,9 @@
   <title>Sample Login Page</title>
 	<link rel="stylesheet" type="text/css" href="style.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
+  <script src="https://sdk.amazonaws.com/js/aws-sdk-2.3.7.min.js"></script>
 </head>
 <body>
-  <script src="aws-config.js"></script>
   <h1>Sample Login Page</h1>
   <div id="info">
   Login
@@ -53,19 +53,36 @@
         url: 'https://0qomu2q3rb.execute-api.eu-west-1.amazonaws.com/Dev/v1/auth/login',
         data: JSON.stringify(input),
         dataType: "json",
-        success: function(){
-          var output = JSON.parse(data.Payload);
+        success: function(data){
+          var output = data;
           if (!output.login) {
             info.innerHTML = '<b>Not</b> logged in';
           } else {
             info.innerHTML = 'Logged in with IdentityId: ' + output.identityId + '<br>';
-            var creds = AWS.config.credentials;
-            creds.params.IdentityId = output.identityId;
-            creds.params.Logins = {
-              'cognito-identity.amazonaws.com': output.token
-            };
-            creds.expired = true;
-            // Do something with the authenticated role
+
+            AWS.config.region = 'eu-west-1'; // Region
+
+            AWS.config.credentials = new AWS.CognitoIdentityCredentials({
+              IdentityPoolId: 'eu-west-1:ac18a09a-6c09-47f2-a297-f3ce8a40f1b4',
+              IdentityId: output.identityId,
+              Logins: {
+                'cognito-identity.amazonaws.com': output.token
+              }
+            });
+
+            AWS.config.credentials.get(function (err) {
+              // now I'm using authenticated credentials
+              if(err)
+              {
+                console.log('error in autheticatig AWS'+err);
+              }
+              else
+              {
+                console.log(AWS.config.credentials.identityId);
+
+              }
+            });
+
           }
         },
         error: function(){
