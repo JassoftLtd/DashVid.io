@@ -1,0 +1,50 @@
+<html>
+<head>
+  <title>Videos</title>
+	<link rel="stylesheet" type="text/css" href="style.css">
+	<script src="https://sdk.amazonaws.com/js/aws-sdk-2.6.15.min.js"></script>
+
+	<script type="text/javascript" src="apiGateway-js-sdk-2/lib/axios/dist/axios.standalone.js"></script>
+	<script type="text/javascript" src="apiGateway-js-sdk-2/lib/CryptoJS/rollups/hmac-sha256.js"></script>
+	<script type="text/javascript" src="apiGateway-js-sdk-2/lib/CryptoJS/rollups/sha256.js"></script>
+	<script type="text/javascript" src="apiGateway-js-sdk-2/lib/CryptoJS/components/hmac.js"></script>
+	<script type="text/javascript" src="apiGateway-js-sdk-2/lib/CryptoJS/components/enc-base64.js"></script>
+	<script type="text/javascript" src="apiGateway-js-sdk-2/lib/url-template/url-template.js"></script>
+	<script type="text/javascript" src="apiGateway-js-sdk-2/lib/apiGatewayCore/sigV4Client.js"></script>
+	<script type="text/javascript" src="apiGateway-js-sdk-2/lib/apiGatewayCore/apiGatewayClient.js"></script>
+	<script type="text/javascript" src="apiGateway-js-sdk-2/lib/apiGatewayCore/simpleHttpClient.js"></script>
+	<script type="text/javascript" src="apiGateway-js-sdk-2/lib/apiGatewayCore/utils.js"></script>
+	<script type="text/javascript" src="apiGateway-js-sdk-2/apigClient.js"></script>
+	<script>
+        AWS.config.region = 'eu-west-1'; // Region
+
+        var credentials = localStorage.getItem("AWSCredentials")
+        var apigClient = apigClientFactory.newClient({
+            accessKey: credentials.AccessKeyId,
+            secretKey: credentials.AccessKeyId,
+            sessionToken: credentials.SessionToken,
+            region: AWS.config.region
+        });
+
+        var videos = apigClient.v1VideoGet().then(function(result){
+            //This is where you would put a success callback
+            console.log(result)
+        }).catch( function(result){
+            //This is where you would put an error callback
+            console.log(result)
+        });
+	</script>
+</head>
+<body>
+  <h1>Your Videos</h1>
+  <div id="info">
+  These are your videos
+  </div>
+	<ul>
+		<li><a href="signup.html">Sign Up</a>
+		<li><a href="login.html">Login</a>
+		<li><a href="changePassword.html">Change Password</a>
+		<li><a href="lostPassword.html">Password Lost</a>
+	</ul>
+</body>
+</html>

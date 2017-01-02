@@ -74,9 +74,6 @@
 
               AWS.config.region = 'eu-west-1'; // Region
 
-
-
-
               var params = {
                   IdentityPoolId: 'eu-west-1:ac18a09a-6c09-47f2-a297-f3ce8a40f1b4',
                   IdentityId: output.identityId,
@@ -105,20 +102,8 @@
                   }
                   else {
                       console.log(data);           // successful response
-                      var apigClient = apigClientFactory.newClient({
-                          accessKey: data.Credentials.AccessKeyId,
-                          secretKey: data.Credentials.AccessKeyId,
-                          sessionToken: data.Credentials.SessionToken,
-                          region: AWS.config.region
-                      });
-
-                      var videos = apigClient.v1VideoGet().then(function(result){
-                          //This is where you would put a success callback
-                          console.log(result)
-                      }).catch( function(result){
-                          //This is where you would put an error callback
-                          console.log(result)
-                      });
+                      localStorage.setItem("AWSCredentials", data.Credentials);
+                      document.location = "videos.html";
                   }
               });
 
