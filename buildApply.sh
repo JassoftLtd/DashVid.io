@@ -7,7 +7,11 @@ export GOPATH=$(pwd)/gopath
 go get github.com/saymedia/terraform-s3-dir
 go install github.com/saymedia/terraform-s3-dir
 
-$GOPATH/bin/terraform-s3-dir ./UI/www/ dash-cam-ui > s3_dash-cam-ui.tf
+cd UI/www/
+npm run build
+cd ../../
+
+$GOPATH/bin/terraform-s3-dir ./UI/www/build/ dashvid.io > s3_dashvid-io.tf
 
 find ./Lambda/* -maxdepth 2 -name package.json -execdir npm install \;
 

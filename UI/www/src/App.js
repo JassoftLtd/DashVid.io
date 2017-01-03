@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+var Dropzone = require('react-dropzone');
 import './App.css';
 import 'whatwg-fetch'
 var AWS = require('aws-sdk');
@@ -10,13 +10,14 @@ class App extends Component {
     return (
       <div className="App">
         <div className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h2>Welcome to React</h2>
+          <h2>Welcome to DashVid.io</h2>
         </div>
         <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
+          The handy place to store your dashcam footage.
         </p>
         <Login />
+        <Logout />
+        <VideoAdd />
         <VideoList />
       </div>
     );
@@ -61,12 +62,9 @@ var Login = React.createClass({
                     'cognito-identity.amazonaws.com': json.token
                 }
             }
+            localStorage.setItem("IdentityPoolParams", JSON.stringify(params));
 
             AWS.config.credentials = new AWS.CognitoIdentityCredentials(params);
-
-            AWS.config.update({
-                credentials: params
-            });
 
             var cognitoidentityParams = {
                 IdentityId: json.identityId, /* required */
@@ -82,7 +80,7 @@ var Login = React.createClass({
                 }
                 else {
                     console.log(data);           // successful response
-                    localStorage.setItem("AWSCredentials", data.Credentials);
+                    localStorage.setItem("AWSCredentials", JSON.stringify(data.Credentials));
                 }
             });
 
@@ -117,7 +115,7 @@ var Login = React.createClass({
                         <td><input value={this.state.password} onChange={this.handleChangePassword} type="password" id="password" size="20"/></td>
                     </tr>
                     <tr>
-                        <td colspan="2">
+                        <td colSpan="2">
                             <button onClick={this.handleLogin} type="submit" id="login-button">Login</button>
                         </td>
                     </tr>
@@ -125,6 +123,34 @@ var Login = React.createClass({
             );
         } else {
             return ( <p>Logged In</p> )
+        }
+    }
+});
+
+////////////////
+// Logout //
+////////////////
+
+// Logout Container
+
+var Logout = React.createClass({
+
+    handleLogout: function() {
+
+        localStorage.removeItem("AWSCredentials");
+
+    },
+
+    render: function() {
+
+        var credentials = localStorage.getItem("AWSCredentials")
+
+        if (credentials) {
+            return (
+                <button onClick={this.handleLogout} id="logout-button">Logout</button>
+            );
+        } else {
+            return null
         }
     }
 });
@@ -146,11 +172,12 @@ var VideoList = React.createClass({
         var credentials = localStorage.getItem("AWSCredentials")
 
         if (credentials) {
+            var parsedCredentials = JSON.parse(credentials);
             var config = {
                 invokeUrl: 'https://0qomu2q3rb.execute-api.eu-west-1.amazonaws.com/Dev',
-                accessKey: credentials.AccessKeyId,
-                secretKey: credentials.AccessKeyId,
-                sessionToken: credentials.SessionToken,
+                accessKey: parsedCredentials.AccessKeyId,
+                secretKey: parsedCredentials.SecretKey,
+                sessionToken: parsedCredentials.SessionToken,
                 region: 'eu-west-1'
             }
             var apigClient = apigClientFactory.newClient(config);
@@ -190,7 +217,9 @@ var VideoList = React.createClass({
 
         var videos;
 
-        if(this.state.videos) {
+        var credentials = localStorage.getItem("AWSCredentials")
+
+        if(this.state.videos && credentials) {
             videos = this.state.videos.map(function(video, i) {
 
                 return (
@@ -202,26 +231,128 @@ var VideoList = React.createClass({
                  );
             });
 
-        }
-
-        return (
-            <div ref="videocategory" className="VideoList">
-                <div className="Video">
-                    <table className="table">
-                        <thead>
+            return (
+                <div ref="videocategory" className="VideoList">
+                    <div className="Video">
+                        <table className="table">
+                            <thead>
                             <tr>
                                 <td>Id</td>
                                 <td>Uploaded</td>
                                 <td>By</td>
                             </tr>
-                        </thead>
-                        <tbody>
+                            </thead>
+                            <tbody>
                             {videos}
-                        </tbody>
-                    </table>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
-            </div>
-        );
+            );
+        }
+
+        return null
+    }
+});
+
+////////////////
+// Video Add //
+////////////////
+
+// Video Add Container
+
+var VideoAdd = React.createClass({
+
+    onDrop: function (acceptedFiles, rejectedFiles) {
+        console.log('Accepted files: ', acceptedFiles);
+        console.log('Rejected files: ', rejectedFiles);
+
+        var credentials = localStorage.getItem("AWSCredentials")
+
+        if (credentials) {
+            var parsedCredentials = JSON.parse(credentials);
+            var config = {
+                invokeUrl: 'https://0qomu2q3rb.execute-api.eu-west-1.amazonaws.com/Dev',
+                accessKey: parsedCredentials.AccessKeyId,
+                secretKey: parsedCredentials.SecretKey,
+                sessionToken: parsedCredentials.SessionToken,
+                region: 'eu-west-1'
+            }
+            var apigClient = apigClientFactory.newClient(config);
+
+            acceptedFiles.forEach((file) => {
+
+                console.log('Posting video: ' + file.name)
+
+                var params = {
+                    //This is where any header, path, or querystring request params go. The key is the parameter named as defined in the API
+                };
+// Template syntax follows url-template https://www.npmjs.com/package/url-template
+                var pathTemplate = '/v1/video'
+                var method = 'POST';
+                var additionalParams = {};
+                var body = {};
+
+                apigClient.invokeApi(params, pathTemplate, method, additionalParams, body)
+                    .then(function (result) {
+                        //This is where you would put a success callback
+                        console.log(result)
+
+                        var videosBucketName = 'dash-cam-videos';
+
+                        AWS.config.accessKeyId = parsedCredentials.AccessKeyId;
+                        AWS.config.secretAccessKey = parsedCredentials.SecretKey;
+
+                        // AWS.config.update({
+                        //     credentials: new AWS.CognitoIdentityCredentials(JSON.parse(localStorage.getItem("IdentityPoolParams"))),
+                        //     accessKeyId: parsedCredentials.AccessKeyId,
+                        //     secretAccessKey: parsedCredentials.SecretKey
+                        // })
+
+                        var s3 = new AWS.S3({
+                            apiVersion: '2006-03-01',
+                            params: {Bucket: videosBucketName}
+                        });
+
+                        var fileName = result.data.videoId;
+
+                        var videoKey = fileName;
+
+                        console.log('Uploading video to bucket: [' + videosBucketName + '] Key [' + videoKey + ']')
+
+                        s3.upload({
+                            Key: videoKey,
+                            Body: file,
+                            ACL: 'private'
+                        }, function(err, data) {
+                            if (err) {
+                                return alert('There was an error uploading your video: ' + err.message);
+                            }
+                            alert('Successfully uploaded video.');
+                        });
+
+                    }).catch(function (result) {
+                    //This is where you would put an error callback
+                });
+
+            });
+        }
+    },
+
+    render: function () {
+        var credentials = localStorage.getItem("AWSCredentials")
+
+        if (credentials) {
+            return (
+                <div>
+                    <Dropzone onDrop={this.onDrop}>
+                        <div>Try dropping some files here, or click to select files to upload.</div>
+                    </Dropzone>
+                </div>
+            );
+        } else {
+            return null
+        }
     }
 });
 

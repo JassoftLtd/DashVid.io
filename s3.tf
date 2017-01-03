@@ -4,11 +4,35 @@
 resource "aws_s3_bucket" "dash-cam-videos-bucket" {
     bucket = "dash-cam-videos"
     acl = "private"
+
+    cors_rule {
+        allowed_headers = ["*"]
+        allowed_methods = ["PUT","POST","GET","HEAD"]
+        allowed_origins = ["*"]
+    }
+
+    lifecycle_rule {
+        prefix = "/"
+        enabled = true
+
+        transition {
+            days = 30
+            storage_class = "STANDARD_IA"
+        }
+        transition {
+            days = 60
+            storage_class = "GLACIER"
+        }
+        expiration {
+            days = 90
+        }
+    }
+
 }
 
 // UI
-resource "aws_s3_bucket" "dash-cam-ui-bucket" {
-    bucket = "dash-cam-ui"
+resource "aws_s3_bucket" "dashvid-io-bucket" {
+    bucket = "dashvid.io"
     acl = "public-read"
     policy = <<EOF
 {
@@ -21,7 +45,7 @@ resource "aws_s3_bucket" "dash-cam-ui-bucket" {
         "s3:GetObject"
       ],
       "Effect": "Allow",
-      "Resource": "arn:aws:s3:::dash-cam-ui/*",
+      "Resource": "arn:aws:s3:::dashvid.io/*",
       "Principal": "*"
     }
   ]
