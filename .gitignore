@@ -9,3 +9,19 @@ gopath
 s3_dash-cam-ui.tf
 Lambda/VideoLambdas/*.zip
 **/node_modules
+
+
+# UI
+# dependencies
+node_modules
+
+# testing
+coverage
+
+# production
+build
+
+# misc
+.DS_Store
+.env
+npm-debug.log
