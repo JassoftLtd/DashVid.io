@@ -216,6 +216,7 @@ var VideoList = React.createClass({
                          <td>{video.Id}</td>
                          <td>{video.Uploaded}</td>
                          <td>{video.User}</td>
+                         <td>{video.Status}</td>
                      </tr>
                  );
             });
@@ -229,6 +230,7 @@ var VideoList = React.createClass({
                                 <td>Id</td>
                                 <td>Uploaded</td>
                                 <td>By</td>
+                                <td>Status</td>
                             </tr>
                             </thead>
                             <tbody>
