@@ -14,13 +14,15 @@ exports.handler = function(event, context) {
 	var generatedId = uuid.v1();
 	var currentUser = "TestUser";
 	var uploadedDate = new Date().getTime().toString();
+    var status = "PendingUpload";
 
 	dynamodb.put({
 		TableName: "Videos",
 		Item: {
 			Id: generatedId,
 			User: currentUser,
-			Uploaded: uploadedDate
+			Uploaded: uploadedDate,
+			Status: status
 		}
 	}, function(err, data) {
 		if (err)
