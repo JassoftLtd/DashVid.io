@@ -124,35 +124,3 @@ resource "aws_api_gateway_integration_response" "VideoDetail-GET-Integration-Res
   http_method = "${aws_api_gateway_method.VideoDetail-GET.http_method}"
   status_code = "${aws_api_gateway_method_response.VideoDetail-GET-200.status_code}"
 }
-
-// /video PUT
-resource "aws_api_gateway_method" "Video-PUT" {
-  rest_api_id = "${aws_api_gateway_rest_api.DashCamAPI.id}"
-  resource_id = "${aws_api_gateway_resource.VideoDetail.id}"
-  http_method = "PUT"
-  authorization = "NONE"
-}
-
-resource "aws_api_gateway_integration" "Video-uploadVideo-integration" {
-  rest_api_id = "${aws_api_gateway_rest_api.DashCamAPI.id}"
-  resource_id = "${aws_api_gateway_resource.VideoDetail.id}"
-  http_method = "${aws_api_gateway_method.Video-PUT.http_method}"
-  type = "AWS_PROXY"
-  uri = "arn:aws:apigateway:${var.aws_region}:lambda:path/2015-03-31/functions/${aws_lambda_function.uploadVideo.arn}/invocations"
-  integration_http_method = "POST"
-}
-
-resource "aws_api_gateway_method_response" "Video-PUT-200" {
-  rest_api_id = "${aws_api_gateway_rest_api.DashCamAPI.id}"
-  resource_id = "${aws_api_gateway_resource.VideoDetail.id}"
-  http_method = "${aws_api_gateway_method.Video-PUT.http_method}"
-  status_code = "200"
-  response_parameters = { "method.response.header.Access-Control-Allow-Origin" = "*" }
-}
-
-resource "aws_api_gateway_integration_response" "Video-PUT-Integration-Response" {
-  rest_api_id = "${aws_api_gateway_rest_api.DashCamAPI.id}"
-  resource_id = "${aws_api_gateway_resource.VideoDetail.id}"
-  http_method = "${aws_api_gateway_method.Video-PUT.http_method}"
-  status_code = "${aws_api_gateway_method_response.Video-PUT-200.status_code}"
-}

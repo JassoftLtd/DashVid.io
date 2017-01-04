@@ -142,9 +142,9 @@ resource "aws_iam_role_policy" "IamForCreateVideoLambda" {
   policy = "${data.aws_iam_policy_document.IamForCreateVideoLambda.json}"
 }
 
-// uploadVideo
-resource "aws_iam_role" "IamForUploadVideoLambda" {
-  name = "iam_for_upload_video_lambda"
+// uploadedVideo
+resource "aws_iam_role" "IamForUploadedVideoLambda" {
+  name = "iam_for_uploaded_video_lambda"
   assume_role_policy = <<EOF
 {
   "Version": "2012-10-17",
@@ -163,9 +163,9 @@ EOF
 }
 
 
-resource "aws_iam_role_policy" "IamForUploadVideoLambda" {
-  name = "IamForUploadVideoLambda"
-  role = "${aws_iam_role.IamForUploadVideoLambda.id}"
+resource "aws_iam_role_policy" "IamForUploadedVideoLambda" {
+  name = "IamForUploadedVideoLambda"
+  role = "${aws_iam_role.IamForUploadedVideoLambda.id}"
   policy = <<EOF
 {
   "Version": "2012-10-17",

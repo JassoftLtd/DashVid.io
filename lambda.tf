@@ -39,22 +39,14 @@ resource "aws_lambda_permission" "allow_api_gateway-createVideo" {
 }
 
 // Video Upload
-resource "aws_lambda_function" "uploadVideo" {
-  filename = "Lambda/VideoLambdas/uploadVideo.zip"
-  function_name = "uploadVideo"
-  role = "${aws_iam_role.IamForUploadVideoLambda.arn}"
-  handler = "uploadVideo.handler"
+resource "aws_lambda_function" "uploadedVideo" {
+  filename = "Lambda/VideoLambdas/uploadedVideo.zip"
+  function_name = "uploadedVideo"
+  role = "${aws_iam_role.IamForUploadedVideoLambda.arn}"
+  handler = "uploadedVideo.handler"
   runtime = "nodejs4.3"
   timeout = "3"
-  source_code_hash = "${base64sha256(file("Lambda/VideoLambdas/uploadVideo.zip"))}"
-}
-
-resource "aws_lambda_permission" "allow_api_gateway-uploadVideo" {
-  function_name = "${aws_lambda_function.uploadVideo.function_name}"
-  statement_id = "AllowUploadVideoExecutionFromApiGateway"
-  action = "lambda:InvokeFunction"
-  principal = "apigateway.amazonaws.com"
-  source_arn = "arn:aws:execute-api:${var.aws_region}:${var.aws_account_id}:${aws_api_gateway_rest_api.DashCamAPI.id}/*/*/"
+  source_code_hash = "${base64sha256(file("Lambda/VideoLambdas/uploadedVideo.zip"))}"
 }
 
 // Video GET
@@ -74,5 +66,5 @@ resource "aws_lambda_permission" "allow_api_gateway-getVideo" {
   action = "lambda:InvokeFunction"
   principal = "apigateway.amazonaws.com"
 //  source_arn = "arn:aws:execute-api:${var.aws_region}:${var.aws_account_id}:${aws_api_gateway_rest_api.DashCamAPI.id}/*/*/"
-  source_arn = "arn:aws:execute-api:${var.aws_region}:${var.aws_account_id}:${aws_api_gateway_rest_api.DashCamAPI.id}/*/${aws_api_gateway_integration.Video-uploadVideo-integration.integration_http_method}${aws_api_gateway_resource.v1.path}${aws_api_gateway_resource.Video.path}${aws_api_gateway_resource.VideoDetail.path}"
+  source_arn = "arn:aws:execute-api:${var.aws_region}:${var.aws_account_id}:${aws_api_gateway_rest_api.DashCamAPI.id}/*/${aws_api_gateway_integration.Video-getVideos-integration.integration_http_method}${aws_api_gateway_resource.v1.path}${aws_api_gateway_resource.Video.path}${aws_api_gateway_resource.VideoDetail.path}"
 }
