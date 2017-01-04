@@ -35,7 +35,7 @@ resource "aws_iam_role_policy" "Cognito_LambdAuthAuth_Role_Cognito_LambdAuthAuth
     {
         "Effect": "Allow",
         "Action": "s3:PutObject",
-        "Resource": "arn:aws:s3:::${aws_s3_bucket.dash-cam-videos-bucket.bucket}"
+        "Resource": "arn:aws:s3:::${aws_s3_bucket.dash-cam-videos-bucket.bucket}/*"
     }
   ]
 }

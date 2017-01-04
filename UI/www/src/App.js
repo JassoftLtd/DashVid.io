@@ -5,6 +5,8 @@ import 'whatwg-fetch'
 var AWS = require('aws-sdk');
 var apigClientFactory = require('aws-api-gateway-client')
 
+AWS.config.region = 'eu-west-1'; // Region
+
 class App extends Component {
   render() {
     return (
@@ -53,8 +55,6 @@ var Login = React.createClass({
         }).then(function(json) {
             console.log('parsed json', json)
 
-            AWS.config.region = 'eu-west-1'; // Region
-
             var params = {
                 IdentityPoolId: 'eu-west-1:ac18a09a-6c09-47f2-a297-f3ce8a40f1b4',
                 IdentityId: json.identityId,
@@ -65,25 +65,6 @@ var Login = React.createClass({
             localStorage.setItem("IdentityPoolParams", JSON.stringify(params));
 
             AWS.config.credentials = new AWS.CognitoIdentityCredentials(params);
-
-            var cognitoidentityParams = {
-                IdentityId: json.identityId, /* required */
-                Logins: {
-                    'cognito-identity.amazonaws.com': json.token
-                }
-            };
-
-            var cognitoidentity = new AWS.CognitoIdentity({apiVersion: '2014-06-30'});
-            cognitoidentity.getCredentialsForIdentity(cognitoidentityParams, function(err, data) {
-                if (err) {
-                    console.log(err, err.stack); // an error occurred
-                }
-                else {
-                    console.log(data);           // successful response
-                    localStorage.setItem("AWSCredentials", JSON.stringify(data.Credentials));
-                }
-            });
-
 
         }).catch(function(ex) {
             console.log('parsing failed', ex)
@@ -101,9 +82,9 @@ var Login = React.createClass({
 
     render: function() {
 
-        var credentials = localStorage.getItem("AWSCredentials")
+        var identityPoolParams = JSON.parse(localStorage.getItem("IdentityPoolParams"));
 
-        if (!credentials) {
+        if (!identityPoolParams) {
             return (
                 <table>
                     <tr>
@@ -137,15 +118,15 @@ var Logout = React.createClass({
 
     handleLogout: function() {
 
-        localStorage.removeItem("AWSCredentials");
+        localStorage.removeItem("IdentityPoolParams");
 
     },
 
     render: function() {
 
-        var credentials = localStorage.getItem("AWSCredentials")
+        var identityPoolParams = JSON.parse(localStorage.getItem("IdentityPoolParams"));
 
-        if (credentials) {
+        if (identityPoolParams) {
             return (
                 <button onClick={this.handleLogout} id="logout-button">Logout</button>
             );
@@ -169,41 +150,49 @@ var VideoList = React.createClass({
 
     loadContent: function() {
 
-        var credentials = localStorage.getItem("AWSCredentials")
+        const _this = this;
 
-        if (credentials) {
-            var parsedCredentials = JSON.parse(credentials);
-            var config = {
-                invokeUrl: 'https://0qomu2q3rb.execute-api.eu-west-1.amazonaws.com/Dev',
-                accessKey: parsedCredentials.AccessKeyId,
-                secretKey: parsedCredentials.SecretKey,
-                sessionToken: parsedCredentials.SessionToken,
-                region: 'eu-west-1'
-            }
-            var apigClient = apigClientFactory.newClient(config);
+        var identityPoolParams = JSON.parse(localStorage.getItem("IdentityPoolParams"));
 
-            var params = {
-                //This is where any header, path, or querystring request params go. The key is the parameter named as defined in the API
-            };
+        if (identityPoolParams) {
+            // initialize the Credentials object with our parameters
+            AWS.config.credentials = new AWS.CognitoIdentityCredentials(identityPoolParams);
+
+            // We can set the get method of the Credentials object to retrieve
+            // the unique identifier for the end user (identityId) once the provider
+            // has refreshed itself
+            AWS.config.credentials.get(function (err) {
+                if (err) {
+                    localStorage.removeItem("IdentityPoolParams");
+                    return;
+                }
+                console.log("Cognito Identity Id: " + AWS.config.credentials.identityId);
+
+                var config = {
+                    invokeUrl: 'https://0qomu2q3rb.execute-api.eu-west-1.amazonaws.com/Dev'
+                }
+                var apigClient = apigClientFactory.newClient(config);
+
+                var params = {
+                    //This is where any header, path, or querystring request params go. The key is the parameter named as defined in the API
+                };
 // Template syntax follows url-template https://www.npmjs.com/package/url-template
-            var pathTemplate = '/v1/video'
-            var method = 'GET';
-            var additionalParams = {};
-            var body = {};
+                var pathTemplate = '/v1/video'
+                var method = 'GET';
+                var additionalParams = {};
+                var body = {};
 
-            const _this = this;
-
-            apigClient.invokeApi(params, pathTemplate, method, additionalParams, body)
-                .then(function(result){
-                    //This is where you would put a success callback
-                    _this.setState({
-                        videos : result.data.videos,
-                        mounted: true
-                    })
-                }).catch( function(result){
-                //This is where you would put an error callback
+                apigClient.invokeApi(params, pathTemplate, method, additionalParams, body)
+                    .then(function (result) {
+                        //This is where you would put a success callback
+                        _this.setState({
+                            videos: result.data.videos,
+                            mounted: true
+                        })
+                    }).catch(function (result) {
+                    //This is where you would put an error callback
+                });
             });
-
         }
     },
 
@@ -217,9 +206,9 @@ var VideoList = React.createClass({
 
         var videos;
 
-        var credentials = localStorage.getItem("AWSCredentials")
+        var identityPoolParams = JSON.parse(localStorage.getItem("IdentityPoolParams"));
 
-        if(this.state.videos && credentials) {
+        if(this.state.videos && identityPoolParams) {
             videos = this.state.videos.map(function(video, i) {
 
                 return (
@@ -267,82 +256,83 @@ var VideoAdd = React.createClass({
         console.log('Accepted files: ', acceptedFiles);
         console.log('Rejected files: ', rejectedFiles);
 
-        var credentials = localStorage.getItem("AWSCredentials")
+        var identityPoolParams = JSON.parse(localStorage.getItem("IdentityPoolParams"));
 
-        if (credentials) {
-            var parsedCredentials = JSON.parse(credentials);
-            var config = {
-                invokeUrl: 'https://0qomu2q3rb.execute-api.eu-west-1.amazonaws.com/Dev',
-                accessKey: parsedCredentials.AccessKeyId,
-                secretKey: parsedCredentials.SecretKey,
-                sessionToken: parsedCredentials.SessionToken,
-                region: 'eu-west-1'
-            }
-            var apigClient = apigClientFactory.newClient(config);
+        if (identityPoolParams) {
+            // initialize the Credentials object with our parameters
+            AWS.config.credentials = new AWS.CognitoIdentityCredentials(identityPoolParams);
 
-            acceptedFiles.forEach((file) => {
+            // We can set the get method of the Credentials object to retrieve
+            // the unique identifier for the end user (identityId) once the provider
+            // has refreshed itself
+            AWS.config.credentials.get(function (err) {
+                if (err) {
+                    localStorage.removeItem("IdentityPoolParams");
+                    return;
+                }
+                console.log("Cognito Identity Id: " + AWS.config.credentials.identityId);
 
-                console.log('Posting video: ' + file.name)
 
-                var params = {
-                    //This is where any header, path, or querystring request params go. The key is the parameter named as defined in the API
-                };
-// Template syntax follows url-template https://www.npmjs.com/package/url-template
-                var pathTemplate = '/v1/video'
-                var method = 'POST';
-                var additionalParams = {};
-                var body = {};
+                var config = {
+                    invokeUrl: 'https://0qomu2q3rb.execute-api.eu-west-1.amazonaws.com/Dev'
+                }
+                var apigClient = apigClientFactory.newClient(config);
 
-                apigClient.invokeApi(params, pathTemplate, method, additionalParams, body)
-                    .then(function (result) {
-                        //This is where you would put a success callback
-                        console.log(result)
+                acceptedFiles.forEach((file) => {
 
-                        var videosBucketName = 'dash-cam-videos';
+                    console.log('Posting video: ' + file.name)
 
-                        AWS.config.accessKeyId = parsedCredentials.AccessKeyId;
-                        AWS.config.secretAccessKey = parsedCredentials.SecretKey;
+                    var params = {
+                        //This is where any header, path, or querystring request params go. The key is the parameter named as defined in the API
+                    };
+                    // Template syntax follows url-template https://www.npmjs.com/package/url-template
+                    var pathTemplate = '/v1/video'
+                    var method = 'POST';
+                    var additionalParams = {};
+                    var body = {};
 
-                        // AWS.config.update({
-                        //     credentials: new AWS.CognitoIdentityCredentials(JSON.parse(localStorage.getItem("IdentityPoolParams"))),
-                        //     accessKeyId: parsedCredentials.AccessKeyId,
-                        //     secretAccessKey: parsedCredentials.SecretKey
-                        // })
+                    apigClient.invokeApi(params, pathTemplate, method, additionalParams, body)
+                        .then(function (result) {
+                            //This is where you would put a success callback
+                            console.log(result)
 
-                        var s3 = new AWS.S3({
-                            apiVersion: '2006-03-01',
-                            params: {Bucket: videosBucketName}
-                        });
+                            var videosBucketName = 'dash-cam-videos';
 
-                        var fileName = result.data.videoId;
+                            var s3 = new AWS.S3({
+                                apiVersion: '2006-03-01',
+                                params: {Bucket: videosBucketName}
+                            });
 
-                        var videoKey = fileName;
+                            var fileName = result.data.videoId;
 
-                        console.log('Uploading video to bucket: [' + videosBucketName + '] Key [' + videoKey + ']')
+                            var videoKey = fileName;
 
-                        s3.upload({
-                            Key: videoKey,
-                            Body: file,
-                            ACL: 'private'
-                        }, function(err, data) {
-                            if (err) {
-                                return alert('There was an error uploading your video: ' + err.message);
-                            }
-                            alert('Successfully uploaded video.');
-                        });
+                            console.log('Uploading video to bucket: [' + videosBucketName + '] Key [' + videoKey + ']')
 
-                    }).catch(function (result) {
-                    //This is where you would put an error callback
+                            s3.upload({
+                                Key: videoKey,
+                                Body: file,
+                                ACL: 'private'
+                            }, function (err, data) {
+                                if (err) {
+                                    return alert('There was an error uploading your video: ' + err.message);
+                                }
+                                alert('Successfully uploaded video.');
+                            });
+
+                        }).catch(function (result) {
+                        //This is where you would put an error callback
+                    });
+
                 });
-
             });
         }
     },
 
     render: function () {
-        var credentials = localStorage.getItem("AWSCredentials")
+        var identityPoolParams = JSON.parse(localStorage.getItem("IdentityPoolParams"));
 
-        if (credentials) {
+        if (identityPoolParams) {
             return (
                 <div>
                     <Dropzone onDrop={this.onDrop}>
