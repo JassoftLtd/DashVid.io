@@ -38,7 +38,7 @@ resource "aws_lambda_permission" "allow_api_gateway-createVideo" {
   source_arn = "arn:aws:execute-api:${var.aws_region}:${var.aws_account_id}:${aws_api_gateway_rest_api.DashCamAPI.id}/*/${aws_api_gateway_integration.Video-createVideo-integration.integration_http_method}${aws_api_gateway_resource.v1.path}${aws_api_gateway_resource.Video.path}"
 }
 
-// Video Upload
+// Video Uploaded
 resource "aws_lambda_function" "uploadedVideo" {
   filename = "Lambda/VideoLambdas/uploadedVideo.zip"
   function_name = "uploadedVideo"
@@ -47,6 +47,14 @@ resource "aws_lambda_function" "uploadedVideo" {
   runtime = "nodejs4.3"
   timeout = "3"
   source_code_hash = "${base64sha256(file("Lambda/VideoLambdas/uploadedVideo.zip"))}"
+}
+
+resource "aws_lambda_permission" "uploadedVideo_allow_bucket" {
+  statement_id = "AllowExecutionFromS3Bucket"
+  action = "lambda:InvokeFunction"
+  function_name = "${aws_lambda_function.uploadedVideo.arn}"
+  principal = "s3.amazonaws.com"
+  source_arn = "${aws_s3_bucket.dash-cam-videos-bucket.arn}"
 }
 
 // Video GET
