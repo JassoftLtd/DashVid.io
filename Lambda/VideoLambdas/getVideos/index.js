@@ -16,6 +16,7 @@ exports.handler = function(event, context) {
 	dynamodb.query({
 		IndexName: "UserVideosByDate",
 		KeyConditionExpression:"#user = :user",
+        ScanIndexForward: false,
 		ExpressionAttributeNames: {
 			"#user":"User",
 		},

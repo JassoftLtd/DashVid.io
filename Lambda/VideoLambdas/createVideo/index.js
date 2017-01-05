@@ -1,5 +1,5 @@
 'use strict';
-console.log('adding video for User');
+console.log('create video for User');
 
 var AWS = require('aws-sdk');
 // Get reference to AWS clients
@@ -15,6 +15,7 @@ exports.handler = function(event, context) {
 	var currentUser = "TestUser";
 	var uploadedDate = new Date().getTime().toString();
     var status = "PendingUpload";
+    var key = currentUser + '/' + generatedId
 
 	dynamodb.put({
 		TableName: "Videos",
@@ -22,14 +23,16 @@ exports.handler = function(event, context) {
 			Id: generatedId,
 			User: currentUser,
 			Uploaded: uploadedDate,
-			Status: status
+            VideoStatus: status,
+			Key: key
 		}
 	}, function(err, data) {
 		if (err)
 			return context.fail(err);
 		else
 			var responseBody = {
-				videoId: generatedId
+				bucket: 'dash-cam-videos',
+				key: key
 			};
 			var response = {
 				statusCode: responseCode,

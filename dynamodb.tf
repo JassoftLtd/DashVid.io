@@ -17,6 +17,14 @@ resource "aws_dynamodb_table" "videos-table" {
         name = "Uploaded"
         type = "S"
     }
+    attribute {
+        name = "VideoStatus"
+        type = "S"
+    }
+    attribute {
+        name = "Key"
+        type = "S"
+    }
     global_secondary_index {
         name = "UserVideosByDate"
         hash_key = "User"

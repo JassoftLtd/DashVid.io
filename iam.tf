@@ -163,41 +163,55 @@ EOF
 }
 
 
-resource "aws_iam_role_policy" "IamForUploadedVideoLambda" {
-  name = "IamForUploadedVideoLambda"
-  role = "${aws_iam_role.IamForUploadedVideoLambda.id}"
-  policy = <<EOF
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Effect": "Allow",
-      "Action": [
+data "aws_iam_policy_document" "IamForUploadedVideoLambda" {
+  "statement" = {
+      "effect" = "Allow",
+      "actions" = [
+        "dynamodb:UpdateItem",
+      ],
+      "resources" = [
+        "${aws_dynamodb_table.videos-table.arn}"
+        ]
+    }
+
+  "statement" = {
+      "effect" = "Allow",
+      "actions" = [
         "logs:CreateLogGroup",
         "logs:CreateLogStream",
         "logs:PutLogEvents"
       ],
-      "Resource": "*"
-    },
-    {
-      "Effect": "Allow",
-      "Action": [
+      "resources" = [
+          "*"
+        ]
+    }
+
+  "statement" = {
+      "effect" = "Allow",
+      "actions" = [
         "lambda:InvokeFunction"
       ],
-      "Resource": "*"
-    },
-    {
-      "Effect": "Allow",
-      "Action": [
+      "resources" = [
+        "*"
+        ]
+    }
+  "statement" = {
+      "effect" = "Allow",
+      "actions" = [
         "cloudwatch:Describe*",
         "cloudwatch:Get*",
         "cloudwatch:List*"
       ],
-      "Resource": "*"
+      "resources" = [
+        "*"
+        ]
     }
-  ]
 }
-EOF
+
+resource "aws_iam_role_policy" "IamForUploadedVideoLambda" {
+  name = "IamForUploadedVideoLambda"
+  role = "${aws_iam_role.IamForUploadedVideoLambda.id}"
+  policy = "${data.aws_iam_policy_document.IamForUploadedVideoLambda.json}"
 }
 
 

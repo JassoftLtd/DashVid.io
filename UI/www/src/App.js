@@ -216,7 +216,7 @@ var VideoList = React.createClass({
                          <td>{video.Id}</td>
                          <td>{video.Uploaded}</td>
                          <td>{video.User}</td>
-                         <td>{video.Status}</td>
+                         <td>{video.VideoStatus}</td>
                      </tr>
                  );
             });
@@ -298,18 +298,16 @@ var VideoAdd = React.createClass({
                             //This is where you would put a success callback
                             console.log(result)
 
-                            var videosBucketName = 'dash-cam-videos';
-
                             var s3 = new AWS.S3({
                                 apiVersion: '2006-03-01',
-                                params: {Bucket: videosBucketName}
+                                params: {Bucket: result.data.bucket}
                             });
 
-                            var fileName = result.data.videoId;
+                            var fileName = result.data.key;
 
                             var videoKey = fileName;
 
-                            console.log('Uploading video to bucket: [' + videosBucketName + '] Key [' + videoKey + ']')
+                            console.log('Uploading video to bucket: [' + result.data.bucket + '] Key [' + result.data.key + ']')
 
                             s3.upload({
                                 Key: videoKey,
