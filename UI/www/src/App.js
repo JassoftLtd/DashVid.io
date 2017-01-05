@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 var Dropzone = require('react-dropzone');
 import './App.css';
 import 'whatwg-fetch'
@@ -8,22 +8,44 @@ var apigClientFactory = require('aws-api-gateway-client')
 AWS.config.region = 'eu-west-1'; // Region
 
 class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <div className="App-header">
-          <h2>Welcome to DashVid.io</h2>
-        </div>
-        <p className="App-intro">
-          The handy place to store your dashcam footage.
-        </p>
-        <Login />
-        <Logout />
-        <VideoAdd />
-        <VideoList />
-      </div>
-    );
-  }
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            videosRequiresReload: true
+        };
+    }
+
+    onAuthStateChange() {
+        console.log('App Knows of Auth state change')
+    }
+
+    onVideosModified() {
+        console.log('App Knows of videos modified')
+        this.setState({videosRequiresReload: true})
+    }
+
+    onVideosLoaded() {
+        console.log('App Knows of videos modified')
+        this.setState({videosRequiresReload: false})
+    }
+
+    render() {
+        return (
+            <div className="App">
+                <div className="App-header">
+                    <h2>Welcome to DashVid.io</h2>
+                </div>
+                <p className="App-intro">
+                    The handy place to store your dashcam footage.
+                </p>
+                <Login loginCallback={() => this.onAuthStateChange()}/>
+                <Logout logoutCallback={() => this.onAuthStateChange() }/>
+                <VideoAdd videoAddedCallback={() => this.onVideosModified()}/>
+                <VideoList requiresReload={this.state.videosRequiresReload} reloadedCallback={() => this.onVideosLoaded()}/>
+            </div>
+        );
+    }
 }
 
 ////////////////
@@ -35,11 +57,13 @@ class App extends Component {
 var Login = React.createClass({
 
 
-    getInitialState: function() {
-        return {email:"", password:""};
+    getInitialState: function () {
+        return {email: "", password: ""};
     },
 
-    handleLogin: function() {
+    handleLogin: function () {
+
+        const _this = this;
 
         fetch('https://0qomu2q3rb.execute-api.eu-west-1.amazonaws.com/Dev/v1/auth/login', {
             method: 'POST',
@@ -50,9 +74,9 @@ var Login = React.createClass({
                 email: this.state.email,
                 password: this.state.password
             })
-        }).then(function(response) {
+        }).then(function (response) {
             return response.json()
-        }).then(function(json) {
+        }).then(function (json) {
             console.log('parsed json', json)
 
             var params = {
@@ -66,41 +90,48 @@ var Login = React.createClass({
 
             AWS.config.credentials = new AWS.CognitoIdentityCredentials(params);
 
-        }).catch(function(ex) {
+            _this.props.loginCallback()
+
+        }).catch(function (ex) {
             console.log('parsing failed', ex)
         })
 
     },
 
-    handleChangeEmail : function(e){
-        this.setState({email : e.target.value});
+    handleChangeEmail: function (e) {
+        this.setState({email: e.target.value});
     },
 
-    handleChangePassword : function(e){
-        this.setState({password : e.target.value});
+    handleChangePassword: function (e) {
+        this.setState({password: e.target.value});
     },
 
-    render: function() {
+    render: function () {
 
         var identityPoolParams = JSON.parse(localStorage.getItem("IdentityPoolParams"));
 
         if (!identityPoolParams) {
             return (
-                <table>
-                    <tr>
-                        <td>Email</td>
-                        <td><input value={this.state.email} onChange={this.handleChangeEmail} type="email" id="email" size="20"/></td>
-                    </tr>
-                    <tr>
-                        <td>Password</td>
-                        <td><input value={this.state.password} onChange={this.handleChangePassword} type="password" id="password" size="20"/></td>
-                    </tr>
-                    <tr>
-                        <td colSpan="2">
-                            <button onClick={this.handleLogin} type="submit" id="login-button">Login</button>
-                        </td>
-                    </tr>
-                </table>
+                <form action="#" onSubmit={this.handleLogin}>
+                    <table>
+                        <tr>
+                            <td>Email</td>
+                            <td><input value={this.state.email} onChange={this.handleChangeEmail} type="email"
+                                       id="email"
+                                       size="20"/></td>
+                        </tr>
+                        <tr>
+                            <td>Password</td>
+                            <td><input value={this.state.password} onChange={this.handleChangePassword} type="password"
+                                       id="password" size="20"/></td>
+                        </tr>
+                        <tr>
+                            <td colSpan="2">
+                                <button type="submit" id="login-button">Login</button>
+                            </td>
+                        </tr>
+                    </table>
+                </form>
             );
         } else {
             return ( <p>Logged In</p> )
@@ -116,13 +147,14 @@ var Login = React.createClass({
 
 var Logout = React.createClass({
 
-    handleLogout: function() {
+    handleLogout: function () {
 
         localStorage.removeItem("IdentityPoolParams");
+        this.props.logoutCallback()
 
     },
 
-    render: function() {
+    render: function () {
 
         var identityPoolParams = JSON.parse(localStorage.getItem("IdentityPoolParams"));
 
@@ -144,11 +176,11 @@ var Logout = React.createClass({
 
 var VideoList = React.createClass({
 
-    getInitialState: function() {
+    getInitialState: function () {
         return {videos: [], mounted: false};
     },
 
-    loadContent: function() {
+    loadContent: function () {
 
         const _this = this;
 
@@ -196,29 +228,34 @@ var VideoList = React.createClass({
         }
     },
 
-    componentDidMount: function() {
-        if(this.props.url !== ''){
+    componentDidMount: function () {
+        this.loadContent();
+    },
+
+    componentDidUpdate: function () {
+        if(this.props.requiresReload) {
             this.loadContent();
+            this.props.reloadedCallback()
         }
     },
 
-    render: function() {
+    render: function () {
 
         var videos;
 
         var identityPoolParams = JSON.parse(localStorage.getItem("IdentityPoolParams"));
 
-        if(this.state.videos && identityPoolParams) {
-            videos = this.state.videos.map(function(video, i) {
+        if (this.state.videos && identityPoolParams) {
+            videos = this.state.videos.map(function (video, i) {
 
                 return (
                     <tr key={video.Id}>
-                         <td>{video.Id}</td>
-                         <td>{video.Uploaded}</td>
-                         <td>{video.User}</td>
-                         <td>{video.VideoStatus}</td>
-                     </tr>
-                 );
+                        <td>{video.Id}</td>
+                        <td>{video.Uploaded}</td>
+                        <td>{video.User}</td>
+                        <td>{video.VideoStatus}</td>
+                    </tr>
+                );
             });
 
             return (
@@ -257,6 +294,8 @@ var VideoAdd = React.createClass({
     onDrop: function (acceptedFiles, rejectedFiles) {
         console.log('Accepted files: ', acceptedFiles);
         console.log('Rejected files: ', rejectedFiles);
+
+        const _this = this;
 
         var identityPoolParams = JSON.parse(localStorage.getItem("IdentityPoolParams"));
 
@@ -318,6 +357,7 @@ var VideoAdd = React.createClass({
                                     console.error('There was an error uploading your video: ' + err.message);
                                 }
                                 console.log('Successfully uploaded video.');
+                                _this.props.videoAddedCallback()
                             });
 
                         }).catch(function (result) {
