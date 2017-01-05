@@ -11,13 +11,18 @@ class App extends Component {
 
     constructor(props) {
         super(props);
+
+        var identityPoolParams = JSON.parse(localStorage.getItem("IdentityPoolParams"));
+
         this.state = {
+            loggedIn: identityPoolParams != null,
             videosRequiresReload: true
         };
     }
 
-    onAuthStateChange() {
+    onAuthStateChange(loggedIn) {
         console.log('App Knows of Auth state change')
+        this.setState({loggedIn: loggedIn})
     }
 
     onVideosModified() {
@@ -39,10 +44,10 @@ class App extends Component {
                 <p className="App-intro">
                     The handy place to store your dashcam footage.
                 </p>
-                <Login loginCallback={() => this.onAuthStateChange()}/>
-                <Logout logoutCallback={() => this.onAuthStateChange() }/>
-                <VideoAdd videoAddedCallback={() => this.onVideosModified()}/>
-                <VideoList requiresReload={this.state.videosRequiresReload} reloadedCallback={() => this.onVideosLoaded()}/>
+                <Login loggedIn={this.state.loggedIn} loginCallback={(loggedIn) => this.onAuthStateChange(loggedIn)}/>
+                <Logout loggedIn={this.state.loggedIn} logoutCallback={(loggedIn) => this.onAuthStateChange(loggedIn) }/>
+                <VideoAdd loggedIn={this.state.loggedIn} videoAddedCallback={() => this.onVideosModified()}/>
+                <VideoList loggedIn={this.state.loggedIn} requiresReload={this.state.videosRequiresReload} reloadedCallback={() => this.onVideosLoaded()}/>
             </div>
         );
     }
@@ -90,7 +95,7 @@ var Login = React.createClass({
 
             AWS.config.credentials = new AWS.CognitoIdentityCredentials(params);
 
-            _this.props.loginCallback()
+            _this.props.loginCallback(true)
 
         }).catch(function (ex) {
             console.log('parsing failed', ex)
@@ -108,9 +113,7 @@ var Login = React.createClass({
 
     render: function () {
 
-        var identityPoolParams = JSON.parse(localStorage.getItem("IdentityPoolParams"));
-
-        if (!identityPoolParams) {
+        if (!this.props.loggedIn) {
             return (
                 <form action="#" onSubmit={this.handleLogin}>
                     <table>
@@ -150,15 +153,13 @@ var Logout = React.createClass({
     handleLogout: function () {
 
         localStorage.removeItem("IdentityPoolParams");
-        this.props.logoutCallback()
+        this.props.logoutCallback(false)
 
     },
 
     render: function () {
 
-        var identityPoolParams = JSON.parse(localStorage.getItem("IdentityPoolParams"));
-
-        if (identityPoolParams) {
+        if (this.props.loggedIn) {
             return (
                 <button onClick={this.handleLogout} id="logout-button">Logout</button>
             );
@@ -186,7 +187,7 @@ var VideoList = React.createClass({
 
         var identityPoolParams = JSON.parse(localStorage.getItem("IdentityPoolParams"));
 
-        if (identityPoolParams) {
+        if (this.props.loggedIn) {
             // initialize the Credentials object with our parameters
             AWS.config.credentials = new AWS.CognitoIdentityCredentials(identityPoolParams);
 
@@ -243,9 +244,7 @@ var VideoList = React.createClass({
 
         var videos;
 
-        var identityPoolParams = JSON.parse(localStorage.getItem("IdentityPoolParams"));
-
-        if (this.state.videos && identityPoolParams) {
+        if (this.state.videos && this.props.loggedIn) {
             videos = this.state.videos.map(function (video, i) {
 
                 return (
@@ -299,7 +298,7 @@ var VideoAdd = React.createClass({
 
         var identityPoolParams = JSON.parse(localStorage.getItem("IdentityPoolParams"));
 
-        if (identityPoolParams) {
+        if (this.props.loggedIn) {
             // initialize the Credentials object with our parameters
             AWS.config.credentials = new AWS.CognitoIdentityCredentials(identityPoolParams);
 
@@ -370,9 +369,7 @@ var VideoAdd = React.createClass({
     },
 
     render: function () {
-        var identityPoolParams = JSON.parse(localStorage.getItem("IdentityPoolParams"));
-
-        if (identityPoolParams) {
+        if (this.props.loggedIn) {
             return (
                 <div>
                     <Dropzone onDrop={this.onDrop}>
