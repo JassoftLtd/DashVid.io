@@ -315,9 +315,9 @@ var VideoAdd = React.createClass({
                                 ACL: 'private'
                             }, function (err, data) {
                                 if (err) {
-                                    return alert('There was an error uploading your video: ' + err.message);
+                                    console.error('There was an error uploading your video: ' + err.message);
                                 }
-                                alert('Successfully uploaded video.');
+                                console.log('Successfully uploaded video.');
                             });
 
                         }).catch(function (result) {
