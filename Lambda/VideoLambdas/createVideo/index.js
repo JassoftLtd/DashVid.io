@@ -41,17 +41,18 @@ exports.handler = function(event, context) {
                 Expires: signedUrlExpireSeconds
             })
 
-			var responseBody = {
-				url: url
-			};
-			var response = {
-				statusCode: responseCode,
-				headers: {
-					'Access-Control-Allow-Origin': '*'
-				},
-				body: JSON.stringify(responseBody)
-			};
-			console.log("response: " + JSON.stringify(response))
-			context.succeed(response);
+            var responseBody = {
+                url: url
+            };
+            var response = {
+                statusCode: responseCode,
+                headers: {
+                    'Access-Control-Allow-Origin': '*'
+                },
+                body: JSON.stringify(responseBody)
+            };
+            console.log("response: " + JSON.stringify(response))
+            context.succeed(response);
+        }
 	});
 };
