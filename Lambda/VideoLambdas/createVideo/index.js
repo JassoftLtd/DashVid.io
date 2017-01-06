@@ -11,6 +11,9 @@ exports.handler = function(event, context) {
 	var responseCode = 200;
 	console.log("request: " + JSON.stringify(event));
 
+	var bucket = 'dash-cam-videos';
+    const signedUrlExpireSeconds = 60 * 10 // 10 mins
+
 	var generatedId = uuid.v1();
 	var currentUser = "TestUser";
 	var uploadedDate = new Date().getTime().toString();
@@ -27,12 +30,19 @@ exports.handler = function(event, context) {
 			Key: key
 		}
 	}, function(err, data) {
-		if (err)
-			return context.fail(err);
-		else
+		if (err) {
+            return context.fail(err);
+        }
+		else {
+
+            const url = s3.getSignedUrl('putObject', {
+                Bucket: bucket,
+                Key: key,
+                Expires: signedUrlExpireSeconds
+            })
+
 			var responseBody = {
-				bucket: 'dash-cam-videos',
-				key: key
+				url: url
 			};
 			var response = {
 				statusCode: responseCode,

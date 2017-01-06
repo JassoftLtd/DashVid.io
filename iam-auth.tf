@@ -31,11 +31,6 @@ resource "aws_iam_role_policy" "Cognito_LambdAuthAuth_Role_Cognito_LambdAuthAuth
         "arn:aws:lambda:${var.aws_region}:${var.aws_account_id}:function:LambdAuthResetPassword",
         "arn:aws:lambda:${var.aws_region}:${var.aws_account_id}:function:LambdAuthLogin"
       ]
-    },
-    {
-        "Effect": "Allow",
-        "Action": "s3:PutObject",
-        "Resource": "arn:aws:s3:::${aws_s3_bucket.dash-cam-videos-bucket.bucket}/*"
     }
   ]
 }

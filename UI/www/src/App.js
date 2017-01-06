@@ -341,23 +341,17 @@ var VideoAdd = React.createClass({
                                 params: {Bucket: result.data.bucket}
                             });
 
-                            var fileName = result.data.key;
+                            console.log('Uploading video to URL: [' + result.data.url + ']')
 
-                            var videoKey = fileName;
-
-                            console.log('Uploading video to bucket: [' + result.data.bucket + '] Key [' + result.data.key + ']')
-
-                            s3.upload({
-                                Key: videoKey,
-                                Body: file,
-                                ACL: 'private'
-                            }, function (err, data) {
-                                if (err) {
-                                    console.error('There was an error uploading your video: ' + err.message);
-                                }
+                            fetch(result.data.url, {
+                                method: 'PUT',
+                                body: file
+                            }).then(function () {
                                 console.log('Successfully uploaded video.');
                                 _this.props.videoAddedCallback()
-                            });
+                            }).catch(function (err) {
+                                console.error('There was an error uploading your video: ' + err.message);
+                            })
 
                         }).catch(function (result) {
                         //This is where you would put an error callback
