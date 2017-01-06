@@ -105,6 +105,16 @@ data "aws_iam_policy_document" "IamForCreateVideoLambda" {
   "statement" = {
       "effect" = "Allow",
       "actions" = [
+        "s3:PutObject",
+      ],
+      "resources" = [
+        "arn:aws:s3:::${aws_s3_bucket.dash-cam-videos-bucket.bucket}/*"
+        ]
+    }
+
+  "statement" = {
+      "effect" = "Allow",
+      "actions" = [
         "logs:CreateLogGroup",
         "logs:CreateLogStream",
         "logs:PutLogEvents"
