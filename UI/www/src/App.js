@@ -202,7 +202,11 @@ var VideoList = React.createClass({
                 console.log("Cognito Identity Id: " + AWS.config.credentials.identityId);
 
                 var config = {
-                    invokeUrl: 'https://0qomu2q3rb.execute-api.eu-west-1.amazonaws.com/Dev'
+                    invokeUrl: 'https://0qomu2q3rb.execute-api.eu-west-1.amazonaws.com/Dev',
+                    accessKey: AWS.config.credentials.accessKeyId,
+                    secretKey: AWS.config.credentials.secretAccessKey,
+                    sessionToken: AWS.config.credentials.sessionToken,
+                    region: AWS.config.region
                 }
                 var apigClient = apigClientFactory.newClient(config);
 
@@ -314,7 +318,11 @@ var VideoAdd = React.createClass({
 
 
                 var config = {
-                    invokeUrl: 'https://0qomu2q3rb.execute-api.eu-west-1.amazonaws.com/Dev'
+                    invokeUrl: 'https://0qomu2q3rb.execute-api.eu-west-1.amazonaws.com/Dev',
+                    accessKey: AWS.config.credentials.accessKeyId,
+                    secretKey: AWS.config.credentials.secretAccessKey,
+                    sessionToken: AWS.config.credentials.sessionToken,
+                    region: AWS.config.region
                 }
                 var apigClient = apigClientFactory.newClient(config);
 

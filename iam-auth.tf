@@ -31,6 +31,15 @@ resource "aws_iam_role_policy" "Cognito_LambdAuthAuth_Role_Cognito_LambdAuthAuth
         "arn:aws:lambda:${var.aws_region}:${var.aws_account_id}:function:LambdAuthResetPassword",
         "arn:aws:lambda:${var.aws_region}:${var.aws_account_id}:function:LambdAuthLogin"
       ]
+    },
+    {
+        "Effect": "Allow",
+        "Action": [
+            "execute-api:Invoke"
+        ],
+        "Resource": [
+            "*"
+        ]
     }
   ]
 }
