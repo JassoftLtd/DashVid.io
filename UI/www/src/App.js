@@ -344,17 +344,15 @@ var VideoAdd = React.createClass({
                             //This is where you would put a success callback
                             console.log(result)
 
-                            var s3 = new AWS.S3({
-                                apiVersion: '2006-03-01',
-                                params: {Bucket: result.data.bucket}
-                            });
-
                             console.log('Uploading video to URL: [' + result.data.url + ']')
 
                             fetch(result.data.url, {
                                 method: 'PUT',
-                                body: file
-                            }).then(function () {
+                                body: file,
+                                headers: {
+                                    'Content-Type': 'text/plain;charset=UTF-8'
+                                }
+                            }).then(function (result) {
                                 console.log('Successfully uploaded video.');
                                 _this.props.videoAddedCallback()
                             }).catch(function (err) {

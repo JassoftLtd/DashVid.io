@@ -1,0 +1,13 @@
+{
+  "name": "uploadedVideo",
+  "version": "1.0.0",
+  "description": "analyse video and save metadata in DynamoDB",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+  }
+}

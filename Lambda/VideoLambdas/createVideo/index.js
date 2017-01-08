@@ -35,11 +35,16 @@ exports.handler = function(event, context) {
         }
 		else {
 
+            var s3 = new AWS.S3({
+                apiVersion: '2006-03-01'
+            });
+
             const url = s3.getSignedUrl('putObject', {
                 Bucket: bucket,
                 Key: key,
-                Expires: signedUrlExpireSeconds
-            })
+                Expires: signedUrlExpireSeconds,
+                ContentType: 'text/plain;charset=UTF-8'
+            });
 
             var responseBody = {
                 url: url
