@@ -45,7 +45,7 @@ resource "aws_lambda_function" "uploadedVideo" {
   role = "${aws_iam_role.IamForUploadedVideoLambda.arn}"
   handler = "uploadedVideo.handler"
   runtime = "nodejs4.3"
-  timeout = "3"
+  timeout = "30"
   source_code_hash = "${base64sha256(file("Lambda/VideoLambdas/uploadedVideo.zip"))}"
 }
 

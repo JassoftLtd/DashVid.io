@@ -9,9 +9,8 @@ exports.handler = function(event, context) {
 	var responseCode = 200;
 
     console.log("event: " + JSON.stringify(event))
-    console.log("identity: " + JSON.stringify(event.requestContext.identity))
 
-	var currentUser = "TestUser";
+	var currentUser = event.requestContext.identity.cognitoIdentityId.split(':')[1];
 
 	dynamodb.query({
 		IndexName: "UserVideosByDate",
@@ -23,7 +22,7 @@ exports.handler = function(event, context) {
 		ExpressionAttributeValues: {
 			":user":currentUser
 		},
-		"Limit": "10",
+		"Limit": "100",
 		"TableName": "Videos"
 	}, function(err, data) {
 		if (err)

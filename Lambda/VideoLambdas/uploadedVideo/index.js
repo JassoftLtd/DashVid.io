@@ -6,6 +6,7 @@ var AWS = require('aws-sdk');
 var dynamodb = new AWS.DynamoDB.DocumentClient();
 
 var child_process = require("child_process");
+var parseString = require('xml2js').parseString;
 
 exports.handler = function(event, context) {
 	var responseCode = 200;
@@ -41,32 +42,49 @@ exports.handler = function(event, context) {
                 console.error(err)
             }
 
-            console.log("stdout: " + stdout)
-            console.log("stderr: " + stderr)
+            parseString(stdout, function (err, result) {
+                console.dir(JSON.stringify(result));
 
-            dynamodb.update({
-                TableName: "Videos",
-                Key:{
-                    "Id": videoId
-                },
-                UpdateExpression: "set VideoStatus = :status",
-                ExpressionAttributeValues:{
-                    ":status":"Uploaded"
-                },
-                ReturnValues:"UPDATED_NEW"
-            }, function(err, data) {
-                if (err) {
-                    console.error('Unable to update video status for videoId [' + videoId + ']. Error JSON:', JSON.stringify(err, null, 2));
-                } else {
-                    console.log("Video status updated succeeded:", JSON.stringify(data, null, 2));
+                var videoRecord;
+
+                for(var f = 0; f < result.Mediainfo.File[0].track.length; f++) {
+
+                    var track = result.Mediainfo.File[0].track[f];
+
+                    if (track.$.type == "Video") {
+                        videoRecord = track
+                    }
                 }
 
-                if (i == event.Records.length -1) {
-                    context.succeed();
-                }
+                console.log("Video Record: " + JSON.stringify(videoRecord));
+
+                dynamodb.update({
+                    TableName: "Videos",
+                    Key:{
+                        "Id": videoId
+                    },
+                    UpdateExpression: "set VideoStatus = :status, RecordedDate=:recordedDate, VideoDuration=:duration, MediaInfo=:mediaInfo",
+                    ExpressionAttributeValues:{
+                        ":status":"Uploaded",
+                        ":recordedDate":videoRecord.Encoded_date[0],
+                        ":duration":videoRecord.Duration[0],
+                        ":mediaInfo":videoRecord
+                    },
+                    ReturnValues:"UPDATED_NEW"
+                }, function(err, data) {
+                    if (err) {
+                        console.error('Unable to update video status for videoId [' + videoId + ']. Error JSON:', JSON.stringify(err, null, 2));
+                    } else {
+                        console.log("Video status updated succeeded:", JSON.stringify(data, null, 2));
+                    }
+
+                    if (i == event.Records.length -1) {
+                        context.succeed();
+                    }
+                });
             });
-        });
 
+        });
 
     }
 

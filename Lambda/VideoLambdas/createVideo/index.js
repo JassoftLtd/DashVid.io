@@ -9,13 +9,15 @@ var uuid = require('node-uuid');
 
 exports.handler = function(event, context) {
 	var responseCode = 200;
-	console.log("request: " + JSON.stringify(event));
+
+    console.log("event: " + JSON.stringify(event))
+    console.log("identity: " + JSON.stringify(event.requestContext.identity.cognitoIdentityId))
 
 	var bucket = 'dash-cam-videos';
-    const signedUrlExpireSeconds = 60 * 10 // 10 mins
+    const signedUrlExpireSeconds = 3600 // 1 hour
 
 	var generatedId = uuid.v1();
-	var currentUser = "TestUser";
+	var currentUser = event.requestContext.identity.cognitoIdentityId.split(':')[1];
 	var uploadedDate = new Date().getTime().toString();
     var status = "PendingUpload";
     var key = currentUser + '/' + generatedId

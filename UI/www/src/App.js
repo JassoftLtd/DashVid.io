@@ -7,6 +7,41 @@ var apigClientFactory = require('aws-api-gateway-client')
 
 AWS.config.region = 'eu-west-1'; // Region
 
+function runWithCredentials (callback) {
+    var identityPoolParams = JSON.parse(localStorage.getItem("IdentityPoolParams"));
+
+    // initialize the Credentials object with our parameters
+    AWS.config.credentials = new AWS.CognitoIdentityCredentials(identityPoolParams);
+
+    if (AWS.config.credentials.needsRefresh()) {
+        AWS.config.credentials.refresh(function (err) {
+            if (!err) {
+                console.log("Cognito Identity Id: " + AWS.config.credentials.identityId);
+                callback();
+            }
+            else {
+                localStorage.removeItem("IdentityPoolParams");
+            }
+        })
+    }
+    else {
+
+        // We can set the get method of the Credentials object to retrieve
+        // the unique identifier for the end user (identityId) once the provider
+        // has refreshed itself
+        AWS.config.credentials.get(function (err) {
+            if (!err) {
+                console.log("Cognito Identity Id: " + AWS.config.credentials.identityId);
+                callback();
+            }
+            else {
+                localStorage.removeItem("IdentityPoolParams");
+            }
+        });
+    }
+
+}
+
 class App extends Component {
 
     constructor(props) {
@@ -185,21 +220,9 @@ var VideoList = React.createClass({
 
         const _this = this;
 
-        var identityPoolParams = JSON.parse(localStorage.getItem("IdentityPoolParams"));
-
         if (this.props.loggedIn) {
-            // initialize the Credentials object with our parameters
-            AWS.config.credentials = new AWS.CognitoIdentityCredentials(identityPoolParams);
 
-            // We can set the get method of the Credentials object to retrieve
-            // the unique identifier for the end user (identityId) once the provider
-            // has refreshed itself
-            AWS.config.credentials.get(function (err) {
-                if (err) {
-                    localStorage.removeItem("IdentityPoolParams");
-                    return;
-                }
-                console.log("Cognito Identity Id: " + AWS.config.credentials.identityId);
+            runWithCredentials(function () {
 
                 var config = {
                     invokeUrl: 'https://0qomu2q3rb.execute-api.eu-west-1.amazonaws.com/Dev',
@@ -213,7 +236,8 @@ var VideoList = React.createClass({
                 var params = {
                     //This is where any header, path, or querystring request params go. The key is the parameter named as defined in the API
                 };
-// Template syntax follows url-template https://www.npmjs.com/package/url-template
+
+                // Template syntax follows url-template https://www.npmjs.com/package/url-template
                 var pathTemplate = '/v1/video'
                 var method = 'GET';
                 var additionalParams = {};
@@ -231,6 +255,7 @@ var VideoList = React.createClass({
                 });
             });
         }
+
     },
 
     componentDidMount: function () {
@@ -257,6 +282,8 @@ var VideoList = React.createClass({
                         <td>{video.Uploaded}</td>
                         <td>{video.User}</td>
                         <td>{video.VideoStatus}</td>
+                        <td>{video.RecordedDate}</td>
+                        <td>{video.VideoDuration /1000}s</td>
                     </tr>
                 );
             });
@@ -271,6 +298,8 @@ var VideoList = React.createClass({
                                 <td>Uploaded</td>
                                 <td>By</td>
                                 <td>Status</td>
+                                <td>Redorded Date</td>
+                                <td>Duration</td>
                             </tr>
                             </thead>
                             <tbody>
@@ -300,22 +329,9 @@ var VideoAdd = React.createClass({
 
         const _this = this;
 
-        var identityPoolParams = JSON.parse(localStorage.getItem("IdentityPoolParams"));
-
         if (this.props.loggedIn) {
-            // initialize the Credentials object with our parameters
-            AWS.config.credentials = new AWS.CognitoIdentityCredentials(identityPoolParams);
 
-            // We can set the get method of the Credentials object to retrieve
-            // the unique identifier for the end user (identityId) once the provider
-            // has refreshed itself
-            AWS.config.credentials.get(function (err) {
-                if (err) {
-                    localStorage.removeItem("IdentityPoolParams");
-                    return;
-                }
-                console.log("Cognito Identity Id: " + AWS.config.credentials.identityId);
-
+            runWithCredentials(function () {
 
                 var config = {
                     invokeUrl: 'https://0qomu2q3rb.execute-api.eu-west-1.amazonaws.com/Dev',
