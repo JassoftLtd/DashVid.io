@@ -5,6 +5,7 @@ import './App.css';
 import 'whatwg-fetch'
 var AWS = require('aws-sdk');
 var apigClientFactory = require('aws-api-gateway-client')
+var S3Upload = require('./s3upload.js')
 
 AWS.config.region = 'eu-west-1'; // Region
 
@@ -334,13 +335,23 @@ var VideoList = React.createClass({
 
 var VideoAdd = React.createClass({
 
+    getInitialState: function () {
+        return {uploadStatus: []};
+    },
+
+    getStatusIndex(file) {
+        for(var i = 0; i < this.state.uploadStatus.length; i++)
+        {
+            if(this.state.uploadStatus[i].file === file)
+            {
+                return i;
+            }
+        }
+    },
+
     onDrop: function (acceptedFiles, rejectedFiles) {
         console.log('Accepted files: ', acceptedFiles);
         console.log('Rejected files: ', rejectedFiles);
-
-        this.setState({
-            files: acceptedFiles
-        });
 
         const _this = this;
 
@@ -358,6 +369,17 @@ var VideoAdd = React.createClass({
                 var apigClient = apigClientFactory.newClient(config);
 
                 acceptedFiles.forEach((file) => {
+
+                    var uploadStatus = _this.state.uploadStatus;
+                    uploadStatus.push({
+                        file: file,
+                        status: "",
+                        percent: 0
+                    });
+
+                    _this.setState({
+                        uploadStatus: uploadStatus
+                    });
 
                     console.log('Posting video: ' + file.name)
 
@@ -377,20 +399,27 @@ var VideoAdd = React.createClass({
 
                             console.log('Uploading video to URL: [' + result.data.url + ']')
 
-                            fetch(result.data.url, {
-                                method: 'PUT',
-                                body: file,
-                                headers: {
-                                    'Content-Type': 'text/plain;charset=UTF-8'
-                                }
-                            }).then(function (result) {
-                                console.log('Successfully uploaded video.');
-                                var index = _this.state.files.indexOf(file.name);
-                                _this.state.files.splice(index, 1);
-                                _this.props.videoAddedCallback()
-                            }).catch(function (err) {
-                                console.error('There was an error uploading your video: ' + err.message);
-                            })
+                            this.myUploader = new S3Upload(file, result.data.url,
+                                function(percent, status, file) {
+                                    var index = _this.getStatusIndex(file);
+
+                                    var uploadStatus = _this.state.uploadStatus;
+
+                                    uploadStatus[index] = {
+                                        file: file,
+                                        status: status,
+                                        percent: percent
+                                    };
+
+                                    _this.setState({
+                                        uploadStatus: uploadStatus
+                                    });
+
+                                },
+                                function(signResult, file) {
+                                    console.log('Successfully uploaded video.');
+                                    _this.props.videoAddedCallback()
+                                });
 
                         }).catch(function (result) {
                         //This is where you would put an error callback
@@ -404,11 +433,11 @@ var VideoAdd = React.createClass({
     render: function () {
         if (this.props.loggedIn) {
             var uploading;
-            if(this.state && this.state.files) {
-                var files = this.state.files.map(function (file, i) {
+            if(this.state && this.state.uploadStatus && this.state.uploadStatus.length > 0) {
+                var files = this.state.uploadStatus.map(function (status, i) {
 
                     return (
-                        <li key={file.name}>{file.name}</li>
+                        <li key={status.file.name}>{status.file.name} - {status.status} - {status.percent}%</li>
                     );
                 });
 
