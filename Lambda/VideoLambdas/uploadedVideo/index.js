@@ -46,6 +46,10 @@ exports.handler = function(event, context) {
             parseString(stdout, function (err, result) {
                 console.dir(JSON.stringify(result));
 
+                if(!result.Mediainfo.File) {
+                    deleteFile(bucket, key, videoId, "NoVideo")
+                }
+
                 var videoRecord;
 
                 for(var f = 0; f < result.Mediainfo.File[0].track.length; f++) {
@@ -57,7 +61,10 @@ exports.handler = function(event, context) {
                     }
                 }
 
-                if(videoRecord) {
+                if(!videoRecord) {
+                    deleteFile(bucket, key, videoId, "NoVideo")
+                }
+                else {
 
                     console.log("Video Record: " + JSON.stringify(videoRecord));
 
@@ -86,9 +93,6 @@ exports.handler = function(event, context) {
                             context.succeed();
                         }
                     });
-                }
-                else {
-                    deleteFile(bucket, key, videoId, "NoVideo")
                 }
             });
 

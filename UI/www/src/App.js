@@ -510,7 +510,6 @@ var VideoPlayer = React.createClass({
 
             apigClient.invokeApi(params, pathTemplate, method, additionalParams, body)
                 .then(function (result) {
-                    console.log(JSON.stringify(result))
                     //This is where you would put a success callback
                     _this.setState({
                         video: result.data.video,

@@ -15,12 +15,15 @@ exports.handler = function(event, context) {
 	dynamodb.query({
 		IndexName: "UserVideosByDate",
 		KeyConditionExpression:"#user = :user",
+        "FilterExpression": '#videoStatus = :status',
         ScanIndexForward: false,
 		ExpressionAttributeNames: {
 			"#user":"User",
+			"#videoStatus":"VideoStatus",
 		},
 		ExpressionAttributeValues: {
-			":user":currentUser
+			":user":currentUser,
+            ":status":"Uploaded"
 		},
 		"Limit": "100",
 		"TableName": "Videos"
