@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import ReactPlayer from 'react-player'
 var Dropzone = require('react-dropzone');
 import './App.css';
 import 'whatwg-fetch'
@@ -51,7 +52,8 @@ class App extends Component {
 
         this.state = {
             loggedIn: identityPoolParams != null,
-            videosRequiresReload: true
+            videosRequiresReload: true,
+            videoToPlay: null
         };
     }
 
@@ -70,6 +72,11 @@ class App extends Component {
         this.setState({videosRequiresReload: false})
     }
 
+    onPlayVideo(videoId) {
+        console.log('App Knows of play video request for video', videoId)
+        this.setState({videoToPlay: videoId})
+    }
+
     render() {
         return (
             <div className="App">
@@ -81,8 +88,9 @@ class App extends Component {
                 </p>
                 <Login loggedIn={this.state.loggedIn} loginCallback={(loggedIn) => this.onAuthStateChange(loggedIn)}/>
                 <Logout loggedIn={this.state.loggedIn} logoutCallback={(loggedIn) => this.onAuthStateChange(loggedIn) }/>
+                <VideoPlayer videoId={this.state.videoToPlay}/>
                 <VideoAdd loggedIn={this.state.loggedIn} videoAddedCallback={() => this.onVideosModified()}/>
-                <VideoList loggedIn={this.state.loggedIn} requiresReload={this.state.videosRequiresReload} reloadedCallback={() => this.onVideosLoaded()}/>
+                <VideoList loggedIn={this.state.loggedIn} requiresReload={this.state.videosRequiresReload} reloadedCallback={() => this.onVideosLoaded()} playVideoCallback={(videoId) => this.onPlayVideo(videoId)}/>
             </div>
         );
     }
@@ -271,6 +279,8 @@ var VideoList = React.createClass({
 
     render: function () {
 
+        const _this = this;
+
         var videos;
 
         if (this.state.videos && this.props.loggedIn) {
@@ -284,6 +294,7 @@ var VideoList = React.createClass({
                         <td>{video.VideoStatus}</td>
                         <td>{video.RecordedDate}</td>
                         <td>{video.VideoDuration /1000}s</td>
+                        <td><button onClick={()=>{_this.props.playVideoCallback(video.Id)}}>Play</button></td>
                     </tr>
                 );
             });
@@ -326,6 +337,10 @@ var VideoAdd = React.createClass({
     onDrop: function (acceptedFiles, rejectedFiles) {
         console.log('Accepted files: ', acceptedFiles);
         console.log('Rejected files: ', rejectedFiles);
+
+        this.setState({
+            files: acceptedFiles
+        });
 
         const _this = this;
 
@@ -370,6 +385,8 @@ var VideoAdd = React.createClass({
                                 }
                             }).then(function (result) {
                                 console.log('Successfully uploaded video.');
+                                var index = _this.state.files.indexOf(file.name);
+                                _this.state.files.splice(index, 1);
                                 _this.props.videoAddedCallback()
                             }).catch(function (err) {
                                 console.error('There was an error uploading your video: ' + err.message);
@@ -386,16 +403,105 @@ var VideoAdd = React.createClass({
 
     render: function () {
         if (this.props.loggedIn) {
+            var uploading;
+            if(this.state && this.state.files) {
+                var files = this.state.files.map(function (file, i) {
+
+                    return (
+                        <li key={file.name}>{file.name}</li>
+                    );
+                });
+
+                uploading = (
+                    <div>
+                        <p>Files uploading</p>
+                        <ul>
+                            {files}
+                        </ul>
+                    </div>
+                )
+            }
+
             return (
                 <div>
                     <Dropzone onDrop={this.onDrop}>
                         <div>Try dropping some files here, or click to select files to upload.</div>
                     </Dropzone>
+                    {uploading}
                 </div>
             );
         } else {
             return null
         }
+    }
+});
+
+
+////////////////
+// Video Player //
+////////////////
+
+// Video Player Container
+
+var VideoPlayer = React.createClass({
+
+    getInitialState: function () {
+        return {
+            video: {},
+            url: ""
+        };
+    },
+
+    loadContent: function (videoId) {
+
+        const _this = this;
+
+            runWithCredentials(function () {
+
+            var config = {
+                invokeUrl: 'https://0qomu2q3rb.execute-api.eu-west-1.amazonaws.com/Dev',
+                accessKey: AWS.config.credentials.accessKeyId,
+                secretKey: AWS.config.credentials.secretAccessKey,
+                sessionToken: AWS.config.credentials.sessionToken,
+                region: AWS.config.region
+            }
+            var apigClient = apigClientFactory.newClient(config);
+
+            var params = {
+                //This is where any header, path, or querystring request params go. The key is the parameter named as defined in the API
+                "videoId": videoId
+            };
+
+            // Template syntax follows url-template https://www.npmjs.com/package/url-template
+            var pathTemplate = '/v1/video/{videoId}'
+            var method = 'GET';
+            var additionalParams = {
+            };
+            var body = {};
+
+            apigClient.invokeApi(params, pathTemplate, method, additionalParams, body)
+                .then(function (result) {
+                    console.log(JSON.stringify(result))
+                    //This is where you would put a success callback
+                    _this.setState({
+                        video: result.data.video,
+                        url: result.data.url
+                    })
+                }).catch(function (result) {
+                //This is where you would put an error callback
+            });
+        });
+
+    },
+
+    componentDidUpdate: function () {
+        if (this.props.videoId !== null && this.props.videoId !== this.state.video.Id) {
+            this.loadContent(this.props.videoId);
+        }
+    },
+
+    render: function () {
+        return <ReactPlayer url={this.state.url} playing controls />
     }
 });
 

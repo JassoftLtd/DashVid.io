@@ -20,7 +20,7 @@ exports.handler = function(event, context) {
 	var currentUser = event.requestContext.identity.cognitoIdentityId.split(':')[1];
 	var uploadedDate = new Date().getTime().toString();
     var status = "PendingUpload";
-    var key = currentUser + '/' + generatedId
+    var key = currentUser + '/' + generatedId;
 
 	dynamodb.put({
 		TableName: "Videos",

@@ -11,6 +11,7 @@
     "react": "^15.4.1",
     "react-dom": "^15.4.1",
     "react-dropzone": "^3.8.0",
+    "react-player": "^0.14.1",
     "whatwg-fetch": "^2.0.1"
   },
   "scripts": {

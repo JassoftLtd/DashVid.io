@@ -187,7 +187,8 @@ data "aws_iam_policy_document" "IamForUploadedVideoLambda" {
   "statement" = {
     "effect" = "Allow",
     "actions" = [
-      "s3:GetObject"
+      "s3:GetObject",
+      "s3:DeleteObject"
     ],
     "resources" = [
       "arn:aws:s3:::${aws_s3_bucket.dash-cam-videos-bucket.bucket}/*"
@@ -263,6 +264,16 @@ data "aws_iam_policy_document" "IamForGetVideoLambda" {
     ],
     "resources" = [
       "${aws_dynamodb_table.videos-table.arn}"
+    ]
+  }
+
+  "statement" = {
+    "effect" = "Allow",
+    "actions" = [
+      "s3:GetObject"
+    ],
+    "resources" = [
+      "arn:aws:s3:::${aws_s3_bucket.dash-cam-videos-bucket.bucket}/*"
     ]
   }
 
