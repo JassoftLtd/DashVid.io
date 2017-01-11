@@ -19,12 +19,8 @@ resource "aws_s3_bucket" "dash-cam-videos-bucket" {
             days = 30
             storage_class = "STANDARD_IA"
         }
-        transition {
-            days = 60
-            storage_class = "GLACIER"
-        }
         expiration {
-            days = 90
+            days = 60
         }
     }
 
