@@ -11,7 +11,12 @@ import Nav from './Nav.js'
 import Video from './Video.js'
 
 import { render } from 'react-dom';
-import {Router, Route, IndexRoute, browserHistory} from 'react-router';
+import {Router, Route, IndexRoute, useRouterHistory} from 'react-router';
+
+import createHashHistory from 'history/lib/createHashHistory'
+
+// useRouterHistory creates a composable higher-order function
+const appHistory = useRouterHistory(createHashHistory)()
 
 var authUtils = require('./utils/auth.js');
 
@@ -36,7 +41,7 @@ class App extends Component {
                 <Login loggedIn={this.state.loggedIn} authCallback={(loggedIn) => this.onAuthStateChange(loggedIn)} />
                 <Logout loggedIn={this.state.loggedIn} authCallback={(loggedIn) => this.onAuthStateChange(loggedIn)} />
                 <Nav loggedIn={this.state.loggedIn} />
-                <Router history={browserHistory}>
+                <Router history={appHistory}>
                     <Route path="/" >
                         <IndexRoute component={Home} />
                         <Route path="Video" component={Video} />

@@ -58,5 +58,7 @@ resource "aws_s3_bucket" "dashvid-io-bucket" {
 EOF
     website {
         index_document = "index.html"
+        routing_rules = "[{\"Condition\":{\"HttpErrorCodeReturnedEquals\":\"404\"},\"Redirect\":{\"ReplaceKeyPrefixWith\":\"#/\"}}]"
+
     }
 }
