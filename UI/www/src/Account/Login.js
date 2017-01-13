@@ -11,7 +11,6 @@ var authUtils = require('../utils/auth.js');
 
 class Login extends Component {
 
-
     constructor(props) {
         super(props);
 
@@ -21,7 +20,9 @@ class Login extends Component {
         };
     }
 
-    handleLogin () {
+    handleLogin (e) {
+
+        e.preventDefault();
 
         const _this = this;
 
@@ -48,6 +49,8 @@ class Login extends Component {
             }
 
             authUtils.createCognitoIdentityCredentials(params)
+
+            _this.props.authCallback(true)
 
             browserHistory.push('/Video');
 

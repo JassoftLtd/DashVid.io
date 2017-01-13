@@ -15,6 +15,8 @@ class Logout extends Component {
 
         authUtils.clearCredentials()
 
+        this.props.authCallback(false);
+
         browserHistory.push('/');
     }
 
