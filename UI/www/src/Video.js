@@ -9,58 +9,17 @@ var S3Upload = require('./s3upload.js')
 
 AWS.config.region = 'eu-west-1'; // Region
 
-function runWithCredentials (callback) {
-    var identityPoolParams = JSON.parse(localStorage.getItem("IdentityPoolParams"));
-
-    // initialize the Credentials object with our parameters
-    AWS.config.credentials = new AWS.CognitoIdentityCredentials(identityPoolParams);
-
-    if (AWS.config.credentials.needsRefresh()) {
-        AWS.config.credentials.refresh(function (err) {
-            if (!err) {
-                console.log("Cognito Identity Id: " + AWS.config.credentials.identityId);
-                callback();
-            }
-            else {
-                localStorage.removeItem("IdentityPoolParams");
-            }
-        })
-    }
-    else {
-
-        // We can set the get method of the Credentials object to retrieve
-        // the unique identifier for the end user (identityId) once the provider
-        // has refreshed itself
-        AWS.config.credentials.get(function (err) {
-            if (!err) {
-                console.log("Cognito Identity Id: " + AWS.config.credentials.identityId);
-                callback();
-            }
-            else {
-                localStorage.removeItem("IdentityPoolParams");
-            }
-        });
-    }
-
-}
+var authUtils = require('./utils/auth.js');
 
 class Video extends Component {
 
     constructor(props) {
         super(props);
 
-        var identityPoolParams = JSON.parse(localStorage.getItem("IdentityPoolParams"));
-
         this.state = {
-            loggedIn: identityPoolParams != null,
             videosRequiresReload: true,
             videoToPlay: null
         };
-    }
-
-    onAuthStateChange(loggedIn) {
-        console.log('Video Knows of Auth state change')
-        this.setState({loggedIn: loggedIn})
     }
 
     onVideosModified() {
@@ -82,8 +41,8 @@ class Video extends Component {
         return (
             <div className="App">
                 <VideoPlayer videoId={this.state.videoToPlay}/>
-                <VideoAdd loggedIn={this.state.loggedIn} videoAddedCallback={() => this.onVideosModified()}/>
-                <VideoList loggedIn={this.state.loggedIn} requiresReload={this.state.videosRequiresReload} reloadedCallback={() => this.onVideosLoaded()} playVideoCallback={(videoId) => this.onPlayVideo(videoId)}/>
+                <VideoList requiresReload={this.state.videosRequiresReload} reloadedCallback={() => this.onVideosLoaded()} playVideoCallback={(videoId) => this.onPlayVideo(videoId)}/>
+                <VideoAdd videoAddedCallback={() => this.onVideosModified()}/>
             </div>
         );
     }
@@ -106,41 +65,38 @@ var VideoList = React.createClass({
 
         const _this = this;
 
-        if (this.props.loggedIn) {
+        authUtils.runWithCredentials(function () {
 
-            runWithCredentials(function () {
+            var config = {
+                invokeUrl: 'https://0qomu2q3rb.execute-api.eu-west-1.amazonaws.com/Dev',
+                accessKey: AWS.config.credentials.accessKeyId,
+                secretKey: AWS.config.credentials.secretAccessKey,
+                sessionToken: AWS.config.credentials.sessionToken,
+                region: AWS.config.region
+            }
+            var apigClient = apigClientFactory.newClient(config);
 
-                var config = {
-                    invokeUrl: 'https://0qomu2q3rb.execute-api.eu-west-1.amazonaws.com/Dev',
-                    accessKey: AWS.config.credentials.accessKeyId,
-                    secretKey: AWS.config.credentials.secretAccessKey,
-                    sessionToken: AWS.config.credentials.sessionToken,
-                    region: AWS.config.region
-                }
-                var apigClient = apigClientFactory.newClient(config);
+            var params = {
+                //This is where any header, path, or querystring request params go. The key is the parameter named as defined in the API
+            };
 
-                var params = {
-                    //This is where any header, path, or querystring request params go. The key is the parameter named as defined in the API
-                };
+            // Template syntax follows url-template https://www.npmjs.com/package/url-template
+            var pathTemplate = '/v1/video'
+            var method = 'GET';
+            var additionalParams = {};
+            var body = {};
 
-                // Template syntax follows url-template https://www.npmjs.com/package/url-template
-                var pathTemplate = '/v1/video'
-                var method = 'GET';
-                var additionalParams = {};
-                var body = {};
-
-                apigClient.invokeApi(params, pathTemplate, method, additionalParams, body)
-                    .then(function (result) {
-                        //This is where you would put a success callback
-                        _this.setState({
-                            videos: result.data.videos,
-                            mounted: true
-                        })
-                    }).catch(function (result) {
-                    //This is where you would put an error callback
-                });
+            apigClient.invokeApi(params, pathTemplate, method, additionalParams, body)
+                .then(function (result) {
+                    //This is where you would put a success callback
+                    _this.setState({
+                        videos: result.data.videos,
+                        mounted: true
+                    })
+                }).catch(function (result) {
+                //This is where you would put an error callback
             });
-        }
+        });
 
     },
 
@@ -161,7 +117,7 @@ var VideoList = React.createClass({
 
         var videos;
 
-        if (this.state.videos && this.props.loggedIn) {
+        if (this.state.videos) {
             videos = this.state.videos.map(function (video, i) {
 
                 return (
@@ -232,113 +188,106 @@ var VideoAdd = React.createClass({
 
         const _this = this;
 
-        if (this.props.loggedIn) {
+        authUtils.runWithCredentials(function () {
 
-            runWithCredentials(function () {
+            var config = {
+                invokeUrl: 'https://0qomu2q3rb.execute-api.eu-west-1.amazonaws.com/Dev',
+                accessKey: AWS.config.credentials.accessKeyId,
+                secretKey: AWS.config.credentials.secretAccessKey,
+                sessionToken: AWS.config.credentials.sessionToken,
+                region: AWS.config.region
+            }
+            var apigClient = apigClientFactory.newClient(config);
 
-                var config = {
-                    invokeUrl: 'https://0qomu2q3rb.execute-api.eu-west-1.amazonaws.com/Dev',
-                    accessKey: AWS.config.credentials.accessKeyId,
-                    secretKey: AWS.config.credentials.secretAccessKey,
-                    sessionToken: AWS.config.credentials.sessionToken,
-                    region: AWS.config.region
-                }
-                var apigClient = apigClientFactory.newClient(config);
+            acceptedFiles.forEach((file) => {
 
-                acceptedFiles.forEach((file) => {
+                var uploadStatus = _this.state.uploadStatus;
+                uploadStatus.push({
+                    file: file,
+                    status: "",
+                    percent: 0
+                });
 
-                    var uploadStatus = _this.state.uploadStatus;
-                    uploadStatus.push({
-                        file: file,
-                        status: "",
-                        percent: 0
-                    });
+                _this.setState({
+                    uploadStatus: uploadStatus
+                });
 
-                    _this.setState({
-                        uploadStatus: uploadStatus
-                    });
+                console.log('Posting video: ' + file.name)
 
-                    console.log('Posting video: ' + file.name)
+                var params = {
+                    //This is where any header, path, or querystring request params go. The key is the parameter named as defined in the API
+                };
+                // Template syntax follows url-template https://www.npmjs.com/package/url-template
+                var pathTemplate = '/v1/video'
+                var method = 'POST';
+                var additionalParams = {};
+                var body = {};
 
-                    var params = {
-                        //This is where any header, path, or querystring request params go. The key is the parameter named as defined in the API
-                    };
-                    // Template syntax follows url-template https://www.npmjs.com/package/url-template
-                    var pathTemplate = '/v1/video'
-                    var method = 'POST';
-                    var additionalParams = {};
-                    var body = {};
+                apigClient.invokeApi(params, pathTemplate, method, additionalParams, body)
+                    .then(function (result) {
+                        //This is where you would put a success callback
+                        console.log(result)
 
-                    apigClient.invokeApi(params, pathTemplate, method, additionalParams, body)
-                        .then(function (result) {
-                            //This is where you would put a success callback
-                            console.log(result)
+                        console.log('Uploading video to URL: [' + result.data.url + ']')
 
-                            console.log('Uploading video to URL: [' + result.data.url + ']')
+                        this.myUploader = new S3Upload(file, result.data.url,
+                            function(percent, status, file) {
+                                var index = _this.getStatusIndex(file);
 
-                            this.myUploader = new S3Upload(file, result.data.url,
-                                function(percent, status, file) {
-                                    var index = _this.getStatusIndex(file);
+                                var uploadStatus = _this.state.uploadStatus;
 
-                                    var uploadStatus = _this.state.uploadStatus;
+                                uploadStatus[index] = {
+                                    file: file,
+                                    status: status,
+                                    percent: percent
+                                };
 
-                                    uploadStatus[index] = {
-                                        file: file,
-                                        status: status,
-                                        percent: percent
-                                    };
-
-                                    _this.setState({
-                                        uploadStatus: uploadStatus
-                                    });
-
-                                },
-                                function(signResult, file) {
-                                    console.log('Successfully uploaded video.');
-                                    _this.props.videoAddedCallback()
+                                _this.setState({
+                                    uploadStatus: uploadStatus
                                 });
 
-                        }).catch(function (result) {
-                        //This is where you would put an error callback
-                    });
+                            },
+                            function(signResult, file) {
+                                console.log('Successfully uploaded video.');
+                                _this.props.videoAddedCallback()
+                            });
 
+                    }).catch(function (result) {
+                    //This is where you would put an error callback
                 });
+
             });
-        }
+        });
     },
 
     render: function () {
-        if (this.props.loggedIn) {
-            var uploading;
-            if(this.state && this.state.uploadStatus && this.state.uploadStatus.length > 0) {
-                var files = this.state.uploadStatus.map(function (status, i) {
+        var uploading;
+        if(this.state && this.state.uploadStatus && this.state.uploadStatus.length > 0) {
+            var files = this.state.uploadStatus.map(function (status, i) {
 
-                    return (
-                        <li key={status.file.name}>{status.file.name} - {status.status} - {status.percent}%</li>
-                    );
-                });
+                return (
+                    <li key={status.file.name}>{status.file.name} - {status.status} - {status.percent}%</li>
+                );
+            });
 
-                uploading = (
-                    <div>
-                        <p>Files uploading</p>
-                        <ul>
-                            {files}
-                        </ul>
-                    </div>
-                )
-            }
-
-            return (
+            uploading = (
                 <div>
-                    <Dropzone onDrop={this.onDrop}>
-                        <div>Try dropping some files here, or click to select files to upload.</div>
-                    </Dropzone>
-                    {uploading}
+                    <p>Files uploading</p>
+                    <ul>
+                        {files}
+                    </ul>
                 </div>
-            );
-        } else {
-            return null
+            )
         }
+
+        return (
+            <div>
+                <Dropzone onDrop={this.onDrop}>
+                    <div>Try dropping some files here, or click to select files to upload.</div>
+                </Dropzone>
+                {uploading}
+            </div>
+        );
     }
 });
 
@@ -362,7 +311,7 @@ var VideoPlayer = React.createClass({
 
         const _this = this;
 
-            runWithCredentials(function () {
+        authUtils.runWithCredentials(function () {
 
             var config = {
                 invokeUrl: 'https://0qomu2q3rb.execute-api.eu-west-1.amazonaws.com/Dev',
@@ -406,7 +355,12 @@ var VideoPlayer = React.createClass({
     },
 
     render: function () {
-        return <ReactPlayer url={this.state.url} playing controls />
+        if(this.state.url) {
+            return <ReactPlayer url={this.state.url} playing controls/>
+        }
+        else {
+            return (<p>Select video to play</p>)
+        }
     }
 });
 
