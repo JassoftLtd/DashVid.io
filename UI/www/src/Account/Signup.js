@@ -8,7 +8,8 @@ class Signup extends Component {
         this.state = {
             email: "",
             password: "",
-            verifyPassword: ""
+            verifyPassword: "",
+            message: null
         };
     }
 
@@ -17,7 +18,9 @@ class Signup extends Component {
         e.preventDefault();
 
         if(this.state.password !== this.state.verifyPassword) {
-            console.error("Do something about this")
+            this.setState({
+                message: "Passwords do not match"
+            });
             return
         }
 
@@ -37,6 +40,19 @@ class Signup extends Component {
         }).then(function (json) {
             console.log('parsed json', json)
 
+            if(json.created) {
+                _this.setState({
+                    message: "User " + _this.state.email + " created. Please check your email to validate the user and enable login.",
+                    email: "",
+                    password: "",
+                    verifyPassword: "",
+                });
+            }
+            else {
+                _this.setState({
+                    message: "Failed to create User " + _this.state.email + "."
+                });
+            }
 
         }).catch(function (ex) {
             console.log('parsing failed', ex)
@@ -57,9 +73,22 @@ class Signup extends Component {
     }
 
     render() {
+        var message
+
+        if(this.state.message) {
+            message = (
+                <tr>
+                    <td colSpan="2">
+                        <p>{this.state.message}</p>
+                    </td>
+                </tr>
+            )
+        }
+
         return (
             <form action="#" onSubmit={this.handleSignup.bind(this)}>
                 <table>
+                    {message}
                     <tr>
                         <td>Email</td>
                         <td><input onChange={this.handleChangeEmail.bind(this)}

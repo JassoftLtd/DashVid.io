@@ -16,13 +16,28 @@ class Login extends Component {
 
         this.state = {
             email: "",
-            password: ""
+            password: "",
+            message: null
         };
     }
 
     handleLogin (e) {
 
         e.preventDefault();
+
+        if(this.state.email.length === 0) {
+            this.setState({
+                message: "Please enter an email address"
+            });
+            return
+        }
+
+        if(this.state.password.length === 0) {
+            this.setState({
+                message: "Please enter your password"
+            });
+            return
+        }
 
         const _this = this;
 
@@ -60,6 +75,49 @@ class Login extends Component {
 
     }
 
+    handleLostPassword () {
+
+        if(this.state.email.length === 0) {
+            this.setState({
+                message: "Please enter an email address"
+            });
+            return
+        }
+
+        const _this = this;
+
+        fetch('https://0qomu2q3rb.execute-api.eu-west-1.amazonaws.com/Dev/v1/auth/lostPassword', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                email: this.state.email
+            })
+        }).then(function (response) {
+            return response.json()
+        }).then(function (json) {
+            console.log('parsed json', json)
+
+            if(json.sent) {
+                _this.setState({
+                    message: "Lost password email sent to " + _this.state.email + "",
+                    email: "",
+                    password: ""
+                });
+            }
+            else {
+                _this.setState({
+                    message: "Failed sent lost password email to " + _this.state.email + "."
+                });
+            }
+
+        }).catch(function (ex) {
+            console.log('parsing failed', ex)
+        })
+
+    }
+
     handleChangeEmail (e) {
         this.setState({email: e.target.value});
     }
@@ -71,9 +129,22 @@ class Login extends Component {
     render() {
 
         if (!authUtils.hasAuth()) {
+            var message
+
+            if(this.state.message) {
+                message = (
+                    <tr>
+                        <td colSpan="2">
+                            <p>{this.state.message}</p>
+                        </td>
+                    </tr>
+                )
+            }
+
             return (
                 <form action="#" onSubmit={this.handleLogin.bind(this)}>
                     <table>
+                        {message}
                         <tr>
                             <td>Email</td>
                             <td><input onChange={this.handleChangeEmail.bind(this)} type="email"
@@ -88,6 +159,7 @@ class Login extends Component {
                         <tr>
                             <td colSpan="2">
                                 <button type="submit" id="login-button">Login</button>
+                                <button id="lost-password-button" onClick={this.handleLostPassword.bind(this)}>Lost Password</button>
                             </td>
                         </tr>
                     </table>

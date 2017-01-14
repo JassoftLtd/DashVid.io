@@ -7,11 +7,12 @@ import Account from './Account/Account.js'
 import Login from './Account/Login.js'
 import Logout from './Account/Logout.js'
 import Signup from './Account/Signup.js'
+import Verify from './Account/Verify.js'
 import Nav from './Nav.js'
 import Video from './Video.js'
 
 import { render } from 'react-dom';
-import {Router, Route, IndexRoute, useRouterHistory} from 'react-router';
+import {Router, Route, IndexRoute, useRouterHistory, browserHistory} from 'react-router';
 
 import createHashHistory from 'history/lib/createHashHistory'
 
@@ -41,12 +42,13 @@ class App extends Component {
                 <Login loggedIn={this.state.loggedIn} authCallback={(loggedIn) => this.onAuthStateChange(loggedIn)} />
                 <Logout loggedIn={this.state.loggedIn} authCallback={(loggedIn) => this.onAuthStateChange(loggedIn)} />
                 <Nav loggedIn={this.state.loggedIn} />
-                <Router history={appHistory}>
+                <Router history={browserHistory}>
                     <Route path="/" >
                         <IndexRoute component={Home} />
-                        <Route path="Video" component={Video} />
-                        <Route path="Account" component={Account} />
-                        <Route path="Signup" component={Signup} />
+                        <Route path="video" component={Video} />
+                        <Route path="account" component={Account} />
+                        <Route path="signup" component={Signup} />
+                        <Route path="verify" component={Verify} />
                     </Route>
                 </Router>
             </div>

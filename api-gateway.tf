@@ -11,9 +11,9 @@ resource "aws_api_gateway_deployment" "DevDeployment" {
   variables = {
     "auth_email_from_address" = "${var.auth_email_from_address}"
     "auth_db_table" = "Users"
-    "auth_application_name" = "MyApplication"
-    "auth_verification_page" = "http://${aws_s3_bucket.dashvid-io-bucket.website_endpoint}/verify.html"
-    "auth_reset_page" = "http://${aws_s3_bucket.dashvid-io-bucket.website_endpoint}/reset.html"
+    "auth_application_name" = "Dashvid.io"
+    "auth_verification_page" = "http://${aws_s3_bucket.dashvid-io-bucket.website_endpoint}/#/verify"
+    "auth_reset_page" = "http://${aws_s3_bucket.dashvid-io-bucket.website_endpoint}/#/reset"
     "auth_identity_pool" = "${var.aws_identity_pool}"
     "auth_developer_provider_name" = "${var.auth_developer_provider_name}"
   }
