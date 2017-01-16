@@ -48,7 +48,7 @@ exports.handler = function(event, context) {
                 Bucket: bucket,
                 Key: key,
                 Expires: signedUrlExpireSeconds,
-                ContentType: file.type
+                ContentType: 'text/plain;charset=UTF-8'
             });
 
             var responseBody = {
