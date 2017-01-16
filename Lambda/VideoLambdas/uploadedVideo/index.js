@@ -20,7 +20,7 @@ exports.handler = function(event, context) {
 		var key = record.s3.object.key;
 
 		//Extract the videoId from the key
-		var videoId = /[^/]*$/.exec(key)[0];
+		var videoId = /(.+?)(\.[^.]*$|$)/.exec(/[^/]*$/.exec(key)[0])[1];
 
         // TODO, validate the uploaded file
 

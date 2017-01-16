@@ -29,11 +29,15 @@ exports.handler = function(event, context) {
 
             var bucket = 'dash-cam-videos';
             var currentUser = event.requestContext.identity.cognitoIdentityId.split(':')[1];
-            var key = currentUser + '/' + data.Item.Id;
+
+            if(currentUser !== data.Item.User) {
+                console.error("Video does not belong to user")
+                context.fail()
+            }
 
             const url = s3.getSignedUrl('getObject', {
                 Bucket: bucket,
-                Key: key,
+                Key: data.Item.Key,
                 Expires: 3600
             });
 
