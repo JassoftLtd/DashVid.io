@@ -55,7 +55,7 @@ S3Upload.prototype.uploadToS3 = function(file, signResult) {
             }
         }.bind(this);
     }
-    xhr.setRequestHeader('Content-Type', "text/plain;charset=UTF-8");
+    xhr.setRequestHeader('Content-Type', file.type);
     this.httprequest = xhr;
     return xhr.send(file);
 };

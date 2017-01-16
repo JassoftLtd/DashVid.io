@@ -13,6 +13,8 @@ exports.handler = function(event, context) {
     console.log("event: " + JSON.stringify(event))
     console.log("identity: " + JSON.stringify(event.requestContext.identity.cognitoIdentityId))
 
+    var payload = JSON.parse(event.body);
+
 	var bucket = 'dash-cam-videos';
     const signedUrlExpireSeconds = 3600 // 1 hour
 
@@ -20,7 +22,8 @@ exports.handler = function(event, context) {
 	var currentUser = event.requestContext.identity.cognitoIdentityId.split(':')[1];
 	var uploadedDate = new Date().getTime().toString();
     var status = "PendingUpload";
-    var key = currentUser + '/' + generatedId;
+    var fileExtension = payload.fileName.split('.').pop();
+    var key = currentUser + '/' + generatedId + '.' + fileExtension;
 
 	dynamodb.put({
 		TableName: "Videos",
@@ -45,7 +48,7 @@ exports.handler = function(event, context) {
                 Bucket: bucket,
                 Key: key,
                 Expires: signedUrlExpireSeconds,
-                ContentType: 'text/plain;charset=UTF-8'
+                ContentType: file.type
             });
 
             var responseBody = {

@@ -8,6 +8,7 @@ import Login from './Account/Login.js'
 import Logout from './Account/Logout.js'
 import Signup from './Account/Signup.js'
 import Verify from './Account/Verify.js'
+import Reset from './Account/Reset.js'
 import Nav from './Nav.js'
 import Video from './Video.js'
 
@@ -42,13 +43,14 @@ class App extends Component {
                 <Login loggedIn={this.state.loggedIn} authCallback={(loggedIn) => this.onAuthStateChange(loggedIn)} />
                 <Logout loggedIn={this.state.loggedIn} authCallback={(loggedIn) => this.onAuthStateChange(loggedIn)} />
                 <Nav loggedIn={this.state.loggedIn} />
-                <Router history={browserHistory}>
+                <Router history={appHistory}>
                     <Route path="/" >
                         <IndexRoute component={Home} />
                         <Route path="video" component={Video} />
                         <Route path="account" component={Account} />
                         <Route path="signup" component={Signup} />
                         <Route path="verify" component={Verify} />
+                        <Route path="reset" component={Reset} />
                     </Route>
                 </Router>
             </div>

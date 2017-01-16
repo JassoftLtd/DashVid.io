@@ -23,8 +23,6 @@ class Login extends Component {
 
     handleLogin (e) {
 
-        e.preventDefault();
-
         if(this.state.email.length === 0) {
             this.setState({
                 message: "Please enter an email address"
@@ -55,19 +53,26 @@ class Login extends Component {
         }).then(function (json) {
             console.log('parsed json', json)
 
-            var params = {
-                IdentityPoolId: 'eu-west-1:ac18a09a-6c09-47f2-a297-f3ce8a40f1b4',
-                IdentityId: json.identityId,
-                Logins: {
-                    'cognito-identity.amazonaws.com': json.token
+            if(json.login) {
+                var params = {
+                    IdentityPoolId: 'eu-west-1:ac18a09a-6c09-47f2-a297-f3ce8a40f1b4',
+                    IdentityId: json.identityId,
+                    Logins: {
+                        'cognito-identity.amazonaws.com': json.token
+                    }
                 }
+
+                authUtils.createCognitoIdentityCredentials(params)
+
+                _this.props.authCallback(true)
+
+                browserHistory.push('/Video');
             }
-
-            authUtils.createCognitoIdentityCredentials(params)
-
-            _this.props.authCallback(true)
-
-            browserHistory.push('/Video');
+            else {
+                _this.setState({
+                    message: "Login Failed"
+                });
+            }
 
         }).catch(function (ex) {
             console.log('parsing failed', ex)
@@ -142,28 +147,26 @@ class Login extends Component {
             }
 
             return (
-                <form action="#" onSubmit={this.handleLogin.bind(this)}>
-                    <table>
-                        {message}
-                        <tr>
-                            <td>Email</td>
-                            <td><input onChange={this.handleChangeEmail.bind(this)} type="email"
-                                       id="email"
-                                       size="20"/></td>
-                        </tr>
-                        <tr>
-                            <td>Password</td>
-                            <td><input onChange={this.handleChangePassword.bind(this)} type="password"
-                                       id="password" size="20"/></td>
-                        </tr>
-                        <tr>
-                            <td colSpan="2">
-                                <button type="submit" id="login-button">Login</button>
-                                <button id="lost-password-button" onClick={this.handleLostPassword.bind(this)}>Lost Password</button>
-                            </td>
-                        </tr>
-                    </table>
-                </form>
+                <table>
+                    {message}
+                    <tr>
+                        <td>Email</td>
+                        <td><input onChange={this.handleChangeEmail.bind(this)} type="email"
+                                   id="email"
+                                   size="20"/></td>
+                    </tr>
+                    <tr>
+                        <td>Password</td>
+                        <td><input onChange={this.handleChangePassword.bind(this)} type="password"
+                                   id="password" size="20"/></td>
+                    </tr>
+                    <tr>
+                        <td colSpan="2">
+                            <button type="submit" id="login-button" onClick={this.handleLogin.bind(this)}>Login</button>
+                            <button id="lost-password-button" onClick={this.handleLostPassword.bind(this)}>Lost Password</button>
+                        </td>
+                    </tr>
+                </table>
             );
         } else {
             return ( <p>Logged In</p> )

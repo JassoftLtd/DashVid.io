@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-terraform get
+terraform get -update
 
 export GOPATH=$(pwd)/gopath
 
