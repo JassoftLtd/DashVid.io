@@ -221,7 +221,10 @@ var VideoAdd = React.createClass({
                 var pathTemplate = '/v1/video'
                 var method = 'POST';
                 var additionalParams = {};
-                var body = {};
+                var body = {
+                    fileName: file.name,
+                    fileType: file.type
+                };
 
                 apigClient.invokeApi(params, pathTemplate, method, additionalParams, body)
                     .then(function (result) {
