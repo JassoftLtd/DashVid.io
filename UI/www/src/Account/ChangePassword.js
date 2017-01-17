@@ -1,4 +1,9 @@
 import React, {Component} from 'react';
+var AWS = require('aws-sdk');
+var apigClientFactory = require('aws-api-gateway-client')
+var authUtils = require('../utils/auth.js');
+
+AWS.config.region = 'eu-west-1'; // Region
 
 class ChangePassword extends Component {
 
@@ -6,7 +11,6 @@ class ChangePassword extends Component {
         super(props);
 
         this.state = {
-            email: "",
             oldPassword: "",
             newPassword: "",
             verifyPassword: ""
@@ -26,37 +30,52 @@ class ChangePassword extends Component {
 
         const _this = this;
 
-        fetch('https://0qomu2q3rb.execute-api.eu-west-1.amazonaws.com/Dev/v1/auth/changePassword', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                email: this.state.email,
-                oldPassword: this.state.oldPassword,
-                newPassword: this.state.newPassword
-            })
-        }).then(function (response) {
-            return response.json()
-        }).then(function (json) {
-            console.log('parsed json', json)
+        authUtils.runWithCredentials(function () {
 
-            if (json.changed) {
-                _this.setState({
-                    message: 'Password changed for user ' + _this.state.email,
-                    oldPassword: "",
-                    newPassword: "",
-                    verifyPassword: "",
-                });
-            } else {
-                _this.setState({
-                    message: 'Password not changed for user ' + _this.state.email
-                });
+            var config = {
+                invokeUrl: 'https://0qomu2q3rb.execute-api.eu-west-1.amazonaws.com/Dev',
+                accessKey: AWS.config.credentials.accessKeyId,
+                secretKey: AWS.config.credentials.secretAccessKey,
+                sessionToken: AWS.config.credentials.sessionToken,
+                region: AWS.config.region
             }
+            var apigClient = apigClientFactory.newClient(config);
 
-        }).catch(function (ex) {
-            console.log('parsing failed', ex)
-        })
+            var params = {
+                //This is where any header, path, or querystring request params go. The key is the parameter named as defined in the API
+            };
+
+            // Template syntax follows url-template https://www.npmjs.com/package/url-template
+            var pathTemplate = '/v1/auth/changePassword'
+            var method = 'POST';
+            var additionalParams = {};
+            var body = {
+                oldPassword: _this.state.oldPassword,
+                newPassword: _this.state.newPassword
+            };
+
+            apigClient.invokeApi(params, pathTemplate, method, additionalParams, body)
+                .then(function (result) {
+                    console.log('parsed json', result)
+
+                    if (result.data.changed) {
+                        _this.setState({
+                            message: 'Password changed for user',
+                            oldPassword: "",
+                            newPassword: "",
+                            verifyPassword: "",
+                        });
+                    } else {
+                        _this.setState({
+                            message: 'Password not changed for user'
+                        });
+                    }
+                }).catch(function (result) {
+                //This is where you would put an error callback
+                console.error('failed', result)
+            });
+        });
+
 
     }
 

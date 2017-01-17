@@ -86,9 +86,10 @@ exports.handler = function(event, context) {
                     }, function (err, data) {
                         if (err) {
                             console.error('Unable to create video record for key [' + key + ']. Error JSON:', JSON.stringify(err, null, 2));
+                            deleteFile(bucket, key)
                             context.fail();
                         } else {
-                            console.log("Video status updated succeeded:", JSON.stringify(data, null, 2));
+                            console.log("Video create DynammoDb record succeeded");
                         }
 
                         if (i == event.Records.length - 1) {

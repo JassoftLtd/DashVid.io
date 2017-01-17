@@ -92,15 +92,6 @@ EOF
 }
 
 data "aws_iam_policy_document" "IamForCreateVideoLambda" {
-  "statement" = {
-      "effect" = "Allow",
-      "actions" = [
-        "dynamodb:PutItem",
-      ],
-      "resources" = [
-        "${aws_dynamodb_table.videos-table.arn}"
-        ]
-    }
 
   "statement" = {
       "effect" = "Allow",
@@ -177,7 +168,7 @@ data "aws_iam_policy_document" "IamForUploadedVideoLambda" {
   "statement" = {
       "effect" = "Allow",
       "actions" = [
-        "dynamodb:UpdateItem",
+        "dynamodb:PutItem"
       ],
       "resources" = [
         "${aws_dynamodb_table.videos-table.arn}"
