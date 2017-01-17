@@ -64,7 +64,7 @@ resource "aws_s3_bucket_notification" "standard_bucket_created_notification" {
     }
 }
 
-// Trigger UploadedVideo Lambda when ObjectRemoved
+// Trigger expiredVideo Lambda when ObjectRemoved
 resource "aws_s3_bucket_notification" "free_bucket_removed_notification" {
     bucket = "${aws_s3_bucket.dash-cam-videos-free-bucket.id}"
     lambda_function {
