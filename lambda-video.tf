@@ -84,3 +84,31 @@ resource "aws_lambda_permission" "allow_api_gateway-getVideo" {
 //  source_arn = "arn:aws:execute-api:${var.aws_region}:${var.aws_account_id}:${aws_api_gateway_rest_api.DashCamAPI.id}/*/*/"
   source_arn = "arn:aws:execute-api:${var.aws_region}:${var.aws_account_id}:${aws_api_gateway_rest_api.DashCamAPI.id}/*/${aws_api_gateway_integration.Video-getVideos-integration.integration_http_method}${aws_api_gateway_resource.v1.path}${aws_api_gateway_resource.Video.path}${aws_api_gateway_resource.VideoDetail.path}"
 }
+
+
+// Video Uploaded
+resource "aws_lambda_function" "expiredVideo" {
+  filename = "Lambda/VideoLambdas/expiredVideo.zip"
+  function_name = "expiredVideo"
+  role = "${aws_iam_role.IamForExpiredVideoLambda.arn}"
+  handler = "uploadedVideo.handler"
+  runtime = "nodejs4.3"
+  timeout = "30"
+  source_code_hash = "${base64sha256(file("Lambda/VideoLambdas/expiredVideo.zip"))}"
+}
+
+resource "aws_lambda_permission" "expiredVideo_allow_free_bucket" {
+  statement_id = "AllowExecutionFromFreeS3BucketForExpiredVideo"
+  action = "lambda:InvokeFunction"
+  function_name = "${aws_lambda_function.expiredVideo.arn}"
+  principal = "s3.amazonaws.com"
+  source_arn = "${aws_s3_bucket.dash-cam-videos-free-bucket.arn}"
+}
+
+resource "aws_lambda_permission" "expiredVideo_allow_standard_bucket" {
+  statement_id = "AllowExecutionFromStandardS3BucketForExpiredVideo"
+  action = "lambda:InvokeFunction"
+  function_name = "${aws_lambda_function.expiredVideo.arn}"
+  principal = "s3.amazonaws.com"
+  source_arn = "${aws_s3_bucket.dash-cam-videos-standard-bucket.arn}"
+}
