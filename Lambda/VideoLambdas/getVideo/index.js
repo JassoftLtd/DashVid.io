@@ -27,7 +27,6 @@ exports.handler = function(event, context) {
                 apiVersion: '2006-03-01'
             });
 
-            var bucket = 'dash-cam-videos';
             var currentUser = event.requestContext.identity.cognitoIdentityId.split(':')[1];
 
             if(currentUser !== data.Item.User) {
@@ -35,8 +34,10 @@ exports.handler = function(event, context) {
                 context.fail()
             }
 
+            console.log('Getting video from Bucket [' + data.Item.Bucket + '] Key [' + data.Item.Key + ']')
+
             const url = s3.getSignedUrl('getObject', {
-                Bucket: bucket,
+                Bucket: data.Item.Bucket,
                 Key: data.Item.Key,
                 Expires: 3600
             });

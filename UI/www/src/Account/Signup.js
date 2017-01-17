@@ -5,11 +5,10 @@ class Signup extends Component {
     constructor(props) {
         super(props);
 
+        var plan = this.props.location.query.plan ? this.props.location.query.plan : "Free";
+
         this.state = {
-            email: "",
-            password: "",
-            verifyPassword: "",
-            message: null
+            plan: plan
         };
     }
 
@@ -33,7 +32,8 @@ class Signup extends Component {
             },
             body: JSON.stringify({
                 email: this.state.email,
-                password: this.state.password
+                password: this.state.password,
+                plan: this.state.plan,
             })
         }).then(function (response) {
             return response.json()

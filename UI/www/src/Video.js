@@ -233,9 +233,6 @@ var VideoAdd = React.createClass({
 
                 apigClient.invokeApi(params, pathTemplate, method, additionalParams, body)
                     .then(function (result) {
-                        //This is where you would put a success callback
-                        console.log(result)
-
                         console.log('Uploading video to URL: [' + result.data.url + ']')
 
                         this.myUploader = new S3Upload(file, result.data.url,

@@ -49,12 +49,20 @@ resource "aws_lambda_function" "uploadedVideo" {
   source_code_hash = "${base64sha256(file("Lambda/VideoLambdas/uploadedVideo.zip"))}"
 }
 
-resource "aws_lambda_permission" "uploadedVideo_allow_bucket" {
-  statement_id = "AllowExecutionFromS3Bucket"
+resource "aws_lambda_permission" "uploadedVideo_allow_free_bucket" {
+  statement_id = "AllowExecutionFromFreeS3Bucket"
   action = "lambda:InvokeFunction"
   function_name = "${aws_lambda_function.uploadedVideo.arn}"
   principal = "s3.amazonaws.com"
-  source_arn = "${aws_s3_bucket.dash-cam-videos-bucket.arn}"
+  source_arn = "${aws_s3_bucket.dash-cam-videos-free-bucket.arn}"
+}
+
+resource "aws_lambda_permission" "uploadedVideo_allow_standard_bucket" {
+  statement_id = "AllowExecutionFromStandardS3Bucket"
+  action = "lambda:InvokeFunction"
+  function_name = "${aws_lambda_function.uploadedVideo.arn}"
+  principal = "s3.amazonaws.com"
+  source_arn = "${aws_s3_bucket.dash-cam-videos-standard-bucket.arn}"
 }
 
 // Video GET

@@ -99,9 +99,20 @@ data "aws_iam_policy_document" "IamForCreateVideoLambda" {
         "s3:PutObject"
       ],
       "resources" = [
-        "arn:aws:s3:::${aws_s3_bucket.dash-cam-videos-bucket.bucket}/*"
+        "arn:aws:s3:::${aws_s3_bucket.dash-cam-videos-free-bucket.bucket}/*",
+        "arn:aws:s3:::${aws_s3_bucket.dash-cam-videos-standard-bucket.bucket}/*"
         ]
     }
+
+  "statement" = {
+    "effect" = "Allow",
+    "actions" = [
+      "dynamodb:GetItem"
+    ],
+    "resources" = [
+      "arn:aws:dynamodb:${var.aws_region}:${var.aws_account_id}:table/Users"
+    ]
+  }
 
   "statement" = {
       "effect" = "Allow",
@@ -182,7 +193,8 @@ data "aws_iam_policy_document" "IamForUploadedVideoLambda" {
       "s3:DeleteObject"
     ],
     "resources" = [
-      "arn:aws:s3:::${aws_s3_bucket.dash-cam-videos-bucket.bucket}/*"
+      "arn:aws:s3:::${aws_s3_bucket.dash-cam-videos-free-bucket.bucket}/*",
+      "arn:aws:s3:::${aws_s3_bucket.dash-cam-videos-standard-bucket.bucket}/*"
     ]
   }
 
@@ -264,7 +276,8 @@ data "aws_iam_policy_document" "IamForGetVideoLambda" {
       "s3:GetObject"
     ],
     "resources" = [
-      "arn:aws:s3:::${aws_s3_bucket.dash-cam-videos-bucket.bucket}/*"
+      "arn:aws:s3:::${aws_s3_bucket.dash-cam-videos-free-bucket.bucket}/*",
+      "arn:aws:s3:::${aws_s3_bucket.dash-cam-videos-standard-bucket.bucket}/*"
     ]
   }
 

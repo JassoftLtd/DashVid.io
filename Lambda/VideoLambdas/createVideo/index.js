@@ -3,7 +3,7 @@ console.log('create video for User');
 
 var AWS = require('aws-sdk');
 // Get reference to AWS clients
-var dynamodb = new AWS.DynamoDB.DocumentClient();
+var dynamodb = new AWS.DynamoDB();
 
 var uuid = require('node-uuid');
 
@@ -15,36 +15,64 @@ exports.handler = function(event, context) {
 
     var payload = JSON.parse(event.body);
 
-	var bucket = 'dash-cam-videos';
+
     const signedUrlExpireSeconds = 3600 // 1 hour
 
 	var generatedId = uuid.v1();
 	var currentUser = event.requestContext.identity.cognitoIdentityId.split(':')[1];
+    var email = event.requestContext.identity.cognitoAuthenticationProvider.split(':').pop();
     var fileExtension = payload.fileName.split('.').pop();
-    var key = currentUser + '/' + generatedId + '.' + fileExtension;
+    const _key = currentUser + '/' + generatedId + '.' + fileExtension;
 
-    var s3 = new AWS.S3({
-        apiVersion: '2006-03-01'
-    });
+    getUserPlan(event, email, function (plan) {
 
-    const url = s3.getSignedUrl('putObject', {
-        Bucket: bucket,
-        Key: key,
-        Expires: signedUrlExpireSeconds,
-        ContentType: 'text/plain;charset=UTF-8'
-    });
+        var bucketPrefix = 'dash-cam-videos-';
 
-    var responseBody = {
-        url: url
-    };
-    var response = {
-        statusCode: responseCode,
-        headers: {
-            'Access-Control-Allow-Origin': '*'
-        },
-        body: JSON.stringify(responseBody)
-    };
-    console.log("response: " + JSON.stringify(response))
-    context.succeed(response);
+        var s3 = new AWS.S3({
+            apiVersion: '2006-03-01'
+        });
+
+        const url = s3.getSignedUrl('putObject', {
+            Bucket: bucketPrefix + plan.toLowerCase(),
+            Key: _key,
+            Expires: signedUrlExpireSeconds,
+            ContentType: 'text/plain;charset=UTF-8'
+        });
+
+        var responseBody = {
+            url: url
+        };
+        var response = {
+            statusCode: responseCode,
+            headers: {
+                'Access-Control-Allow-Origin': '*'
+            },
+            body: JSON.stringify(responseBody)
+        };
+        console.log("response: " + JSON.stringify(response))
+        context.succeed(response);
+    })
 
 };
+
+function getUserPlan(event, email, fn) {
+    dynamodb.getItem({
+        TableName: event.stageVariables.auth_db_table,
+        Key: {
+            email: {
+                S: email
+            }
+        }
+    }, function(err, data) {
+        if (err) return fn(err);
+        else {
+            if ('Item' in data) {
+                var plan = data.Item.plan.S;
+                console.log("User plan is " + plan)
+                fn(plan);
+            } else {
+                fn(null); // User not found
+            }
+        }
+    });
+}

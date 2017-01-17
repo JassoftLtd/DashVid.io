@@ -22,6 +22,10 @@ resource "aws_dynamodb_table" "videos-table" {
         type = "S"
     }
     attribute {
+        name = "Bucket"
+        type = "S"
+    }
+    attribute {
         name = "Key"
         type = "S"
     }

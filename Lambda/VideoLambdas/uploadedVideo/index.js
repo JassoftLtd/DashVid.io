@@ -78,6 +78,7 @@ exports.handler = function(event, context) {
                             User: user,
                             Uploaded: new Date().getTime().toString(),
                             VideoStatus: "Uploaded",
+                            Bucket: bucket,
                             Key: key,
                             RecordedDate: videoRecord.Encoded_date[0],
                             VideoDuration: videoRecord.Duration[0],

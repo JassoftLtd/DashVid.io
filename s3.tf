@@ -1,8 +1,30 @@
 // S3
 
 // Video Store
-resource "aws_s3_bucket" "dash-cam-videos-bucket" {
-    bucket = "dash-cam-videos"
+resource "aws_s3_bucket" "dash-cam-videos-free-bucket" {
+    bucket = "dash-cam-videos-free"
+    acl = "private"
+
+    cors_rule {
+        allowed_headers = ["*"]
+        allowed_methods = ["PUT","POST","GET","HEAD"]
+        allowed_origins = ["*"]
+    }
+
+    lifecycle_rule {
+        prefix = "/"
+        enabled = true
+
+        expiration {
+            days = 7
+        }
+    }
+
+}
+
+// Video Store
+resource "aws_s3_bucket" "dash-cam-videos-standard-bucket" {
+    bucket = "dash-cam-videos-standard"
     acl = "private"
 
     cors_rule {
@@ -16,19 +38,26 @@ resource "aws_s3_bucket" "dash-cam-videos-bucket" {
         enabled = true
 
         transition {
-            days = 30
+            days = 7
             storage_class = "STANDARD_IA"
         }
         expiration {
-            days = 60
+            days = 30
         }
     }
 
 }
 
 // Trigger UploadedVideo Lambda when ObjectCreated
-resource "aws_s3_bucket_notification" "bucket_notification" {
-    bucket = "${aws_s3_bucket.dash-cam-videos-bucket.id}"
+resource "aws_s3_bucket_notification" "free_bucket_notification" {
+    bucket = "${aws_s3_bucket.dash-cam-videos-free-bucket.id}"
+    lambda_function {
+        lambda_function_arn = "${aws_lambda_function.uploadedVideo.arn}"
+        events = ["s3:ObjectCreated:*"]
+    }
+}
+resource "aws_s3_bucket_notification" "standard_bucket_notification" {
+    bucket = "${aws_s3_bucket.dash-cam-videos-standard-bucket.id}"
     lambda_function {
         lambda_function_arn = "${aws_lambda_function.uploadedVideo.arn}"
         events = ["s3:ObjectCreated:*"]
