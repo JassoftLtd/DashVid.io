@@ -20,49 +20,31 @@ exports.handler = function(event, context) {
 
 	var generatedId = uuid.v1();
 	var currentUser = event.requestContext.identity.cognitoIdentityId.split(':')[1];
-	var uploadedDate = new Date().getTime().toString();
-    var status = "PendingUpload";
     var fileExtension = payload.fileName.split('.').pop();
     var key = currentUser + '/' + generatedId + '.' + fileExtension;
 
-	dynamodb.put({
-		TableName: "Videos",
-		Item: {
-			Id: generatedId,
-			User: currentUser,
-			Uploaded: uploadedDate,
-            VideoStatus: status,
-			Key: key
-		}
-	}, function(err, data) {
-		if (err) {
-            return context.fail(err);
-        }
-		else {
+    var s3 = new AWS.S3({
+        apiVersion: '2006-03-01'
+    });
 
-            var s3 = new AWS.S3({
-                apiVersion: '2006-03-01'
-            });
+    const url = s3.getSignedUrl('putObject', {
+        Bucket: bucket,
+        Key: key,
+        Expires: signedUrlExpireSeconds,
+        ContentType: 'text/plain;charset=UTF-8'
+    });
 
-            const url = s3.getSignedUrl('putObject', {
-                Bucket: bucket,
-                Key: key,
-                Expires: signedUrlExpireSeconds,
-                ContentType: 'text/plain;charset=UTF-8'
-            });
+    var responseBody = {
+        url: url
+    };
+    var response = {
+        statusCode: responseCode,
+        headers: {
+            'Access-Control-Allow-Origin': '*'
+        },
+        body: JSON.stringify(responseBody)
+    };
+    console.log("response: " + JSON.stringify(response))
+    context.succeed(response);
 
-            var responseBody = {
-                url: url
-            };
-            var response = {
-                statusCode: responseCode,
-                headers: {
-                    'Access-Control-Allow-Origin': '*'
-                },
-                body: JSON.stringify(responseBody)
-            };
-            console.log("response: " + JSON.stringify(response))
-            context.succeed(response);
-        }
-	});
 };

@@ -5,6 +5,15 @@ provider "aws" {
     secret_key = "${var.aws_secret_key}"
 }
 
+data "terraform_remote_state" "remote-state" {
+    backend = "s3"
+    config {
+        bucket = "dashvid-terraform-state"
+        key = "terraform.tfstate"
+        region = "eu-west-1"
+    }
+}
+
 //variable "aws_region" {}
 //variable "aws_access_key" {}
 //variable "aws_secret_key" {}

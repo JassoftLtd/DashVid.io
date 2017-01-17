@@ -19,6 +19,9 @@ exports.handler = function(event, context) {
 		var bucket = record.s3.bucket.name;
 		var key = record.s3.object.key;
 
+        //Extract the user from the key
+        var user = /[^/]*/.exec(key)[0];
+
 		//Extract the videoId from the key
 		var videoId = /(.+?)(\.[^.]*$|$)/.exec(/[^/]*$/.exec(key)[0])[1];
 
@@ -47,7 +50,7 @@ exports.handler = function(event, context) {
                 console.dir(JSON.stringify(result));
 
                 if(!result.Mediainfo.File) {
-                    deleteFile(bucket, key, videoId, "NoVideo")
+                    deleteFile(bucket, key)
                 }
 
                 var videoRecord;
@@ -62,28 +65,27 @@ exports.handler = function(event, context) {
                 }
 
                 if(!videoRecord) {
-                    deleteFile(bucket, key, videoId, "NoVideo")
+                    deleteFile(bucket, key)
                 }
                 else {
 
                     console.log("Video Record: " + JSON.stringify(videoRecord));
 
-                    dynamodb.update({
+                    dynamodb.put({
                         TableName: "Videos",
-                        Key: {
-                            "Id": videoId
-                        },
-                        UpdateExpression: "set VideoStatus = :status, RecordedDate=:recordedDate, VideoDuration=:duration, MediaInfo=:mediaInfo",
-                        ExpressionAttributeValues: {
-                            ":status": "Uploaded",
-                            ":recordedDate": videoRecord.Encoded_date[0],
-                            ":duration": videoRecord.Duration[0],
-                            ":mediaInfo": videoRecord
-                        },
-                        ReturnValues: "UPDATED_NEW"
+                        Item: {
+                            Id: videoId,
+                            User: user,
+                            Uploaded: new Date().getTime().toString(),
+                            VideoStatus: "Uploaded",
+                            Key: key,
+                            RecordedDate: videoRecord.Encoded_date[0],
+                            VideoDuration: videoRecord.Duration[0],
+                            MediaInfo: videoRecord
+                        }
                     }, function (err, data) {
                         if (err) {
-                            console.error('Unable to update video status for videoId [' + videoId + ']. Error JSON:', JSON.stringify(err, null, 2));
+                            console.error('Unable to create video record for key [' + key + ']. Error JSON:', JSON.stringify(err, null, 2));
                             context.fail();
                         } else {
                             console.log("Video status updated succeeded:", JSON.stringify(data, null, 2));
@@ -102,7 +104,7 @@ exports.handler = function(event, context) {
 
 };
 
-function deleteFile (bucket, key, videoId, reason) {
+function deleteFile (bucket, key) {
 
     console.log("Deleting file from bucket with key [" + key + "]")
 
@@ -118,25 +120,6 @@ function deleteFile (bucket, key, videoId, reason) {
             console.error(err);
             context.fail();
         }
-
-        dynamodb.update({
-            TableName: "Videos",
-            Key:{
-                "Id": videoId
-            },
-            UpdateExpression: "set VideoStatus = :status",
-            ExpressionAttributeValues:{
-                ":status":reason,
-            },
-            ReturnValues:"UPDATED_NEW"
-        }, function(err, data) {
-            if (err) {
-                console.error('Unable to update video status for videoId [' + videoId + ']. Error JSON:', JSON.stringify(err, null, 2));
-                context.fail();
-            } else {
-                console.log("Video status updated succeeded:", JSON.stringify(data, null, 2));
-            }
-        });
     });
 
 }
