@@ -1,37 +1,63 @@
 import React, {Component} from 'react';
 
-var planData = require('../data/plans.json');
-
 class Plans extends Component {
 
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            plans: planData
-        };
-    }
-
     render() {
-        var plans;
-
-        if (this.state.plans) {
-            plans = this.state.plans.map(function (plan, i) {
-
-                return (
-                    <div key={plan.Name}>
-                        <p><strong>{plan.Name}</strong></p>
-                        <p>{plan.RetentionDays} Days video retention</p>
-                        <p>Cost £{plan.Cost.GBP} per month</p>
-                        <a href={"/signup?plan=" + plan.Name}>Sign up</a>
-                    </div>
-                );
-            });
-        }
-
         return (
-            <div className="Plans">
-                {plans}
+            <div className="pricing-tables pure-g">
+                <div className="pure-u-1 pure-u-md-1-3">
+                    <div className="pricing-table pricing-table-free">
+                        <div className="pricing-table-header">
+                            <h2>Free</h2>
+
+                            <span className="pricing-table-price">
+                            £0 <span>per month</span>
+                        </span>
+                        </div>
+
+                        <ul className="pricing-table-list">
+                            <li>7 Days video retention</li>
+                        </ul>
+
+                        <button className="button-choose pure-button">Choose</button>
+                    </div>
+                </div>
+
+                <div className="pure-u-1 pure-u-md-1-3">
+                    <div className="pricing-table pricing-table-standard">
+                        <div className="pricing-table-header">
+                            <h2>Standard</h2>
+
+                            <span className="pricing-table-price">
+                            £10 <span>per month</span>
+                        </span>
+                        </div>
+
+                        <ul className="pricing-table-list">
+                            <li>30 Days video retention</li>
+                        </ul>
+
+                        <button className="button-choose pure-button">Choose</button>
+                    </div>
+                </div>
+
+                <div className="pure-u-1 pure-u-md-1-3">
+                    <div className="pricing-table pricing-table-premium">
+                        <div className="pricing-table-header">
+                            <h2>Premium</h2>
+
+                            <span className="pricing-table-price">
+                            £18 <span>per month</span>
+                        </span>
+                        </div>
+
+                        <ul className="pricing-table-list">
+                            <li>60 Days video retention</li>
+                        </ul>
+
+                        <button className="button-choose pure-button">Choose</button>
+                    </div>
+                </div>
             </div>
         );
     }

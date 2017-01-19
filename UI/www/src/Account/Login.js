@@ -148,24 +148,26 @@ class Login extends Component {
 
             return (
                 <table>
-                    {message}
-                    <tr>
-                        <td>Email</td>
-                        <td><input onChange={this.handleChangeEmail.bind(this)} type="email"
-                                   id="email"
-                                   size="20"/></td>
-                    </tr>
-                    <tr>
-                        <td>Password</td>
-                        <td><input onChange={this.handleChangePassword.bind(this)} type="password"
-                                   id="password" size="20"/></td>
-                    </tr>
-                    <tr>
-                        <td colSpan="2">
-                            <button type="submit" id="login-button" onClick={this.handleLogin.bind(this)}>Login</button>
-                            <button id="lost-password-button" onClick={this.handleLostPassword.bind(this)}>Lost Password</button>
-                        </td>
-                    </tr>
+                    <tbody>
+                        {message}
+                        <tr>
+                            <td>Email</td>
+                            <td><input onChange={this.handleChangeEmail.bind(this)} type="email"
+                                       id="email"
+                                       size="20"/></td>
+                        </tr>
+                        <tr>
+                            <td>Password</td>
+                            <td><input onChange={this.handleChangePassword.bind(this)} type="password"
+                                       id="password" size="20"/></td>
+                        </tr>
+                        <tr>
+                            <td colSpan="2">
+                                <button type="submit" id="login-button" onClick={this.handleLogin.bind(this)}>Login</button>
+                                <button id="lost-password-button" onClick={this.handleLostPassword.bind(this)}>Lost Password</button>
+                            </td>
+                        </tr>
+                    </tbody>
                 </table>
             );
         } else {

@@ -4,7 +4,6 @@ import './Video.css';
 // Import custom components
 import Home from './Home.js'
 import Account from './Account/Account.js'
-import Login from './Account/Login.js'
 import Logout from './Account/Logout.js'
 import Signup from './Account/Signup.js'
 import Verify from './Account/Verify.js'
@@ -40,19 +39,40 @@ class App extends Component {
     render() {
         return (
             <div>
-                <Login loggedIn={this.state.loggedIn} authCallback={(loggedIn) => this.onAuthStateChange(loggedIn)} />
-                <Logout loggedIn={this.state.loggedIn} authCallback={(loggedIn) => this.onAuthStateChange(loggedIn)} />
-                <Nav loggedIn={this.state.loggedIn} />
-                <Router history={appHistory}>
-                    <Route path="/" >
-                        <IndexRoute component={Home} />
-                        <Route path="video" component={Video} />
-                        <Route path="account" component={Account} />
-                        <Route path="signup" component={Signup} />
-                        <Route path="verify" component={Verify} />
-                        <Route path="reset" component={Reset} />
-                    </Route>
-                </Router>
+                <div className="pure-menu pure-menu-horizontal">
+                    <a href="#" className="pure-menu-heading">Your Logo</a>
+                    <Nav loggedIn={this.state.loggedIn} />
+                    <Logout loggedIn={this.state.loggedIn} authCallback={(loggedIn) => this.onAuthStateChange(loggedIn)} />
+                </div>
+
+
+                <div className="banner">
+                    <h1 className="banner-head">
+                        Simple Pricing.<br />
+                        Try before you buy.
+                    </h1>
+                </div>
+
+                <div className="l-content">
+
+                    <Router history={appHistory}>
+                        <Route path="/" >
+                            <IndexRoute component={Home} />
+                            <Route path="video" component={Video} />
+                            <Route path="account" component={Account} />
+                            <Route path="signup" component={Signup} loggedIn={this.state.loggedIn} authCallback={(loggedIn) => this.onAuthStateChange(loggedIn)}/>
+                            <Route path="verify" component={Verify} />
+                            <Route path="reset" component={Reset} />
+                        </Route>
+                    </Router>
+
+                </div>
+
+                <div className="footer l-box">
+                    <p>
+                        <a href="#">Terms &amp; Conditions</a> | <a href="#">Privacy Policy</a>
+                    </p>
+                </div>
             </div>
         );
     }
@@ -63,6 +83,6 @@ export default App;
 
 render(
     <App />,
-    document.getElementById('root')
+    document.getElementById('container')
 );
 

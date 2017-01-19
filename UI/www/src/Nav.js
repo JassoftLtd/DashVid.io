@@ -18,16 +18,16 @@ class Nav extends Component {
         var signupLink
 
         if (authUtils.hasAuth()) {
-            videoLink = <li><a href="/video">Videos</a></li>
-            accountLink = <li><a href="/account">Account</a></li>
+            videoLink = <li className="pure-menu-item"><a className="pure-menu-link" href="/video">Videos</a></li>
+            accountLink = <li className="pure-menu-item"><a className="pure-menu-link" href="/account">Account</a></li>
         }
         else {
-            signupLink = <li><a href="/signup">Signup</a></li>
+            signupLink = <li className="pure-menu-item"><a className="pure-menu-link" href="/signup">Signup</a></li>
         }
 
         return (
-            <ul className="Nav">
-                <li><a href="/">Home</a></li>
+            <ul className="pure-menu-list">
+                <li className="pure-menu-item"><a className="pure-menu-link" href="/">Home</a></li>
                 {videoLink}
                 {accountLink}
                 {signupLink}
