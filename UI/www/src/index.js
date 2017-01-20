@@ -31,18 +31,19 @@ class App extends Component {
         };
     }
 
-    onAuthStateChange(loggedIn) {
-        console.log('Account Knows of Auth state change')
-        this.setState({loggedIn: loggedIn})
-    }
-
     render() {
+        var homeRoute = "/"
+
+        if(this.state.loggedIn) {
+            homeRoute = "/video"
+        }
+
         return (
             <div>
                 <div className="pure-menu pure-menu-horizontal">
-                    <a href="#" className="pure-menu-heading">Your Logo</a>
+                    <a href={homeRoute} className="pure-menu-heading">Your Logo</a>
                     <Nav loggedIn={this.state.loggedIn} />
-                    <Logout loggedIn={this.state.loggedIn} authCallback={(loggedIn) => this.onAuthStateChange(loggedIn)} />
+                    <Logout loggedIn={this.state.loggedIn} />
                 </div>
 
 
@@ -60,7 +61,7 @@ class App extends Component {
                             <IndexRoute component={Home} />
                             <Route path="video" component={Video} />
                             <Route path="account" component={Account} />
-                            <Route path="signup" component={Signup} loggedIn={this.state.loggedIn} authCallback={(loggedIn) => this.onAuthStateChange(loggedIn)}/>
+                            <Route path="signup" component={Signup} loggedIn={this.state.loggedIn}/>
                             <Route path="verify" component={Verify} />
                             <Route path="reset" component={Reset} />
                         </Route>

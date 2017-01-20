@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import { browserHistory } from 'react-router';
 
 var authUtils = require('../utils/auth.js');
 
@@ -15,9 +14,7 @@ class Logout extends Component {
 
         authUtils.clearCredentials()
 
-        this.props.authCallback(false);
-
-        browserHistory.push('/');
+        window.location.href = '/';
     }
 
     render () {

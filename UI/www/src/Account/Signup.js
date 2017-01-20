@@ -73,10 +73,6 @@ class Signup extends Component {
         this.setState({verifyPassword: e.target.value});
     }
 
-    onAuthStateChange(loggedIn) {
-        this.props.route.authCallback(loggedIn)
-    }
-
     render() {
         var message
 
@@ -93,7 +89,7 @@ class Signup extends Component {
         return (
             <div className="pricing-tables pure-g">
                 <div className="pure-u-1 pure-u-md-1-2">
-                    <Login loggedIn={this.props.loggedIn} authCallback={(loggedIn) => this.onAuthStateChange(loggedIn)} />
+                    <Login loggedIn={this.props.loggedIn} />
                 </div>
                 <div className="pure-u-1 pure-u-md-1-2">
                     <form action="#" onSubmit={this.handleSignup.bind(this)}>

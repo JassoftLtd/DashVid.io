@@ -45,7 +45,7 @@ p {
  */
 
 .banner {
-    background: transparent url('../../../../images/banner.jpg') 0 0 no-repeat fixed;
+    background: transparent url('../../../../images/banner.jpg') 0 0 no-repeat local;
     text-align: center;
     background-size: cover;
     filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../../../../images/banner.jpg', sizingMethod='scale');

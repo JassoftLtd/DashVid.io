@@ -2,6 +2,10 @@ import React, {Component} from 'react';
 
 class Plans extends Component {
 
+    onPlanSelect(plan) {
+        window.location.href = '/signup?plan=' + plan;
+    }
+
     render() {
         return (
             <div className="pricing-tables pure-g">
@@ -19,7 +23,7 @@ class Plans extends Component {
                             <li>7 Days video retention</li>
                         </ul>
 
-                        <button className="button-choose pure-button">Choose</button>
+                        <button className="button-choose pure-button" onClick={() => this.onPlanSelect('free').bind(this)}>Choose</button>
                     </div>
                 </div>
 
@@ -37,7 +41,7 @@ class Plans extends Component {
                             <li>30 Days video retention</li>
                         </ul>
 
-                        <button className="button-choose pure-button">Choose</button>
+                        <button className="button-choose pure-button" onClick={() => this.onPlanSelect('standard').bind(this)}>Choose</button>
                     </div>
                 </div>
 
@@ -55,7 +59,7 @@ class Plans extends Component {
                             <li>60 Days video retention</li>
                         </ul>
 
-                        <button className="button-choose pure-button">Choose</button>
+                        <button className="button-choose pure-button" onClick={() => this.onPlanSelect('premium').bind(this)}>Choose</button>
                     </div>
                 </div>
             </div>

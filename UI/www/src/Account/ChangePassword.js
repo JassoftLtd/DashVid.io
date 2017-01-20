@@ -108,27 +108,29 @@ class ChangePassword extends Component {
             <div>
                 <h2>Change Password</h2>
                 <table>
-                    {message}
-                    <tr>
-                        <td>Old Password</td>
-                        <td><input onChange={this.handleChangeOldPassword.bind(this)}
-                                   type="password" id="oldPassword" size="20" /></td>
-                    </tr>
-                    <tr>
-                        <td>Password</td>
-                        <td><input onChange={this.handleChangeNewPassword.bind(this)}
-                                   type="password" id="newPassword" size="20" /></td>
-                    </tr>
-                    <tr>
-                        <td>Verify Password</td>
-                        <td><input onChange={this.handleChangeVerifyPassword.bind(this)}
-                                   type="password" id="verifyPassword" size="20" /></td>
-                    </tr>
-                    <tr>
-                        <td colSpan="2">
-                            <button id="signup-button" onClick={this.handleChangePassword.bind(this)}>Change Password</button>
-                        </td>
-                    </tr>
+                    <tbody>
+                        {message}
+                        <tr>
+                            <td>Old Password</td>
+                            <td><input onChange={this.handleChangeOldPassword.bind(this)}
+                                       type="password" id="oldPassword" size="20" /></td>
+                        </tr>
+                        <tr>
+                            <td>Password</td>
+                            <td><input onChange={this.handleChangeNewPassword.bind(this)}
+                                       type="password" id="newPassword" size="20" /></td>
+                        </tr>
+                        <tr>
+                            <td>Verify Password</td>
+                            <td><input onChange={this.handleChangeVerifyPassword.bind(this)}
+                                       type="password" id="verifyPassword" size="20" /></td>
+                        </tr>
+                        <tr>
+                            <td colSpan="2">
+                                <button id="signup-button" onClick={this.handleChangePassword.bind(this)}>Change Password</button>
+                            </td>
+                        </tr>
+                    </tbody>
                 </table>
             </div>
         );

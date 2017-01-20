@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import { browserHistory } from 'react-router';
 
 var authUtils = require('../utils/auth.js');
 
@@ -64,9 +63,7 @@ class Login extends Component {
 
                 authUtils.createCognitoIdentityCredentials(params)
 
-                _this.props.authCallback(true)
-
-                browserHistory.push('/Video');
+                window.location.href = '/video';
             }
             else {
                 _this.setState({

@@ -4,8 +4,11 @@ terraform get -update
 
 export GOPATH=$(pwd)/gopath
 
-go get github.com/saymedia/terraform-s3-dir
-go install github.com/saymedia/terraform-s3-dir
+go get github.com/jonnyshaw89/terraform-s3-dir
+go install github.com/jonnyshaw89/terraform-s3-dir
+
+#go get github.com/saymedia/terraform-s3-dir
+#go install github.com/saymedia/terraform-s3-dir
 
 cd UI/www/
 npm run build

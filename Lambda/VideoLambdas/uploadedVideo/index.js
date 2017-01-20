@@ -82,7 +82,7 @@ exports.handler = function(event, context) {
                             Key: key,
                             RecordedDate: videoRecord.Encoded_date[0],
                             VideoDuration: videoRecord.Duration[0],
-                            MediaInfo: videoRecord
+                            MediaInfo: result.Mediainfo
                         }
                     }, function (err, data) {
                         if (err) {

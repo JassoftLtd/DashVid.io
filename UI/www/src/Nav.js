@@ -27,7 +27,6 @@ class Nav extends Component {
 
         return (
             <ul className="pure-menu-list">
-                <li className="pure-menu-item"><a className="pure-menu-link" href="/">Home</a></li>
                 {videoLink}
                 {accountLink}
                 {signupLink}
