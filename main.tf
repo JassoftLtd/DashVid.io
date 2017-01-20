@@ -30,6 +30,7 @@ module "auth" {
     aws_api_gateway_rest_api_id = "${aws_api_gateway_rest_api.DashCamAPI.id}"
     aws_api_gateway_resource_parent = "${aws_api_gateway_resource.v1.id}"
     aws_api_gateway_resource_parent_path = "${aws_api_gateway_resource.v1.path}"
+    user_verified_sns_arn = "${aws_sns_topic.user_verified.arn}"
 }
 
 output "UI Url" {

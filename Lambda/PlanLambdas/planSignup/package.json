@@ -1,0 +1,13 @@
+{
+  "name": "planSignup",
+  "version": "1.0.0",
+  "description": "Signup to a plan and create payment",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+  }
+}

@@ -32,3 +32,13 @@ variable "auth_email_from_address" {
   description = "The Identity Pool ID."
   default     = ""
 }
+
+variable "go_cardless_api" {
+  description = "API for GoCardless"
+  default     = ""
+}
+
+variable "go_cardless_api_key" {
+  description = "API key for GoCardless"
+  default     = ""
+}

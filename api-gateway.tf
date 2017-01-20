@@ -16,6 +16,7 @@ resource "aws_api_gateway_deployment" "DevDeployment" {
     "auth_reset_page" = "http://${aws_s3_bucket.dashvid-io-bucket.website_endpoint}/#/reset"
     "auth_identity_pool" = "${var.aws_identity_pool}"
     "auth_developer_provider_name" = "${var.auth_developer_provider_name}"
+    "user_verified_sns_arn" = "${aws_sns_topic.user_verified.arn}"
   }
 }
 
