@@ -15,7 +15,7 @@ class AddCard extends Component {
             address_zip: zip
         }, (status, response) => {
             if (response.error) {
-                alert('Adding card failed with error: ' + response.error.message);
+                console.error('Adding card failed with error: ' + response.error.message);
             } else {
                 const cardToken = response.id;
                 // send cardToken to server to be saved under the current user
