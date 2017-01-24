@@ -91,6 +91,9 @@ exports.handler = function(event, context) {
                             } else {
                                 console.log("UpdateItem succeeded:", JSON.stringify(data, null, 2));
 
+                                // TODO I guess we now need to subscribe the user to their chosen plan
+                                console.log('I guess we now need to subscribe the user to their chosen plan')
+
                                 var response = {
                                     statusCode: responseCode,
                                     headers: {
