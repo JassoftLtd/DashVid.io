@@ -33,12 +33,7 @@ variable "auth_email_from_address" {
   default     = ""
 }
 
-variable "go_cardless_api" {
-  description = "API for GoCardless"
-  default     = ""
-}
-
-variable "go_cardless_api_key" {
-  description = "API key for GoCardless"
+variable "stripe_api_key" {
+  description = "API key for Stripe"
   default     = ""
 }
