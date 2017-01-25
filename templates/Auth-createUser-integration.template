@@ -1,0 +1,9 @@
+#set($inputRoot = $input('$'))
+{
+    "auth_email_from_address": "$stageVariables.auth_email_from_address",
+    "auth_db_table": "$stageVariables.auth_db_table",
+    "auth_application_name": "$stageVariables.auth_application_name",
+    "auth_verification_page": "$stageVariables.auth_verification_page",
+    "auth_identity_pool": "$stageVariables.auth_identity_pool",
+    "auth_developer_provider_name": "$stageVariables.auth_developer_provider_name"
+}

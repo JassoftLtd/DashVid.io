@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+set -e
 
 terraform get -update
 
@@ -19,7 +20,16 @@ for f in $(find ./Lambda/* -maxdepth 2 -name package.json -printf '%h\n'); do
     npm install $f
 done
 
-cd Lambda/VideoLambdas/
+cd Lambda/AuthLambdas/
+
+rm *.zip
+
+for f in $(ls); do
+    echo "Zipping $f"
+    zip -9 -r $f.zip $f/*
+done
+
+cd ../../Lambda/VideoLambdas/
 
 rm *.zip
 

@@ -1,0 +1,6 @@
+#set($inputRoot = $input('$'))
+{
+    "auth_db_table": "$stageVariables.auth_db_table",
+    "auth_identity_pool": "$stageVariables.auth_identity_pool",
+    "auth_developer_provider_name": "$stageVariables.auth_developer_provider_name"
+}
