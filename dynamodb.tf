@@ -75,16 +75,4 @@ resource "aws_dynamodb_table" "subscriptions-table" {
     name = "User"
     type = "S"
   }
-  attribute {
-    name = "Plan"
-    type = "S"
-  }
-  attribute {
-    name = "PlanStatus"
-    type = "S"
-  }
-  attribute {
-    name = "SubscriptionTime"
-    type = "S"
-  }
 }

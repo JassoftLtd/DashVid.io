@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "devDependencies": {
+    "@types/material-ui": "^0.16.48",
     "react-scripts": "0.8.4"
   },
   "dependencies": {

@@ -2,4 +2,6 @@
 
 sh ./build.sh
 
+terraform plan
+
 terraform apply
