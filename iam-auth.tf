@@ -301,6 +301,13 @@ resource "aws_iam_role_policy" "LambdAuthCreateUser_LambdAuthCreateUser" {
       "Resource": "arn:aws:dynamodb:${var.aws_region}:${var.aws_account_id}:table/${aws_dynamodb_table.users-table.name}"
     },
     {
+      "Action": [
+        "dynamodb:PutItem"
+      ],
+      "Effect": "Allow",
+      "Resource": "arn:aws:dynamodb:${var.aws_region}:${var.aws_account_id}:table/${aws_dynamodb_table.subscriptions-table.name}"
+    },
+    {
       "Effect": "Allow",
       "Action": [
         "ses:SendEmail",

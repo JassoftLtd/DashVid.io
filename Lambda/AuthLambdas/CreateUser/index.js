@@ -5,7 +5,7 @@ var AWS = require('aws-sdk');
 var crypto = require('crypto');
 
 // Get reference to AWS clients
-var dynamodb = new AWS.DynamoDB();
+var dynamodb = new AWS.DynamoDB.DocumentClient();
 var ses = new AWS.SES();
 
 var responseSuccess = {
@@ -42,40 +42,49 @@ function computeHash(password, salt, fn) {
 	}
 }
 
-function storeUser(event, email, plan, password, salt, fn) {
+function storeUser(event, email, password, salt, fn) {
 	// Bytesize
 	var len = 128;
 	crypto.randomBytes(len, function(err, token) {
 		if (err) return fn(err);
 		token = token.toString('hex');
 
-		dynamodb.putItem({
+		dynamodb.put({
 			TableName: event.stageVariables.auth_db_table,
 			Item: {
-				email: {
-					S: email
-				},
-				plan: {
-					S: plan
-				},
-				passwordHash: {
-					S: password
-				},
-				passwordSalt: {
-					S: salt
-				},
-				verified: {
-					BOOL: false
-				},
-				verifyToken: {
-					S: token
-				}
+				email: email,
+				passwordHash: password,
+				passwordSalt: salt,
+				verified: false,
+				verifyToken: token
 			},
 			ConditionExpression: 'attribute_not_exists (email)'
 		}, function(err, data) {
 			if (err) return fn(err);
 			else fn(null, token);
 		});
+	});
+}
+
+function storePlan(email, plan, token, fn) {
+
+	planStatus = plan == "free" ? "Active" : "Pending";
+
+	dynamodb.put({
+		TableName: "Subscriptions",
+		Item: {
+			User: email,
+			Plan: plan,
+            PlanStatus: planStatus,
+            SubscriptionTime: new Date().getTime().toString()
+		},
+		ConditionExpression: 'attribute_not_exists (email)'
+	}, function(err, data) {
+		if (err) {
+            responseError.body = new Error('Error storing plan: ' + err)
+            context.fail(responseError);
+		}
+		else fn(null, token);
 	});
 }
 
@@ -136,19 +145,21 @@ exports.handler = function(event, context) {
 						context.fail(responseError);
 					}
 				} else {
-					sendVerificationEmail(event, email, token, function(err, data) {
-						if (err) {
-							responseError.body = new Error('Error in sendVerificationEmail: ' + err)
-							context.fail(responseError);
-						} else {
-							responseSuccess.body = JSON.stringify({
-								created: true
-							})
+					storePlan(email, plan, token,
+						sendVerificationEmail(event, email, token, function(err, data) {
+							if (err) {
+								responseError.body = new Error('Error in sendVerificationEmail: ' + err)
+								context.fail(responseError);
+							} else {
+								responseSuccess.body = JSON.stringify({
+									created: true
+								})
 
-							console.log("response: " + JSON.stringify(responseSuccess))
-							context.succeed(responseSuccess);
-						}
-					});
+								console.log("response: " + JSON.stringify(responseSuccess))
+								context.succeed(responseSuccess);
+							}
+						})
+					)
 				}
 			});
 		}

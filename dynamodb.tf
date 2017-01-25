@@ -87,12 +87,4 @@ resource "aws_dynamodb_table" "subscriptions-table" {
     name = "SubscriptionTime"
     type = "S"
   }
-  global_secondary_index {
-    name = "SubscriptionStatusByDate"
-    hash_key = "PlanStatus"
-    range_key = "SubscriptionTime"
-    write_capacity = 1
-    read_capacity = 1
-    projection_type = "ALL"
-  }
 }

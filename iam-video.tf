@@ -110,7 +110,7 @@ data "aws_iam_policy_document" "IamForCreateVideoLambda" {
       "dynamodb:GetItem"
     ],
     "resources" = [
-      "arn:aws:dynamodb:${var.aws_region}:${var.aws_account_id}:table/Users"
+      "arn:aws:dynamodb:${var.aws_region}:${var.aws_account_id}:table/${aws_dynamodb_table.subscriptions-table.name}"
     ]
   }
 

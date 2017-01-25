@@ -3,7 +3,7 @@ console.log('create video for User');
 
 var AWS = require('aws-sdk');
 // Get reference to AWS clients
-var dynamodb = new AWS.DynamoDB();
+var dynamodb = new AWS.DynamoDB.DocumentClient();
 
 var uuid = require('node-uuid');
 
@@ -56,18 +56,17 @@ exports.handler = function(event, context) {
 };
 
 function getUserPlan(event, email, fn) {
-    dynamodb.getItem({
-        TableName: event.stageVariables.auth_db_table,
+    dynamodb.get({
+        TableName: "Subscriptions",
         Key: {
-            email: {
-                S: email
-            }
+            User: email,
+            PlanStatus: "Active"
         }
     }, function(err, data) {
         if (err) return fn(err);
         else {
             if ('Item' in data) {
-                var plan = data.Item.plan.S;
+                var plan = data.Item.Plan;
                 console.log("User plan is " + plan)
                 fn(plan);
             } else {
