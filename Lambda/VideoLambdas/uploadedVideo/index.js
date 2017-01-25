@@ -4,6 +4,7 @@ console.log('videos uploaded for User');
 var AWS = require('aws-sdk');
 // Get reference to AWS clients
 var dynamodb = new AWS.DynamoDB.DocumentClient();
+var sns = new AWS.SNS();
 
 var child_process = require("child_process");
 var parseString = require('xml2js').parseString;
@@ -91,10 +92,27 @@ exports.handler = function(event, context) {
                             context.fail();
                         } else {
                             console.log("Video create DynammoDb record succeeded");
-                        }
 
-                        if (i == event.Records.length - 1) {
-                            context.succeed();
+                            sns.publish({
+                                Message: JSON.stringify({
+                                    videoId: videoId
+                                }),
+                                MessageStructure: 'json',
+                                TargetArn: process.env.snsNewVideoArn
+                            }, function(err, data) {
+                                if (err) {
+                                    console.error(err.stack);
+                                    context.fail();
+                                    return;
+                                }
+
+                                console.log('push sent');
+                                console.log(data);
+
+                                if (i == event.Records.length - 1) {
+                                    context.succeed();
+                                }
+                            });
                         }
                     });
                 }

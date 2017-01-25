@@ -47,6 +47,11 @@ resource "aws_lambda_function" "uploadedVideo" {
   runtime = "nodejs4.3"
   timeout = "30"
   source_code_hash = "${base64sha256(file("Lambda/VideoLambdas/uploadedVideo.zip"))}"
+  environment = {
+    variables = {
+      snsNewVideoArn = "${aws_sns_topic.new_video.arn}"
+    }
+  }
 }
 
 resource "aws_lambda_permission" "uploadedVideo_allow_free_bucket" {
@@ -86,12 +91,12 @@ resource "aws_lambda_permission" "allow_api_gateway-getVideo" {
 }
 
 
-// Video Uploaded
+// Video Expired
 resource "aws_lambda_function" "expiredVideo" {
   filename = "Lambda/VideoLambdas/expiredVideo.zip"
   function_name = "expiredVideo"
   role = "${aws_iam_role.IamForExpiredVideoLambda.arn}"
-  handler = "uploadedVideo.handler"
+  handler = "expiredVideo.handler"
   runtime = "nodejs4.3"
   timeout = "30"
   source_code_hash = "${base64sha256(file("Lambda/VideoLambdas/expiredVideo.zip"))}"
