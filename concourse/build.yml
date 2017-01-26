@@ -1,6 +1,6 @@
 platform: linux
 
-image: docker:///busybox
+image: docker:///ubuntu
 
 inputs:
 - name: source-code
