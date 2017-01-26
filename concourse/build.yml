@@ -9,4 +9,5 @@ inputs:
 - name: source-code
 
 run:
-  path: source-code/terraform/build.sh
+  path: ls -ltrh source-code/
+#  path: source-code/terraform/build.sh
