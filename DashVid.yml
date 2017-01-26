@@ -1,0 +1,14 @@
+resources:
+- name: source-code
+  type: git
+  source:
+    uri: https://github.com/jonnyshaw89/VideoServerless.git
+    branch: master
+
+jobs:
+- name: DashVid.io
+  plan:
+  - get: source-code
+    trigger: true
+  - task: build
+    file: concourse/build.yml

@@ -1,0 +1,12 @@
+platform: linux
+
+image: docker:///busybox
+
+inputs:
+- name: terraform
+
+outputs:
+- name: terraform
+
+run:
+  path: terraform/build.sh
