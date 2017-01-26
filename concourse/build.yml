@@ -9,4 +9,4 @@ inputs:
 - name: source-code
 
 run:
-  path: terraform/build.sh
+  path: source-code/terraform/build.sh
