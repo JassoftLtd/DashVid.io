@@ -11,4 +11,4 @@ jobs:
   - get: source-code
     trigger: true
   - task: build
-    file: concourse/build.yml
+    file: source-code/concourse/build.yml
