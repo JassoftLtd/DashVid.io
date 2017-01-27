@@ -14,4 +14,7 @@ run:
   - -exc
   - |
     cd source-code/terraform
+    terraform get
+    echo $TF_VAR_aws_region
+    echo $TF_VAR_aws_terraform_state_bucket
     terraform destroy
