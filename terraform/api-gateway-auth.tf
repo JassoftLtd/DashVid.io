@@ -58,7 +58,6 @@ resource "aws_api_gateway_resource" "VerifyUser" {
 
 // /Signup OPTIONS
 module "signupOptionsCORS" {
-  depends_on = ["aws_api_gateway_rest_api.DashCamAPI", "aws_api_gateway_resource.Signup"]
   source = "github.com/carrot/terraform-api-gateway-cors-module"
   resource_name = "${aws_api_gateway_resource.Signup.path}"
   resource_id = "${aws_api_gateway_resource.Signup.id}"
@@ -82,9 +81,6 @@ resource "aws_api_gateway_integration" "Auth-createUser-integration" {
   type = "AWS_PROXY"
   uri = "arn:aws:apigateway:${var.aws_region}:lambda:path/2015-03-31/functions/${aws_lambda_function.createUser.arn}/invocations"
   integration_http_method = "POST"
-//  request_templates = {                  # Not documented
-//    "application/json" = "${file("${path.module}/templates/Auth-createUser-integration.template")}"
-//  }
 }
 
 resource "aws_api_gateway_method_response" "signup-POST-200" {
@@ -128,9 +124,6 @@ resource "aws_api_gateway_integration" "Auth-login-integration" {
   type = "AWS_PROXY"
   uri = "arn:aws:apigateway:${var.aws_region}:lambda:path/2015-03-31/functions/${aws_lambda_function.login.arn}/invocations"
   integration_http_method = "POST"
-//  request_templates = {                  # Not documented
-//    "application/json" = "${file("${path.module}/templates/Auth-login-integration.template")}"
-//  }
 }
 
 resource "aws_api_gateway_method_response" "login-POST-200" {
@@ -260,9 +253,6 @@ resource "aws_api_gateway_integration" "Auth-resetPassword-integration" {
   type = "AWS_PROXY"
   uri = "arn:aws:apigateway:${var.aws_region}:lambda:path/2015-03-31/functions/${aws_lambda_function.resetPassword.arn}/invocations"
   integration_http_method = "POST"
-//  request_templates = {                  # Not documented
-//    "application/json" = "${file("${path.module}/templates/Auth-resetPassword-integration.template")}"
-//  }
 }
 
 resource "aws_api_gateway_method_response" "resetPassword-POST-200" {
@@ -303,9 +293,6 @@ resource "aws_api_gateway_integration" "Auth-verifyUser-integration" {
   type = "AWS_PROXY"
   uri = "arn:aws:apigateway:${var.aws_region}:lambda:path/2015-03-31/functions/${aws_lambda_function.verifyUser.arn}/invocations"
   integration_http_method = "POST"
-//  request_templates = {                  # Not documented
-//    "application/json" = "${file("${path.module}/templates/Auth-verifyUser-integration.template")}"
-//  }
 }
 
 resource "aws_api_gateway_method_response" "verifyUser-POST-200" {
