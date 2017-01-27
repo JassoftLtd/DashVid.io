@@ -6,7 +6,7 @@ image_resource:
     repository: jonnyshaw89/dashvid-build
 
 inputs:
-- name: github
+- name: source-code
 
 run:
   path: sh
@@ -15,7 +15,7 @@ run:
   - |
     whoami
     env
-    cd github/terraform
+    cd source-code/terraform
     ./build.sh
     terraform get
     echo $TF_VAR_aws_region
