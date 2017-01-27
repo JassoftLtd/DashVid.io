@@ -19,7 +19,7 @@ cd ../../
 
 websiteBucket=dashvid.io
 
-$GOPATH/bin/terraform-s3-dir ./UI/www/build/ $TF_VAR_environment_name$websiteBucket > s3_dashvid-io.tf
+$GOPATH/bin/terraform-s3-dir ./UI/www/build/ $TF_VAR_environment_name$websiteBucket aws_s3_bucket.dashvid-io-bucket > s3_dashvid-io.tf
 
 find ./Lambda/* -maxdepth 2 -name package.json -execdir npm install \;
 
