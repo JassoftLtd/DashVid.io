@@ -2,7 +2,7 @@
 
 // Video Store
 resource "aws_s3_bucket" "dash-cam-videos-free-bucket" {
-    bucket = "dash-cam-videos-free"
+    bucket = "${var.environment_name}dash-cam-videos-free"
     acl = "private"
 
     cors_rule {
@@ -24,7 +24,7 @@ resource "aws_s3_bucket" "dash-cam-videos-free-bucket" {
 
 // Video Store
 resource "aws_s3_bucket" "dash-cam-videos-standard-bucket" {
-    bucket = "dash-cam-videos-standard"
+    bucket = "${var.environment_name}dash-cam-videos-standard"
     acl = "private"
 
     cors_rule {
@@ -82,7 +82,7 @@ resource "aws_s3_bucket_notification" "standard_bucket_removed_notification" {
 
 // UI
 resource "aws_s3_bucket" "dashvid-io-bucket" {
-    bucket = "dashvid.io"
+    bucket = "${var.environment_name}dashvid.io"
     acl = "public-read"
     policy = <<EOF
 {

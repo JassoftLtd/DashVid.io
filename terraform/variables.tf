@@ -42,3 +42,8 @@ variable "auth_email_from_address" {
   description = "The Identity Pool ID."
   default     = ""
 }
+
+variable "environment_name" {
+  description = "A name to prepend to the environment"
+  default     = ""
+}
