@@ -87,22 +87,22 @@ resource "aws_s3_bucket_notification" "standard_bucket_created_notification" {
 }
 
 // Trigger expiredVideo Lambda when ObjectRemoved
-resource "aws_s3_bucket_notification" "free_bucket_removed_notification" {
-    depends_on = ["aws_s3_bucket.dash-cam-videos-free-bucket"]
-    bucket = "${aws_s3_bucket.dash-cam-videos-free-bucket.id}"
-    lambda_function {
-        lambda_function_arn = "${aws_lambda_function.expiredVideo.arn}"
-        events = ["s3:ObjectRemoved:*"]
-    }
-}
-resource "aws_s3_bucket_notification" "standard_bucket_removed_notification" {
-    depends_on = ["aws_s3_bucket.dash-cam-videos-standard-bucket"]
-    bucket = "${aws_s3_bucket.dash-cam-videos-standard-bucket.id}"
-    lambda_function {
-        lambda_function_arn = "${aws_lambda_function.expiredVideo.arn}"
-        events = ["s3:ObjectRemoved:*"]
-    }
-}
+//resource "aws_s3_bucket_notification" "free_bucket_removed_notification" {
+//    depends_on = ["aws_s3_bucket.dash-cam-videos-free-bucket"]
+//    bucket = "${aws_s3_bucket.dash-cam-videos-free-bucket.id}"
+//    lambda_function {
+//        lambda_function_arn = "${aws_lambda_function.expiredVideo.arn}"
+//        events = ["s3:ObjectRemoved:*"]
+//    }
+//}
+//resource "aws_s3_bucket_notification" "standard_bucket_removed_notification" {
+//    depends_on = ["aws_s3_bucket.dash-cam-videos-standard-bucket"]
+//    bucket = "${aws_s3_bucket.dash-cam-videos-standard-bucket.id}"
+//    lambda_function {
+//        lambda_function_arn = "${aws_lambda_function.expiredVideo.arn}"
+//        events = ["s3:ObjectRemoved:*"]
+//    }
+//}
 
 // UI
 resource "aws_s3_bucket" "dashvid-io-bucket" {
