@@ -12,3 +12,5 @@ jobs:
     trigger: true
   - task: build
     file: source-code/concourse/build.yml
+    params:
+      aws_account_id: 123456789
