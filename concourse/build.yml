@@ -15,4 +15,4 @@ run:
   - |
     whoami
     env
-    ls -ltrh
+    ls -ltrh source-code
