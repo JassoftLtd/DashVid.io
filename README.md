@@ -5,9 +5,9 @@ Setup S3 state
 ```
 terraform remote config \
     -backend=s3 \
-    -backend-config="bucket=dashvid-terraform-state" \
+    -backend-config="bucket=dashvid-terraform-state-test" \
     -backend-config="key=terraform.tfstate" \
-    -backend-config="region=eu-west-1"
+    -backend-config="region=eu-central-1"
 ```
 
 Running
