@@ -10,7 +10,7 @@ resource "aws_api_gateway_resource" "Video" {
 
 // /video OPTIONS
 module "Video-OptionsCORS" {
-  source = "github.com/carrot/terraform-api-gateway-cors-module"
+  source = "github.com/jonnyshaw89/terraform-api-gateway-cors-module"
   resource_name = "${aws_api_gateway_resource.Video.path}"
   resource_id = "${aws_api_gateway_resource.Video.id}"
   rest_api_id = "${aws_api_gateway_rest_api.DashCamAPI.id}"
@@ -97,7 +97,7 @@ resource "aws_api_gateway_resource" "VideoDetail" {
 }
 
 module "VideoDetail-OptionsCORS" {
-  source = "github.com/carrot/terraform-api-gateway-cors-module"
+  source = "github.com/jonnyshaw89/terraform-api-gateway-cors-module"
   resource_name = "${aws_api_gateway_resource.VideoDetail.path}"
   resource_id = "${aws_api_gateway_resource.VideoDetail.id}"
   rest_api_id = "${aws_api_gateway_rest_api.DashCamAPI.id}"

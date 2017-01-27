@@ -58,7 +58,7 @@ resource "aws_api_gateway_resource" "VerifyUser" {
 
 // /Signup OPTIONS
 module "signupOptionsCORS" {
-  source = "github.com/carrot/terraform-api-gateway-cors-module"
+  source = "github.com/jonnyshaw89/terraform-api-gateway-cors-module"
   resource_name = "${aws_api_gateway_resource.Signup.path}"
   resource_id = "${aws_api_gateway_resource.Signup.id}"
   rest_api_id = "${aws_api_gateway_rest_api.DashCamAPI.id}"
@@ -103,7 +103,7 @@ resource "aws_api_gateway_integration_response" "signup-POST-Integration-Respons
 
 // /login OPTIONS
 module "loginOptionsCORS" {
-  source = "github.com/carrot/terraform-api-gateway-cors-module"
+  source = "github.com/jonnyshaw89/terraform-api-gateway-cors-module"
   resource_name = "${aws_api_gateway_resource.Login.path}"
   resource_id = "${aws_api_gateway_resource.Login.id}"
   rest_api_id = "${aws_api_gateway_rest_api.DashCamAPI.id}"
@@ -150,7 +150,7 @@ resource "aws_api_gateway_integration_response" "login-POST-Integration-Response
 
 // /changePassword OPTIONS
 module "changePasswordOptionsCORS" {
-  source = "github.com/carrot/terraform-api-gateway-cors-module"
+  source = "github.com/jonnyshaw89/terraform-api-gateway-cors-module"
   resource_name = "${aws_api_gateway_resource.ChangePassword.path}"
   resource_id = "${aws_api_gateway_resource.ChangePassword.id}"
   rest_api_id = "${aws_api_gateway_rest_api.DashCamAPI.id}"
@@ -194,7 +194,7 @@ resource "aws_api_gateway_integration_response" "changePassword-POST-Integration
 
 // /lostPassword OPTIONS
 module "lostPasswordOptionsCORS" {
-  source = "github.com/carrot/terraform-api-gateway-cors-module"
+  source = "github.com/jonnyshaw89/terraform-api-gateway-cors-module"
   resource_name = "${aws_api_gateway_resource.LostPassword.path}"
   resource_id = "${aws_api_gateway_resource.LostPassword.id}"
   rest_api_id = "${aws_api_gateway_rest_api.DashCamAPI.id}"
@@ -238,7 +238,7 @@ resource "aws_api_gateway_integration_response" "lostPassword-POST-Integration-R
 
 // /resetPassword OPTIONS
 module "resetPasswordOptionsCORS" {
-  source = "github.com/carrot/terraform-api-gateway-cors-module"
+  source = "github.com/jonnyshaw89/terraform-api-gateway-cors-module"
   resource_name = "${aws_api_gateway_resource.ResetPassword.path}"
   resource_id = "${aws_api_gateway_resource.ResetPassword.id}"
   rest_api_id = "${aws_api_gateway_rest_api.DashCamAPI.id}"
@@ -282,7 +282,7 @@ resource "aws_api_gateway_integration_response" "resetPassword-POST-Integration-
 
 // /verifyUser OPTIONS
 module "verifyUserOptionsCORS" {
-  source = "github.com/carrot/terraform-api-gateway-cors-module"
+  source = "github.com/jonnyshaw89/terraform-api-gateway-cors-module"
   resource_name = "${aws_api_gateway_resource.VerifyUser.path}"
   resource_id = "${aws_api_gateway_resource.VerifyUser.id}"
   rest_api_id = "${aws_api_gateway_rest_api.DashCamAPI.id}"

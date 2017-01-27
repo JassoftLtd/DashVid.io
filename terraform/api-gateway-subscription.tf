@@ -18,7 +18,7 @@ resource "aws_api_gateway_resource" "AddCard" {
 
 // /addCard OPTIONS
 module "addCard-OptionsCORS" {
-  source = "github.com/carrot/terraform-api-gateway-cors-module"
+  source = "github.com/jonnyshaw89/terraform-api-gateway-cors-module"
   resource_name = "${aws_api_gateway_resource.AddCard.path}"
   resource_id = "${aws_api_gateway_resource.AddCard.id}"
   rest_api_id = "${aws_api_gateway_rest_api.DashCamAPI.id}"
