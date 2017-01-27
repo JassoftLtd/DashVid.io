@@ -14,7 +14,9 @@ npm install
 npm run build
 cd ../../
 
-$GOPATH/bin/terraform-s3-dir ./UI/www/build/ dashvid.io > s3_dashvid-io.tf
+websiteBucket=dashvid.io
+
+$GOPATH/bin/terraform-s3-dir ./UI/www/build/ $TF_VAR_environment_name$websiteBucket > s3_dashvid-io.tf
 
 find ./Lambda/* -maxdepth 2 -name package.json -execdir npm install \;
 

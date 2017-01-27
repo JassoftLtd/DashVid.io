@@ -1,11 +1,14 @@
 .idea
 .terraform
 terraform/gopath
+terraform/s3_dashvid-io.tf
 secrets.yml
 
 # Generated Content
 s3_dash-cam-ui.tf
-Lambda/VideoLambdas/*.zip
+terraform/Lambda/AuthLambdas/*.zip
+terraform/Lambda/SubscriptionLambdas/*.zip
+terraform/Lambda/VideoLambdas/*.zip
 **/node_modules
 
 
