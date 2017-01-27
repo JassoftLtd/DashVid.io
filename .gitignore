@@ -1,6 +1,5 @@
 .idea
 .terraform
-terraform/variables.tf
 terraform/gopath
 
 # Generated Content
