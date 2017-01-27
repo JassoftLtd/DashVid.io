@@ -13,10 +13,5 @@ run:
   args:
   - -exc
   - |
-    whoami
-    env
-    ls -ltrh
-    ls -ltrh source-code
-    ls -ltrh source-code/terraform
     cd source-code/terraform
-    source-code/terraform/build.sh
+    build.sh
