@@ -19,5 +19,5 @@ run:
     whoami
     env
     cd source-code/terraform
-    ls -ltrh
     ./build.sh
+    terraform plan
