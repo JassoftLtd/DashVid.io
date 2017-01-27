@@ -19,5 +19,5 @@ run:
     echo $TF_VAR_aws_region
     echo $TF_VAR_aws_terraform_state_bucket
     terraform validate
-    terraform refresh
+#    terraform refresh
     terraform apply
