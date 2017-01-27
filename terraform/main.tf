@@ -11,6 +11,8 @@ data "terraform_remote_state" "remote-state" {
         bucket = "dashvid-terraform-state"
         key = "terraform.tfstate"
         region = "eu-west-1"
+        access_key = "${var.aws_access_key}"
+        secret_key = "${var.aws_secret_key}"
     }
 }
 
