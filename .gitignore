@@ -1,6 +1,7 @@
 .idea
 .terraform
 terraform/gopath
+secrets.yml
 
 # Generated Content
 s3_dash-cam-ui.tf

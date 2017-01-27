@@ -13,5 +13,9 @@ jobs:
   - task: build
     file: source-code/concourse/build.yml
     params:
-      TF_VAR_aws_account_id: 123456789
-      TF_VAR_aws_region: eu-west-1
+      TF_VAR_aws_account_id: {{aws_account_id}}
+      TF_VAR_aws_access_key: {{aws_access_key}}
+      TF_VAR_aws_secret_key: {{aws_secret_key}}
+      TF_VAR_aws_region: eu-central-1
+      TF_VAR_stripe_api_key: {{stripe_api_key_test}}
+      TF_VAR_aws_identity_pool: {{aws_identity_pool}}

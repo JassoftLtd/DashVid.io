@@ -17,6 +17,5 @@ run:
     env
     cd source-code/terraform
     ./build.sh
-    echo $aws_account_id
     terraform get
     terraform plan
