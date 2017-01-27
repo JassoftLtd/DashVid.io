@@ -2,7 +2,7 @@
 
 // /subscription
 resource "aws_api_gateway_resource" "Subscription" {
-  depends_on = ["aws_api_gateway_resource.v1"]
+  depends_on = ["aws_api_gateway_rest_api.DashCamAPI", "aws_api_gateway_resource.v1"]
   rest_api_id = "${aws_api_gateway_rest_api.DashCamAPI.id}"
   parent_id = "${aws_api_gateway_resource.v1.id}"
   path_part = "subscription"
@@ -10,6 +10,7 @@ resource "aws_api_gateway_resource" "Subscription" {
 
 // /subscription/addCard
 resource "aws_api_gateway_resource" "AddCard" {
+  depends_on = ["aws_api_gateway_rest_api.DashCamAPI", "aws_api_gateway_resource.Subscription"]
   rest_api_id = "${aws_api_gateway_rest_api.DashCamAPI.id}"
   parent_id = "${aws_api_gateway_resource.Subscription.id}"
   path_part = "addCard"
@@ -26,6 +27,7 @@ module "addCard-OptionsCORS" {
 
 // /addCard POST
 resource "aws_api_gateway_method" "AddCard-POST" {
+  depends_on = ["aws_api_gateway_rest_api.DashCamAPI", "aws_api_gateway_resource.AddCard"]
   rest_api_id = "${aws_api_gateway_rest_api.DashCamAPI.id}"
   resource_id = "${aws_api_gateway_resource.AddCard.id}"
   http_method = "POST"
@@ -33,6 +35,7 @@ resource "aws_api_gateway_method" "AddCard-POST" {
 }
 
 resource "aws_api_gateway_integration" "AddCard-integration" {
+  depends_on = ["aws_api_gateway_rest_api.DashCamAPI", "aws_api_gateway_resource.AddCard", "aws_api_gateway_method.AddCard-POST", "aws_lambda_function.addCard"]
   rest_api_id = "${aws_api_gateway_rest_api.DashCamAPI.id}"
   resource_id = "${aws_api_gateway_resource.AddCard.id}"
   http_method = "${aws_api_gateway_method.AddCard-POST.http_method}"
@@ -42,6 +45,7 @@ resource "aws_api_gateway_integration" "AddCard-integration" {
 }
 
 resource "aws_api_gateway_method_response" "AddCard-POST-200" {
+  depends_on = ["aws_api_gateway_rest_api.DashCamAPI", "aws_api_gateway_resource.AddCard", "aws_api_gateway_method.AddCard-POST"]
   rest_api_id = "${aws_api_gateway_rest_api.DashCamAPI.id}"
   resource_id = "${aws_api_gateway_resource.AddCard.id}"
   http_method = "${aws_api_gateway_method.AddCard-POST.http_method}"
@@ -50,6 +54,7 @@ resource "aws_api_gateway_method_response" "AddCard-POST-200" {
 }
 
 resource "aws_api_gateway_integration_response" "AddCard-POST-Integration-Response" {
+  depends_on = ["aws_api_gateway_rest_api.DashCamAPI", "aws_api_gateway_resource.AddCard", "aws_api_gateway_method.AddCard-POST", "aws_api_gateway_method_response.AddCard-POST-200"]
   rest_api_id = "${aws_api_gateway_rest_api.DashCamAPI.id}"
   resource_id = "${aws_api_gateway_resource.AddCard.id}"
   http_method = "${aws_api_gateway_method.AddCard-POST.http_method}"
