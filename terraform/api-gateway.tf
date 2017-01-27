@@ -6,7 +6,12 @@ resource "aws_api_gateway_rest_api" "DashCamAPI" {
 }
 
 resource "aws_api_gateway_deployment" "DevDeployment" {
-  depends_on = ["aws_api_gateway_rest_api.DashCamAPI"]
+  depends_on = [
+    "aws_api_gateway_rest_api.DashCamAPI",
+    "aws_api_gateway_method.resetPassword-POST",
+    "aws_api_gateway_method.AddCard-POST",
+    "aws_api_gateway_method.Video-POST"
+  ]
   rest_api_id = "${aws_api_gateway_rest_api.DashCamAPI.id}"
   stage_name = "Dev"
   variables = {
