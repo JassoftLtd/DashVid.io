@@ -18,4 +18,5 @@ run:
     cd source-code/terraform
     ./build.sh
     terraform get
+    echo $TF_VAR_aws_access_key
     terraform plan
