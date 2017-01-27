@@ -18,13 +18,5 @@ run:
     cd source-code/terraform
     ./build.sh
     echo $aws_account_id
-    terraform get -update \
-      -var 'aws_account_id=$aws_account_id' \
-      -var 'aws_region=bar'
-      -var 'aws_access_key=bar'
-      -var 'aws_secret_key=bar'
-      -var 'aws_identity_pool=bar'
-      -var 'auth_developer_provider_name=bar'
-      -var 'auth_email_from_address=bar'
-      -var 'stripe_api_key=bar'
+    terraform get
     terraform plan
