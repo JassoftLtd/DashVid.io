@@ -15,6 +15,4 @@ run:
   - |
     whoami
     env
-    go version
-    find .
-    touch some-output/my-built-artifact
+    ls -ltrh
