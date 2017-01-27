@@ -1,3 +1,8 @@
+variable "aws_terraform_state_bucket" {
+  description = "The S3 bucket that holds state"
+  default     = "dashvid-terraform-state"
+}
+
 variable "aws_account_id" {
   description = "The AWS account Id."
   default     = ""

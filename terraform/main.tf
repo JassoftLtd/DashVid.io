@@ -8,7 +8,7 @@ provider "aws" {
 data "terraform_remote_state" "remote-state" {
     backend = "s3"
     config {
-        bucket = "dashvid-terraform-state"
+        bucket = "${var.aws_terraform_state_bucket}"
         key = "terraform.tfstate"
         region = "${var.aws_region}"
         access_key = "${var.aws_access_key}"

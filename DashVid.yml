@@ -13,6 +13,7 @@ jobs:
   - task: build
     file: source-code/concourse/build.yml
     params:
+      TF_VAR_aws_terraform_state_bucket: dashvid-terraform-state-test
       TF_VAR_aws_account_id: {{aws_account_id}}
       TF_VAR_aws_access_key: {{aws_access_key}}
       TF_VAR_aws_secret_key: {{aws_secret_key}}
