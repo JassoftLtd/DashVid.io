@@ -13,8 +13,6 @@ run:
   args:
   - -exc
   - |
-    whoami
-    env
     cd source-code/terraform
     ./build.sh
     terraform get
