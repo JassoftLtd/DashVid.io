@@ -20,4 +20,5 @@ run:
     env
     cd source-code/terraform
     ./build.sh
+    terraform get
     terraform plan
