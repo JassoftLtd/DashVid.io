@@ -1,7 +1,7 @@
 platform: linux
 
 image_resource:
-  type: docker-image
+  type: docker-imaget
   source:
     repository: jonnyshaw89/dashvid-build
 
@@ -19,4 +19,5 @@ run:
     echo $TF_VAR_aws_region
     echo $TF_VAR_aws_terraform_state_bucket
     terraform validate
+    terraform plan
     terraform apply
