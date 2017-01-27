@@ -37,15 +37,35 @@ resource "aws_s3_bucket" "dash-cam-videos-standard-bucket" {
         prefix = "/"
         enabled = true
 
-        transition {
-            days = 7
-            storage_class = "STANDARD_IA"
-        }
         expiration {
             days = 30
         }
     }
+}
 
+// Video Store
+resource "aws_s3_bucket" "dash-cam-videos-premium-bucket" {
+    bucket = "${var.environment_name}dash-cam-videos-premium"
+    acl = "private"
+
+    cors_rule {
+        allowed_headers = ["*"]
+        allowed_methods = ["PUT","POST","GET","HEAD"]
+        allowed_origins = ["*"]
+    }
+
+    lifecycle_rule {
+        prefix = "/"
+        enabled = true
+
+        transition {
+            days = 30
+            storage_class = "STANDARD_IA"
+        }
+        expiration {
+            days = 60
+        }
+    }
 }
 
 // Trigger UploadedVideo Lambda when ObjectCreated
