@@ -18,6 +18,7 @@ module "Video-OptionsCORS" {
 
 // /video GET
 resource "aws_api_gateway_method" "Video-GET" {
+  depends_on = ["aws_api_gateway_resource.Video", "aws_api_gateway_rest_api.DashCamAPI"]
   rest_api_id = "${aws_api_gateway_rest_api.DashCamAPI.id}"
   resource_id = "${aws_api_gateway_resource.Video.id}"
   http_method = "GET"
@@ -25,6 +26,7 @@ resource "aws_api_gateway_method" "Video-GET" {
 }
 
 resource "aws_api_gateway_integration" "Video-getVideos-integration" {
+  depends_on = ["aws_api_gateway_resource.Video", "aws_api_gateway_rest_api.DashCamAPI", "aws_api_gateway_method.Video-GET", "aws_lambda_function.getVideos"]
   rest_api_id = "${aws_api_gateway_rest_api.DashCamAPI.id}"
   resource_id = "${aws_api_gateway_resource.Video.id}"
   http_method = "${aws_api_gateway_method.Video-GET.http_method}"
@@ -34,6 +36,7 @@ resource "aws_api_gateway_integration" "Video-getVideos-integration" {
 }
 
 resource "aws_api_gateway_method_response" "Video-GET-200" {
+  depends_on = ["aws_api_gateway_resource.Video", "aws_api_gateway_rest_api.DashCamAPI", "aws_api_gateway_method.Video-GET"]
   rest_api_id = "${aws_api_gateway_rest_api.DashCamAPI.id}"
   resource_id = "${aws_api_gateway_resource.Video.id}"
   http_method = "${aws_api_gateway_method.Video-GET.http_method}"
@@ -42,6 +45,7 @@ resource "aws_api_gateway_method_response" "Video-GET-200" {
 }
 
 resource "aws_api_gateway_integration_response" "Video-GET-Integration-Response" {
+  depends_on = ["aws_api_gateway_resource.Video", "aws_api_gateway_rest_api.DashCamAPI", "aws_api_gateway_method.Video-GET", "aws_api_gateway_method_response.Video-GET-200"]
   rest_api_id = "${aws_api_gateway_rest_api.DashCamAPI.id}"
   resource_id = "${aws_api_gateway_resource.Video.id}"
   http_method = "${aws_api_gateway_method.Video-GET.http_method}"
@@ -50,6 +54,7 @@ resource "aws_api_gateway_integration_response" "Video-GET-Integration-Response"
 
 // /video POST
 resource "aws_api_gateway_method" "Video-POST" {
+  depends_on = ["aws_api_gateway_resource.Video", "aws_api_gateway_rest_api.DashCamAPI"]
   rest_api_id = "${aws_api_gateway_rest_api.DashCamAPI.id}"
   resource_id = "${aws_api_gateway_resource.Video.id}"
   http_method = "POST"
@@ -57,6 +62,7 @@ resource "aws_api_gateway_method" "Video-POST" {
 }
 
 resource "aws_api_gateway_integration" "Video-createVideo-integration" {
+  depends_on = ["aws_api_gateway_resource.Video", "aws_api_gateway_rest_api.DashCamAPI", "aws_api_gateway_method.Video-POST", "aws_lambda_function.createVideo"]
   rest_api_id = "${aws_api_gateway_rest_api.DashCamAPI.id}"
   resource_id = "${aws_api_gateway_resource.Video.id}"
   http_method = "${aws_api_gateway_method.Video-POST.http_method}"
@@ -66,6 +72,7 @@ resource "aws_api_gateway_integration" "Video-createVideo-integration" {
 }
 
 resource "aws_api_gateway_method_response" "Video-POST-200" {
+  depends_on = ["aws_api_gateway_resource.Video", "aws_api_gateway_rest_api.DashCamAPI", "aws_api_gateway_method.Video-POST"]
   rest_api_id = "${aws_api_gateway_rest_api.DashCamAPI.id}"
   resource_id = "${aws_api_gateway_resource.Video.id}"
   http_method = "${aws_api_gateway_method.Video-POST.http_method}"
@@ -74,6 +81,7 @@ resource "aws_api_gateway_method_response" "Video-POST-200" {
 }
 
 resource "aws_api_gateway_integration_response" "Video-POST-Integration-Response" {
+  depends_on = ["aws_api_gateway_resource.Video", "aws_api_gateway_rest_api.DashCamAPI", "aws_api_gateway_method.Video-POST", "aws_api_gateway_method_response.Video-POST-200"]
   rest_api_id = "${aws_api_gateway_rest_api.DashCamAPI.id}"
   resource_id = "${aws_api_gateway_resource.Video.id}"
   http_method = "${aws_api_gateway_method.Video-POST.http_method}"
@@ -82,6 +90,7 @@ resource "aws_api_gateway_integration_response" "Video-POST-Integration-Response
 
 // /video
 resource "aws_api_gateway_resource" "VideoDetail" {
+  depends_on = ["aws_api_gateway_resource.Video", "aws_api_gateway_rest_api.DashCamAPI"]
   rest_api_id = "${aws_api_gateway_rest_api.DashCamAPI.id}"
   parent_id = "${aws_api_gateway_resource.Video.id}"
   path_part = "{id}"
@@ -96,6 +105,7 @@ module "VideoDetail-OptionsCORS" {
 
 // /video GET
 resource "aws_api_gateway_method" "VideoDetail-GET" {
+  depends_on = ["aws_api_gateway_resource.Video", "aws_api_gateway_rest_api.DashCamAPI"]
   rest_api_id = "${aws_api_gateway_rest_api.DashCamAPI.id}"
   resource_id = "${aws_api_gateway_resource.VideoDetail.id}"
   http_method = "GET"
@@ -103,6 +113,7 @@ resource "aws_api_gateway_method" "VideoDetail-GET" {
 }
 
 resource "aws_api_gateway_integration" "VideoDetail-getVideo-integration" {
+  depends_on = ["aws_api_gateway_resource.Video", "aws_api_gateway_rest_api.DashCamAPI", "aws_api_gateway_method.VideoDetail-GET", "aws_lambda_function.getVideo"]
   rest_api_id = "${aws_api_gateway_rest_api.DashCamAPI.id}"
   resource_id = "${aws_api_gateway_resource.VideoDetail.id}"
   http_method = "${aws_api_gateway_method.VideoDetail-GET.http_method}"
@@ -112,6 +123,7 @@ resource "aws_api_gateway_integration" "VideoDetail-getVideo-integration" {
 }
 
 resource "aws_api_gateway_method_response" "VideoDetail-GET-200" {
+  depends_on = ["aws_api_gateway_resource.Video", "aws_api_gateway_rest_api.DashCamAPI", "aws_api_gateway_method.VideoDetail-GET"]
   rest_api_id = "${aws_api_gateway_rest_api.DashCamAPI.id}"
   resource_id = "${aws_api_gateway_resource.VideoDetail.id}"
   http_method = "${aws_api_gateway_method.VideoDetail-GET.http_method}"
@@ -120,6 +132,7 @@ resource "aws_api_gateway_method_response" "VideoDetail-GET-200" {
 }
 
 resource "aws_api_gateway_integration_response" "VideoDetail-GET-Integration-Response" {
+  depends_on = ["aws_api_gateway_resource.Video", "aws_api_gateway_rest_api.DashCamAPI", "aws_api_gateway_method.VideoDetail-GET", "aws_api_gateway_method_response.VideoDetail-GET-200"]
   rest_api_id = "${aws_api_gateway_rest_api.DashCamAPI.id}"
   resource_id = "${aws_api_gateway_resource.VideoDetail.id}"
   http_method = "${aws_api_gateway_method.VideoDetail-GET.http_method}"
