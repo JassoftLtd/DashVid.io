@@ -15,4 +15,4 @@ run:
   - |
     cd source-code/terraform
     ls -ltrh
-    build.sh
+    ./build.sh
