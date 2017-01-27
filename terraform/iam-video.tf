@@ -156,7 +156,7 @@ resource "aws_iam_role_policy" "IamForCreateVideoLambda" {
 
 // uploadedVideo
 resource "aws_iam_role" "IamForUploadedVideoLambda" {
-  name = "iam_for_uploaded_video_lambda"
+  name = "${var.environment_name}iam_for_uploaded_video_lambda"
   assume_role_policy = <<EOF
 {
   "Version": "2012-10-17",
