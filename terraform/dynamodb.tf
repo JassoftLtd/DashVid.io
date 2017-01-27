@@ -25,35 +25,7 @@ resource "aws_dynamodb_table" "videos-table" {
         type = "S"
     }
     attribute {
-        name = "Uploaded"
-        type = "S"
-    }
-    attribute {
-        name = "VideoStatus"
-        type = "S"
-    }
-    attribute {
-        name = "Bucket"
-        type = "S"
-    }
-    attribute {
-        name = "Key"
-        type = "S"
-    }
-    attribute {
-        name = "VideoStatus"
-        type = "S"
-    }
-    attribute {
         name = "RecordedDate"
-        type = "S"
-    }
-    attribute {
-        name = "VideoDuration"
-        type = "N"
-    }
-    attribute {
-        name = "MediaInfo"
         type = "S"
     }
     global_secondary_index {
