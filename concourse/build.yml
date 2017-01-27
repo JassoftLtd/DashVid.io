@@ -18,7 +18,7 @@ run:
     cd source-code/terraform
     ./build.sh
     echo $aws_account_id
-    terraform get --update \
+    terraform get -update \
       -var 'aws_account_id=$aws_account_id' \
       -var 'aws_region=bar'
       -var 'aws_access_key=bar'
