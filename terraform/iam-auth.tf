@@ -1,5 +1,5 @@
 resource "aws_iam_role" "Cognito_LambdAuthAuth_Role" {
-    name               = "Cognito_LambdAuthAuth_Role"
+    name               = "${var.environment_name}Cognito_LambdAuthAuth_Role"
     path               = "/"
     assume_role_policy = <<POLICY
 {
@@ -27,7 +27,7 @@ POLICY
 }
 
 resource "aws_iam_role" "Cognito_LambdAuthUnauth_Role" {
-    name               = "Cognito_LambdAuthUnauth_Role"
+    name               = "${var.environment_name}Cognito_LambdAuthUnauth_Role"
     path               = "/"
     assume_role_policy = <<POLICY
 {
@@ -55,7 +55,7 @@ POLICY
 }
 
 resource "aws_iam_role" "LambdAuthChangePassword" {
-    name               = "LambdAuthChangePassword"
+    name               = "${var.environment_name}LambdAuthChangePassword"
     path               = "/"
     assume_role_policy = <<POLICY
 {
@@ -75,7 +75,7 @@ POLICY
 }
 
 resource "aws_iam_role" "LambdAuthCreateUser" {
-    name               = "LambdAuthCreateUser"
+    name               = "${var.environment_name}LambdAuthCreateUser"
     path               = "/"
     assume_role_policy = <<POLICY
 {
@@ -95,7 +95,7 @@ POLICY
 }
 
 resource "aws_iam_role" "LambdAuthLogin" {
-    name               = "LambdAuthLogin"
+    name               = "${var.environment_name}LambdAuthLogin"
     path               = "/"
     assume_role_policy = <<POLICY
 {
@@ -115,7 +115,7 @@ POLICY
 }
 
 resource "aws_iam_role" "LambdAuthLostPassword" {
-    name               = "LambdAuthLostPassword"
+    name               = "${var.environment_name}LambdAuthLostPassword"
     path               = "/"
     assume_role_policy = <<POLICY
 {
@@ -135,7 +135,7 @@ POLICY
 }
 
 resource "aws_iam_role" "LambdAuthResetPassword" {
-    name               = "LambdAuthResetPassword"
+    name               = "${var.environment_name}LambdAuthResetPassword"
     path               = "/"
     assume_role_policy = <<POLICY
 {
@@ -155,7 +155,7 @@ POLICY
 }
 
 resource "aws_iam_role" "LambdAuthVerifyUser" {
-    name               = "LambdAuthVerifyUser"
+    name               = "${var.environment_name}LambdAuthVerifyUser"
     path               = "/"
     assume_role_policy = <<POLICY
 {
@@ -176,7 +176,7 @@ POLICY
 
 // Do i still need these as im now going through API Gateway
 resource "aws_iam_role_policy" "Cognito_LambdAuthAuth_Role_Cognito_LambdAuthAuth_Role" {
-    name   = "Cognito_LambdAuthAuth_Role"
+    name   = "${var.environment_name}Cognito_LambdAuthAuth_Role"
     role   = "Cognito_LambdAuthAuth_Role"
     policy = <<POLICY
 {
@@ -222,7 +222,7 @@ POLICY
 }
 
 resource "aws_iam_role_policy" "Cognito_LambdAuthUnauth_Role_Cognito_LambdAuthUnauth_Role" {
-    name   = "Cognito_LambdAuthUnauth_Role"
+    name   = "${var.environment_name}Cognito_LambdAuthUnauth_Role"
     role   = "Cognito_LambdAuthUnauth_Role"
     policy = <<POLICY
 {
@@ -259,7 +259,7 @@ POLICY
 }
 
 resource "aws_iam_role_policy" "LambdAuthChangePassword_LambdAuthChangePassword" {
-    name   = "LambdAuthChangePassword"
+    name   = "${var.environment_name}LambdAuthChangePassword"
     role   = "LambdAuthChangePassword"
     policy = <<POLICY
 {
@@ -287,7 +287,7 @@ POLICY
 }
 
 resource "aws_iam_role_policy" "LambdAuthCreateUser_LambdAuthCreateUser" {
-    name   = "LambdAuthCreateUser"
+    name   = "${var.environment_name}LambdAuthCreateUser"
     role   = "LambdAuthCreateUser"
     policy = <<POLICY
 {
@@ -329,7 +329,7 @@ POLICY
 }
 
 resource "aws_iam_role_policy" "LambdAuthLogin_LambdAuthLogin" {
-    name   = "LambdAuthLogin"
+    name   = "${var.environment_name}LambdAuthLogin"
     role   = "LambdAuthLogin"
     policy = <<POLICY
 {
@@ -363,7 +363,7 @@ POLICY
 }
 
 resource "aws_iam_role_policy" "LambdAuthLostPassword_LambdAuthLostPassword" {
-    name   = "LambdAuthLostPassword"
+    name   = "${var.environment_name}LambdAuthLostPassword"
     role   = "LambdAuthLostPassword"
     policy = <<POLICY
 {
@@ -399,7 +399,7 @@ POLICY
 }
 
 resource "aws_iam_role_policy" "LambdAuthResetPassword_LambdAuthResetPassword" {
-    name   = "LambdAuthResetPassword"
+    name   = "${var.environment_name}LambdAuthResetPassword"
     role   = "LambdAuthResetPassword"
     policy = <<POLICY
 {
@@ -427,7 +427,7 @@ POLICY
 }
 
 resource "aws_iam_role_policy" "LambdAuthVerifyUser_LambdAuthVerifyUser" {
-    name   = "LambdAuthVerifyUser"
+    name   = "${var.environment_name}LambdAuthVerifyUser"
     role   = "LambdAuthVerifyUser"
     policy = <<POLICY
 {
