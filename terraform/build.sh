@@ -5,8 +5,11 @@ set -e
 
 export GOPATH=$(pwd)/gopath
 
-go get -u github.com/saymedia/terraform-s3-dir
-go install github.com/saymedia/terraform-s3-dir
+go get -u github.com/jonnyshaw89/terraform-s3-dir
+go install github.com/jonnyshaw89/terraform-s3-dir
+
+#go get -u github.com/saymedia/terraform-s3-dir
+#go install github.com/saymedia/terraform-s3-dir
 
 cd UI/www/
 echo "Building UI"
