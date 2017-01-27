@@ -8,11 +8,16 @@ image_resource:
 inputs:
 - name: source-code
 
+params:
+  SOME_PARAM: some-default-value
+
 run:
   path: sh
   args:
   - -exc
   - |
+    whoami
+    env
     cd source-code/terraform
     ls -ltrh
     ./build.sh
