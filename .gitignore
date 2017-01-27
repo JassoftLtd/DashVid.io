@@ -1,9 +1,7 @@
 .idea
 .terraform
-variables.tf
-terraform.tfstate
-terraform.tfstate.backup
-gopath
+terraform/variables.tf
+terraform/gopath
 
 # Generated Content
 s3_dash-cam-ui.tf

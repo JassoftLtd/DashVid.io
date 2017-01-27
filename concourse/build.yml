@@ -9,5 +9,12 @@ inputs:
 - name: source-code
 
 run:
-  path: ls -ltrh
-#  path: source-code/terraform/build.sh
+  path: sh
+  args:
+  - -exc
+  - |
+    whoami
+    env
+    go version
+    find .
+    touch some-output/my-built-artifact
