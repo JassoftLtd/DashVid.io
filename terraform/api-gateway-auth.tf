@@ -10,6 +10,7 @@ resource "aws_api_gateway_resource" "Auth" {
 
 // /signup
 resource "aws_api_gateway_resource" "Signup" {
+  depends_on = ["aws_api_gateway_rest_api.DashCamAPI", "aws_api_gateway_resource.Auth"]
   rest_api_id = "${aws_api_gateway_rest_api.DashCamAPI.id}"
   parent_id = "${aws_api_gateway_resource.Auth.id}"
   path_part = "signup"
@@ -17,6 +18,7 @@ resource "aws_api_gateway_resource" "Signup" {
 
 // /login
 resource "aws_api_gateway_resource" "Login" {
+  depends_on = ["aws_api_gateway_rest_api.DashCamAPI", "aws_api_gateway_resource.Auth"]
   rest_api_id = "${aws_api_gateway_rest_api.DashCamAPI.id}"
   parent_id = "${aws_api_gateway_resource.Auth.id}"
   path_part = "login"
@@ -24,6 +26,7 @@ resource "aws_api_gateway_resource" "Login" {
 
 // /changePassword
 resource "aws_api_gateway_resource" "ChangePassword" {
+  depends_on = ["aws_api_gateway_rest_api.DashCamAPI", "aws_api_gateway_resource.Auth"]
   rest_api_id = "${aws_api_gateway_rest_api.DashCamAPI.id}"
   parent_id = "${aws_api_gateway_resource.Auth.id}"
   path_part = "changePassword"
@@ -31,6 +34,7 @@ resource "aws_api_gateway_resource" "ChangePassword" {
 
 // /lostPassword
 resource "aws_api_gateway_resource" "LostPassword" {
+  depends_on = ["aws_api_gateway_rest_api.DashCamAPI", "aws_api_gateway_resource.Auth"]
   rest_api_id = "${aws_api_gateway_rest_api.DashCamAPI.id}"
   parent_id = "${aws_api_gateway_resource.Auth.id}"
   path_part = "lostPassword"
@@ -38,6 +42,7 @@ resource "aws_api_gateway_resource" "LostPassword" {
 
 // /resetPassword
 resource "aws_api_gateway_resource" "ResetPassword" {
+  depends_on = ["aws_api_gateway_rest_api.DashCamAPI", "aws_api_gateway_resource.Auth"]
   rest_api_id = "${aws_api_gateway_rest_api.DashCamAPI.id}"
   parent_id = "${aws_api_gateway_resource.Auth.id}"
   path_part = "resetPassword"
@@ -45,6 +50,7 @@ resource "aws_api_gateway_resource" "ResetPassword" {
 
 // /verifyUser
 resource "aws_api_gateway_resource" "VerifyUser" {
+  depends_on = ["aws_api_gateway_rest_api.DashCamAPI", "aws_api_gateway_resource.Auth"]
   rest_api_id = "${aws_api_gateway_rest_api.DashCamAPI.id}"
   parent_id = "${aws_api_gateway_resource.Auth.id}"
   path_part = "verifyUser"
@@ -52,6 +58,7 @@ resource "aws_api_gateway_resource" "VerifyUser" {
 
 // /Signup OPTIONS
 module "signupOptionsCORS" {
+  depends_on = ["aws_api_gateway_rest_api.DashCamAPI", "aws_api_gateway_resource.Signup"]
   source = "github.com/carrot/terraform-api-gateway-cors-module"
   resource_name = "${aws_api_gateway_resource.Signup.path}"
   resource_id = "${aws_api_gateway_resource.Signup.id}"
@@ -60,6 +67,7 @@ module "signupOptionsCORS" {
 
 // /signup POST
 resource "aws_api_gateway_method" "signup-POST" {
+  depends_on = ["aws_api_gateway_rest_api.DashCamAPI", "aws_api_gateway_resource.Signup"]
   rest_api_id = "${aws_api_gateway_rest_api.DashCamAPI.id}"
   resource_id = "${aws_api_gateway_resource.Signup.id}"
   http_method = "POST"
@@ -67,6 +75,7 @@ resource "aws_api_gateway_method" "signup-POST" {
 }
 
 resource "aws_api_gateway_integration" "Auth-createUser-integration" {
+  depends_on = ["aws_api_gateway_rest_api.DashCamAPI", "aws_api_gateway_resource.Signup", "aws_api_gateway_method.signup-POST", "aws_lambda_function.createUser"]
   rest_api_id = "${aws_api_gateway_rest_api.DashCamAPI.id}"
   resource_id = "${aws_api_gateway_resource.Signup.id}"
   http_method = "${aws_api_gateway_method.signup-POST.http_method}"
@@ -79,6 +88,7 @@ resource "aws_api_gateway_integration" "Auth-createUser-integration" {
 }
 
 resource "aws_api_gateway_method_response" "signup-POST-200" {
+  depends_on = ["aws_api_gateway_rest_api.DashCamAPI", "aws_api_gateway_resource.Signup", "aws_api_gateway_method.signup-POST"]
   rest_api_id = "${aws_api_gateway_rest_api.DashCamAPI.id}"
   resource_id = "${aws_api_gateway_resource.Signup.id}"
   http_method = "${aws_api_gateway_method.signup-POST.http_method}"
@@ -87,6 +97,7 @@ resource "aws_api_gateway_method_response" "signup-POST-200" {
 }
 
 resource "aws_api_gateway_integration_response" "signup-POST-Integration-Response" {
+  depends_on = ["aws_api_gateway_rest_api.DashCamAPI", "aws_api_gateway_resource.Signup", "aws_api_gateway_method.signup-POST", "aws_api_gateway_method_response.signup-POST-200"]
   rest_api_id = "${aws_api_gateway_rest_api.DashCamAPI.id}"
   resource_id = "${aws_api_gateway_resource.Signup.id}"
   http_method = "${aws_api_gateway_method.signup-POST.http_method}"
