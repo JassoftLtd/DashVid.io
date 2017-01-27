@@ -30,7 +30,7 @@ variable "stripe_api_key" {
 
 variable "aws_identity_pool" {
   description = "The Identity Pool ID."
-  default     = "eu-west-1:ac18a09a-6c09-47f2-a297-f3ce8a40f1b4"
+  default     = ""
 }
 
 variable "auth_developer_provider_name" {
