@@ -16,3 +16,4 @@ run:
     whoami
     env
     ls -ltrh source-code
+    source-code/terraform/build.sh
