@@ -54,7 +54,7 @@ resource "aws_dynamodb_table" "videos-table" {
     }
     attribute {
         name = "MediaInfo"
-        type = "s"
+        type = "S"
     }
     global_secondary_index {
         name = "UserVideosByDate"
