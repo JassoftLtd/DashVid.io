@@ -6,12 +6,12 @@ image_resource:
     repository: jonnyshaw89/dashvid-build
 
 inputs:
-- name: source-code
+- name: github
 
 run:
   path: sh
   args:
   - -exc
   - |
-    cd source-code/terraform
+    cd github/terraform
     terraform destroy

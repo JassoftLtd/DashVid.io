@@ -1,5 +1,5 @@
 resources:
-- name: source-code
+- name: github
   type: git
   source:
     uri: https://github.com/jonnyshaw89/VideoServerless.git
@@ -9,10 +9,10 @@ jobs:
 - name: DashVid.io
   serial_groups: [DashVidDeploy]
   plan:
-  - get: source-code
+  - get: github
     trigger: true
   - task: build
-    file: source-code/concourse/build.yml
+    file: github/concourse/build.yml
     params:
       TF_VAR_aws_terraform_state_bucket: dashvid-terraform-state-test
       TF_VAR_aws_region: eu-central-1
@@ -23,7 +23,7 @@ jobs:
       TF_VAR_stripe_api_key: {{stripe_api_key_test}}
       TF_VAR_aws_identity_pool: {{aws_identity_pool}}
   - task: destroy
-    file: source-code/concourse/destroy.yml
+    file: github/concourse/destroy.yml
     ensure:
       params:
         TF_VAR_aws_terraform_state_bucket: dashvid-terraform-state-test
