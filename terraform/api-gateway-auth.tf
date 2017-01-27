@@ -111,6 +111,7 @@ module "loginOptionsCORS" {
 
 // /login POST
 resource "aws_api_gateway_method" "login-POST" {
+  depends_on = ["aws_api_gateway_rest_api.DashCamAPI", "aws_api_gateway_resource.Login"]
   rest_api_id = "${aws_api_gateway_rest_api.DashCamAPI.id}"
   resource_id = "${aws_api_gateway_resource.Login.id}"
   http_method = "POST"
@@ -118,6 +119,7 @@ resource "aws_api_gateway_method" "login-POST" {
 }
 
 resource "aws_api_gateway_integration" "Auth-login-integration" {
+  depends_on = ["aws_api_gateway_rest_api.DashCamAPI", "aws_api_gateway_resource.Login", "aws_api_gateway_method.login-POST", "aws_lambda_function.login"]
   rest_api_id = "${aws_api_gateway_rest_api.DashCamAPI.id}"
   resource_id = "${aws_api_gateway_resource.Login.id}"
   http_method = "${aws_api_gateway_method.login-POST.http_method}"
@@ -127,6 +129,7 @@ resource "aws_api_gateway_integration" "Auth-login-integration" {
 }
 
 resource "aws_api_gateway_method_response" "login-POST-200" {
+  depends_on = ["aws_api_gateway_rest_api.DashCamAPI", "aws_api_gateway_resource.Login", "aws_api_gateway_method.login-POST"]
   rest_api_id = "${aws_api_gateway_rest_api.DashCamAPI.id}"
   resource_id = "${aws_api_gateway_resource.Login.id}"
   http_method = "${aws_api_gateway_method.login-POST.http_method}"
@@ -138,6 +141,7 @@ resource "aws_api_gateway_method_response" "login-POST-200" {
 }
 
 resource "aws_api_gateway_integration_response" "login-POST-Integration-Response" {
+  depends_on = ["aws_api_gateway_rest_api.DashCamAPI", "aws_api_gateway_resource.Login", "aws_api_gateway_method.login-POST", "aws_api_gateway_method_response.login-POST-200"]
   rest_api_id = "${aws_api_gateway_rest_api.DashCamAPI.id}"
   resource_id = "${aws_api_gateway_resource.Login.id}"
   http_method = "${aws_api_gateway_method.login-POST.http_method}"
@@ -154,6 +158,7 @@ module "changePasswordOptionsCORS" {
 
 // /changePassword POST
 resource "aws_api_gateway_method" "changePassword-POST" {
+  depends_on = ["aws_api_gateway_rest_api.DashCamAPI", "aws_api_gateway_resource.ChangePassword"]
   rest_api_id = "${aws_api_gateway_rest_api.DashCamAPI.id}"
   resource_id = "${aws_api_gateway_resource.ChangePassword.id}"
   http_method = "POST"
@@ -161,18 +166,17 @@ resource "aws_api_gateway_method" "changePassword-POST" {
 }
 
 resource "aws_api_gateway_integration" "Auth-changePassword-integration" {
+  depends_on = ["aws_api_gateway_rest_api.DashCamAPI", "aws_api_gateway_resource.ChangePassword", "aws_api_gateway_method.changePassword-POST", "aws_lambda_function.changePassword"]
   rest_api_id = "${aws_api_gateway_rest_api.DashCamAPI.id}"
   resource_id = "${aws_api_gateway_resource.ChangePassword.id}"
   http_method = "${aws_api_gateway_method.changePassword-POST.http_method}"
   type = "AWS_PROXY"
   uri = "arn:aws:apigateway:${var.aws_region}:lambda:path/2015-03-31/functions/${aws_lambda_function.changePassword.arn}/invocations"
   integration_http_method = "POST"
-//  request_templates = {                  # Not documented
-//    "application/json" = "${file("${path.module}/templates/Auth-changePassword-integration.template")}"
-//  }
 }
 
 resource "aws_api_gateway_method_response" "changePassword-POST-200" {
+  depends_on = ["aws_api_gateway_rest_api.DashCamAPI", "aws_api_gateway_resource.ChangePassword", "aws_api_gateway_method.changePassword-POST"]
   rest_api_id = "${aws_api_gateway_rest_api.DashCamAPI.id}"
   resource_id = "${aws_api_gateway_resource.ChangePassword.id}"
   http_method = "${aws_api_gateway_method.changePassword-POST.http_method}"
@@ -181,6 +185,7 @@ resource "aws_api_gateway_method_response" "changePassword-POST-200" {
 }
 
 resource "aws_api_gateway_integration_response" "changePassword-POST-Integration-Response" {
+  depends_on = ["aws_api_gateway_rest_api.DashCamAPI", "aws_api_gateway_resource.ChangePassword", "aws_api_gateway_method.changePassword-POST", "aws_api_gateway_method_response.changePassword-POST-200"]
   rest_api_id = "${aws_api_gateway_rest_api.DashCamAPI.id}"
   resource_id = "${aws_api_gateway_resource.ChangePassword.id}"
   http_method = "${aws_api_gateway_method.changePassword-POST.http_method}"
@@ -197,6 +202,7 @@ module "lostPasswordOptionsCORS" {
 
 // /lostPassword POST
 resource "aws_api_gateway_method" "lostPassword-POST" {
+  depends_on = ["aws_api_gateway_rest_api.DashCamAPI", "aws_api_gateway_resource.LostPassword"]
   rest_api_id = "${aws_api_gateway_rest_api.DashCamAPI.id}"
   resource_id = "${aws_api_gateway_resource.LostPassword.id}"
   http_method = "POST"
@@ -204,18 +210,17 @@ resource "aws_api_gateway_method" "lostPassword-POST" {
 }
 
 resource "aws_api_gateway_integration" "Auth-lostPassword-integration" {
+  depends_on = ["aws_api_gateway_rest_api.DashCamAPI", "aws_api_gateway_resource.LostPassword", "aws_api_gateway_method.lostPassword-POST", "aws_lambda_function.lostPassword"]
   rest_api_id = "${aws_api_gateway_rest_api.DashCamAPI.id}"
   resource_id = "${aws_api_gateway_resource.LostPassword.id}"
   http_method = "${aws_api_gateway_method.lostPassword-POST.http_method}"
   type = "AWS_PROXY"
   uri = "arn:aws:apigateway:${var.aws_region}:lambda:path/2015-03-31/functions/${aws_lambda_function.lostPassword.arn}/invocations"
   integration_http_method = "POST"
-//  request_templates = {                  # Not documented
-//    "application/json" = "${file("${path.module}/templates/Auth-lostPassword-integration.template")}"
-//  }
 }
 
 resource "aws_api_gateway_method_response" "lostPassword-POST-200" {
+  depends_on = ["aws_api_gateway_rest_api.DashCamAPI", "aws_api_gateway_resource.LostPassword", "aws_api_gateway_method.lostPassword-POST"]
   rest_api_id = "${aws_api_gateway_rest_api.DashCamAPI.id}"
   resource_id = "${aws_api_gateway_resource.LostPassword.id}"
   http_method = "${aws_api_gateway_method.lostPassword-POST.http_method}"
@@ -224,6 +229,7 @@ resource "aws_api_gateway_method_response" "lostPassword-POST-200" {
 }
 
 resource "aws_api_gateway_integration_response" "lostPassword-POST-Integration-Response" {
+  depends_on = ["aws_api_gateway_rest_api.DashCamAPI", "aws_api_gateway_resource.LostPassword", "aws_api_gateway_method.lostPassword-POST", "aws_api_gateway_method_response.lostPassword-POST-200"]
   rest_api_id = "${aws_api_gateway_rest_api.DashCamAPI.id}"
   resource_id = "${aws_api_gateway_resource.LostPassword.id}"
   http_method = "${aws_api_gateway_method.lostPassword-POST.http_method}"
@@ -240,6 +246,7 @@ module "resetPasswordOptionsCORS" {
 
 // /resetPassword POST
 resource "aws_api_gateway_method" "resetPassword-POST" {
+  depends_on = ["aws_api_gateway_rest_api.DashCamAPI", "aws_api_gateway_resource.ResetPassword"]
   rest_api_id = "${aws_api_gateway_rest_api.DashCamAPI.id}"
   resource_id = "${aws_api_gateway_resource.ResetPassword.id}"
   http_method = "POST"
@@ -247,6 +254,7 @@ resource "aws_api_gateway_method" "resetPassword-POST" {
 }
 
 resource "aws_api_gateway_integration" "Auth-resetPassword-integration" {
+  depends_on = ["aws_api_gateway_rest_api.DashCamAPI", "aws_api_gateway_resource.ResetPassword", "aws_api_gateway_method.resetPassword-POST", "aws_lambda_function.resetPassword"]
   rest_api_id = "${aws_api_gateway_rest_api.DashCamAPI.id}"
   resource_id = "${aws_api_gateway_resource.ResetPassword.id}"
   http_method = "${aws_api_gateway_method.resetPassword-POST.http_method}"
@@ -256,6 +264,7 @@ resource "aws_api_gateway_integration" "Auth-resetPassword-integration" {
 }
 
 resource "aws_api_gateway_method_response" "resetPassword-POST-200" {
+  depends_on = ["aws_api_gateway_rest_api.DashCamAPI", "aws_api_gateway_resource.ResetPassword", "aws_api_gateway_method.resetPassword-POST"]
   rest_api_id = "${aws_api_gateway_rest_api.DashCamAPI.id}"
   resource_id = "${aws_api_gateway_resource.ResetPassword.id}"
   http_method = "${aws_api_gateway_method.resetPassword-POST.http_method}"
@@ -264,6 +273,7 @@ resource "aws_api_gateway_method_response" "resetPassword-POST-200" {
 }
 
 resource "aws_api_gateway_integration_response" "resetPassword-POST-Integration-Response" {
+  depends_on = ["aws_api_gateway_rest_api.DashCamAPI", "aws_api_gateway_resource.ResetPassword", "aws_api_gateway_method.resetPassword-POST", "aws_api_gateway_method_response.resetPassword-POST-200"]
   rest_api_id = "${aws_api_gateway_rest_api.DashCamAPI.id}"
   resource_id = "${aws_api_gateway_resource.ResetPassword.id}"
   http_method = "${aws_api_gateway_method.resetPassword-POST.http_method}"
@@ -280,6 +290,7 @@ module "verifyUserOptionsCORS" {
 
 // /verifyUser POST
 resource "aws_api_gateway_method" "verifyUser-POST" {
+  depends_on = ["aws_api_gateway_rest_api.DashCamAPI", "aws_api_gateway_resource.VerifyUser"]
   rest_api_id = "${aws_api_gateway_rest_api.DashCamAPI.id}"
   resource_id = "${aws_api_gateway_resource.VerifyUser.id}"
   http_method = "POST"
@@ -287,6 +298,7 @@ resource "aws_api_gateway_method" "verifyUser-POST" {
 }
 
 resource "aws_api_gateway_integration" "Auth-verifyUser-integration" {
+  depends_on = ["aws_api_gateway_rest_api.DashCamAPI", "aws_api_gateway_resource.VerifyUser", "aws_api_gateway_method.verifyUser-POST", "aws_lambda_function.verifyUser"]
   rest_api_id = "${aws_api_gateway_rest_api.DashCamAPI.id}"
   resource_id = "${aws_api_gateway_resource.VerifyUser.id}"
   http_method = "${aws_api_gateway_method.verifyUser-POST.http_method}"
@@ -296,6 +308,7 @@ resource "aws_api_gateway_integration" "Auth-verifyUser-integration" {
 }
 
 resource "aws_api_gateway_method_response" "verifyUser-POST-200" {
+  depends_on = ["aws_api_gateway_rest_api.DashCamAPI", "aws_api_gateway_resource.VerifyUser", "aws_api_gateway_method.verifyUser-POST"]
   rest_api_id = "${aws_api_gateway_rest_api.DashCamAPI.id}"
   resource_id = "${aws_api_gateway_resource.VerifyUser.id}"
   http_method = "${aws_api_gateway_method.verifyUser-POST.http_method}"
@@ -304,6 +317,7 @@ resource "aws_api_gateway_method_response" "verifyUser-POST-200" {
 }
 
 resource "aws_api_gateway_integration_response" "verifyUser-POST-Integration-Response" {
+  depends_on = ["aws_api_gateway_rest_api.DashCamAPI", "aws_api_gateway_resource.VerifyUser", "aws_api_gateway_method.verifyUser-POST", "aws_api_gateway_method_response.verifyUser-POST-200"]
   rest_api_id = "${aws_api_gateway_rest_api.DashCamAPI.id}"
   resource_id = "${aws_api_gateway_resource.VerifyUser.id}"
   http_method = "${aws_api_gateway_method.verifyUser-POST.http_method}"
