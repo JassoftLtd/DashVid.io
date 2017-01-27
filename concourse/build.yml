@@ -19,5 +19,6 @@ run:
     ./build.sh
     terraform get
     echo $TF_VAR_aws_region
+    echo $TF_VAR_aws_terraform_state_bucket
     terraform plan
     terraform apply
