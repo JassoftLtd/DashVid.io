@@ -115,7 +115,7 @@ resource "aws_s3_bucket" "dashvid-io-bucket" {
         "s3:GetObject"
       ],
       "Effect": "Allow",
-      "Resource": "arn:aws:s3:::dashvid.io/*",
+      "Resource": "arn:aws:s3:::${aws_s3_bucket.dashvid-io-bucket}/*",
       "Principal": "*"
     }
   ]
