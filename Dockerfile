@@ -7,7 +7,7 @@ RUN apt-get update -y && \
     apt-get install -y curl && \
     curl -sL https://deb.nodesource.com/setup_6.x | bash - && \
     apt-get update -y && \
-    apt-get install -y git zip unzip npm nodejs && \
+    apt-get install -y git zip unzip nodejs && \
     curl https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_linux_amd64.zip > terraform_${TERRAFORM_VERSION}_linux_amd64.zip && \
     echo "${TERRAFORM_SHA256SUM}  terraform_${TERRAFORM_VERSION}_linux_amd64.zip" > terraform_${TERRAFORM_VERSION}_SHA256SUMS && \
     sha256sum -c terraform_${TERRAFORM_VERSION}_SHA256SUMS && \
