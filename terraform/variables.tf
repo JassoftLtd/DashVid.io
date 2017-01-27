@@ -30,17 +30,17 @@ variable "stripe_api_key" {
 
 variable "aws_identity_pool" {
   description = "The Identity Pool ID."
-  default     = ""
+  default     = "eu-west-1:ac18a09a-6c09-47f2-a297-f3ce8a40f1b4"
 }
 
 variable "auth_developer_provider_name" {
   description = "The Developer Provider name."
-  default     = ""
+  default     = "login.terraform.dashcam"
 }
 
 variable "auth_email_from_address" {
   description = "The Identity Pool ID."
-  default     = ""
+  default     = "no-reply@dashvid.io"
 }
 
 variable "environment_name" {
