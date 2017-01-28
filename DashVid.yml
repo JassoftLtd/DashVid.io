@@ -22,6 +22,8 @@ jobs:
       TF_VAR_aws_secret_key: {{aws_secret_key}}
       TF_VAR_stripe_api_key: {{stripe_api_key_test}}
       TF_VAR_aws_identity_pool: {{aws_identity_pool}}
+      AWS_ACCESS_KEY_ID: {{aws_access_key}}
+      AWS_SECRET_ACCESS_KEY: {{aws_secret_key}}
   - task: destroy
     file: source-code/concourse/destroy.yml
     params:
@@ -33,3 +35,5 @@ jobs:
       TF_VAR_aws_secret_key: {{aws_secret_key}}
       TF_VAR_stripe_api_key: {{stripe_api_key_test}}
       TF_VAR_aws_identity_pool: {{aws_identity_pool}}
+      AWS_ACCESS_KEY_ID: {{aws_access_key}}
+      AWS_SECRET_ACCESS_KEY: {{aws_secret_key}}
