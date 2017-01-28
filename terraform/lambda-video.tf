@@ -49,8 +49,7 @@ resource "aws_lambda_function" "uploadedVideo" {
   source_code_hash = "${base64sha256(file("Lambda/VideoLambdas/uploadedVideo.zip"))}"
   environment = {
     variables = {
-      snsNewVideoArn = ""
-//      snsNewVideoArn = "${aws_sns_topic.new_video.arn}"
+      snsNewVideoArn = "${aws_sns_topic.new_video.arn}"
     }
   }
 }
