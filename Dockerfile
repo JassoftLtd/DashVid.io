@@ -1,7 +1,6 @@
 FROM ubuntu:latest
 
-ENV TERRAFORM_VERSION=0.8.2
-ENV TERRAFORM_SHA256SUM=a366fd2d7d8908d23acc23ab151fc692615a147f8832971bb43e42995554c652
+ENV TERRAFORM_VERSION=0.8.4
 
 RUN apt-get update -y && \
     apt-get install -y curl && \
@@ -9,8 +8,6 @@ RUN apt-get update -y && \
     apt-get update -y && \
     apt-get install -y git zip unzip nodejs && \
     curl https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_linux_amd64.zip > terraform_${TERRAFORM_VERSION}_linux_amd64.zip && \
-    echo "${TERRAFORM_SHA256SUM}  terraform_${TERRAFORM_VERSION}_linux_amd64.zip" > terraform_${TERRAFORM_VERSION}_SHA256SUMS && \
-    sha256sum -c terraform_${TERRAFORM_VERSION}_SHA256SUMS && \
     unzip terraform_${TERRAFORM_VERSION}_linux_amd64.zip -d /bin && \
     rm -f terraform_${TERRAFORM_VERSION}_linux_amd64.zip
 
