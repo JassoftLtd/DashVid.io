@@ -10,4 +10,5 @@ run:
   args:
   - -exc
   - |
+    echo $DASHVID-API-ADDRESS
     ls -ltrh
