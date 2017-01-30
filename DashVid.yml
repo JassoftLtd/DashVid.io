@@ -24,6 +24,11 @@ jobs:
       TF_VAR_aws_identity_pool: {{aws_identity_pool}}
       AWS_ACCESS_KEY_ID: {{aws_access_key}}
       AWS_SECRET_ACCESS_KEY: {{aws_secret_key}}
+  - aggregate:
+    - task: test-api
+      file: source-code/concourse/test/api-tests.yml
+    - task: test-ui
+      file: source-code/concourse/test/ui-tests.yml
   - task: destroy
     file: source-code/concourse/destroy.yml
     params:
