@@ -12,7 +12,7 @@ jobs:
   - get: source-code
     trigger: true
 
-  - task: Deploy Test
+  - task: Test Deploy
     file: source-code/concourse/build.yml
     params:
       TF_VAR_aws_terraform_state_bucket: dashvid-terraform-state-tests
@@ -32,7 +32,7 @@ jobs:
     - task: UI Tests
       file: source-code/concourse/test/ui-tests.yml
 
-  - task: Destroy Test
+  - task: Test Destroy
     file: source-code/concourse/destroy.yml
     params:
       TF_VAR_aws_terraform_state_bucket: dashvid-terraform-state-tests
@@ -46,7 +46,7 @@ jobs:
       AWS_ACCESS_KEY_ID: {{aws_access_key}}
       AWS_SECRET_ACCESS_KEY: {{aws_secret_key}}
 
-  - task: Deploy Production
+  - task: Production Deploy
     file: source-code/concourse/build.yml
     params:
       TF_VAR_aws_terraform_state_bucket: dashvid-terraform-state
