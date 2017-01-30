@@ -10,5 +10,5 @@ run:
   args:
   - -exc
   - |
-    echo $DASHVID-UI-ADDRESS
+    echo $DASHVID_UI_ADDRESS
     ls -ltrh
