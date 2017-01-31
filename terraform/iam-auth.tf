@@ -195,7 +195,8 @@ resource "aws_iam_role_policy" "Cognito_LambdAuthAuth_Role_Cognito_LambdAuthAuth
     {
       "Effect": "Allow",
       "Action": [
-        "lambda:InvokeFunction"
+        "lambda:InvokeFunction",
+        "iam:PassRole"
       ],
       "Resource": [
         "arn:aws:lambda:${var.aws_region}:${var.aws_account_id}:function:LambdAuthCreateUser",
@@ -242,7 +243,8 @@ resource "aws_iam_role_policy" "Cognito_LambdAuthUnauth_Role_Cognito_LambdAuthUn
     {
       "Effect": "Allow",
       "Action": [
-        "lambda:InvokeFunction"
+        "lambda:InvokeFunction",
+        "iam:PassRole"
       ],
       "Resource": [
         "arn:aws:lambda:${var.aws_region}:${var.aws_account_id}:function:LambdAuthCreateUser",
