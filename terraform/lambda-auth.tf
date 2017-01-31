@@ -25,15 +25,6 @@ resource "aws_lambda_function" "changePassword" {
   source_code_hash = "${base64sha256(file("${path.module}/Lambda/AuthLambdas/ChangePassword.zip"))}"
 }
 
-# Lambda
-resource "aws_lambda_permission" "login-api-permission" {
-  statement_id  = "AllowExecutionFromAPIGateway"
-  action        = "lambda:InvokeFunction"
-  function_name = "${aws_lambda_function.login.arn}"
-  principal     = "apigateway.amazonaws.com"
-  source_arn    = "arn:aws:execute-api:${var.aws_region}:${var.aws_account_id}:${aws_api_gateway_rest_api.DashCamAPI.id}/*/${aws_api_gateway_method.login-POST.http_method}/"
-}
-
 resource "aws_lambda_function" "login" {
   filename = "${path.module}/Lambda/AuthLambdas/Login.zip"
   function_name = "LambdAuthLogin"
