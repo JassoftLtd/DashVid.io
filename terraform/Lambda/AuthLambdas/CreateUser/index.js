@@ -84,11 +84,11 @@ function storePlan(email, plan, token, fn) {
             responseError.body = new Error('Error storing plan: ' + err)
             context.fail(responseError);
 		}
-		else fn(null, token);
+		else fn(email, token);
 	});
 }
 
-function sendVerificationEmail(event, email, token, fn) {
+function sendVerificationEmail(email, token, fn) {
 	var subject = 'Verification Email for ' + event.stageVariables.auth_application_name;
 	var verificationLink = event.stageVariables.auth_verification_page + '?email=' + encodeURIComponent(email) + '&verify=' + token;
 	ses.sendEmail({
@@ -147,8 +147,8 @@ exports.handler = function(event, context) {
 						context.fail(responseError);
 					}
 				} else {
-					storePlan(email, plan, token, function (event, email, token) {
-						sendVerificationEmail(event, email, token, function(err, data) {
+					storePlan(email, plan, token, function (email, token) {
+						sendVerificationEmail(email, token, function(err, data) {
 							if (err) {
 								responseError.body = new Error('Error in sendVerificationEmail: ' + err)
 								context.fail(responseError);
