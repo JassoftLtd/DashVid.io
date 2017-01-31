@@ -88,7 +88,7 @@ function storePlan(email, plan, token, fn) {
 	});
 }
 
-function sendVerificationEmail(email, token, fn) {
+function sendVerificationEmail(event, email, token, fn) {
 	var subject = 'Verification Email for ' + event.stageVariables.auth_application_name;
 	var verificationLink = event.stageVariables.auth_verification_page + '?email=' + encodeURIComponent(email) + '&verify=' + token;
 	ses.sendEmail({
@@ -148,7 +148,7 @@ exports.handler = function(event, context) {
 					}
 				} else {
 					storePlan(email, plan, token, function (email, token) {
-						sendVerificationEmail(email, token, function(err, data) {
+						sendVerificationEmail(event, email, token, function(err, data) {
 							if (err) {
 								responseError.body = new Error('Error in sendVerificationEmail: ' + err)
 								context.fail(responseError);
