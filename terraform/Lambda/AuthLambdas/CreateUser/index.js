@@ -120,6 +120,8 @@ function sendVerificationEmail(event, email, token, fn) {
 
 exports.handler = function(event, context) {
 
+	console.log('Event: ' + JSON.stringify(event))
+
 	var payload = JSON.parse(event.body);
 
 	var email = payload.email;
