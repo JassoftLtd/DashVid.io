@@ -45,7 +45,11 @@ resource "aws_api_gateway_method_response" "Video-GET-200" {
 }
 
 resource "aws_api_gateway_integration_response" "Video-GET-Integration-Response" {
-  depends_on = ["aws_api_gateway_resource.Video", "aws_api_gateway_rest_api.DashCamAPI", "aws_api_gateway_method.Video-GET", "aws_api_gateway_method_response.Video-GET-200", "aws_api_gateway_integration.Video-getVideos-integration"]
+  depends_on = ["aws_api_gateway_resource.Video",
+    "aws_api_gateway_rest_api.DashCamAPI",
+    "aws_api_gateway_method.Video-GET",
+    "aws_api_gateway_method_response.Video-GET-200",
+    "aws_api_gateway_integration.Video-getVideos-integration"]
   rest_api_id = "${aws_api_gateway_rest_api.DashCamAPI.id}"
   resource_id = "${aws_api_gateway_resource.Video.id}"
   http_method = "${aws_api_gateway_method.Video-GET.http_method}"
