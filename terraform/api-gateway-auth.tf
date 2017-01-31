@@ -126,11 +126,6 @@ resource "aws_api_gateway_integration" "Auth-login-integration" {
   type = "AWS_PROXY"
   uri = "arn:aws:apigateway:${var.aws_region}:lambda:path/2015-03-31/functions/${aws_lambda_function.login.arn}/invocations"
   integration_http_method = "POST"
-  request_templates {
-    "application/json" = <<EOF
-$input.body
-EOF
-  }
 }
 
 resource "aws_api_gateway_method_response" "login-POST-200" {
