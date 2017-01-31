@@ -42,7 +42,7 @@ function computeHash(password, salt, fn) {
 	}
 }
 
-function storeUser(event, email, password, salt, fn) {
+function storeUser(event, email, hash, salt, fn) {
 	// Bytesize
 	var len = 128;
 	crypto.randomBytes(len, function(err, token) {
@@ -53,7 +53,7 @@ function storeUser(event, email, password, salt, fn) {
 			TableName: event.stageVariables.auth_db_table,
 			Item: {
 				email: email,
-				passwordHash: password,
+				passwordHash: hash,
 				passwordSalt: salt,
 				verified: false,
 				verifyToken: token
@@ -131,7 +131,7 @@ exports.handler = function(event, context) {
 			responseError.body = new Error('Error in hash: ' + err)
 			context.fail(responseError);
 		} else {
-			storeUser(event, email, plan, hash, salt, function(err, token) {
+			storeUser(event, email, hash, salt, function(err, token) {
 				if (err) {
 					if (err.code == 'ConditionalCheckFailedException') {
 						// userId already found
