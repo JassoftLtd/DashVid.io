@@ -11,7 +11,8 @@ jobs:
   plan:
   - get: source-code
     trigger: true
-  - task: build
+
+  - task: Test Deploy
     file: source-code/concourse/build.yml
     params:
       TF_VAR_aws_terraform_state_bucket: dashvid-terraform-state-tests
@@ -24,12 +25,32 @@ jobs:
       TF_VAR_aws_identity_pool: {{aws_identity_pool}}
       AWS_ACCESS_KEY_ID: {{aws_access_key}}
       AWS_SECRET_ACCESS_KEY: {{aws_secret_key}}
-  - task: destroy
+
+  - aggregate:
+    - task: API Tests
+      file: source-code/concourse/test/api-tests.yml
+    - task: UI Tests
+      file: source-code/concourse/test/ui-tests.yml
+
+  - task: Test Destroy
     file: source-code/concourse/destroy.yml
     params:
       TF_VAR_aws_terraform_state_bucket: dashvid-terraform-state-tests
       TF_VAR_aws_region: eu-central-1
       TF_VAR_environment_name: test-
+      TF_VAR_aws_account_id: {{aws_account_id}}
+      TF_VAR_aws_access_key: {{aws_access_key}}
+      TF_VAR_aws_secret_key: {{aws_secret_key}}
+      TF_VAR_stripe_api_key: {{stripe_api_key_test}}
+      TF_VAR_aws_identity_pool: {{aws_identity_pool}}
+      AWS_ACCESS_KEY_ID: {{aws_access_key}}
+      AWS_SECRET_ACCESS_KEY: {{aws_secret_key}}
+
+  - task: Production Deploy
+    file: source-code/concourse/build.yml
+    params:
+      TF_VAR_aws_terraform_state_bucket: dashvid-terraform-state
+      TF_VAR_aws_region: eu-west-1
       TF_VAR_aws_account_id: {{aws_account_id}}
       TF_VAR_aws_access_key: {{aws_access_key}}
       TF_VAR_aws_secret_key: {{aws_secret_key}}

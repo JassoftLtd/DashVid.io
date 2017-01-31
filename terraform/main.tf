@@ -14,6 +14,10 @@ data "terraform_remote_state" "remote-state" {
     }
 }
 
-output "UI Url" {
+output "ui-address" {
     value = "${aws_s3_bucket.dashvid-io-bucket.website_endpoint}"
+}
+
+output "api-address" {
+    value = "${aws_api_gateway_deployment.DevDeployment.connection}"
 }

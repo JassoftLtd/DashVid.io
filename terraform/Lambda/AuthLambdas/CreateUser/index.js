@@ -42,7 +42,7 @@ function computeHash(password, salt, fn) {
 	}
 }
 
-function storeUser(event, email, password, salt, fn) {
+function storeUser(event, email, hash, salt, fn) {
 	// Bytesize
 	var len = 128;
 	crypto.randomBytes(len, function(err, token) {
@@ -53,7 +53,7 @@ function storeUser(event, email, password, salt, fn) {
 			TableName: event.stageVariables.auth_db_table,
 			Item: {
 				email: email,
-				passwordHash: password,
+				passwordHash: hash,
 				passwordSalt: salt,
 				verified: false,
 				verifyToken: token
@@ -84,7 +84,7 @@ function storePlan(email, plan, token, fn) {
             responseError.body = new Error('Error storing plan: ' + err)
             context.fail(responseError);
 		}
-		else fn(null, token);
+		else fn(email, token);
 	});
 }
 
@@ -120,6 +120,8 @@ function sendVerificationEmail(event, email, token, fn) {
 
 exports.handler = function(event, context) {
 
+	var event = event;
+
 	var payload = JSON.parse(event.body);
 
 	var email = payload.email;
@@ -131,7 +133,7 @@ exports.handler = function(event, context) {
 			responseError.body = new Error('Error in hash: ' + err)
 			context.fail(responseError);
 		} else {
-			storeUser(event, email, plan, hash, salt, function(err, token) {
+			storeUser(event, email, hash, salt, function(err, token) {
 				if (err) {
 					if (err.code == 'ConditionalCheckFailedException') {
 						// userId already found
@@ -145,7 +147,7 @@ exports.handler = function(event, context) {
 						context.fail(responseError);
 					}
 				} else {
-					storePlan(email, plan, token,
+					storePlan(email, plan, token, function (email, token) {
 						sendVerificationEmail(event, email, token, function(err, data) {
 							if (err) {
 								responseError.body = new Error('Error in sendVerificationEmail: ' + err)
@@ -159,7 +161,7 @@ exports.handler = function(event, context) {
 								context.succeed(responseSuccess);
 							}
 						})
-					)
+                    })
 				}
 			});
 		}

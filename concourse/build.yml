@@ -16,7 +16,7 @@ run:
     cd source-code/terraform
     terraform remote config \
         -backend=s3 \
-        -backend-config="bucket=dashvid-terraform-state-tests" \
+        -backend-config="bucket=$TF_VAR_aws_terraform_state_bucket" \
         -backend-config="key=terraform.tfstate" \
         -backend-config="region=eu-west-1"
     ./build.sh
@@ -27,3 +27,5 @@ run:
     terraform plan
     ls -ltrh .terraform
     terraform apply
+    export DASHVID_UI_ADDRESS=$(terraform output ui-address)
+    export DASHVID_API_ADDRESS=$(terraform output api-address)
