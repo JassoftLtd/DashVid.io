@@ -123,7 +123,7 @@ resource "aws_api_gateway_integration" "Auth-login-integration" {
   rest_api_id = "${aws_api_gateway_rest_api.DashCamAPI.id}"
   resource_id = "${aws_api_gateway_resource.Login.id}"
   http_method = "${aws_api_gateway_method.login-POST.http_method}"
-  type = "AWS_PROXY"
+  type = "AWS"
   uri = "arn:aws:apigateway:${var.aws_region}:lambda:path/2015-03-31/functions/${aws_lambda_function.login.arn}/invocations"
   integration_http_method = "POST"
 }
