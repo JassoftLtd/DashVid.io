@@ -145,7 +145,7 @@ exports.handler = function(event, context) {
 						context.fail(responseError);
 					}
 				} else {
-					storePlan(email, plan, token,
+					storePlan(email, plan, token, function (event, email, token) {
 						sendVerificationEmail(event, email, token, function(err, data) {
 							if (err) {
 								responseError.body = new Error('Error in sendVerificationEmail: ' + err)
@@ -159,7 +159,7 @@ exports.handler = function(event, context) {
 								context.succeed(responseSuccess);
 							}
 						})
-					)
+                    })
 				}
 			});
 		}
