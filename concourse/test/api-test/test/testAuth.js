@@ -1,47 +1,44 @@
+var AWS = require('aws-sdk');
+var apigClientFactory = require('aws-api-gateway-client')
+
 var assert = require('assert');
 
-describe('Auth', function() {
+describe('Auth', function () {
 
-  describe('Signup', function() {
+    describe('Signup', function () {
 
-    it('Should allow me to signup with a new user', function() {
+        it('Should allow me to signup with a new user', function () {
 
-        fetch('https://0qomu2q3rb.execute-api.eu-west-1.amazonaws.com/Dev/v1/auth/signup', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                email: this.state.email,
-                password: this.state.password,
-                plan: this.state.plan,
-            })
-        }).then(function (response) {
-            return response.json()
-        }).then(function (json) {
-            console.log('parsed json', json)
-
-            if(json.created) {
-                _this.setState({
-                    message: "User " + _this.state.email + " created. Please check your email to validate the user and enable login.",
-                    email: "",
-                    password: "",
-                    verifyPassword: "",
-                });
+            var config = {
+                invokeUrl: process.env.DASHVID_API_ADDRESS
             }
-            else {
-                _this.setState({
-                    message: "Failed to create User " + _this.state.email + "."
-                });
-            }
+            var apigClient = apigClientFactory.newClient(config);
 
-        }).catch(function (ex) {
-            console.log('parsing failed', ex)
-        })
+            var params = {
+                //This is where any header, path, or querystring request params go. The key is the parameter named as defined in the API
+            };
+            // Template syntax follows url-template https://www.npmjs.com/package/url-template
+            var pathTemplate = '/v1/auth/signup'
+            var method = 'POST';
+            var additionalParams = {};
+            var body = {
+                email: "test@dashvid.io",
+                password: "testPasword",
+                plan: "Free"
+            };
 
-      assert.equal(-1, [1,2,3].indexOf(4));
+            var response = apigClient.invokeApi(params, pathTemplate, method, additionalParams, body);
+
+            response.then(function (result) {
+                console.error("Result: " + JSON.stringify(result))
+                assert.equal(result.created === true);
+            });
+
+            return response
+
+        });
+
     });
 
-  });
-
-});
+})
+;
