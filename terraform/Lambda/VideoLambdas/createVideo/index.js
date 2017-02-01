@@ -24,7 +24,10 @@ exports.handler = function(event, context) {
     var fileExtension = payload.fileName.split('.').pop();
     const _key = currentUser + '/' + generatedId + '.' + fileExtension;
 
-    getUserPlan(event, email, function (plan) {
+    getUserPlan(event, email, function (err, plan) {
+        if (err) {
+            context.fail()
+        }
 
         var bucketPrefix = 'dash-cam-videos-';
 
@@ -63,14 +66,18 @@ function getUserPlan(event, email, fn) {
             PlanStatus: "Active"
         }
     }, function(err, data) {
-        if (err) return fn(err);
+        if (err) {
+            console.error("User not found: " + JSON.stringify(data))
+            fn('User not found', null)
+        }
         else {
             if ('Item' in data) {
                 var plan = data.Item.Plan;
                 console.log("User plan is " + plan)
                 fn(plan);
             } else {
-                fn(null); // User not found
+                console.error("User plan not found on user: " + JSON.stringify(data))
+                fn('User plan not found on user', null); // User not found
             }
         }
     });
