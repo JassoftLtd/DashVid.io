@@ -3,12 +3,17 @@ platform: linux
 image_resource:
   type: docker-image
   source:
-    repository: ubuntu
+    repository: node
+
+inputs:
+- name: source-code
 
 run:
   path: sh
   args:
   - -exc
   - |
+    cd source-code/concourse/test/api-test
     echo $DASHVID_API_ADDRESS
-    ls -ltrh
+    npm install
+    npm test
