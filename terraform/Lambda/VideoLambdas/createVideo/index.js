@@ -68,7 +68,7 @@ function getUserPlan(email, fn) {
         }
     }, function(err, data) {
         if (err) {
-            console.error("User not found: " + JSON.stringify(data))
+            console.error("User not found: " + JSON.stringify(err))
             fn('User not found', null)
         }
         else {
