@@ -39,6 +39,8 @@ class Verify extends Component {
                 _this.setState({
                     message: "User verified."
                 });
+
+                window.location.href = '/signup';
             }
 
         }).catch(function (ex) {
