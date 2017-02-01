@@ -80,14 +80,14 @@ function getUserPlan(email, fn) {
             fn('User not found', null)
         }
         else {
-            if ('Item' in data) {
-                var plan = data.Item.Plan;
-                console.log("User plan is " + plan)
-                fn(plan);
-            } else {
-                console.error("User plan not found on user: " + JSON.stringify(data))
-                fn('User plan not found on user', null); // User not found
+            if(data.Count > 1) {
+                console.error("User had multiple active Subscriptions: " + JSON.stringify(data))
+                fn('User had multiple active Subscriptions', null); // User not found
             }
+
+            var plan = data.Items[0].Plan;
+            console.log("User plan is " + plan)
+            fn(null, plan);
         }
     });
 }
