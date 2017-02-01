@@ -8,6 +8,9 @@ image_resource:
 inputs:
 - name: source-code
 
+outputs:
+- name: created-components
+
 run:
   path: sh
   args:
@@ -27,5 +30,6 @@ run:
     terraform plan
     ls -ltrh .terraform
     terraform apply
-    export DASHVID_UI_ADDRESS=$(terraform output ui-address)
-    export DASHVID_API_ADDRESS=$(terraform output api-address)
+    mkdir ../../created-components
+    echo "export DASHVID_UI_ADDRESS=$(terraform output ui-address)" > ../../created-components/ui
+    echo "export DASHVID_API_ADDRESS=$(terraform output api-address)" > ../../created-components/api
