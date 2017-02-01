@@ -89,33 +89,39 @@ function storePlan(email, plan, token, fn) {
 }
 
 function sendVerificationEmail(event, email, token, fn) {
-	var subject = 'Verification Email for ' + event.stageVariables.auth_application_name;
-	var verificationLink = event.stageVariables.auth_verification_page + '?email=' + encodeURIComponent(email) + '&verify=' + token;
-	ses.sendEmail({
-		Source: event.stageVariables.auth_email_from_address,
-		Destination: {
-			ToAddresses: [
-				email
-			]
-		},
-		Message: {
-			Subject: {
-				Data: subject
-			},
-			Body: {
-				Html: {
-					Data: '<html><head>'
-					+ '<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />'
-					+ '<title>' + subject + '</title>'
-					+ '</head><body>'
-					+ 'Please <a href="' + verificationLink + '">click here to verify your email address</a> or copy & paste the following link in a browser:'
-					+ '<br><br>'
-					+ '<a href="' + verificationLink + '">' + verificationLink + '</a>'
-					+ '</body></html>'
-				}
-			}
-		}
-	}, fn);
+
+    if(!process.env.email_disabled) {
+        var subject = 'Verification Email for ' + event.stageVariables.auth_application_name;
+        var verificationLink = event.stageVariables.auth_verification_page + '?email=' + encodeURIComponent(email) + '&verify=' + token;
+        ses.sendEmail({
+            Source: event.stageVariables.auth_email_from_address,
+            Destination: {
+                ToAddresses: [
+                    email
+                ]
+            },
+            Message: {
+                Subject: {
+                    Data: subject
+                },
+                Body: {
+                    Html: {
+                        Data: '<html><head>'
+                        + '<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />'
+                        + '<title>' + subject + '</title>'
+                        + '</head><body>'
+                        + 'Please <a href="' + verificationLink + '">click here to verify your email address</a> or copy & paste the following link in a browser:'
+                        + '<br><br>'
+                        + '<a href="' + verificationLink + '">' + verificationLink + '</a>'
+                        + '</body></html>'
+                    }
+                }
+            }
+        }, fn);
+    }
+    else {
+    	fn(null, null)
+	}
 }
 
 exports.handler = function(event, context) {

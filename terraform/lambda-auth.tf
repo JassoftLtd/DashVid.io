@@ -6,6 +6,11 @@ resource "aws_lambda_function" "createUser" {
   handler = "CreateUser.handler"
   runtime = "nodejs4.3"
   source_code_hash = "${base64sha256(file("${path.module}/Lambda/AuthLambdas/CreateUser.zip"))}"
+  environment {
+    variables = {
+      email_disabled = "${var.email_disabled}"
+    }
+  }
 }
 
 resource "aws_lambda_permission" "allow_api_gateway-createUser" {

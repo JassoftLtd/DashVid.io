@@ -18,6 +18,7 @@ jobs:
       TF_VAR_aws_terraform_state_bucket: dashvid-terraform-state-tests
       TF_VAR_aws_region: eu-central-1
       TF_VAR_environment_name: test-
+      TF_VAR_email_disabled: true
       TF_VAR_aws_account_id: {{aws_account_id}}
       TF_VAR_aws_access_key: {{aws_access_key}}
       TF_VAR_aws_secret_key: {{aws_secret_key}}

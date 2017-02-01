@@ -27,15 +27,11 @@ describe('Auth', function () {
                 plan: "Free"
             };
 
-            var response = apigClient.invokeApi(params, pathTemplate, method, additionalParams, body);
-
-            response.then(function (result) {
-                console.error("Result: " + JSON.stringify(result))
-                assert.equal(result.created === true);
-            });
-
-            return response
-
+            return apigClient.invokeApi(params, pathTemplate, method, additionalParams, body)
+                .then(function (result) {
+                    console.error(JSON.stringify(result))
+                    assert.equal(result.created, true);
+                });
         });
 
     });

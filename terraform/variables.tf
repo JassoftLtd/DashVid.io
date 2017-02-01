@@ -47,3 +47,8 @@ variable "environment_name" {
   description = "A name to prepend to the environment"
   default     = ""
 }
+
+variable "email_disabled" {
+  description = "Should emails from the system be disabled"
+  default     = "false"
+}
