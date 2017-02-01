@@ -19,5 +19,5 @@ output "ui-address" {
 }
 
 output "api-address" {
-    value = "${aws_api_gateway_deployment.DevDeployment.connection}"
+    value = "${aws_api_gateway_deployment.DevDeployment.description}"
 }
