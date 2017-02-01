@@ -60,12 +60,20 @@ exports.handler = function(event, context) {
 
 function getUserPlan(email, fn) {
     console.log('Getting plan for user: ' + email)
-    dynamodb.get({
-        TableName: "Subscriptions",
-        Key: {
-            User: email,
-            PlanStatus: "Active"
-        }
+
+    dynamodb.query({
+        KeyConditionExpression:"#user = :user",
+        FilterExpression: '#planStatus = :status',
+        ScanIndexForward: false,
+        ExpressionAttributeNames: {
+            "#user":"User",
+            "#planStatus":"PlanStatus",
+        },
+        ExpressionAttributeValues: {
+            ":user":User,
+            ":status":"Active"
+        },
+        "TableName": "Subscriptions"
     }, function(err, data) {
         if (err) {
             console.error("User not found: " + JSON.stringify(err))
