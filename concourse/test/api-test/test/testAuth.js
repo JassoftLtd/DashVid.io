@@ -9,6 +9,8 @@ describe('Auth', function () {
 
         it('Should allow me to signup with a new user', function () {
 
+            this.timeout(5000);
+
             var config = {
                 invokeUrl: process.env.DASHVID_API_ADDRESS
             }
