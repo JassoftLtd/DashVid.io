@@ -31,5 +31,4 @@ run:
     ls -ltrh .terraform
     terraform apply
     "export DASHVID_UI_ADDRESS=$(terraform output ui-address)" > ../../created-components/ui
-    ls -ltrh ../../created-components/ui
-    echo 'export DASHVID_API_ADDRESS=$(terraform output api-address)' > ../../created-components/api
+    "export DASHVID_API_ADDRESS=$(terraform output api-address)" > ../../created-components/api
