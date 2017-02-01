@@ -14,6 +14,7 @@ run:
   args:
   - -exc
   - |
+    sudo chmod 777 created-components/api
     created-components/api
     cd source-code/concourse/test/api-test
     echo $DASHVID_API_ADDRESS
