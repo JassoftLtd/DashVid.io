@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 set -e
 
+# Reduce npm logging
+npm config set loglevel warn
+
 #terraform get -update
 
 export GOPATH=$(pwd)/gopath
