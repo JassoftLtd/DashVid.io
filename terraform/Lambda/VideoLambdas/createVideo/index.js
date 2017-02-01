@@ -24,7 +24,7 @@ exports.handler = function(event, context) {
     var fileExtension = payload.fileName.split('.').pop();
     const _key = currentUser + '/' + generatedId + '.' + fileExtension;
 
-    getUserPlan(event, email, function (err, plan) {
+    getUserPlan(email, function (err, plan) {
         if (err) {
             context.fail()
         }
@@ -58,7 +58,8 @@ exports.handler = function(event, context) {
 
 };
 
-function getUserPlan(event, email, fn) {
+function getUserPlan(email, fn) {
+    console.log('Getting plan for user: ' + email)
     dynamodb.get({
         TableName: "Subscriptions",
         Key: {
