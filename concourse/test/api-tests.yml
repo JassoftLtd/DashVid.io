@@ -14,8 +14,8 @@ run:
   args:
   - -exc
   - |
-    cd source-code/concourse/test/api-test
     ls -ltrh created-components
+    cd source-code/concourse/test/api-test
     echo $DASHVID_API_ADDRESS
     npm config set loglevel warn
     npm install
