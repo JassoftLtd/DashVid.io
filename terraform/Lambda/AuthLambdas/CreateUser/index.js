@@ -90,6 +90,8 @@ function storePlan(email, plan, token, fn) {
 
 function sendVerificationEmail(event, email, token, fn) {
 
+	console.log('Email Disabled Status:' + process.env.email_disabled)
+
     if(!process.env.email_disabled) {
         var subject = 'Verification Email for ' + event.stageVariables.auth_application_name;
         var verificationLink = event.stageVariables.auth_verification_page + '?email=' + encodeURIComponent(email) + '&verify=' + token;
