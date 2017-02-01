@@ -5,6 +5,10 @@ image_resource:
   source:
     repository: node
 
+inputs:
+- name: source-code
+- name: created-components
+
 run:
   path: sh
   args:
