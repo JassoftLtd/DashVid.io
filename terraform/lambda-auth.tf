@@ -39,7 +39,7 @@ resource "aws_lambda_permission" "allow_api_gateway-login" {
   statement_id = "AllowLoginExecutionFromApiGateway"
   action = "lambda:InvokeFunction"
   principal = "apigateway.amazonaws.com"
-  source_arn = "arn:aws:execute-api:${var.aws_region}:${var.aws_account_id}:${aws_api_gateway_rest_api.DashCamAPI.id}/*/${aws_api_gateway_integration.Auth-login-integration.integration_http_method}${aws_api_gateway_resource.v1.path}${aws_api_gateway_resource.Auth.path}${aws_api_gateway_resource.Login.path}"
+  source_arn = "arn:aws:execute-api:${var.aws_region}:${var.aws_account_id}:${aws_api_gateway_rest_api.DashCamAPI.id}/*/${aws_api_gateway_integration.Auth-login-integration.integration_http_method}${aws_api_gateway_resource.Login.path}"
 }
 
 resource "aws_lambda_function" "lostPassword" {
