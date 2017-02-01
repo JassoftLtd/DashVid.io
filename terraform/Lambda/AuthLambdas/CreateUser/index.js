@@ -43,6 +43,9 @@ function computeHash(password, salt, fn) {
 }
 
 function storeUser(event, email, hash, salt, fn) {
+
+    console.log('Storing User: ' + email)
+
 	// Bytesize
 	var len = 128;
 	crypto.randomBytes(len, function(err, token) {
@@ -70,6 +73,8 @@ function storePlan(email, plan, token, fn) {
 
 	planStatus = plan == "free" ? "Active" : "Pending";
 
+    console.log('Storing Plan: ' + plan)
+
 	dynamodb.put({
 		TableName: "Subscriptions",
 		Item: {
@@ -93,6 +98,9 @@ function sendVerificationEmail(event, email, token, fn) {
 	console.log('Email Disabled Status:' + process.env.email_disabled)
 
     if(!process.env.email_disabled) {
+
+		console.log('Sending Email to User: ' + email)
+
         var subject = 'Verification Email for ' + event.stageVariables.auth_application_name;
         var verificationLink = event.stageVariables.auth_verification_page + '?email=' + encodeURIComponent(email) + '&verify=' + token;
         ses.sendEmail({
@@ -135,6 +143,8 @@ exports.handler = function(event, context) {
 	var email = payload.email;
 	var clearPassword = payload.password;
     var plan = payload.plan.toLowerCase();
+
+    console.log('Payload: ' + JSON.stringify(payload))
 
 	computeHash(clearPassword, function(err, salt, hash) {
 		if (err) {
