@@ -13,7 +13,7 @@ resource "aws_lambda_permission" "allow_api_gateway-createUser" {
   statement_id = "AllowCreateUserExecutionFromApiGateway"
   action = "lambda:InvokeFunction"
   principal = "apigateway.amazonaws.com"
-  source_arn = "arn:aws:execute-api:${var.aws_region}:${var.aws_account_id}:${aws_api_gateway_rest_api.DashCamAPI.id}/*/${aws_api_gateway_integration.Auth-createUser-integration.integration_http_method}${aws_api_gateway_resource.v1.path}${aws_api_gateway_resource.Auth.path}${aws_api_gateway_resource.Signup.path}"
+  source_arn = "arn:aws:execute-api:${var.aws_region}:${var.aws_account_id}:${aws_api_gateway_rest_api.DashCamAPI.id}/*/${aws_api_gateway_integration.Auth-createUser-integration.integration_http_method}${aws_api_gateway_resource.Signup.path}"
 }
 
 resource "aws_lambda_function" "changePassword" {
@@ -23,6 +23,14 @@ resource "aws_lambda_function" "changePassword" {
   handler = "ChangePassword.handler"
   runtime = "nodejs4.3"
   source_code_hash = "${base64sha256(file("${path.module}/Lambda/AuthLambdas/ChangePassword.zip"))}"
+}
+
+resource "aws_lambda_permission" "allow_api_gateway-changePassword" {
+  function_name = "${aws_lambda_function.changePassword.function_name}"
+  statement_id = "AllowChangePasswordExecutionFromApiGateway"
+  action = "lambda:InvokeFunction"
+  principal = "apigateway.amazonaws.com"
+  source_arn = "arn:aws:execute-api:${var.aws_region}:${var.aws_account_id}:${aws_api_gateway_rest_api.DashCamAPI.id}/*/${aws_api_gateway_integration.Auth-changePassword-integration.integration_http_method}${aws_api_gateway_resource.ChangePassword.path}"
 }
 
 resource "aws_lambda_function" "login" {
@@ -51,6 +59,14 @@ resource "aws_lambda_function" "lostPassword" {
   source_code_hash = "${base64sha256(file("${path.module}/Lambda/AuthLambdas/LostPassword.zip"))}"
 }
 
+resource "aws_lambda_permission" "allow_api_gateway-lostPassword" {
+  function_name = "${aws_lambda_function.lostPassword.function_name}"
+  statement_id = "AllowLostPasswordExecutionFromApiGateway"
+  action = "lambda:InvokeFunction"
+  principal = "apigateway.amazonaws.com"
+  source_arn = "arn:aws:execute-api:${var.aws_region}:${var.aws_account_id}:${aws_api_gateway_rest_api.DashCamAPI.id}/*/${aws_api_gateway_integration.Auth-lostPassword-integration.integration_http_method}${aws_api_gateway_resource.LostPassword.path}"
+}
+
 resource "aws_lambda_function" "resetPassword" {
   filename = "${path.module}/Lambda/AuthLambdas/ResetPassword.zip"
   function_name = "LambdAuthResetPassword"
@@ -60,6 +76,14 @@ resource "aws_lambda_function" "resetPassword" {
   source_code_hash = "${base64sha256(file("${path.module}/Lambda/AuthLambdas/ResetPassword.zip"))}"
 }
 
+resource "aws_lambda_permission" "allow_api_gateway-resetPassword" {
+  function_name = "${aws_lambda_function.resetPassword.function_name}"
+  statement_id = "AllowResetPasswordExecutionFromApiGateway"
+  action = "lambda:InvokeFunction"
+  principal = "apigateway.amazonaws.com"
+  source_arn = "arn:aws:execute-api:${var.aws_region}:${var.aws_account_id}:${aws_api_gateway_rest_api.DashCamAPI.id}/*/${aws_api_gateway_integration.Auth-resetPassword-integration.integration_http_method}${aws_api_gateway_resource.ResetPassword.path}"
+}
+
 resource "aws_lambda_function" "verifyUser" {
   filename = "${path.module}/Lambda/AuthLambdas/VerifyUser.zip"
   function_name = "LambdAuthVerifyUser"
@@ -67,4 +91,12 @@ resource "aws_lambda_function" "verifyUser" {
   handler = "VerifyUser.handler"
   runtime = "nodejs4.3"
   source_code_hash = "${base64sha256(file("${path.module}/Lambda/AuthLambdas/VerifyUser.zip"))}"
+}
+
+resource "aws_lambda_permission" "allow_api_gateway-verifyUser" {
+  function_name = "${aws_lambda_function.verifyUser.function_name}"
+  statement_id = "AllowVerifyUserExecutionFromApiGateway"
+  action = "lambda:InvokeFunction"
+  principal = "apigateway.amazonaws.com"
+  source_arn = "arn:aws:execute-api:${var.aws_region}:${var.aws_account_id}:${aws_api_gateway_rest_api.DashCamAPI.id}/*/${aws_api_gateway_integration.Auth-verifyUser-integration.integration_http_method}${aws_api_gateway_resource.VerifyUser.path}"
 }

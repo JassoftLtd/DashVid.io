@@ -15,3 +15,11 @@ resource "aws_lambda_function" "addCard" {
     }
   }
 }
+
+resource "aws_lambda_permission" "allow_api_gateway-addCard" {
+  function_name = "${aws_lambda_function.addCard.function_name}"
+  statement_id = "AllowAddCardExecutionFromApiGateway"
+  action = "lambda:InvokeFunction"
+  principal = "apigateway.amazonaws.com"
+  source_arn = "arn:aws:execute-api:${var.aws_region}:${var.aws_account_id}:${aws_api_gateway_rest_api.DashCamAPI.id}/*/${aws_api_gateway_integration.AddCard-integration.integration_http_method}${aws_api_gateway_resource.AddCard.path}"
+}

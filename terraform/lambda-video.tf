@@ -16,7 +16,7 @@ resource "aws_lambda_permission" "allow_api_gateway-getVideos" {
   statement_id = "AllowGetVideosExecutionFromApiGateway"
   action = "lambda:InvokeFunction"
   principal = "apigateway.amazonaws.com"
-  source_arn = "arn:aws:execute-api:${var.aws_region}:${var.aws_account_id}:${aws_api_gateway_rest_api.DashCamAPI.id}/*/*/"
+  source_arn = "arn:aws:execute-api:${var.aws_region}:${var.aws_account_id}:${aws_api_gateway_rest_api.DashCamAPI.id}/*/${aws_api_gateway_integration.Video-getVideos-integration.integration_http_method}${aws_api_gateway_resource.Video.path}"
 }
 
 // Video Create
@@ -30,12 +30,12 @@ resource "aws_lambda_function" "createVideo" {
   source_code_hash = "${base64sha256(file("Lambda/VideoLambdas/createVideo.zip"))}"
 }
 
-resource "aws_lambda_permission" "allow_api_gateway-createVideo" {
+resource "aws_lambda_permission" "allow_api_gateway-createVideos" {
   function_name = "${aws_lambda_function.createVideo.function_name}"
-  statement_id = "AllowCreateVideoExecutionFromApiGateway"
+  statement_id = "AllowCreateVideosExecutionFromApiGateway"
   action = "lambda:InvokeFunction"
   principal = "apigateway.amazonaws.com"
-  source_arn = "arn:aws:execute-api:${var.aws_region}:${var.aws_account_id}:${aws_api_gateway_rest_api.DashCamAPI.id}/*/${aws_api_gateway_integration.Video-createVideo-integration.integration_http_method}${aws_api_gateway_resource.v1.path}${aws_api_gateway_resource.Video.path}"
+  source_arn = "arn:aws:execute-api:${var.aws_region}:${var.aws_account_id}:${aws_api_gateway_rest_api.DashCamAPI.id}/*/${aws_api_gateway_integration.Video-createVideo-integration.integration_http_method}${aws_api_gateway_resource.Video.path}"
 }
 
 // Video Uploaded
@@ -86,10 +86,8 @@ resource "aws_lambda_permission" "allow_api_gateway-getVideo" {
   statement_id = "AllowGetVideoExecutionFromApiGateway"
   action = "lambda:InvokeFunction"
   principal = "apigateway.amazonaws.com"
-//  source_arn = "arn:aws:execute-api:${var.aws_region}:${var.aws_account_id}:${aws_api_gateway_rest_api.DashCamAPI.id}/*/*/"
-  source_arn = "arn:aws:execute-api:${var.aws_region}:${var.aws_account_id}:${aws_api_gateway_rest_api.DashCamAPI.id}/*/${aws_api_gateway_integration.Video-getVideos-integration.integration_http_method}${aws_api_gateway_resource.v1.path}${aws_api_gateway_resource.Video.path}${aws_api_gateway_resource.VideoDetail.path}"
+  source_arn = "arn:aws:execute-api:${var.aws_region}:${var.aws_account_id}:${aws_api_gateway_rest_api.DashCamAPI.id}/*/${aws_api_gateway_integration.Video-getVideos-integration.integration_http_method}${aws_api_gateway_resource.VideoDetail.path}"
 }
-
 
 // Video Expired
 resource "aws_lambda_function" "expiredVideo" {
