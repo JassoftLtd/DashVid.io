@@ -31,8 +31,7 @@ describe('Auth', function () {
 
             return apigClient.invokeApi(params, pathTemplate, method, additionalParams, body)
                 .then(function (result) {
-                    console.error(JSON.stringify(result))
-                    assert.equal(result.created, true);
+                    assert.equal(result.data.created, true);
                 });
         });
 
