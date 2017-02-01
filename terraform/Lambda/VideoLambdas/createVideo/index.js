@@ -70,7 +70,7 @@ function getUserPlan(email, fn) {
             "#planStatus":"PlanStatus",
         },
         ExpressionAttributeValues: {
-            ":user":User,
+            ":user":email,
             ":status":"Active"
         },
         "TableName": "Subscriptions"
