@@ -30,5 +30,5 @@ run:
     terraform plan
     ls -ltrh .terraform
     terraform apply
-    "export DASHVID_UI_ADDRESS=$(terraform output ui-address)" > ../../created-components/ui
-    "export DASHVID_API_ADDRESS=$(terraform output api-address)" > ../../created-components/api
+    echo "export DASHVID_UI_ADDRESS=$(terraform output ui-address)" > ../../created-components/ui
+    echo "export DASHVID_API_ADDRESS=$(terraform output api-address)" > ../../created-components/api
