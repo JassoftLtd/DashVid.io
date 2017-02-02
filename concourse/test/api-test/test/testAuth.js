@@ -73,8 +73,8 @@ describe('Auth', function () {
                             return authHelper.login(email, password)
                                 .then(function (result) {
                                     assert.equal(result.data.login, true);
-                                    assert.assert(result.data.identityId);
-                                    assert.assert(result.data.token);
+                                    assert(result.data.identityId);
+                                    assert(result.data.token);
                                 });
                         });
                 });
