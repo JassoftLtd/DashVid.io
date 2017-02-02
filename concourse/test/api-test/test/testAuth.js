@@ -1,9 +1,9 @@
 var assert = require('assert');
 
-var authHelper = require('./helpers/authHelper.js')
-var generator = require('./helpers/generators.js')
+var authHelper = require('./helpers/authHelper.js');
+var generator = require('./helpers/generators.js');
 
-var tokenOverride = 'TestToken'
+var tokenOverride = 'TestToken';
 
 describe('Auth', function () {
 
@@ -11,10 +11,10 @@ describe('Auth', function () {
 
     describe('Signup', function () {
 
-        it('Should allow me to signup with a new user', function () {
+        it('Given I am a new User, When i signup for an account, Then it should be created', function () {
 
-            var email = generator.email()
-            var password = generator.password()
+            var email = generator.email();
+            var password = generator.password();
 
             return authHelper.signup(email, password, "Free")
                 .then(function (result) {
@@ -28,8 +28,8 @@ describe('Auth', function () {
 
         it('Given I activate a new account, When signing up for the Free plan, Then the returned status should be Active', function () {
 
-            var email = generator.email()
-            var password = generator.password()
+            var email = generator.email();
+            var password = generator.password();
 
             return authHelper.signup(email, password, "Free")
                 .then(function (result) {
@@ -44,8 +44,8 @@ describe('Auth', function () {
 
         it('Given I activate a new account, When signing up for the Standard plan, Then the returned status should be Pending', function () {
 
-            var email = generator.email()
-            var password = generator.password()
+            var email = generator.email();
+            var password = generator.password();
 
             return authHelper.signup(email, password, "Standard")
                 .then(function (result) {
@@ -61,10 +61,10 @@ describe('Auth', function () {
 
     describe('Account Login', function () {
 
-        it('Should allow me to login to a new account', function () {
+        it('Given I have a verified account, When i supply my login credentials, Then i should be returned a login token', function () {
 
-            var email = generator.email()
-            var password = generator.password()
+            var email = generator.email();
+            var password = generator.password();
 
             return authHelper.signup(email, password, "Free")
                 .then(function (result) {
@@ -73,8 +73,8 @@ describe('Auth', function () {
                             return authHelper.login(email, password)
                                 .then(function (result) {
                                     assert.equal(result.data.login, true);
-                                    // assert.equal(result.data.identityId, "");
-                                    // assert.equal(result.data.token, "");
+                                    assert.assert(result.data.identityId);
+                                    assert.assert(result.data.token);
                                 });
                         });
                 });
