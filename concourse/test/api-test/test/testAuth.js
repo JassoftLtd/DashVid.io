@@ -1,5 +1,3 @@
-import {describe, it} from "mocha";
-
 var assert = require('assert');
 
 var authHelper = require('./helpers/authHelper.js')
