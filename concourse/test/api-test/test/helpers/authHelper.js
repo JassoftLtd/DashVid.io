@@ -44,4 +44,25 @@ var verify  = function (email, token) {
     return apigClient.invokeApi(params, pathTemplate, method, additionalParams, body)
 }
 
-export {signup, verify};
+var login  = function (email, password) {
+    var config = {
+        invokeUrl: process.env.DASHVID_API_ADDRESS
+    }
+    var apigClient = apigClientFactory.newClient(config);
+
+    var params = {
+        //This is where any header, path, or querystring request params go. The key is the parameter named as defined in the API
+    };
+    // Template syntax follows url-template https://www.npmjs.com/package/url-template
+    var pathTemplate = '/v1/auth/login'
+    var method = 'POST';
+    var additionalParams = {};
+    var body = {
+        email: email,
+        password: password
+    };
+
+    return apigClient.invokeApi(params, pathTemplate, method, additionalParams, body)
+}
+
+export {signup, verify, login};
