@@ -36,7 +36,7 @@ describe('Auth', function () {
                     return authHelper.verify(email, tokenOverride)
                         .then(function (result) {
                             assert.equal(result.data.verified, true);
-                            assert.equal(result.data.plan, "Free");
+                            assert.equal(result.data.plan, "free");
                             assert.equal(result.data.status, "Active");
                         });
                 });
@@ -52,7 +52,7 @@ describe('Auth', function () {
                     return authHelper.verify(email, tokenOverride)
                         .then(function (result) {
                             assert.equal(result.data.verified, true);
-                            assert.equal(result.data.plan, "Standard");
+                            assert.equal(result.data.plan, "standard");
                             assert.equal(result.data.status, "Pending");
                         });
                 });
