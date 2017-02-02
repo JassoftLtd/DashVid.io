@@ -6,20 +6,19 @@ image_resource:
     repository: jonnyshaw89/dashvid-build
 
 inputs:
-- name: source-code
+- name: build-source
 
 run:
   path: sh
   args:
   - -exc
   - |
-    cd source-code/terraform
+    cd build-source/terraform
     terraform remote config \
         -backend=s3 \
         -backend-config="bucket=$TF_VAR_aws_terraform_state_bucket" \
         -backend-config="key=terraform.tfstate" \
         -backend-config="region=eu-west-1"
-    ./build.sh
     terraform get
     echo $TF_VAR_aws_region
     echo $TF_VAR_aws_terraform_state_bucket
