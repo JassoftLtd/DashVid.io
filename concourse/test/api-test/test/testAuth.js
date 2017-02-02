@@ -7,6 +7,8 @@ var tokenOverride = 'TestToken'
 
 describe('Auth', function () {
 
+    this.timeout(5000);
+
     describe('Signup', function () {
 
         it('Should allow me to signup with a new user', function () {
