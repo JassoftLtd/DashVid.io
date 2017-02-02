@@ -3,7 +3,7 @@ import {CardForm} from 'react-payment';
 var AWS = require('aws-sdk');
 var apigClientFactory = require('aws-api-gateway-client')
 var authUtils = require('../utils/auth.js');
-var global = require('./config.json')
+var global = require('/config.json')
 AWS.config.region = 'eu-west-1'; // Region
 
 class AddCard extends Component {

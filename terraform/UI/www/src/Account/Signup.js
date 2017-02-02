@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import Login from './Login.js'
-var global = require('./config.json')
+var global = require('/config.json')
 
 class Signup extends Component {
 

@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-var global = require('./config.json')
+var global = require('/config.json')
 var authUtils = require('../utils/auth.js');
 
 ////////////////
