@@ -1,7 +1,7 @@
 var AWS = require('aws-sdk');
 var apigClientFactory = require('aws-api-gateway-client')
 
-var signup  = function (email, password, plan) {
+exports.signup  = function (email, password, plan) {
     var config = {
         invokeUrl: process.env.DASHVID_API_ADDRESS
     }
@@ -23,7 +23,7 @@ var signup  = function (email, password, plan) {
     return apigClient.invokeApi(params, pathTemplate, method, additionalParams, body)
 }
 
-var verify  = function (email, token) {
+exports.verify  = function (email, token) {
     var config = {
         invokeUrl: process.env.DASHVID_API_ADDRESS
     }
@@ -44,7 +44,7 @@ var verify  = function (email, token) {
     return apigClient.invokeApi(params, pathTemplate, method, additionalParams, body)
 }
 
-var login  = function (email, password) {
+exports.login  = function (email, password) {
     var config = {
         invokeUrl: process.env.DASHVID_API_ADDRESS
     }
@@ -64,5 +64,3 @@ var login  = function (email, password) {
 
     return apigClient.invokeApi(params, pathTemplate, method, additionalParams, body)
 }
-
-export {signup, verify, login};

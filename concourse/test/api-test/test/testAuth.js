@@ -5,7 +5,6 @@ var generator = require('./helpers/generators.js')
 
 var tokenOverride = 'TestToken'
 
-
 describe('Auth', function () {
 
     describe('Signup', function () {

@@ -1,6 +1,6 @@
 var randomstring = require("randomstring");
 
-var email = function() {
+exports.email = function() {
 
     prefix = randomstring.generate({
         length: 12,
@@ -11,8 +11,6 @@ var email = function() {
     return prefix + '@dashvid.io'
 }
 
-var password = function() {
+exports.password = function() {
     return randomstring.generate();
 }
-
-export {email, password};
