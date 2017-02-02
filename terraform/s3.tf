@@ -121,3 +121,17 @@ EOF
 
     }
 }
+
+resource "aws_s3_bucket_object" "dashvid-io-config" {
+    depends_on = [
+        "aws_s3_bucket.dashvid-io-bucket",
+        "aws_api_gateway_deployment.DevDeployment"
+    ]
+    key        = "config.json"
+    bucket     = "${aws_s3_bucket.dashvid-io-bucket.bucket}"
+    content = <<EOF
+{
+"api-address": "https://${aws_api_gateway_deployment.DevDeployment.rest_api_id}.execute-api.${var.aws_region}.amazonaws.com/${aws_api_gateway_deployment.DevDeployment.stage_name}"
+}
+EOF
+}
