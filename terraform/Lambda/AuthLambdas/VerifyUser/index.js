@@ -4,7 +4,7 @@ console.log('Loading function');
 var AWS = require('aws-sdk');
 
 // Get reference to AWS clients
-var dynamodb = new AWS.DynamoDB();
+var dynamodb = new AWS.DynamoDB().DocumentClient();;
 
 var responseSuccess = {
 	statusCode: 200,
@@ -21,12 +21,10 @@ var responseError = {
 };
 
 function getUser(event, email, fn) {
-	dynamodb.getItem({
+	dynamodb.get({
 		TableName: event.stageVariables.auth_db_table,
 		Key: {
-			email: {
-				S: email
-			}
+			email: email
 		}
 	}, function(err, data) {
 		if (err) return fn(err);
@@ -46,24 +44,17 @@ function getUser(event, email, fn) {
 }
 
 function updateUser(event, email, fn) {
-	dynamodb.updateItem({
+	dynamodb.update({
 			TableName: event.stageVariables.auth_db_table,
 			Key: {
-				email: {
-					S: email
-				}
+				email: email
 			},
-			AttributeUpdates: {
-				verified: {
-					Action: 'PUT',
-					Value: {
-						BOOL: true
-					}
-				},
-				verifyToken: {
-					Action: 'DELETE'
-				}
-			}
+            UpdateExpression: "set verified = :verified, verifyToken = :verifyToken",
+            ExpressionAttributeValues:{
+                ":verified":true,
+                ":verifyToken":null
+            },
+            ReturnValues:"UPDATED_NEW"
 		},
 		fn);
 }
@@ -82,7 +73,7 @@ function getUserPlanAndStatus(email, fn) {
         "TableName": "Subscriptions"
     }, function(err, data) {
         if (err) {
-            console.error("User not found: " + JSON.stringify(err))
+            console.error("User Plan Error: " + JSON.stringify(err))
             fn('User not found', null, null)
         }
         else {
