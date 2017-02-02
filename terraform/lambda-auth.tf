@@ -9,6 +9,7 @@ resource "aws_lambda_function" "createUser" {
   environment {
     variables = {
       email_disabled = "${var.email_disabled}"
+      tokenOverride = "${var.token_override}"
     }
   }
 }

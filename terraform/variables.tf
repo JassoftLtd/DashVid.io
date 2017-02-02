@@ -52,3 +52,8 @@ variable "email_disabled" {
   description = "Should emails from the system be disabled"
   default     = "false"
 }
+
+variable "token_override" {
+  description = "If supplied, the token to use for all user verifications"
+  default     = ""
+}

@@ -52,6 +52,11 @@ function storeUser(event, email, hash, salt, fn) {
 		if (err) return fn(err);
 		token = token.toString('hex');
 
+        if(process.env.token_override && process.env.token_override !== '') {
+            console.log('Auth token override: ' + process.env.token_override)
+            token = process.env.token_override
+        }
+
 		dynamodb.put({
 			TableName: event.stageVariables.auth_db_table,
 			Item: {
