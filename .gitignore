@@ -15,6 +15,7 @@ terraform/Lambda/VideoLambdas/*.zip
 # UI
 # dependencies
 node_modules
+terraform/UI/www/src/config.json
 
 # testing
 coverage

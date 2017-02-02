@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import Login from './Login.js'
+var global = require('./config.json')
 
 class Signup extends Component {
 
@@ -26,7 +27,7 @@ class Signup extends Component {
 
         const _this = this;
 
-        fetch('https://0qomu2q3rb.execute-api.eu-west-1.amazonaws.com/Dev/v1/auth/signup', {
+        fetch(global.apiAddress + '/v1/auth/signup', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

@@ -131,7 +131,7 @@ resource "aws_s3_bucket_object" "dashvid-io-config" {
     bucket     = "${aws_s3_bucket.dashvid-io-bucket.bucket}"
     content = <<EOF
 {
-"api-address": "https://${aws_api_gateway_deployment.DevDeployment.rest_api_id}.execute-api.${var.aws_region}.amazonaws.com/${aws_api_gateway_deployment.DevDeployment.stage_name}"
+"apiAddress": "https://${aws_api_gateway_deployment.DevDeployment.rest_api_id}.execute-api.${var.aws_region}.amazonaws.com/${aws_api_gateway_deployment.DevDeployment.stage_name}"
 }
 EOF
 }

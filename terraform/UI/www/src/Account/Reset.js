@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+var global = require('./config.json')
 
 class Reset extends Component {
 
@@ -25,7 +26,7 @@ class Reset extends Component {
 
         const _this = this;
 
-        fetch('https://0qomu2q3rb.execute-api.eu-west-1.amazonaws.com/Dev/v1/auth/resetPassword', {
+        fetch(global.apiAddress + '/v1/auth/resetPassword', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

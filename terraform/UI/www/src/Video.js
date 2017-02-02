@@ -6,6 +6,8 @@ var AWS = require('aws-sdk');
 var apigClientFactory = require('aws-api-gateway-client')
 var S3Upload = require('./s3upload.js')
 
+var global = require('./config.json')
+
 import VideoPlayer from './VideoPlayer.js'
 // import Share from './Share.js'
 
@@ -70,7 +72,7 @@ var VideoList = React.createClass({
         authUtils.runWithCredentials(function () {
 
             var config = {
-                invokeUrl: 'https://0qomu2q3rb.execute-api.eu-west-1.amazonaws.com/Dev',
+                invokeUrl: global.apiAddress,
                 accessKey: AWS.config.credentials.accessKeyId,
                 secretKey: AWS.config.credentials.secretAccessKey,
                 sessionToken: AWS.config.credentials.sessionToken,
@@ -196,7 +198,7 @@ var VideoAdd = React.createClass({
         authUtils.runWithCredentials(function () {
 
             var config = {
-                invokeUrl: 'https://0qomu2q3rb.execute-api.eu-west-1.amazonaws.com/Dev',
+                invokeUrl: global.apiAddress,
                 accessKey: AWS.config.credentials.accessKeyId,
                 secretKey: AWS.config.credentials.secretAccessKey,
                 sessionToken: AWS.config.credentials.sessionToken,
