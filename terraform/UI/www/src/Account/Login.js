@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
-var global = require('../config.json')
 var authUtils = require('../utils/auth.js');
+var api = require('../utils/api.js');
 
 ////////////////
 // Login //
@@ -38,7 +38,7 @@ class Login extends Component {
 
         const _this = this;
 
-        fetch(global.apiAddress + '/v1/auth/login', {
+        fetch(api.getApiAddress() + '/v1/auth/login', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -88,7 +88,7 @@ class Login extends Component {
 
         const _this = this;
 
-        fetch(global.apiAddress + '/v1/auth/lostPassword', {
+        fetch(api.getApiAddress() + '/v1/auth/lostPassword', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

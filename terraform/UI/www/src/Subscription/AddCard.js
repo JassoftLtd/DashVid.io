@@ -3,7 +3,7 @@ import {CardForm} from 'react-payment';
 var AWS = require('aws-sdk');
 var apigClientFactory = require('aws-api-gateway-client')
 var authUtils = require('../utils/auth.js');
-var global = require('../config.json')
+var api = require('../utils/api.js');
 AWS.config.region = 'eu-west-1'; // Region
 
 class AddCard extends Component {
@@ -31,7 +31,7 @@ class AddCard extends Component {
                 authUtils.runWithCredentials(function () {
 
                     var config = {
-                        invokeUrl: global.apiAddress,
+                        invokeUrl: api.getApiAddress(),
                         accessKey: AWS.config.credentials.accessKeyId,
                         secretKey: AWS.config.credentials.secretAccessKey,
                         sessionToken: AWS.config.credentials.sessionToken,

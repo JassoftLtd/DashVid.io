@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-var global = require('../config.json')
+var api = require('../utils/api.js');
 
 class Verify extends Component {
 
@@ -22,7 +22,7 @@ class Verify extends Component {
 
         const _this = this;
 
-        fetch(global.apiAddress + '/v1/auth/verifyUser', {
+        fetch(api.getApiAddress() + '/v1/auth/verifyUser', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

@@ -14,6 +14,7 @@ run:
   args:
   - -exc
   - |
+    $(cat created-components/api)
     $(cat created-components/ui)
     echo $DASHVID_UI_ADDRESS
     npm config set loglevel warn

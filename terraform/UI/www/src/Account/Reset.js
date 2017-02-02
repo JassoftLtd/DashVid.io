@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-var global = require('../config.json')
+var api = require('./utils/api.js');
 
 class Reset extends Component {
 
@@ -26,7 +26,7 @@ class Reset extends Component {
 
         const _this = this;
 
-        fetch(global.apiAddress + '/v1/auth/resetPassword', {
+        fetch(api.getApiAddress() + '/v1/auth/resetPassword', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
