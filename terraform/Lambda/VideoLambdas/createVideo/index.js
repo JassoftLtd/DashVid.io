@@ -64,7 +64,6 @@ function getUserPlan(email, fn) {
     dynamodb.query({
         KeyConditionExpression:"#user = :user",
         FilterExpression: '#planStatus = :status',
-        ScanIndexForward: false,
         ExpressionAttributeNames: {
             "#user":"User",
             "#planStatus":"PlanStatus",

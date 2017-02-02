@@ -68,6 +68,37 @@ function updateUser(event, email, fn) {
 		fn);
 }
 
+function getUserPlanAndStatus(email, fn) {
+    console.log('Getting plan for user: ' + email)
+
+    dynamodb.query({
+        KeyConditionExpression:"#user = :user",
+        ExpressionAttributeNames: {
+            "#user":"User",
+        },
+        ExpressionAttributeValues: {
+            ":user":email,
+        },
+        "TableName": "Subscriptions"
+    }, function(err, data) {
+        if (err) {
+            console.error("User not found: " + JSON.stringify(err))
+            fn('User not found', null, null)
+        }
+        else {
+            if(data.Count > 1) {
+                console.error("User had multiple pending Subscriptions: " + JSON.stringify(data))
+                fn('User had multiple pending Subscriptions', null, null); // User not found
+            }
+
+            var plan = data.Items[0].Plan;
+            var status = data.Items[0].PlanStatus;
+            console.log("User plan is " + plan)
+            fn(null, plan, status);
+        }
+    });
+}
+
 exports.handler = function(event, context) {
 
 	var payload = JSON.parse(event.body);
@@ -93,12 +124,22 @@ exports.handler = function(event, context) {
 					responseError.body = new Error('Error in updateUser: ' + err)
 					context.fail(responseError);
 				} else {
-					console.log('User verified: ' + email);
-					responseSuccess.body = JSON.stringify({
-						verified: true
-					})
-					console.log("response: " + JSON.stringify(responseSuccess))
-					context.succeed(responseSuccess);
+					getUserPlanAndStatus(email, function (err, plan, status) {
+                        if (err) {
+                            responseError.body = new Error('Error in getting user plan: ' + err)
+                            context.fail(responseError);
+                        }
+                        else {
+                            console.log('User verified: ' + email);
+                            responseSuccess.body = JSON.stringify({
+                                verified: true,
+								plan: plan,
+								status: status
+                            })
+                            console.log("response: " + JSON.stringify(responseSuccess))
+                            context.succeed(responseSuccess);
+                        }
+                    })
 				}
 			});
 		} else {
