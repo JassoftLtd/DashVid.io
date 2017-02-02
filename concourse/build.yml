@@ -24,7 +24,7 @@ run:
         -backend-config="key=terraform.tfstate" \
         -backend-config="region=eu-west-1"
     ./build.sh
-    cp -p ../../source-code/terraform ../../build-source/terraform
+    cp -R ../../source-code/terraform ../../build-source/terraform
     terraform get
     echo $TF_VAR_aws_region
     echo $TF_VAR_aws_terraform_state_bucket
