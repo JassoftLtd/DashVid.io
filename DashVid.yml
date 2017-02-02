@@ -14,6 +14,7 @@ jobs:
 
   - task: Test Deploy
     file: source-code/concourse/build.yml
+    attempts: 2
     params:
       TF_VAR_aws_terraform_state_bucket: dashvid-terraform-state-tests
       TF_VAR_aws_region: us-east-1
@@ -36,6 +37,7 @@ jobs:
 
   - task: Test Destroy
     file: source-code/concourse/destroy.yml
+    attempts: 2
     params:
       TF_VAR_aws_terraform_state_bucket: dashvid-terraform-state-tests
       TF_VAR_aws_region: us-east-1
@@ -52,6 +54,7 @@ jobs:
 
   - task: Production Deploy
     file: source-code/concourse/build.yml
+    attempts: 2
     params:
       TF_VAR_aws_terraform_state_bucket: dashvid-terraform-state
       TF_VAR_aws_region: eu-west-1
