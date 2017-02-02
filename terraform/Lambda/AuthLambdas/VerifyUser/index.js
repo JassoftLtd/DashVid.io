@@ -4,7 +4,7 @@ console.log('Loading function');
 var AWS = require('aws-sdk');
 
 // Get reference to AWS clients
-var dynamodb = new AWS.DynamoDB().DocumentClient();;
+var dynamodb = new AWS.DynamoDB().DocumentClient();
 
 var responseSuccess = {
 	statusCode: 200,
