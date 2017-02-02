@@ -19,4 +19,3 @@ run:
     echo $DASHVID_API_ADDRESS
     npm config set loglevel warn
     npm install
-    npm test
