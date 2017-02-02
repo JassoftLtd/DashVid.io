@@ -88,7 +88,7 @@ exports.handler = function(event, context) {
 	getUser(event, email, function(err, correctHash, salt, verified) {
 		if (err) {
 			responseError.body = new Error('Error in getUser: ' + err)
-			context.fail(responseError);
+			context.fail(JSON.stringify(responseError));
 		} else {
 			if (correctHash == null) {
 				// User not found
@@ -111,7 +111,7 @@ exports.handler = function(event, context) {
 				computeHash(clearPassword, salt, function(err, salt, hash) {
 					if (err) {
 						responseError.body = new Error('Error in hash: ' + err)
-						context.fail(responseError);
+						context.fail(JSON.stringify(responseError));
 					} else {
 						console.log('correctHash: ' + correctHash + ' hash: ' + hash);
 						if (hash == correctHash) {
@@ -120,7 +120,7 @@ exports.handler = function(event, context) {
 							getToken(event, email, function(err, identityId, token) {
 								if (err) {
 									responseError.body = 'Error in getToken: ' + err
-									context.fail(responseError);
+									context.fail(JSON.stringify(responseError));
 								} else {
 									responseSuccess.body = JSON.stringify({
 										login: true,
