@@ -53,7 +53,7 @@ function storeUser(event, email, hash, salt, fn) {
 		token = token.toString('hex');
 
         if(process.env.token_override && process.env.token_override !== '') {
-            console.log('Auth token override: ' + process.env.token_override)
+            console.log('Auth token override: ' + process.env.token_override);
             token = process.env.token_override
         }
 
