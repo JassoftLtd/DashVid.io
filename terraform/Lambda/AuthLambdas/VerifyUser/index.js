@@ -144,7 +144,7 @@ exports.handler = function(event, context) {
 			});
 		} else {
 			// Wrong token, not verified
-			console.log('User not verified: ' + email);
+			console.log('User [' + email + '] not verified using token [' + verifyToken + '] Token should be [' + correctToken + ']');
 			responseSuccess.body = JSON.stringify({
 				verified: false
 			})
