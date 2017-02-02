@@ -33,7 +33,7 @@ function getUser(event, email, fn) {
 				var verified = data.Item.verified.BOOL;
 				var verifyToken = null;
 				if (!verified) {
-					verifyToken = data.Item.verifyToken.S;
+					verifyToken = data.Item.verifyToken;
 				}
 				fn(null, verified, verifyToken);
 			} else {
