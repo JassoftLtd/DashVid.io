@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-var api = require('./utils/api.js');
+var api = require('../utils/api.js');
 
 class Reset extends Component {
 
