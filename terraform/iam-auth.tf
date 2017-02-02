@@ -177,7 +177,7 @@ POLICY
 // Do i still need these as im now going through API Gateway
 resource "aws_iam_role_policy" "Cognito_LambdAuthAuth_Role_Cognito_LambdAuthAuth_Role" {
     name   = "${var.environment_name}Cognito_LambdAuthAuth_Role"
-    role   = "Cognito_LambdAuthAuth_Role"
+    role   = "${aws_iam_role.Cognito_LambdAuthAuth_Role.name}"
     policy = <<POLICY
 {
   "Version": "2012-10-17",
@@ -224,7 +224,7 @@ POLICY
 
 resource "aws_iam_role_policy" "Cognito_LambdAuthUnauth_Role_Cognito_LambdAuthUnauth_Role" {
     name   = "${var.environment_name}Cognito_LambdAuthUnauth_Role"
-    role   = "Cognito_LambdAuthUnauth_Role"
+    role   = "${aws_iam_role.Cognito_LambdAuthUnauth_Role.name}"
     policy = <<POLICY
 {
   "Version": "2012-10-17",
@@ -262,7 +262,7 @@ POLICY
 
 resource "aws_iam_role_policy" "LambdAuthChangePassword_LambdAuthChangePassword" {
     name   = "${var.environment_name}LambdAuthChangePassword"
-    role   = "LambdAuthChangePassword"
+    role   = "${aws_iam_role.LambdAuthChangePassword.name}"
     policy = <<POLICY
 {
   "Version": "2012-10-17",
@@ -290,7 +290,7 @@ POLICY
 
 resource "aws_iam_role_policy" "LambdAuthCreateUser_LambdAuthCreateUser" {
     name   = "${var.environment_name}LambdAuthCreateUser"
-    role   = "LambdAuthCreateUser"
+    role   = "${aws_iam_role.LambdAuthCreateUser.name}"
     policy = <<POLICY
 {
   "Version": "2012-10-17",
@@ -332,7 +332,7 @@ POLICY
 
 resource "aws_iam_role_policy" "LambdAuthLogin_LambdAuthLogin" {
     name   = "${var.environment_name}LambdAuthLogin"
-    role   = "LambdAuthLogin"
+    role   = "${aws_iam_role.LambdAuthLogin.name}"
     policy = <<POLICY
 {
   "Version": "2012-10-17",
@@ -366,7 +366,7 @@ POLICY
 
 resource "aws_iam_role_policy" "LambdAuthLostPassword_LambdAuthLostPassword" {
     name   = "${var.environment_name}LambdAuthLostPassword"
-    role   = "LambdAuthLostPassword"
+    role   = "${aws_iam_role.LambdAuthLostPassword.name}"
     policy = <<POLICY
 {
   "Version": "2012-10-17",
@@ -402,7 +402,7 @@ POLICY
 
 resource "aws_iam_role_policy" "LambdAuthResetPassword_LambdAuthResetPassword" {
     name   = "${var.environment_name}LambdAuthResetPassword"
-    role   = "LambdAuthResetPassword"
+    role   = "${aws_iam_role.LambdAuthResetPassword.name}"
     policy = <<POLICY
 {
   "Version": "2012-10-17",
@@ -430,7 +430,7 @@ POLICY
 
 resource "aws_iam_role_policy" "LambdAuthVerifyUser_LambdAuthVerifyUser" {
     name   = "${var.environment_name}LambdAuthVerifyUser"
-    role   = "LambdAuthVerifyUser"
+    role   = "${aws_iam_role.LambdAuthVerifyUser.name}"
     policy = <<POLICY
 {
   "Version": "2012-10-17",
