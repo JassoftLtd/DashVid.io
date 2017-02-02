@@ -444,6 +444,13 @@ resource "aws_iam_role_policy" "LambdAuthVerifyUser_LambdAuthVerifyUser" {
       "Resource": "arn:aws:dynamodb:${var.aws_region}:${var.aws_account_id}:table/${aws_dynamodb_table.users-table.name}"
     },
     {
+      "Action": [
+        "dynamodb:Query"
+      ],
+      "Effect": "Allow",
+      "Resource": "arn:aws:dynamodb:${var.aws_region}:${var.aws_account_id}:table/${aws_dynamodb_table.subscriptions-table.name}"
+    },
+    {
       "Sid": "",
       "Resource": "*",
       "Action": [
