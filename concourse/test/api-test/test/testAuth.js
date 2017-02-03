@@ -3,11 +3,9 @@ var assert = require('assert');
 var authHelper = require('./helpers/authHelper.js');
 var generator = require('./helpers/generators.js');
 
-var tokenOverride = 'TestToken';
-
 describe('Auth', function () {
 
-    this.timeout(5000);
+    this.timeout(10000);
 
     describe('Signup', function () {
 
@@ -33,7 +31,7 @@ describe('Auth', function () {
 
             return authHelper.signup(email, password, "Free")
                 .then(function (result) {
-                    return authHelper.verify(email, tokenOverride)
+                    return authHelper.verify(email, authHelper.tokenOverride)
                         .then(function (result) {
                             assert.equal(result.data.verified, true);
                             assert.equal(result.data.plan, "free");
@@ -49,7 +47,7 @@ describe('Auth', function () {
 
             return authHelper.signup(email, password, "Standard")
                 .then(function (result) {
-                    return authHelper.verify(email, tokenOverride)
+                    return authHelper.verify(email, authHelper.tokenOverride)
                         .then(function (result) {
                             assert.equal(result.data.verified, true);
                             assert.equal(result.data.plan, "standard");
@@ -68,7 +66,7 @@ describe('Auth', function () {
 
             return authHelper.signup(email, password, "Free")
                 .then(function (result) {
-                    return authHelper.verify(email, tokenOverride)
+                    return authHelper.verify(email, authHelper.tokenOverride)
                         .then(function (result) {
                             return authHelper.login(email, password)
                                 .then(function (result) {
@@ -85,13 +83,15 @@ describe('Auth', function () {
     describe('Change Password', function () {
 
         it('Given I have a verified account, When I attempt to change my password, Then my password should be changed', function () {
-            var user = authHelper.getLoggedInUser();
+           return authHelper.getLoggedInUser()
+                .then(function (user) {
 
-            var newPassword = generator.password();
+                    var newPassword = generator.password();
 
-            return authHelper.changePassword(user.password, newPassword)
-                .then(function (result) {
-                    assert.equal(result.data.changed, true);
+                    return authHelper.changePassword(user, user.password, newPassword)
+                        .then(function (result) {
+                            assert.equal(result.data.changed, true);
+                        });
                 });
         });
     });

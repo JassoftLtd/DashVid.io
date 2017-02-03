@@ -2,6 +2,8 @@ var AWS = require('aws-sdk');
 var apigClientFactory = require('aws-api-gateway-client')
 var generator = require('./generators.js');
 
+exports.tokenOverride = 'TestToken';
+
 exports.signup  = function (email, password, plan) {
     var config = {
         invokeUrl: process.env.DASHVID_API_ADDRESS
@@ -66,13 +68,14 @@ exports.login  = function (email, password) {
     return apigClient.invokeApi(params, pathTemplate, method, additionalParams, body)
 }
 
-exports.changePassword  = function (oldPassword, newPassword) {
+exports.changePassword  = function (user, oldPassword, newPassword) {
     var config = {
         invokeUrl: process.env.DASHVID_API_ADDRESS,
-        accessKey: AWS.config.credentials.accessKeyId,
-        secretKey: AWS.config.credentials.secretAccessKey,
-        sessionToken: AWS.config.credentials.sessionToken,
+        accessKey: user.credentials.accessKeyId,
+        secretKey: user.credentials.secretAccessKey,
+        sessionToken: user.credentials.sessionToken
     }
+
     var apigClient = apigClientFactory.newClient(config);
 
     var params = {
@@ -95,11 +98,11 @@ exports.getLoggedInUser = function () {
     var email = generator.email();
     var password = generator.password();
 
-    signup(email, password, "Free")
+    return exports.signup(email, password, "Free")
         .then(function (result) {
-            verify(email, tokenOverride)
+            return exports.verify(email, exports.tokenOverride)
                 .then(function (result) {
-                    login(email, password)
+                    return exports.login(email, password)
                         .then(function (result) {
 
                             var params = {
@@ -112,13 +115,20 @@ exports.getLoggedInUser = function () {
 
                             AWS.config.credentials = new AWS.CognitoIdentityCredentials(params);
 
-                            AWS.config.credentials.get();
+                            AWS.config.region = process.env.aws_region;
 
-                            return {
-                                email: email,
-                                password: password,
-                                credentials: new AWS.CognitoIdentityCredentials(params)
-                            }
+                            return AWS.config.credentials.getPromise()
+                                .then(function(data) {
+
+                                return Promise.resolve({
+                                        email: email,
+                                        password: password,
+                                        credentials: AWS.config.credentials
+                                    })
+
+                                });
+
+
                         });
                 });
         });
