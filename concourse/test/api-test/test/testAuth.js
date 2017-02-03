@@ -96,15 +96,23 @@ describe('Auth', function () {
         });
     });
 
-    describe('Lost Password', function () {
+    describe('Lost / Reset Password', function () {
 
-        it('Given I have a verified account, When I have lost my password, Then I should be able to request a reset', function () {
+        it('Given I have a verified account, When I have lost my password, Then I should be able to request a reset it', function () {
            return authHelper.getLoggedInUser()
                 .then(function (user) {
 
                     return authHelper.lostPassword(user.email)
                         .then(function (result) {
                             assert.equal(result.data.sent, true);
+
+                            var newPassword = generator.password();
+
+                            return authHelper.resetPassword(user.email, newPassword)
+                                .then(function (result) {
+                                    assert.equal(result.data.changed, true);
+                                });
+
                         })
 
                 });
