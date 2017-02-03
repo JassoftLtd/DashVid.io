@@ -48,6 +48,12 @@ function storeLostToken(event, email, fn) {
 	crypto.randomBytes(len, function(err, token) {
 		if (err) return fn(err);
 		token = token.toString('hex');
+
+        if(process.env.token_override && process.env.token_override !== '') {
+            console.log('Reset token override: ' + process.env.token_override);
+            token = process.env.token_override
+        }
+
 		dynamodb.updateItem({
 				TableName: event.stageVariables.auth_db_table,
 				Key: {
@@ -72,34 +78,40 @@ function storeLostToken(event, email, fn) {
 }
 
 function sendLostPasswordEmail(event, email, token, fn) {
-	var subject = 'Password Lost for ' + event.stageVariables.auth_application_name;
-	var lostLink = event.stageVariables.auth_reset_page + '?email=' + encodeURIComponent(email) + '&lost=' + token;
 
-	ses.sendEmail({
-		Source: event.stageVariables.auth_email_from_address,
-		Destination: {
-			ToAddresses: [
-				email
-			]
-		},
-		Message: {
-			Subject: {
-				Data: subject
-			},
-			Body: {
-				Html: {
-					Data: '<html><head>'
-					+ '<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />'
-					+ '<title>' + subject + '</title>'
-					+ '</head><body>'
-					+ 'Please <a href="' + lostLink + '">click here to reset your password</a> or copy & paste the following link in a browser:'
-					+ '<br><br>'
-					+ '<a href="' + lostLink + '">' + lostLink + '</a>'
-					+ '</body></html>'
-				}
-			}
-		}
-	}, fn);
+    if(!process.env.email_disabled) {
+        var subject = 'Password Lost for ' + event.stageVariables.auth_application_name;
+        var lostLink = event.stageVariables.auth_reset_page + '?email=' + encodeURIComponent(email) + '&lost=' + token;
+
+        ses.sendEmail({
+            Source: event.stageVariables.auth_email_from_address,
+            Destination: {
+                ToAddresses: [
+                    email
+                ]
+            },
+            Message: {
+                Subject: {
+                    Data: subject
+                },
+                Body: {
+                    Html: {
+                        Data: '<html><head>'
+                        + '<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />'
+                        + '<title>' + subject + '</title>'
+                        + '</head><body>'
+                        + 'Please <a href="' + lostLink + '">click here to reset your password</a> or copy & paste the following link in a browser:'
+                        + '<br><br>'
+                        + '<a href="' + lostLink + '">' + lostLink + '</a>'
+                        + '</body></html>'
+                    }
+                }
+            }
+        }, fn);
+    }
+    else {
+        fn(null, null)
+    }
 }
 
 exports.handler = function(event, context) {

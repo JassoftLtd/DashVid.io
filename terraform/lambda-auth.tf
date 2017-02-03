@@ -63,6 +63,12 @@ resource "aws_lambda_function" "lostPassword" {
   handler = "LostPassword.handler"
   runtime = "nodejs4.3"
   source_code_hash = "${base64sha256(file("${path.module}/Lambda/AuthLambdas/LostPassword.zip"))}"
+  environment {
+    variables = {
+      email_disabled = "${var.email_disabled}"
+      token_override = "${var.token_override}"
+    }
+  }
 }
 
 resource "aws_lambda_permission" "allow_api_gateway-lostPassword" {
