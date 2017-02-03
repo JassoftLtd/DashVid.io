@@ -14,3 +14,10 @@ exports.email = function() {
 exports.password = function() {
     return randomstring.generate();
 }
+
+exports.filename = function() {
+    return randomstring.generate({
+        length: 12,
+        charset: 'alphabetic'
+    });
+}
