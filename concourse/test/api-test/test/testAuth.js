@@ -82,4 +82,18 @@ describe('Auth', function () {
         })
     });
 
+    describe('Change Password', function () {
+
+        it('Given I have a verified account, When I attempt to change my password, Then my password should be changed', function () {
+            var user = authHelper.getLoggedInUser();
+
+            var newPassword = generator.password();
+
+            return authHelper.changePassword(user.password, newPassword)
+                .then(function (result) {
+                    assert.equal(result.data.changed, true);
+                });
+        });
+    });
+
 });
