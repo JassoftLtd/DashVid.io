@@ -62,7 +62,7 @@ class App extends Component {
 
                     <div className="l-content">
 
-                        <Router history={appHistory}>
+                        <Router history={browserHistory}>
                             <Route path="/" >
                                 <IndexRoute component={Home} />
                                 <Route path="video" component={Video} />
