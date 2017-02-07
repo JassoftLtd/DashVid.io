@@ -47,7 +47,7 @@ class App extends Component {
             <MuiThemeProvider>
                 <div>
                     <div className="pure-menu pure-menu-horizontal">
-                        <a href={homeRoute} className="pure-menu-heading">Your Logo</a>
+                        <a href={homeRoute} className="pure-menu-heading"><img src="/images/DashVid.svg" alt="DashVid.io" height="40px" /></a>
                         <Nav loggedIn={this.state.loggedIn} />
                         <Logout loggedIn={this.state.loggedIn} />
                     </div>
