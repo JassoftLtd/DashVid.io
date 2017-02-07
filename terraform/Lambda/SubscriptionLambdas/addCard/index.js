@@ -1,5 +1,5 @@
 'use strict';
-console.log('create video for User');
+console.log('add card to User');
 
 var AWS = require('aws-sdk');
 // Get reference to AWS clients
@@ -93,6 +93,10 @@ exports.handler = function(event, context) {
 
                                 // TODO I guess we now need to subscribe the user to their chosen plan
                                 console.log('I guess we now need to subscribe the user to their chosen plan')
+
+                                var responseBody = {
+                                    added: true
+                                };
 
                                 var response = {
                                     statusCode: responseCode,
