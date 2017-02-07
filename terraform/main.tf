@@ -14,8 +14,12 @@ data "terraform_remote_state" "remote-state" {
     }
 }
 
+//output "ui-address" {
+//    value = "${aws_cloudfront_distribution.website_s3_distribution.domain_name}"
+//}
+
 output "ui-address" {
-    value = "${aws_cloudfront_distribution.website_s3_distribution.domain_name}"
+    value = "${aws_s3_bucket.dashvid-io-bucket.website_endpoint}"
 }
 
 output "api-address" {
