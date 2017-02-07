@@ -22,7 +22,7 @@ class AddCard extends Component {
             if (response.error) {
                 console.error('Adding card failed with error: ' + response.error.message);
             } else {
-                const cardToken = response.id;
+                const cardToken = response.card.id;
                 // send cardToken to server to be saved under the current user
                 // show success message and navigate away from form
                 console.log('Response: ' + JSON.stringify(response))
