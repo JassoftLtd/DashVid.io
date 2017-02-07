@@ -4,7 +4,7 @@ resource "aws_cloudfront_origin_access_identity" "origin_access_identity" {
     comment = "Origin Access Identity for Websitr"
 }
 
-resource "aws_cloudfront_distribution" "s3_distribution" {
+resource "aws_cloudfront_distribution" "website_s3_distribution" {
   depends_on = [
     "aws_s3_bucket.dashvid-io-bucket",
     "aws_cloudfront_origin_access_identity.origin_access_identity"

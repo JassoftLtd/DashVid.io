@@ -15,7 +15,7 @@ data "terraform_remote_state" "remote-state" {
 }
 
 output "ui-address" {
-    value = "${aws_s3_bucket.dashvid-io-bucket.website_endpoint}"
+    value = "${aws_cloudfront_distribution.website_s3_distribution.domain_name}"
 }
 
 output "api-address" {
