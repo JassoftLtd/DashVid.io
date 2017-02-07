@@ -10,7 +10,7 @@ resource "aws_cloudfront_distribution" "website_s3_distribution" {
     "aws_cloudfront_origin_access_identity.origin_access_identity"
   ]
     origin {
-        domain_name = "${aws_s3_bucket.dashvid-io-bucket.website_endpoint}"
+        domain_name = "${aws_s3_bucket.dashvid-io-bucket.bucket}.s3.amazonaws.com"
         origin_id   = "myS3Origin"
 
         s3_origin_config {
