@@ -128,6 +128,7 @@ data "aws_iam_policy_document" "IamForCreateVideoLambda" {
 
   "statement" = {
       "effect" = "Allow",
+      "effect" = "Allow",
       "actions" = [
         "lambda:InvokeFunction"
       ],
@@ -183,6 +184,16 @@ data "aws_iam_policy_document" "IamForUploadedVideoLambda" {
       ],
       "resources" = [
         "${aws_dynamodb_table.videos-table.arn}"
+        ]
+    }
+
+  "statement" = {
+      "effect" = "Allow",
+      "actions" = [
+        "SNS:Publish"
+      ],
+      "resources" = [
+        "${aws_sns_topic.new_video.arn}"
         ]
     }
 

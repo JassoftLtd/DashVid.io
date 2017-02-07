@@ -72,6 +72,8 @@ exports.handler = function(event, context) {
 
                     console.log("Video Record: " + JSON.stringify(videoRecord));
 
+                    var encodedDate = (videoRecord.Encoded_date) ? videoRecord.Encoded_date[0] : new Date().getTime().toString()
+
                     dynamodb.put({
                         TableName: "Videos",
                         Item: {
@@ -81,7 +83,7 @@ exports.handler = function(event, context) {
                             VideoStatus: "Uploaded",
                             Bucket: bucket,
                             Key: key,
-                            RecordedDate: videoRecord.Encoded_date[0],
+                            RecordedDate: encodedDate,
                             VideoDuration: videoRecord.Duration[0],
                             MediaInfo: result
                         }
