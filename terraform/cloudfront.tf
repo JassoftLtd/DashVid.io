@@ -55,7 +55,7 @@ resource "aws_cloudfront_distribution" "website_s3_distribution" {
       error_caching_min_ttl = 0
       error_code = 404
       response_code = 200
-      response_page_path = "/${aws_s3_bucket.dashvid-io-bucket.website.index_document}"
+      response_page_path = "/index.html"
     }
 
     viewer_certificate {
