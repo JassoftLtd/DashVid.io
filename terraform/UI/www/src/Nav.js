@@ -22,7 +22,7 @@ class Nav extends Component {
             accountLink = <li className="pure-menu-item"><a className="pure-menu-link" href="/account">Account</a></li>
         }
         else {
-            signupLink = <li className="pure-menu-item"><a className="pure-menu-link" href="/signup">Signup</a></li>
+            signupLink = <li className="pure-menu-item"><a className="pure-menu-link" href="/signup">Login / Signup</a></li>
         }
 
         return (

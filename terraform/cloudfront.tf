@@ -45,6 +45,12 @@ resource "aws_cloudfront_distribution" "website_s3_distribution" {
         max_ttl                = 86400
     }
 
+    restrictions {
+      geo_restriction {
+        restriction_type = "none"
+      }
+    }
+
     custom_error_response {
       error_caching_min_ttl = 0
       error_code = 404

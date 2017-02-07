@@ -5,6 +5,7 @@ import 'whatwg-fetch'
 var AWS = require('aws-sdk');
 var apigClientFactory = require('aws-api-gateway-client')
 var S3Upload = require('./s3upload.js')
+var moment = require("moment");
 
 import VideoPlayer from './VideoPlayer.js'
 // import Share from './Share.js'
@@ -123,13 +124,16 @@ var VideoList = React.createClass({
         if (this.state.videos) {
             videos = this.state.videos.map(function (video, i) {
 
+                var uploaded = moment(video.Uploaded).toISOString()
+                var recorded = moment(video.RecordedDate).toISOString()
+
                 return (
                     <tr key={video.Id}>
                         <td>{video.Id}</td>
-                        <td>{video.Uploaded}</td>
+                        <td>{uploaded}</td>
                         <td>{video.User}</td>
                         <td>{video.VideoStatus}</td>
-                        <td>{video.RecordedDate}</td>
+                        <td>{recorded}</td>
                         <td>{video.VideoDuration /1000}s</td>
                         <td><button onClick={()=>{_this.props.playVideoCallback(video.Id)}}>Play</button></td>
                         {/*<td><Share videoId={video.Id}/></td>*/}
