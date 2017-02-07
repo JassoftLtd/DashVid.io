@@ -48,6 +48,11 @@ variable "environment_name" {
   default     = ""
 }
 
+variable "environment_subdomain" {
+  description = "A subdomain to prepend to the urls"
+  default     = ""
+}
+
 variable "email_disabled" {
   description = "Should emails from the system be disabled"
   default     = "false"

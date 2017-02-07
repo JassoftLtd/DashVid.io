@@ -19,6 +19,7 @@ jobs:
       TF_VAR_aws_terraform_state_bucket: dashvid-terraform-state-tests
       TF_VAR_aws_region: us-east-1
       TF_VAR_environment_name: test-
+      TF_VAR_environment_subdomain: test.
       TF_VAR_email_disabled: true
       TF_VAR_token_override: TestToken
       TF_VAR_aws_account_id: {{aws_account_id}}
@@ -45,6 +46,7 @@ jobs:
       TF_VAR_aws_terraform_state_bucket: dashvid-terraform-state-tests
       TF_VAR_aws_region: us-east-1
       TF_VAR_environment_name: test-
+      TF_VAR_environment_subdomain: test.
       TF_VAR_email_disabled: true
       TF_VAR_token_override: TestToken
       TF_VAR_aws_account_id: {{aws_account_id}}
