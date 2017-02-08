@@ -1,4 +1,5 @@
 var assert = require('assert');
+var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 
 var authHelper = require('./helpers/authHelper.js');
 var videoHelper = require('./helpers/videoHelper.js');
@@ -21,10 +22,25 @@ describe('Video', function () {
                         .then(function (result) {
                             assert(result.data.url);
 
-                            var xhr = new XMLHttpRequest();
-                            xhr.open('PUT', result.data.url);
-                            xhr.setRequestHeader('Content-Type', "text/plain;charset=UTF-8");
-                            return xhr.send(file);
+                            return new Promise(function (fulfill, reject){
+
+                                console.log("S3 signed url: " + result.data.url)
+
+                                var xhr = new XMLHttpRequest();
+                                xhr.open('PUT', result.data.url);
+                                // xhr.setRequestHeader('Content-Type', "text/plain;charset=UTF-8");
+                                xhr.onload = function() {
+                                    if (xhr.status === 200) {
+                                        fulfill('Upload completed')
+                                    } else {
+                                        console.log(JSON.stringify(xhr))
+                                        reject('Upload error status: ' + xhr.status)
+                                    }
+                                };
+                                xhr.send(file)
+                            });
+
+
                         })
 
                 });

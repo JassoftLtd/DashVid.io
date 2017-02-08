@@ -28,6 +28,13 @@ resource "aws_lambda_function" "createVideo" {
   runtime = "nodejs4.3"
   timeout = "3"
   source_code_hash = "${base64sha256(file("Lambda/VideoLambdas/createVideo.zip"))}"
+  environment {
+    variables = {
+      plan_bucket_free = "${aws_s3_bucket.dash-cam-videos-free-bucket}"
+      plan_bucket_standard = "${aws_s3_bucket.dash-cam-videos-standard-bucket}"
+      plan_bucket_premium = "${aws_s3_bucket.dash-cam-videos-premium-bucket}"
+    }
+  }
 }
 
 resource "aws_lambda_permission" "allow_api_gateway-createVideos" {

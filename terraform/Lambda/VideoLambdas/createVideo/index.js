@@ -29,14 +29,14 @@ exports.handler = function(event, context) {
             context.fail()
         }
 
-        var bucketPrefix = 'dash-cam-videos-';
+        let bucket = process.env['plan_bucket_' + plan.toLowerCase()]
 
         var s3 = new AWS.S3({
             apiVersion: '2006-03-01'
         });
 
         const url = s3.getSignedUrl('putObject', {
-            Bucket: bucketPrefix + plan.toLowerCase(),
+            Bucket: bucket,
             Key: _key,
             Expires: signedUrlExpireSeconds,
             ContentType: 'text/plain;charset=UTF-8'
