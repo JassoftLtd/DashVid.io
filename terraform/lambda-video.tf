@@ -30,9 +30,9 @@ resource "aws_lambda_function" "createVideo" {
   source_code_hash = "${base64sha256(file("Lambda/VideoLambdas/createVideo.zip"))}"
   environment {
     variables = {
-      plan_bucket_free = "${aws_s3_bucket.dash-cam-videos-free-bucket}"
-      plan_bucket_standard = "${aws_s3_bucket.dash-cam-videos-standard-bucket}"
-      plan_bucket_premium = "${aws_s3_bucket.dash-cam-videos-premium-bucket}"
+      plan_bucket_free = "${aws_s3_bucket.dash-cam-videos-free-bucket.bucket}"
+      plan_bucket_standard = "${aws_s3_bucket.dash-cam-videos-standard-bucket.bucket}"
+      plan_bucket_premium = "${aws_s3_bucket.dash-cam-videos-premium-bucket.bucket}"
     }
   }
 }
