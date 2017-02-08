@@ -14,11 +14,17 @@ describe('Video', function () {
            return authHelper.getLoggedInUser()
                 .then(function (user) {
 
-                    var filename = generator.filename();
+                    let filename = "01291238_0160";
+                    let file = "./testData/01291238_0160.MP4";
 
                     return videoHelper.createVideo(user, filename, ".mp4")
                         .then(function (result) {
                             assert(result.data.url);
+
+                            var xhr = new XMLHttpRequest();
+                            xhr.open('PUT', result.data.url);
+                            xhr.setRequestHeader('Content-Type', "text/plain;charset=UTF-8");
+                            return xhr.send(file);
                         })
 
                 });
