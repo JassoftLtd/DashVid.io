@@ -37,7 +37,7 @@ exports.handler = function(event, context) {
                 if(stripeCustomer) {
                     console.log('Stripe Customer exists for user ' + data.Item.email + ' Updating record');
 
-                    stripe.customers.update(data.Item.stripeCustomer.id, {
+                    stripe.customers.update(data.Item.stripeCustomer, {
                         source: payload.token, // obtained with Stripe.js
                     }, function(err, customer) {
                         if (err) {
