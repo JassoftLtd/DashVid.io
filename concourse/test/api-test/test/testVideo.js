@@ -15,16 +15,16 @@ describe('Video', function () {
            return authHelper.getLoggedInUser()
                 .then(function (user) {
 
-                    let filename = "01291238_0160";
-                    let file = "./testData/01291238_0160.MP4";
+                    let file = new File("./testData/01291238_0160.MP4");
 
-                    return videoHelper.createVideo(user, filename, ".mp4")
+                    console.log(JSON.stringify(file))
+
+                    return videoHelper.createVideo(user, file.name, file.type)
                         .then(function (result) {
                             assert(result.data.url);
 
                             return new Promise(function (fulfill, reject){
 
-                                console.log("S3 signed url: " + result.data.url)
 
                                 var xhr = new XMLHttpRequest();
                                 xhr.open('PUT', result.data.url);
