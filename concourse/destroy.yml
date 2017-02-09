@@ -20,7 +20,5 @@ run:
         -backend-config="key=terraform.tfstate" \
         -backend-config="region=eu-west-1"
     terraform get
-    echo $TF_VAR_aws_region
-    echo $TF_VAR_aws_terraform_state_bucket
     ls -ltrh .terraform
     terraform destroy -force
