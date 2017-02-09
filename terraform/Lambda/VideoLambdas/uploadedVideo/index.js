@@ -90,8 +90,7 @@ exports.handler = function(event, context) {
                     }, function (err, data) {
                         if (err) {
                             deleteFile(bucket, key)
-                            responseError.body = new Error('Unable to create video record for key [' + key + ']. Error JSON:', JSON.stringify(err, null, 2))
-                            context.fail(responseError);
+                            context.fail('Unable to create video record for key [' + key + ']. Error JSON:', JSON.stringify(err, null, 2));
                         } else {
                             console.log("Video create DynammoDb record succeeded");
 
@@ -103,8 +102,7 @@ exports.handler = function(event, context) {
                                 TargetArn: process.env.snsNewVideoArn
                             }, function(err, data) {
                                 if (err) {
-                                    responseError.body = new Error('Error sending SNS message: ' + err)
-                                    context.fail(responseError);
+                                    context.fail('Error sending SNS message: ' + err);
 
                                     return;
                                 }
@@ -140,8 +138,7 @@ function deleteFile (bucket, key) {
         Key: key,
     }, function(err, data) {
         if(err) {
-            responseError.body = new Error('Error deleting file from S3 Buskct [' + bucket + '] Key [' + key + ']')
-            context.fail(responseError);
+            context.fail('Error deleting file from S3 Buskct [' + bucket + '] Key [' + key + ']');
         }
     });
 
