@@ -17,7 +17,7 @@ describe('Video', function () {
            return authHelper.getLoggedInUser()
                 .then(function (user) {
 
-                    return videoHelper.createVideo(user, "01291238_0160", ".MP4")
+                    return videoHelper.createVideo(user, "01291238_0160.MP4", ".MP4")
                         .then(function (result) {
                             assert(result.data.url);
 

@@ -89,8 +89,8 @@ exports.handler = function(event, context) {
                         }
                     }, function (err, data) {
                         if (err) {
+                            context.fail('Unable to create video record for key [' + key + ']. Error: ' + err);
                             deleteFile(bucket, key)
-                            context.fail('Unable to create video record for key [' + key + ']. Error JSON:', JSON.stringify(err, null, 2));
                         } else {
                             console.log("Video create DynammoDb record succeeded");
 
@@ -138,7 +138,7 @@ function deleteFile (bucket, key) {
         Key: key,
     }, function(err, data) {
         if(err) {
-            context.fail('Error deleting file from S3 Buskct [' + bucket + '] Key [' + key + ']');
+            context.fail('Error deleting file from S3 Bucket [' + bucket + '] Key [' + key + ']');
         }
     });
 
