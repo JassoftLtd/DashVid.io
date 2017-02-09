@@ -4,6 +4,7 @@
 resource "aws_s3_bucket" "dash-cam-videos-free-bucket" {
     bucket = "${var.environment_name}dash-cam-videos-free"
     acl = "private"
+    force_destroy = "${var.bucket_force_destroy}"
 
     cors_rule {
         allowed_headers = ["*"]
@@ -26,6 +27,7 @@ resource "aws_s3_bucket" "dash-cam-videos-free-bucket" {
 resource "aws_s3_bucket" "dash-cam-videos-standard-bucket" {
     bucket = "${var.environment_name}dash-cam-videos-standard"
     acl = "private"
+    force_destroy = "${var.bucket_force_destroy}"
 
     cors_rule {
         allowed_headers = ["*"]
@@ -47,6 +49,7 @@ resource "aws_s3_bucket" "dash-cam-videos-standard-bucket" {
 resource "aws_s3_bucket" "dash-cam-videos-premium-bucket" {
     bucket = "${var.environment_name}dash-cam-videos-premium"
     acl = "private"
+    force_destroy = "${var.bucket_force_destroy}"
 
     cors_rule {
         allowed_headers = ["*"]
