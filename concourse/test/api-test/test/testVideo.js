@@ -22,8 +22,6 @@ describe('Video', function () {
                         .then(function (result) {
                             assert(result.data.url);
 
-                            console.log('Uploading file')
-
                             let filepath = './test/testData/01291238_0160.MP4';
 
                             let stream = fs.createReadStream(filepath)
@@ -41,7 +39,7 @@ describe('Video', function () {
 
                             return rp(options)
                                 .then(function () {
-                                    console.log('Uploaded Video')
+                                    assert(true)
                                 });
 
                         });
