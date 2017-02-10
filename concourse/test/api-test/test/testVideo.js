@@ -50,7 +50,6 @@ describe('Video', function () {
         });
     });
 
-
     describe('Get Videos', function () {
 
         it('Given I have a verified account, When I havent uploaded any videos, Then It should recieve an empty list', function () {
