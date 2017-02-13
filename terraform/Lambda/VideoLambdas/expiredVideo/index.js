@@ -1,12 +1,9 @@
 'use strict';
-console.log('videos uploaded for User');
+console.log('video expiring for User');
 
 var AWS = require('aws-sdk');
 // Get reference to AWS clients
 var dynamodb = new AWS.DynamoDB.DocumentClient();
-
-var child_process = require("child_process");
-var parseString = require('xml2js').parseString;
 
 exports.handler = function(event, context) {
 	var responseCode = 200;
