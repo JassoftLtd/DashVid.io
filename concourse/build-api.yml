@@ -9,7 +9,7 @@ inputs:
 - name: source-code
 
 outputs:
-- name: created-components
+- name: api-exports
 - name: build-source
 
 run:
@@ -32,4 +32,4 @@ run:
     terraform plan
     ls -ltrh .terraform
     terraform apply
-    echo "export DASHVID_API_ADDRESS=$(terraform output api-address)" >> ../../created-components/exports
+    echo "export DASHVID_API_ADDRESS=$(terraform output api-address)" > ../../api-exports/exports

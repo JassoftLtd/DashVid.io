@@ -9,7 +9,7 @@ inputs:
 - name: source-code
 
 outputs:
-- name: created-components
+- name: ui-exports
 
 run:
   path: sh
@@ -30,4 +30,4 @@ run:
     terraform plan
     ls -ltrh .terraform
     terraform apply
-    echo "export DASHVID_UI_ADDRESS=$(terraform output ui-address)" >> ../../../created-components/exports
+    echo "export DASHVID_UI_ADDRESS=$(terraform output ui-address)" > ../../../ui-exports/exports

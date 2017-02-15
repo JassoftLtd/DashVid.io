@@ -7,15 +7,14 @@ image_resource:
 
 inputs:
 - name: source-code
-- name: created-components
+- name: api-exports
 
 run:
   path: sh
   args:
   - -exc
   - |
-    cat created-components/exports
-    $(cat created-components/exports)
+    $(cat api-exports/exports)
     cd source-code/concourse/test/api-test
     echo $DASHVID_API_ADDRESS
     npm config set loglevel warn
