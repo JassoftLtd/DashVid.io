@@ -18,10 +18,6 @@ data "terraform_remote_state" "remote-state" {
 //    value = "${aws_cloudfront_distribution.website_s3_distribution.domain_name}"
 //}
 
-output "ui-address" {
-    value = "${aws_s3_bucket.dashvid-io-bucket.website_endpoint}"
-}
-
 output "api-address" {
     value = "https://${aws_api_gateway_deployment.DevDeployment.rest_api_id}.execute-api.${var.aws_region}.amazonaws.com/${aws_api_gateway_deployment.DevDeployment.stage_name}"
 }
