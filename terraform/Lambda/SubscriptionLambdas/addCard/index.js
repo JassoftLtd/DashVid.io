@@ -50,7 +50,9 @@ exports.handler = function(event, context) {
                             headers: {
                                 'Access-Control-Allow-Origin': '*'
                             },
-                            body: JSON.stringify(responseBody)
+                            body: JSON.stringify({
+                                added: true
+                            })
                         };
                         console.log("response: " + JSON.stringify(response))
                         context.succeed(response);
@@ -94,16 +96,14 @@ exports.handler = function(event, context) {
                                 // TODO I guess we now need to subscribe the user to their chosen plan
                                 console.log('I guess we now need to subscribe the user to their chosen plan')
 
-                                var responseBody = {
-                                    added: true
-                                };
-
                                 var response = {
                                     statusCode: responseCode,
                                     headers: {
                                         'Access-Control-Allow-Origin': '*'
                                     },
-                                    body: JSON.stringify(responseBody)
+                                    body: JSON.stringify({
+                                        added: true
+                                    })
                                 };
                                 console.log("response: " + JSON.stringify(response))
                                 context.succeed(response);

@@ -42,8 +42,6 @@ exports.getVideos  = function (user) {
     // Template syntax follows url-template https://www.npmjs.com/package/url-template
     var pathTemplate = '/v1/video'
     var method = 'GET';
-    var additionalParams = {};
-    var body = {};
 
-    return apigClient.invokeApi(params, pathTemplate, method, additionalParams, body)
+    return apigClient.invokeApi(params, pathTemplate, method)
 }
