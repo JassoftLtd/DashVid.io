@@ -13,7 +13,7 @@ run:
   args:
   - -exc
   - |
-    cd build-source-ui/terraform/ui
+    cd build-source-ui/terraform/UI
     terraform remote config \
         -backend=s3 \
         -backend-config="bucket=$TF_VAR_aws_terraform_state_bucket" \
