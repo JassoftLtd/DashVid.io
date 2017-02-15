@@ -16,6 +16,6 @@ run `terraform apply -parallelism=1` to see it work.
 
 
 
-`fly -t dashvid login -c http://dashvidci.jassoft.co.uk:8080`
+`fly -t dashvid login -c http://concourse.jassoft.co.uk`
 `fly -t dashvid set-pipeline -p DashVid.io -c DashVid.yml --load-vars-from secrets.yml`
 `fly -t dashvid unpause-pipeline --pipeline DashVid.io`
