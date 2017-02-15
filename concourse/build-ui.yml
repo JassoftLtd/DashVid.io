@@ -24,6 +24,7 @@ run:
         -backend-config="key=terraform-ui.tfstate" \
         -backend-config="region=eu-west-1"
     ./build.sh
+    mkdir ../../../build-source-ui/terraform
     cp -R ../../../source-code/terraform/UI ../../../build-source-ui/terraform/UI
     terraform get
     echo $TF_VAR_aws_region
