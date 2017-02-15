@@ -14,9 +14,11 @@ go install github.com/jonnyshaw89/terraform-s3-dir
 #go get -u github.com/saymedia/terraform-s3-dir
 #go install github.com/saymedia/terraform-s3-dir
 
+cd www/
 echo "Building UI"
 npm install
 npm run build
+cd ../
 
 websiteBucket=dashvid.io
 
