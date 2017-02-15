@@ -54,7 +54,7 @@ class Login extends Component {
 
             if(json.login) {
                 var params = {
-                    IdentityPoolId: 'us-east-1:f281abb3-08de-40ae-ae2a-f64027f7ebc9',
+                    IdentityPoolId: process.env.TF_VAR_aws_identity_pool,
                     IdentityId: json.identityId,
                     Logins: {
                         'cognito-identity.amazonaws.com': json.token
