@@ -10,6 +10,7 @@ inputs:
 
 outputs:
 - name: ui-exports
+- name: build-source-ui
 
 run:
   path: sh
@@ -23,6 +24,7 @@ run:
         -backend-config="key=terraform-ui.tfstate" \
         -backend-config="region=eu-west-1"
     ./build.sh
+    cp -R ../../../source-code/terraform/UI ../../../build-source-ui/terraform/UI
     terraform get
     echo $TF_VAR_aws_region
     echo $TF_VAR_aws_terraform_state_bucket

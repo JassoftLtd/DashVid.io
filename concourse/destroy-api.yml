@@ -6,14 +6,14 @@ image_resource:
     repository: jonnyshaw89/dashvid-build
 
 inputs:
-- name: build-source
+- name: build-source-api
 
 run:
   path: sh
   args:
   - -exc
   - |
-    cd build-source/terraform
+    cd build-source-api/terraform
     terraform remote config \
         -backend=s3 \
         -backend-config="bucket=$TF_VAR_aws_terraform_state_bucket" \
