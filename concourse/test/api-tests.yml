@@ -14,7 +14,7 @@ run:
   args:
   - -exc
   - |
-    $(cat created-components/api)
+    $(cat created-components/exports)
     cd source-code/concourse/test/api-test
     echo $DASHVID_API_ADDRESS
     npm config set loglevel warn
