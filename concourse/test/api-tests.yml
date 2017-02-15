@@ -14,6 +14,7 @@ run:
   args:
   - -exc
   - |
+    cat created-components/exports
     $(cat created-components/exports)
     cd source-code/concourse/test/api-test
     echo $DASHVID_API_ADDRESS
