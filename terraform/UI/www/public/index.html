@@ -32,7 +32,10 @@
     <![endif]-->
     <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
     <script type="text/javascript">
-        Stripe.setPublishableKey('{process.env.STRIPE_PUBLISHABLE_KEY}');
+        Stripe.setPublishableKey('%REACT_APP_STRIPE_PUBLISHABLE_KEY%');
+    </script>
+    <script>
+        window.REACT_APP_AWS_IDENTITY_POOL = '%REACT_APP_AWS_IDENTITY_POOL%';
     </script>
 </head>
 <body>

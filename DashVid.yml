@@ -42,8 +42,8 @@ jobs:
       TF_VAR_aws_access_key: {{aws_access_key}}
       TF_VAR_aws_secret_key: {{aws_secret_key}}
       TF_VAR_stripe_api_key: {{stripe_api_key_test}}
-      STRIPE_PUBLISHABLE_KEY: pk_test_ebVZiJokoWIbXD1TNNZ8lj2A
-      TF_VAR_aws_identity_pool: {{aws_identity_pool_test}}
+      REACT_APP_STRIPE_PUBLISHABLE_KEY: pk_test_ebVZiJokoWIbXD1TNNZ8lj2A
+      REACT_APP_AWS_IDENTITY_POOL: {{aws_identity_pool_test}}
       AWS_ACCESS_KEY_ID: {{aws_access_key}}
       AWS_SECRET_ACCESS_KEY: {{aws_secret_key}}
 
@@ -86,7 +86,6 @@ jobs:
       TF_VAR_aws_access_key: {{aws_access_key}}
       TF_VAR_aws_secret_key: {{aws_secret_key}}
       TF_VAR_stripe_api_key: {{stripe_api_key_test}}
-      TF_VAR_aws_identity_pool: {{aws_identity_pool_test}}
       AWS_ACCESS_KEY_ID: {{aws_access_key}}
       AWS_SECRET_ACCESS_KEY: {{aws_secret_key}}
 
@@ -114,7 +113,7 @@ jobs:
       TF_VAR_aws_access_key: {{aws_access_key}}
       TF_VAR_aws_secret_key: {{aws_secret_key}}
       TF_VAR_stripe_api_key: {{stripe_api_key_test}}
-      STRIPE_PUBLISHABLE_KEY: pk_live_IYFID6k8KNK8uTVSeKQ6Ync5
-      TF_VAR_aws_identity_pool: {{aws_identity_pool}}
+      REACT_APP_STRIPE_PUBLISHABLE_KEY: pk_live_IYFID6k8KNK8uTVSeKQ6Ync5
+      REACT_APP_AWS_IDENTITY_POOL: {{aws_identity_pool}}
       AWS_ACCESS_KEY_ID: {{aws_access_key}}
       AWS_SECRET_ACCESS_KEY: {{aws_secret_key}}
