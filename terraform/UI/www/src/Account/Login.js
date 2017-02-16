@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 var authUtils = require('../utils/auth.js');
 var api = require('../utils/api.js');
+const $ = window.$;
 
 ////////////////
 // Login //
@@ -54,7 +55,7 @@ class Login extends Component {
 
             if(json.login) {
                 var params = {
-                    IdentityPoolId: process.env.TF_VAR_aws_identity_pool,
+                    IdentityPoolId: $.REACT_APP_AWS_IDENTITY_POOL,
                     IdentityId: json.identityId,
                     Logins: {
                         'cognito-identity.amazonaws.com': json.token

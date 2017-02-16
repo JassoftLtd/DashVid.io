@@ -7,6 +7,7 @@ image_resource:
 
 inputs:
 - name: source-code
+- name: api-exports
 
 outputs:
 - name: ui-exports
@@ -17,6 +18,8 @@ run:
   args:
   - -exc
   - |
+    cat api-exports/exports
+    $(cat api-exports/exports)
     cd source-code/terraform/UI
     terraform remote config \
         -backend=s3 \
