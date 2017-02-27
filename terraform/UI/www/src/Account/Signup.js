@@ -87,11 +87,11 @@ class Signup extends Component {
             )
         }
 
-        if (this.props.loggedIn) {
+        if (!this.props.route.loggedIn) {
             return (
                 <div className="pricing-tables pure-g">
                     <div className="pure-u-1 pure-u-md-1-2">
-                        <Login loggedIn={this.props.loggedIn} loggedInCallback={this.props.route.loggedInCallback}/>
+                        <Login loggedIn={this.props.route.loggedIn} loggedInCallback={this.props.route.loggedInCallback}/>
                     </div>
                     <div className="pure-u-1 pure-u-md-1-2">
                         <form action="#" onSubmit={this.handleSignup.bind(this)}>

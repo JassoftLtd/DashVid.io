@@ -132,7 +132,7 @@ class Login extends Component {
 
     render() {
 
-        if (this.props.loggedIn) {
+        if (!this.props.loggedIn) {
             var message
 
             if(this.state.message) {
