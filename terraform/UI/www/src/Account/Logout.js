@@ -14,6 +14,8 @@ class Logout extends Component {
 
         authUtils.clearCredentials()
 
+        this.props.loggedInCallback(false)
+
         window.location.href = '/';
     }
 

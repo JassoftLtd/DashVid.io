@@ -11,18 +11,14 @@ import Reset from './Account/Reset.js'
 import AddCard from './Subscription/AddCard.js'
 import Nav from './Nav.js'
 import Video from './Video.js'
+import CurrentPlan from './Plan/CurrentPlan.js'
 
 import { render } from 'react-dom';
-import {Router, Route, IndexRoute, useRouterHistory, browserHistory} from 'react-router';
+import {Router, Route, IndexRoute, browserHistory} from 'react-router';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 injectTapEventPlugin();
-
-import createHashHistory from 'history/lib/createHashHistory'
-
-// useRouterHistory creates a composable higher-order function
-const appHistory = useRouterHistory(createHashHistory)()
 
 var authUtils = require('./utils/auth.js');
 
@@ -33,6 +29,12 @@ class App extends Component {
 
         this.state = {
             loggedIn: authUtils.hasAuth()
+        };
+    }
+
+    onAuthStateChange(loggedIn) {
+        this.state = {
+            loggedIn: loggedIn
         };
     }
 
@@ -49,7 +51,8 @@ class App extends Component {
                     <div className="pure-menu pure-menu-horizontal">
                         <a href={homeRoute} className="pure-menu-heading"><img src="/images/DashVid.svg" alt="DashVid.io" height="40px" /></a>
                         <Nav loggedIn={this.state.loggedIn} />
-                        <Logout loggedIn={this.state.loggedIn} />
+                        <Logout loggedIn={this.state.loggedIn} loggedInCallback={(loggedIn) => this.onAuthStateChange(loggedIn)} />
+                        <CurrentPlan loggedIn={this.state.loggedIn}  />
                     </div>
 
 
@@ -67,7 +70,7 @@ class App extends Component {
                                 <IndexRoute component={Home} />
                                 <Route path="video" component={Video} />
                                 <Route path="account" component={Account} />
-                                <Route path="signup" component={Signup} loggedIn={this.state.loggedIn}/>
+                                <Route path="signup" component={Signup} loggedIn={this.state.loggedIn} loggedInCallback={(loggedIn) => this.onAuthStateChange(loggedIn)} />
                                 <Route path="verify" component={Verify} />
                                 <Route path="reset" component={Reset} />
                             </Route>

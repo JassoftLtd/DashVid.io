@@ -1,5 +1,4 @@
 var AWS = require('aws-sdk');
-import { browserHistory } from 'react-router';
 
 var createCognitoIdentityCredentials = function (params) {
 
@@ -13,10 +12,12 @@ var reloadCredentials = function () {
     var sessionParams = sessionStorage.getItem("CognitoParmas");
 
     if(!sessionParams) {
-        browserHistory.push('/');
+        console.log('No Session Params')
+        window.location.href = '/';
     }
-
-    AWS.config.credentials = new AWS.CognitoIdentityCredentials(JSON.parse(sessionParams));
+    else {
+        AWS.config.credentials = new AWS.CognitoIdentityCredentials(JSON.parse(sessionParams));
+    }
 
 }
 

@@ -34,3 +34,12 @@ for f in $(ls -d */ | cut -f1 -d'/'); do
     echo "Zipping $f"
     zip -9 -r $f.zip $f/*
 done
+
+cd ../../Lambda/PlanLambdas/
+
+rm *.zip || true
+
+for f in $(ls -d */ | cut -f1 -d'/'); do
+    echo "Zipping $f"
+    zip -9 -r $f.zip $f/*
+done

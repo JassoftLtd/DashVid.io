@@ -63,6 +63,8 @@ class Login extends Component {
 
                 authUtils.createCognitoIdentityCredentials(params)
 
+                _this.props.loggedInCallback(true)
+
                 window.location.href = '/video';
             }
             else {
@@ -130,7 +132,7 @@ class Login extends Component {
 
     render() {
 
-        if (!authUtils.hasAuth()) {
+        if (this.props.loggedIn) {
             var message
 
             if(this.state.message) {

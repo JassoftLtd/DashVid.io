@@ -3,11 +3,6 @@ var authUtils = require('./utils/auth.js');
 
 class Nav extends Component {
 
-    onAuthStateChange(loggedIn) {
-        console.log('Account Knows of Auth state change')
-        this.setState({loggedIn: loggedIn})
-    }
-
     render() {
 
         //Authed

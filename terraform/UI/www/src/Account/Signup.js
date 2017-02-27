@@ -87,42 +87,46 @@ class Signup extends Component {
             )
         }
 
-        return (
-            <div className="pricing-tables pure-g">
-                <div className="pure-u-1 pure-u-md-1-2">
-                    <Login loggedIn={this.props.loggedIn} />
-                </div>
-                <div className="pure-u-1 pure-u-md-1-2">
-                    <form action="#" onSubmit={this.handleSignup.bind(this)}>
-                        <table>
-                            <tbody>
+        if (this.props.loggedIn) {
+            return (
+                <div className="pricing-tables pure-g">
+                    <div className="pure-u-1 pure-u-md-1-2">
+                        <Login loggedIn={this.props.loggedIn} loggedInCallback={this.props.route.loggedInCallback}/>
+                    </div>
+                    <div className="pure-u-1 pure-u-md-1-2">
+                        <form action="#" onSubmit={this.handleSignup.bind(this)}>
+                            <table>
+                                <tbody>
                                 {message}
                                 <tr>
                                     <td>Email</td>
                                     <td><input onChange={this.handleChangeEmail.bind(this)}
-                                               type="email" id="email" size="20" /></td>
+                                               type="email" id="email" size="20"/></td>
                                 </tr>
                                 <tr>
                                     <td>Password</td>
                                     <td><input onChange={this.handleChangePassword.bind(this)}
-                                               type="password" id="password" size="20" /></td>
+                                               type="password" id="password" size="20"/></td>
                                 </tr>
                                 <tr>
                                     <td>Verify Password</td>
                                     <td><input onChange={this.handleChangeVerifyPassword.bind(this)}
-                                               type="password" id="verifyPassword" size="20" /></td>
+                                               type="password" id="verifyPassword" size="20"/></td>
                                 </tr>
                                 <tr>
                                     <td colSpan="2">
                                         <button id="signup-button">Sign Up</button>
                                     </td>
                                 </tr>
-                            </tbody>
-                        </table>
-                    </form>
+                                </tbody>
+                            </table>
+                        </form>
+                    </div>
                 </div>
-            </div>
-        );
+            );
+        } else {
+            return ( <p>Logged In</p> )
+        }
     }
 }
 
