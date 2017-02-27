@@ -8,7 +8,7 @@ resource "aws_lambda_function" "getPlan" {
   handler = "getPlan.handler"
   runtime = "nodejs4.3"
   timeout = "30"
-  source_code_hash = "${base64sha256(file("Lambda/SubscriptionLambdas/getPlan.zip"))}"
+  source_code_hash = "${base64sha256(file("Lambda/PlanLambdas/getPlan.zip"))}"
 }
 
 resource "aws_lambda_permission" "allow_api_gateway-getPlan" {
