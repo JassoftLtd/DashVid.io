@@ -6,7 +6,7 @@ resource "aws_api_gateway_rest_api" "DashCamAPI" {
 }
 
 resource "aws_api_gateway_account" "DashCamAPIAccount" {
-  cloudwatch_role_arn = "${aws_iam_role.cloudwatch.arn}"
+  cloudwatch_role_arn = "${aws_iam_role.IamForDashCamAPIAccount.arn}"
 }
 
 resource "aws_iam_role" "IamForDashCamAPIAccount" {
