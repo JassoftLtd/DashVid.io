@@ -18,4 +18,3 @@ run:
     $(cat api-exports/exports)
     $(cat ui-exports/exports)
     echo $DASHVID_UI_ADDRESS
-    npm config set loglevel warn
