@@ -27,17 +27,14 @@ class Video extends Component {
     }
 
     onVideosModified() {
-        console.log('Video Knows of videos modified')
         this.setState({videosRequiresReload: true})
     }
 
     onVideosLoaded() {
-        console.log('Video Knows of videos modified')
         this.setState({videosRequiresReload: false})
     }
 
     onPlayVideo(videoId) {
-        console.log('Video Knows of play video request for video', videoId)
         this.setState({videoToPlay: videoId})
     }
 

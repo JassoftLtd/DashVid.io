@@ -5,6 +5,53 @@ resource "aws_api_gateway_rest_api" "DashCamAPI" {
     description = "This is my API for DashCam UI"
 }
 
+resource "aws_api_gateway_account" "DashCamAPIAccount" {
+  cloudwatch_role_arn = "${aws_iam_role.cloudwatch.arn}"
+}
+
+resource "aws_iam_role" "IamForDashCamAPIAccount" {
+  name = "${var.environment_name}iam_for_DashCamAPIAccount"
+  assume_role_policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "",
+      "Effect": "Allow",
+      "Principal": {
+        "Service": "apigateway.amazonaws.com"
+      },
+      "Action": "sts:AssumeRole"
+    }
+  ]
+}
+EOF
+}
+
+data "aws_iam_policy_document" "IamForDashCamAPIAccount" {
+  "statement" = {
+    "effect" = "Allow",
+    "actions" = [
+      "logs:CreateLogGroup",
+      "logs:CreateLogStream",
+      "logs:DescribeLogGroups",
+      "logs:DescribeLogStreams",
+      "logs:PutLogEvents",
+      "logs:GetLogEvents",
+      "logs:FilterLogEvents"
+    ],
+    "resources" = [
+      "*"
+    ]
+  }
+}
+
+resource "aws_iam_role_policy" "IamForDashCamAPIAccount" {
+  name = "${var.environment_name}IamForDashCamAPIAccount"
+  role = "${aws_iam_role.IamForDashCamAPIAccount.id}"
+  policy = "${data.aws_iam_policy_document.IamForDashCamAPIAccount.json}"
+}
+
 resource "aws_api_gateway_deployment" "DevDeployment" {
   depends_on = [
     "aws_api_gateway_rest_api.DashCamAPI",

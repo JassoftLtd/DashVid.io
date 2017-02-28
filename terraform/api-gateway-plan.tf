@@ -1,6 +1,6 @@
 // API Gateway
 
-// /subscription
+// /plan
 resource "aws_api_gateway_resource" "Plan" {
   depends_on = ["aws_api_gateway_rest_api.DashCamAPI", "aws_api_gateway_resource.v1"]
   rest_api_id = "${aws_api_gateway_rest_api.DashCamAPI.id}"
@@ -8,7 +8,7 @@ resource "aws_api_gateway_resource" "Plan" {
   path_part = "plan"
 }
 
-// /addCard OPTIONS
+// /plan OPTIONS
 module "plan-OptionsCORS" {
   source = "github.com/jonnyshaw89/terraform-api-gateway-cors-module"
   resource_name = "${aws_api_gateway_resource.Plan.path}"
@@ -17,7 +17,7 @@ module "plan-OptionsCORS" {
 }
 
 
-// /addCard POST
+// /plan GET
 resource "aws_api_gateway_method" "Plan-GET" {
   depends_on = ["aws_api_gateway_rest_api.DashCamAPI", "aws_api_gateway_resource.Plan"]
   rest_api_id = "${aws_api_gateway_rest_api.DashCamAPI.id}"

@@ -12,7 +12,6 @@ var reloadCredentials = function () {
     var sessionParams = sessionStorage.getItem("CognitoParmas");
 
     if(!sessionParams) {
-        console.log('No Session Params')
         window.location.href = '/';
     }
     else {
