@@ -24,7 +24,6 @@ module "ApiGatewayLambda-getVideo" {
   aws_api_gateway_resource_path = "${aws_api_gateway_resource.Video.path}"
   aws_lambda_function_arn = "${aws_lambda_function.getVideos.arn}"
   aws_lambda_function_name = "${aws_lambda_function.getVideos.function_name}"
-  aws_iam_policy_document_json = "${data.aws_iam_policy_document.IamForGetVideosLambda.json}"
   aws_region = "${var.aws_region}"
   aws_account_id = "${var.aws_account_id}"
   environment_name = "${var.environment_name}"
