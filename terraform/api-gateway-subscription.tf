@@ -24,39 +24,16 @@ module "addCard-OptionsCORS" {
   rest_api_id = "${aws_api_gateway_rest_api.DashCamAPI.id}"
 }
 
-
 // /addCard POST
-resource "aws_api_gateway_method" "AddCard-POST" {
-  depends_on = ["aws_api_gateway_rest_api.DashCamAPI", "aws_api_gateway_resource.AddCard"]
-  rest_api_id = "${aws_api_gateway_rest_api.DashCamAPI.id}"
-  resource_id = "${aws_api_gateway_resource.AddCard.id}"
-  http_method = "POST"
-  authorization = "AWS_IAM"
-}
-
-resource "aws_api_gateway_integration" "AddCard-integration" {
-  depends_on = ["aws_api_gateway_rest_api.DashCamAPI", "aws_api_gateway_resource.AddCard", "aws_api_gateway_method.AddCard-POST", "aws_lambda_function.addCard"]
-  rest_api_id = "${aws_api_gateway_rest_api.DashCamAPI.id}"
-  resource_id = "${aws_api_gateway_resource.AddCard.id}"
-  http_method = "${aws_api_gateway_method.AddCard-POST.http_method}"
-  type = "AWS_PROXY"
-  uri = "arn:aws:apigateway:${var.aws_region}:lambda:path/2015-03-31/functions/${aws_lambda_function.addCard.arn}/invocations"
-  integration_http_method = "POST"
-}
-
-resource "aws_api_gateway_method_response" "AddCard-POST-200" {
-  depends_on = ["aws_api_gateway_rest_api.DashCamAPI", "aws_api_gateway_resource.AddCard", "aws_api_gateway_method.AddCard-POST"]
-  rest_api_id = "${aws_api_gateway_rest_api.DashCamAPI.id}"
-  resource_id = "${aws_api_gateway_resource.AddCard.id}"
-  http_method = "${aws_api_gateway_method.AddCard-POST.http_method}"
-  status_code = "200"
-  response_parameters = { "method.response.header.Access-Control-Allow-Origin" = "*" }
-}
-
-resource "aws_api_gateway_integration_response" "AddCard-POST-Integration-Response" {
-  depends_on = ["aws_api_gateway_rest_api.DashCamAPI", "aws_api_gateway_resource.AddCard", "aws_api_gateway_method.AddCard-POST", "aws_api_gateway_method_response.AddCard-POST-200", "aws_api_gateway_integration.AddCard-integration"]
-  rest_api_id = "${aws_api_gateway_rest_api.DashCamAPI.id}"
-  resource_id = "${aws_api_gateway_resource.AddCard.id}"
-  http_method = "${aws_api_gateway_method.AddCard-POST.http_method}"
-  status_code = "${aws_api_gateway_method_response.AddCard-POST-200.status_code}"
+module "ApiGatewayLambda" {
+  source = "github.com/jonnyshaw89/api-gateway-lambda-method"
+  aws_api_gateway_rest_api = "${aws_api_gateway_rest_api.DashCamAPI.id}"
+  aws_api_gateway_resource_id = "${aws_api_gateway_resource.AddCard.id}"
+  aws_api_gateway_resource_path = "${aws_api_gateway_resource.AddCard.path}"
+  aws_lambda_function_arn = "${aws_lambda_function.addCard.arn}"
+  aws_lambda_function_name = "${aws_lambda_function.addCard.function_name}"
+  aws_iam_policy_document_json = "${data.aws_iam_policy_document.IamForAddCardLambda.json}"
+  aws_region = "${var.aws_region}"
+  aws_account_id = "${var.aws_account_id}"
+  environment_name = "${var.environment_name}"
 }
