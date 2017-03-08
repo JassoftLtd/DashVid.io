@@ -25,7 +25,6 @@ module "ApiGatewayLambda-getPlan" {
   aws_api_gateway_resource_path = "${aws_api_gateway_resource.Plan.path}"
   aws_lambda_function_arn = "${aws_lambda_function.getPlan.arn}"
   aws_lambda_function_name = "${aws_lambda_function.getPlan.function_name}"
-  aws_iam_policy_document_json = "${data.aws_iam_policy_document.IamForGetPlanLambda.json}"
   aws_region = "${var.aws_region}"
   aws_account_id = "${var.aws_account_id}"
   environment_name = "${var.environment_name}"
