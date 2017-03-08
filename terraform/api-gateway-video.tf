@@ -17,45 +17,17 @@ module "Video-OptionsCORS" {
 }
 
 // /video GET
-resource "aws_api_gateway_method" "Video-GET" {
-  depends_on = ["aws_api_gateway_resource.Video", "aws_api_gateway_rest_api.DashCamAPI"]
-  rest_api_id = "${aws_api_gateway_rest_api.DashCamAPI.id}"
-  resource_id = "${aws_api_gateway_resource.Video.id}"
-  http_method = "GET"
-  authorization = "AWS_IAM"
-}
-
-resource "aws_api_gateway_integration" "Video-getVideos-integration" {
-  depends_on = ["aws_api_gateway_resource.Video", "aws_api_gateway_rest_api.DashCamAPI", "aws_api_gateway_method.Video-GET", "aws_lambda_function.getVideos"]
-  rest_api_id = "${aws_api_gateway_rest_api.DashCamAPI.id}"
-  resource_id = "${aws_api_gateway_resource.Video.id}"
-  http_method = "${aws_api_gateway_method.Video-GET.http_method}"
-  type = "AWS_PROXY"
-  uri = "arn:aws:apigateway:${var.aws_region}:lambda:path/2015-03-31/functions/${aws_lambda_function.getVideos.arn}/invocations"
-  integration_http_method = "POST"
-}
-
-resource "aws_api_gateway_method_response" "Video-GET-200" {
-  depends_on = ["aws_api_gateway_resource.Video", "aws_api_gateway_rest_api.DashCamAPI", "aws_api_gateway_method.Video-GET"]
-  rest_api_id = "${aws_api_gateway_rest_api.DashCamAPI.id}"
-  resource_id = "${aws_api_gateway_resource.Video.id}"
-  http_method = "${aws_api_gateway_method.Video-GET.http_method}"
-  status_code = "200"
-  response_parameters = { "method.response.header.Access-Control-Allow-Origin" = "*" }
-}
-
-resource "aws_api_gateway_integration_response" "Video-GET-Integration-Response" {
-  depends_on = [
-    "aws_api_gateway_resource.Video",
-    "aws_api_gateway_rest_api.DashCamAPI",
-    "aws_api_gateway_method.Video-GET",
-    "aws_api_gateway_method_response.Video-GET-200",
-    "aws_api_gateway_integration.Video-getVideos-integration"
-  ]
-  rest_api_id = "${aws_api_gateway_rest_api.DashCamAPI.id}"
-  resource_id = "${aws_api_gateway_resource.Video.id}"
-  http_method = "${aws_api_gateway_method.Video-GET.http_method}"
-  status_code = "${aws_api_gateway_method_response.Video-GET-200.status_code}"
+module "ApiGatewayLambda-getVideo" {
+  source = "github.com/jonnyshaw89/api-gateway-lambda-method"
+  aws_api_gateway_rest_api = "${aws_api_gateway_rest_api.DashCamAPI.id}"
+  aws_api_gateway_resource_id = "${aws_api_gateway_resource.Video.id}"
+  aws_api_gateway_resource_path = "${aws_api_gateway_resource.Video.path}"
+  aws_lambda_function_arn = "${aws_lambda_function.getVideos.arn}"
+  aws_lambda_function_name = "${aws_lambda_function.getVideos.function_name}"
+  aws_iam_policy_document_json = "${data.aws_iam_policy_document.IamForGetVideosLambda.json}"
+  aws_region = "${var.aws_region}"
+  aws_account_id = "${var.aws_account_id}"
+  environment_name = "${var.environment_name}"
 }
 
 // /video POST
