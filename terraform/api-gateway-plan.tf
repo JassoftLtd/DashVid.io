@@ -34,6 +34,7 @@ resource "aws_api_gateway_integration" "Plan-integration" {
   type = "AWS_PROXY"
   uri = "arn:aws:apigateway:${var.aws_region}:lambda:path/2015-03-31/functions/${aws_lambda_function.getPlan.arn}/invocations"
   integration_http_method = "POST"
+  content_handling = "CONVERT_TO_TEXT"
 }
 
 resource "aws_api_gateway_method_response" "Plan-GET-200" {
