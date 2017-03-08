@@ -1,6 +1,25 @@
 // IAM
 
 // getVideos
+resource "aws_iam_role" "IamForGetVideosLambda" {
+  name = "${var.environment_name}iam_for_get_videos_lambda"
+  assume_role_policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Action": "sts:AssumeRole",
+      "Principal": {
+        "Service": "lambda.amazonaws.com"
+      },
+      "Effect": "Allow",
+      "Sid": ""
+    }
+  ]
+}
+EOF
+}
+
 data "aws_iam_policy_document" "IamForGetVideosLambda" {
   "statement" = {
     "effect" = "Allow",
@@ -48,11 +67,30 @@ data "aws_iam_policy_document" "IamForGetVideosLambda" {
 
 resource "aws_iam_role_policy" "IamForGetVideosLambda" {
   name = "${var.environment_name}IamForGetVideosLambda"
-  role = "${aws_iam_role.RoleForLambda.id}"
+  role = "${aws_iam_role.IamForGetVideosLambda.id}"
   policy = "${data.aws_iam_policy_document.IamForGetVideosLambda.json}"
 }
 
 // createVideo
+resource "aws_iam_role" "IamForCreateVideoLambda" {
+  name = "${var.environment_name}iam_for_create_video_lambda"
+  assume_role_policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Action": "sts:AssumeRole",
+      "Principal": {
+        "Service": "lambda.amazonaws.com"
+      },
+      "Effect": "Allow",
+      "Sid": ""
+    }
+  ]
+}
+EOF
+}
+
 data "aws_iam_policy_document" "IamForCreateVideoLambda" {
 
   "statement" = {
@@ -113,11 +151,31 @@ data "aws_iam_policy_document" "IamForCreateVideoLambda" {
 
 resource "aws_iam_role_policy" "IamForCreateVideoLambda" {
   name = "${var.environment_name}IamForCreateVideoLambda"
-  role = "${aws_iam_role.RoleForLambda.id}"
+  role = "${aws_iam_role.IamForCreateVideoLambda.id}"
   policy = "${data.aws_iam_policy_document.IamForCreateVideoLambda.json}"
 }
 
 // uploadedVideo
+resource "aws_iam_role" "IamForUploadedVideoLambda" {
+  name = "${var.environment_name}iam_for_uploaded_video_lambda"
+  assume_role_policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Action": "sts:AssumeRole",
+      "Principal": {
+        "Service": "lambda.amazonaws.com"
+      },
+      "Effect": "Allow",
+      "Sid": ""
+    }
+  ]
+}
+EOF
+}
+
+
 data "aws_iam_policy_document" "IamForUploadedVideoLambda" {
   "statement" = {
       "effect" = "Allow",
@@ -187,12 +245,31 @@ data "aws_iam_policy_document" "IamForUploadedVideoLambda" {
 
 resource "aws_iam_role_policy" "IamForUploadedVideoLambda" {
   name = "${var.environment_name}IamForUploadedVideoLambda"
-  role = "${aws_iam_role.RoleForLambda.id}"
+  role = "${aws_iam_role.IamForUploadedVideoLambda.id}"
   policy = "${data.aws_iam_policy_document.IamForUploadedVideoLambda.json}"
 }
 
 
 // getVideo
+resource "aws_iam_role" "IamForGetVideoLambda" {
+  name = "${var.environment_name}iam_for_get_video_lambda"
+  assume_role_policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Action": "sts:AssumeRole",
+      "Principal": {
+        "Service": "lambda.amazonaws.com"
+      },
+      "Effect": "Allow",
+      "Sid": ""
+    }
+  ]
+}
+EOF
+}
+
 data "aws_iam_policy_document" "IamForGetVideoLambda" {
   "statement" = {
     "effect" = "Allow",
@@ -251,12 +328,32 @@ data "aws_iam_policy_document" "IamForGetVideoLambda" {
 
 resource "aws_iam_role_policy" "IamForGetVideoLambda" {
   name = "${var.environment_name}IamForGetVideoLambda"
-  role = "${aws_iam_role.RoleForLambda.id}"
+  role = "${aws_iam_role.IamForGetVideoLambda.id}"
   policy = "${data.aws_iam_policy_document.IamForGetVideoLambda.json}"
 }
 
 
 // expiredVideo
+resource "aws_iam_role" "IamForExpiredVideoLambda" {
+  name = "${var.environment_name}iam_for_expired_video_lambda"
+  assume_role_policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Action": "sts:AssumeRole",
+      "Principal": {
+        "Service": "lambda.amazonaws.com"
+      },
+      "Effect": "Allow",
+      "Sid": ""
+    }
+  ]
+}
+EOF
+}
+
+
 data "aws_iam_policy_document" "IamForExpiredVideoLambda" {
   "statement" = {
     "effect" = "Allow",
@@ -304,6 +401,6 @@ data "aws_iam_policy_document" "IamForExpiredVideoLambda" {
 
 resource "aws_iam_role_policy" "IamForExpiredVideoLambda" {
   name = "${var.environment_name}IamForExpiredVideoLambda"
-  role = "${aws_iam_role.RoleForLambda.id}"
+  role = "${aws_iam_role.IamForExpiredVideoLambda.id}"
   policy = "${data.aws_iam_policy_document.IamForExpiredVideoLambda.json}"
 }
