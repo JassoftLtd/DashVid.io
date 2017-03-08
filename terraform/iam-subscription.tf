@@ -46,3 +46,9 @@ data "aws_iam_policy_document" "IamForAddCardLambda" {
     ]
   }
 }
+
+resource "aws_iam_role_policy" "IamForAddCardLambda" {
+  name = "${var.environment_name}IamForAddCardLambda"
+  role = "${aws_iam_role.RoleForLambda.id}"
+  policy = "${data.aws_iam_policy_document.IamForAddCardLambda.json}"
+}
