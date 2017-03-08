@@ -27,6 +27,7 @@ module "addCard-OptionsCORS" {
 // /addCard POST
 module "ApiGatewayLambda-addCard" {
   source = "github.com/jonnyshaw89/api-gateway-lambda-method"
+  aws_api_gateway_method_http_method = "POST"
   aws_api_gateway_rest_api = "${aws_api_gateway_rest_api.DashCamAPI.id}"
   aws_api_gateway_resource_id = "${aws_api_gateway_resource.AddCard.id}"
   aws_api_gateway_resource_path = "${aws_api_gateway_resource.AddCard.path}"

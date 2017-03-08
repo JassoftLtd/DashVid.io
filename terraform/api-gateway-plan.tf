@@ -20,6 +20,7 @@ module "plan-OptionsCORS" {
 // /plan GET
 module "ApiGatewayLambda-getPlan" {
   source = "github.com/jonnyshaw89/api-gateway-lambda-method"
+  aws_api_gateway_method_http_method = "GET"
   aws_api_gateway_rest_api = "${aws_api_gateway_rest_api.DashCamAPI.id}"
   aws_api_gateway_resource_id = "${aws_api_gateway_resource.Plan.id}"
   aws_api_gateway_resource_path = "${aws_api_gateway_resource.Plan.path}"

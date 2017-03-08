@@ -19,6 +19,7 @@ module "Video-OptionsCORS" {
 // /video GET
 module "ApiGatewayLambda-getVideo" {
   source = "github.com/jonnyshaw89/api-gateway-lambda-method"
+  aws_api_gateway_method_http_method = "GET"
   aws_api_gateway_rest_api = "${aws_api_gateway_rest_api.DashCamAPI.id}"
   aws_api_gateway_resource_id = "${aws_api_gateway_resource.Video.id}"
   aws_api_gateway_resource_path = "${aws_api_gateway_resource.Video.path}"
