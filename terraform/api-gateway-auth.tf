@@ -65,7 +65,7 @@ module "signupOptionsCORS" {
 }
 
 // /signup POST
-module "ApiGatewayLambda-addCard" {
+module "ApiGatewayLambda-createUser" {
   source = "github.com/jonnyshaw89/api-gateway-lambda-method"
   aws_api_gateway_method_http_method = "POST"
   aws_api_gateway_rest_api = "${aws_api_gateway_rest_api.DashCamAPI.id}"
@@ -87,7 +87,7 @@ module "loginOptionsCORS" {
 }
 
 // /login POST
-module "ApiGatewayLambda-addCard" {
+module "ApiGatewayLambda-login" {
   source = "github.com/jonnyshaw89/api-gateway-lambda-method"
   aws_api_gateway_method_http_method = "POST"
   aws_api_gateway_rest_api = "${aws_api_gateway_rest_api.DashCamAPI.id}"
@@ -109,7 +109,7 @@ module "changePasswordOptionsCORS" {
 }
 
 // /changePassword POST
-module "ApiGatewayLambda-addCard" {
+module "ApiGatewayLambda-changePassword" {
   source = "github.com/jonnyshaw89/api-gateway-lambda-method"
   aws_api_gateway_method_http_method = "POST"
   aws_api_gateway_rest_api = "${aws_api_gateway_rest_api.DashCamAPI.id}"
@@ -131,7 +131,7 @@ module "lostPasswordOptionsCORS" {
 }
 
 // /lostPassword POST
-module "ApiGatewayLambda-addCard" {
+module "ApiGatewayLambda-lostPassword" {
   source = "github.com/jonnyshaw89/api-gateway-lambda-method"
   aws_api_gateway_method_http_method = "POST"
   aws_api_gateway_rest_api = "${aws_api_gateway_rest_api.DashCamAPI.id}"
@@ -153,7 +153,7 @@ module "resetPasswordOptionsCORS" {
 }
 
 // /resetPassword POST
-module "ApiGatewayLambda-addCard" {
+module "ApiGatewayLambda-resetPassword" {
   source = "github.com/jonnyshaw89/api-gateway-lambda-method"
   aws_api_gateway_method_http_method = "POST"
   aws_api_gateway_rest_api = "${aws_api_gateway_rest_api.DashCamAPI.id}"
@@ -175,7 +175,7 @@ module "verifyUserOptionsCORS" {
 }
 
 // /verifyUser POST
-module "ApiGatewayLambda-addCard" {
+module "ApiGatewayLambda-verifyUser" {
   source = "github.com/jonnyshaw89/api-gateway-lambda-method"
   aws_api_gateway_method_http_method = "POST"
   aws_api_gateway_rest_api = "${aws_api_gateway_rest_api.DashCamAPI.id}"
