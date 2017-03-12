@@ -76,6 +76,7 @@ module "ApiGatewayLambda-createUser" {
   aws_region = "${var.aws_region}"
   aws_account_id = "${var.aws_account_id}"
   environment_name = "${var.environment_name}"
+  aws_api_gateway_method_authorization = "NONE"
 }
 
 // /login OPTIONS
@@ -98,6 +99,7 @@ module "ApiGatewayLambda-login" {
   aws_region = "${var.aws_region}"
   aws_account_id = "${var.aws_account_id}"
   environment_name = "${var.environment_name}"
+  aws_api_gateway_method_authorization = "NONE"
 }
 
 // /changePassword OPTIONS
@@ -120,6 +122,7 @@ module "ApiGatewayLambda-changePassword" {
   aws_region = "${var.aws_region}"
   aws_account_id = "${var.aws_account_id}"
   environment_name = "${var.environment_name}"
+  aws_api_gateway_method_authorization = "AWS_IAM"
 }
 
 // /lostPassword OPTIONS
@@ -142,6 +145,7 @@ module "ApiGatewayLambda-lostPassword" {
   aws_region = "${var.aws_region}"
   aws_account_id = "${var.aws_account_id}"
   environment_name = "${var.environment_name}"
+  aws_api_gateway_method_authorization = "NONE"
 }
 
 // /resetPassword OPTIONS
@@ -164,6 +168,7 @@ module "ApiGatewayLambda-resetPassword" {
   aws_region = "${var.aws_region}"
   aws_account_id = "${var.aws_account_id}"
   environment_name = "${var.environment_name}"
+  aws_api_gateway_method_authorization = "NONE"
 }
 
 // /verifyUser OPTIONS
@@ -186,4 +191,5 @@ module "ApiGatewayLambda-verifyUser" {
   aws_region = "${var.aws_region}"
   aws_account_id = "${var.aws_account_id}"
   environment_name = "${var.environment_name}"
+  aws_api_gateway_method_authorization = "NONE"
 }

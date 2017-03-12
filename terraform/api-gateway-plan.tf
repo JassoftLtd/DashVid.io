@@ -29,4 +29,5 @@ module "ApiGatewayLambda-getPlan" {
   aws_region = "${var.aws_region}"
   aws_account_id = "${var.aws_account_id}"
   environment_name = "${var.environment_name}"
+  aws_api_gateway_method_authorization = "AWS_IAM"
 }
