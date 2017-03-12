@@ -5,6 +5,7 @@ resource "aws_lambda_function" "createUser" {
   role = "${aws_iam_role.LambdAuthCreateUser.arn}"
   handler = "CreateUser.handler"
   runtime = "nodejs4.3"
+  timeout = "30"
   source_code_hash = "${base64sha256(file("${path.module}/Lambda/AuthLambdas/CreateUser.zip"))}"
   environment {
     variables = {
@@ -20,6 +21,7 @@ resource "aws_lambda_function" "changePassword" {
   role = "${aws_iam_role.LambdAuthChangePassword.arn}"
   handler = "ChangePassword.handler"
   runtime = "nodejs4.3"
+  timeout = "30"
   source_code_hash = "${base64sha256(file("${path.module}/Lambda/AuthLambdas/ChangePassword.zip"))}"
 }
 
@@ -29,6 +31,7 @@ resource "aws_lambda_function" "login" {
   role = "${aws_iam_role.LambdAuthLogin.arn}"
   handler = "Login.handler"
   runtime = "nodejs4.3"
+  timeout = "30"
   source_code_hash = "${base64sha256(file("${path.module}/Lambda/AuthLambdas/Login.zip"))}"
 }
 
@@ -38,6 +41,7 @@ resource "aws_lambda_function" "lostPassword" {
   role = "${aws_iam_role.LambdAuthLostPassword.arn}"
   handler = "LostPassword.handler"
   runtime = "nodejs4.3"
+  timeout = "30"
   source_code_hash = "${base64sha256(file("${path.module}/Lambda/AuthLambdas/LostPassword.zip"))}"
   environment {
     variables = {
@@ -53,6 +57,7 @@ resource "aws_lambda_function" "resetPassword" {
   role = "${aws_iam_role.LambdAuthResetPassword.arn}"
   handler = "ResetPassword.handler"
   runtime = "nodejs4.3"
+  timeout = "30"
   source_code_hash = "${base64sha256(file("${path.module}/Lambda/AuthLambdas/ResetPassword.zip"))}"
 }
 
@@ -62,5 +67,6 @@ resource "aws_lambda_function" "verifyUser" {
   role = "${aws_iam_role.LambdAuthVerifyUser.arn}"
   handler = "VerifyUser.handler"
   runtime = "nodejs4.3"
+  timeout = "30"
   source_code_hash = "${base64sha256(file("${path.module}/Lambda/AuthLambdas/VerifyUser.zip"))}"
 }

@@ -7,7 +7,7 @@ resource "aws_lambda_function" "getVideos" {
   role = "${aws_iam_role.IamForGetVideosLambda.arn}"
   handler = "getVideos.handler"
   runtime = "nodejs4.3"
-  timeout = "3"
+  timeout = "30"
   source_code_hash = "${base64sha256(file("Lambda/VideoLambdas/getVideos.zip"))}"
 }
 
@@ -18,7 +18,7 @@ resource "aws_lambda_function" "createVideo" {
   role = "${aws_iam_role.IamForCreateVideoLambda.arn}"
   handler = "createVideo.handler"
   runtime = "nodejs4.3"
-  timeout = "3"
+  timeout = "30"
   source_code_hash = "${base64sha256(file("Lambda/VideoLambdas/createVideo.zip"))}"
   environment {
     variables = {
@@ -68,7 +68,7 @@ resource "aws_lambda_function" "getVideo" {
   role = "${aws_iam_role.IamForGetVideoLambda.arn}"
   handler = "getVideo.handler"
   runtime = "nodejs4.3"
-  timeout = "3"
+  timeout = "30"
   source_code_hash = "${base64sha256(file("Lambda/VideoLambdas/getVideo.zip"))}"
 }
 
