@@ -68,5 +68,5 @@ data "aws_iam_policy_document" "IamForGetPlanLambda" {
 resource "aws_iam_role_policy" "IamForGetPlanLambda" {
   name = "${var.environment_name}IamForGetPlanLambda"
   role = "${aws_iam_role.IamForGetPlanLambda.id}"
-  policy = "${data.aws_iam_policy_document.IamForAddCardLambda.json}"
+  policy = "${data.aws_iam_policy_document.IamForGetPlanLambda.json}"
 }
