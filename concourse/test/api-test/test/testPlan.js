@@ -22,9 +22,6 @@ describe('Plan', function () {
                         .then(function (result) {
                             assert(result.data.plan);
                             assert.equal(result.data.plan, "Free");
-                        })
-                        .catch(function (error) {
-                            console.error(error)
                         });
 
                 });
