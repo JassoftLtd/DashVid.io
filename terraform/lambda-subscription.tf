@@ -8,6 +8,7 @@ resource "aws_lambda_function" "addCard" {
   handler = "addCard.handler"
   runtime = "nodejs4.3"
   timeout = "30"
+  memory_size = "256"
   source_code_hash = "${base64sha256(file("Lambda/SubscriptionLambdas/addCard.zip"))}"
   environment {
     variables = {

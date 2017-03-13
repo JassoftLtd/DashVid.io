@@ -8,6 +8,7 @@ resource "aws_lambda_function" "getVideos" {
   handler = "getVideos.handler"
   runtime = "nodejs4.3"
   timeout = "30"
+  memory_size = "256"
   source_code_hash = "${base64sha256(file("Lambda/VideoLambdas/getVideos.zip"))}"
 }
 
@@ -19,6 +20,7 @@ resource "aws_lambda_function" "createVideo" {
   handler = "createVideo.handler"
   runtime = "nodejs4.3"
   timeout = "30"
+  memory_size = "256"
   source_code_hash = "${base64sha256(file("Lambda/VideoLambdas/createVideo.zip"))}"
   environment {
     variables = {
@@ -37,6 +39,7 @@ resource "aws_lambda_function" "uploadedVideo" {
   handler = "uploadedVideo.handler"
   runtime = "nodejs4.3"
   timeout = "30"
+  memory_size = "256"
   source_code_hash = "${base64sha256(file("Lambda/VideoLambdas/uploadedVideo.zip"))}"
   environment = {
     variables = {
@@ -69,6 +72,7 @@ resource "aws_lambda_function" "getVideo" {
   handler = "getVideo.handler"
   runtime = "nodejs4.3"
   timeout = "30"
+  memory_size = "256"
   source_code_hash = "${base64sha256(file("Lambda/VideoLambdas/getVideo.zip"))}"
 }
 
@@ -80,6 +84,7 @@ resource "aws_lambda_function" "expiredVideo" {
   handler = "expiredVideo.handler"
   runtime = "nodejs4.3"
   timeout = "30"
+  memory_size = "256"
   source_code_hash = "${base64sha256(file("Lambda/VideoLambdas/expiredVideo.zip"))}"
 }
 

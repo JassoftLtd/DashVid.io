@@ -6,6 +6,7 @@ resource "aws_lambda_function" "createUser" {
   handler = "CreateUser.handler"
   runtime = "nodejs4.3"
   timeout = "30"
+  memory_size = "256"
   source_code_hash = "${base64sha256(file("${path.module}/Lambda/AuthLambdas/CreateUser.zip"))}"
   environment {
     variables = {
@@ -22,6 +23,7 @@ resource "aws_lambda_function" "changePassword" {
   handler = "ChangePassword.handler"
   runtime = "nodejs4.3"
   timeout = "30"
+  memory_size = "256"
   source_code_hash = "${base64sha256(file("${path.module}/Lambda/AuthLambdas/ChangePassword.zip"))}"
 }
 
@@ -32,6 +34,7 @@ resource "aws_lambda_function" "login" {
   handler = "Login.handler"
   runtime = "nodejs4.3"
   timeout = "30"
+  memory_size = "256"
   source_code_hash = "${base64sha256(file("${path.module}/Lambda/AuthLambdas/Login.zip"))}"
 }
 
@@ -42,6 +45,7 @@ resource "aws_lambda_function" "lostPassword" {
   handler = "LostPassword.handler"
   runtime = "nodejs4.3"
   timeout = "30"
+  memory_size = "256"
   source_code_hash = "${base64sha256(file("${path.module}/Lambda/AuthLambdas/LostPassword.zip"))}"
   environment {
     variables = {
@@ -58,6 +62,7 @@ resource "aws_lambda_function" "resetPassword" {
   handler = "ResetPassword.handler"
   runtime = "nodejs4.3"
   timeout = "30"
+  memory_size = "256"
   source_code_hash = "${base64sha256(file("${path.module}/Lambda/AuthLambdas/ResetPassword.zip"))}"
 }
 
@@ -68,5 +73,6 @@ resource "aws_lambda_function" "verifyUser" {
   handler = "VerifyUser.handler"
   runtime = "nodejs4.3"
   timeout = "30"
+  memory_size = "256"
   source_code_hash = "${base64sha256(file("${path.module}/Lambda/AuthLambdas/VerifyUser.zip"))}"
 }

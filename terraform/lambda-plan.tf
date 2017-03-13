@@ -8,5 +8,6 @@ resource "aws_lambda_function" "getPlan" {
   handler = "getPlan.handler"
   runtime = "nodejs4.3"
   timeout = "30"
+  memory_size = "256"
   source_code_hash = "${base64sha256(file("Lambda/PlanLambdas/getPlan.zip"))}"
 }
