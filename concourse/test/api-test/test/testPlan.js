@@ -21,7 +21,7 @@ describe('Plan', function () {
                     return planHelper.getPlan(user)
                         .then(function (result) {
                             assert(result.data.plan);
-                            assert.equal(result.data.plan, "Free");
+                            assert.equal(result.data.plan, "free");
                         });
 
                 });
