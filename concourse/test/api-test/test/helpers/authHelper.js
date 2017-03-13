@@ -160,7 +160,7 @@ exports.getLoggedInUser = function () {
                             AWS.config.region = process.env.aws_region;
 
                             return AWS.config.credentials.getPromise()
-                                .then(function(data) {
+                                .then(function() {
 
                                 return Promise.resolve({
                                         email: email,

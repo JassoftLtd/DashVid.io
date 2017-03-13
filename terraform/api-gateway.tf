@@ -60,7 +60,12 @@ resource "aws_api_gateway_deployment" "DevDeployment" {
     "module.ApiGatewayLambda-changePassword",
     "module.ApiGatewayLambda-lostPassword",
     "module.ApiGatewayLambda-resetPassword",
-    "module.ApiGatewayLambda-verifyUser"
+    "module.ApiGatewayLambda-verifyUser",
+    "module.ApiGatewayLambda-getPlan",
+    "module.ApiGatewayLambda-addCard",
+    "module.ApiGatewayLambda-getVideos",
+    "module.ApiGatewayLambda-createVideo",
+    "module.ApiGatewayLambda-getVideo"
   ]
   rest_api_id = "${aws_api_gateway_rest_api.DashCamAPI.id}"
   stage_name = "Dev"
