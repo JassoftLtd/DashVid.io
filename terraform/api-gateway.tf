@@ -54,7 +54,13 @@ resource "aws_iam_role_policy" "IamForDashCamAPIAccount" {
 
 resource "aws_api_gateway_deployment" "DevDeployment" {
   depends_on = [
-    "aws_api_gateway_rest_api.DashCamAPI"
+    "aws_api_gateway_rest_api.DashCamAPI",
+    "module.ApiGatewayLambda-createUser",
+    "module.ApiGatewayLambda-login",
+    "module.ApiGatewayLambda-changePassword",
+    "module.ApiGatewayLambda-lostPassword",
+    "module.ApiGatewayLambda-resetPassword",
+    "module.ApiGatewayLambda-verifyUser"
   ]
   rest_api_id = "${aws_api_gateway_rest_api.DashCamAPI.id}"
   stage_name = "Dev"
