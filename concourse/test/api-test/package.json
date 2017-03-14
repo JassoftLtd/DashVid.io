@@ -17,6 +17,7 @@
     "randomstring": "^1.1.5",
     "request": "^2.79.0",
     "request-promise": "^4.1.1",
-    "sleep": "^5.1.0"
+    "sleep": "^5.1.0",
+    "stripe-as-promised": "^2.1.1"
   }
 }
