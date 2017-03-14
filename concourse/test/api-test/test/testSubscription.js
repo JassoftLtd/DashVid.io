@@ -15,6 +15,9 @@ describe('Subscription', function () {
                 .then(function (user) {
 
                     return subscriptionHelper.addCard(user, generator.cardToken())
+                        .catch(function (error) {
+                            console.error(error)
+                        })
 
                 });
         });
