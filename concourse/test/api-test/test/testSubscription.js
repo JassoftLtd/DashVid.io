@@ -1,10 +1,10 @@
 var assert = require('assert');
 
-import stripeAsPromised from 'stripe-as-promised';
-
 var authHelper = require('./helpers/authHelper.js');
 var subscriptionHelper = require('./helpers/subscriptionHelper.js');
 var generator = require('./helpers/generators.js');
+
+var stripeAsPromised = require('stripe-as-promised')
 
 var stripe_api = require('stripe-api')('pk_test_ebVZiJokoWIbXD1TNNZ8lj2A');
 var stripe = stripeAsPromised(stripe_api, Promise);
