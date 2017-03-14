@@ -4,7 +4,7 @@ var authHelper = require('./helpers/authHelper.js');
 var subscriptionHelper = require('./helpers/subscriptionHelper.js');
 var generator = require('./helpers/generators.js');
 
-var stripe = require('stripe')('pk_test_ebVZiJokoWIbXD1TNNZ8lj2A');
+var stripe = stripeAsPromised(Stripe, Promise);
 
 describe('Subscription', function () {
 
