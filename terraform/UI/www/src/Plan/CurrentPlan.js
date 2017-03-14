@@ -52,7 +52,7 @@ class CurrentPlan extends Component {
         if (this.props.loggedIn && this.state) {
             var status
             if (this.state.status) {
-                status = ' (<a href="/subscription/addCard">' + this.state.status + '</a>)'
+                status = (<a href="/subscription/addCard">{this.state.status}</a>)
             }
             return (
                 <div>
