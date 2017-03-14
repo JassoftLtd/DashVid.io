@@ -21,3 +21,7 @@ exports.filename = function() {
         charset: 'alphabetic'
     });
 }
+
+exports.cardToken = function() {
+    return randomstring.generate();
+}
