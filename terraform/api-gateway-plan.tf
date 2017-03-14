@@ -16,7 +16,6 @@ module "plan-OptionsCORS" {
   rest_api_id = "${aws_api_gateway_rest_api.DashCamAPI.id}"
 }
 
-
 // /plan GET
 module "ApiGatewayLambda-getPlan" {
   source = "github.com/jonnyshaw89/api-gateway-lambda-method"
