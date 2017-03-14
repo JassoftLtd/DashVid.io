@@ -14,14 +14,29 @@ describe('Plan', function () {
 
     describe('Get Plan', function () {
 
-        it('Given I have a verified account, When I request my plan, Then I should be given name of my current Plan', function () {
-           return authHelper.getLoggedInUser()
+        it('Given I have a verified account on free plan, When I request my plan, Then I should be given name of my current Plan', function () {
+           return authHelper.getLoggedInUser("free")
                 .then(function (user) {
 
                     return planHelper.getPlan(user)
                         .then(function (result) {
                             assert(result.data.plan);
                             assert.equal(result.data.plan, "free");
+                            assert.equal(result.data.status, "Active");
+                        });
+
+                });
+        });
+
+        it('Given I have a verified account on standard plan, When I request my plan, Then I should be given name of my current Plan', function () {
+           return authHelper.getLoggedInUser("standard")
+                .then(function (user) {
+
+                    return planHelper.getPlan(user)
+                        .then(function (result) {
+                            assert(result.data.plan);
+                            assert.equal(result.data.plan, "standard");
+                            assert.equal(result.data.status, "Pending");
                         });
 
                 });

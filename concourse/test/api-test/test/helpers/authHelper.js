@@ -135,12 +135,12 @@ exports.changePassword  = function (user, oldPassword, newPassword) {
     return apigClient.invokeApi(params, pathTemplate, method, additionalParams, body)
 }
 
-exports.getLoggedInUser = function () {
+exports.getLoggedInUser = function (plan="Free") {
 
     var email = generator.email();
     var password = generator.password();
 
-    return exports.signup(email, password, "Free")
+    return exports.signup(email, password, plan)
         .then(function (result) {
             return exports.verify(email, exports.tokenOverride)
                 .then(function (result) {

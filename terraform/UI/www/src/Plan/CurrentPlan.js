@@ -12,11 +12,6 @@ class CurrentPlan extends Component {
 
         const _this = this;
 
-
-        this.state = {
-            plan: "LOAD ME"
-        };
-
         if (authUtils.hasAuth()) {
             authUtils.runWithCredentials(function () {
 
@@ -42,9 +37,10 @@ class CurrentPlan extends Component {
                 apigClient.invokeApi(params, pathTemplate, method, additionalParams, body)
                     .then(function (result) {
                         //This is where you would put a success callback
-                        _this.state = {
-                            plan: result.data.plan
-                        }
+                        _this.setState({
+                            plan: result.data.plan,
+                            status: result.data.status
+                        })
                     }).catch(function (result) {
                     //This is where you would put an error callback
                 });
@@ -53,10 +49,14 @@ class CurrentPlan extends Component {
     }
 
     render() {
-        if (this.props.loggedIn) {
+        if (this.props.loggedIn && this.state) {
+            var status
+            if (this.state.status) {
+                status = ' (<a href="/subscription/addCard">' + this.state.status + '</a>)'
+            }
             return (
                 <div>
-                    {this.state.plan}
+                    {this.state.plan}{status}
                 </div>
             );
         }

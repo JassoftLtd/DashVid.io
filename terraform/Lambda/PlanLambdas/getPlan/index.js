@@ -12,13 +12,14 @@ exports.handler = function(event, context) {
     var email = event.requestContext.identity.cognitoAuthenticationProvider.split(':').pop();
 
 
-    getUserPlan(email, function (err, plan) {
+    getUserPlan(email, function (err, plan, status) {
         if (err) {
             context.fail(err)
         }
 
         var responseBody = {
-            plan: plan
+            plan: plan,
+            status: status
         };
         var response = {
             statusCode: responseCode,
@@ -38,14 +39,15 @@ function getUserPlan(email, fn) {
 
     dynamodb.query({
         KeyConditionExpression:"#user = :user",
-        FilterExpression: '#planStatus = :status',
+        FilterExpression: '#planStatus in (:statusActive, :statusPending)',
         ExpressionAttributeNames: {
             "#user":"User",
             "#planStatus":"PlanStatus",
         },
         ExpressionAttributeValues: {
             ":user":email,
-            ":status":"Active"
+            ":statusActive":"Active",
+            ":statusPending":"Pending"
         },
         "TableName": "Subscriptions"
     }, function(err, data) {
@@ -60,8 +62,9 @@ function getUserPlan(email, fn) {
             }
 
             var plan = data.Items[0].Plan;
+            var status = data.Items[0].PlanStatus;
             console.log("User plan is " + plan)
-            fn(null, plan);
+            fn(null, plan, status);
         }
     });
 }
