@@ -4,6 +4,7 @@ var authHelper = require('./helpers/authHelper.js');
 var subscriptionHelper = require('./helpers/subscriptionHelper.js');
 var generator = require('./helpers/generators.js');
 
+var Stripe = window.Stripe
 var stripe = stripeAsPromised(Stripe, Promise);
 
 describe('Subscription', function () {
