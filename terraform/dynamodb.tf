@@ -26,7 +26,7 @@ resource "aws_dynamodb_table" "videos-table" {
     }
     attribute {
         name = "RecordedDate"
-        type = "S"
+        type = "D"
     }
     global_secondary_index {
         name = "UserVideosByDate"
