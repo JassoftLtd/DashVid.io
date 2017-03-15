@@ -18,7 +18,6 @@
     "request": "^2.79.0",
     "request-promise": "^4.1.1",
     "sleep": "^5.1.0",
-    "stripe-api": "^0.1.2",
-    "stripe-as-promised": "^2.1.1"
+    "stripe": "^4.15.1"
   }
 }
