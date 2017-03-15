@@ -17,7 +17,6 @@ exports.handler = function(event, context) {
 
     var payload = JSON.parse(event.body);
 
-	var currentUser = event.requestContext.identity.cognitoIdentityId.split(':')[1];
     var email = event.requestContext.identity.cognitoAuthenticationProvider.split(':').pop();
 
     dynamodb.get({
@@ -93,20 +92,52 @@ exports.handler = function(event, context) {
                             } else {
                                 console.log("UpdateItem succeeded:", JSON.stringify(data, null, 2));
 
-                                // TODO I guess we now need to subscribe the user to their chosen plan
                                 console.log('I guess we now need to subscribe the user to their chosen plan')
+                                getUserPendingPlan(email, function (plan) {
+                                    stripe.subscriptions.create({
+                                            customer: customer.id,
+                                            plan: plan
+                                        }, function(err, subscription) {
+                                            // asynchronously called
+                                            dynamodb.update({
+                                                TableName: "Subscriptions",
+                                                Key: {
+                                                    "email": email
+                                                },
+                                                FilterExpression: '#planStatus = :statusPending',
+                                                ExpressionAttributeNames: {
+                                                    "#planStatus":"PlanStatus"
+                                                },
+                                                UpdateExpression: "set SubscriptionId = :id, #planStatus = :statusActive",
+                                                ExpressionAttributeValues:{
+                                                    ":id":subscription.id,
+                                                    ":statusPending":"Pending",
+                                                    ":statusActive":"Active"
+                                                },
+                                                ReturnValues:"UPDATED_NEW"
+                                            }, function(err, data) {
+                                                if (err) {
+                                                    console.error("Unable to update subscription. Error JSON:", JSON.stringify(err, null, 2));
+                                                    context.fail()
+                                                } else {
 
-                                var response = {
-                                    statusCode: responseCode,
-                                    headers: {
-                                        'Access-Control-Allow-Origin': '*'
-                                    },
-                                    body: JSON.stringify({
-                                        added: true
-                                    })
-                                };
-                                console.log("response: " + JSON.stringify(response))
-                                context.succeed(response);
+                                                    var response = {
+                                                        statusCode: responseCode,
+                                                        headers: {
+                                                            'Access-Control-Allow-Origin': '*'
+                                                        },
+                                                        body: JSON.stringify({
+                                                            added: true
+                                                        })
+                                                    };
+                                                    console.log("response: " + JSON.stringify(response))
+                                                    context.succeed(response);
+
+                                                }
+                                            })
+                                        }
+                                    );
+                                });
                             }
                         });
 
@@ -120,3 +151,36 @@ exports.handler = function(event, context) {
     });
 
 };
+
+function getUserPendingPlan(email, fn) {
+    console.log('Getting plan for user: ' + email)
+
+    dynamodb.query({
+        KeyConditionExpression:"#user = :user",
+        FilterExpression: '#planStatus = :statusPending',
+        ExpressionAttributeNames: {
+            "#user":"User",
+            "#planStatus":"PlanStatus",
+        },
+        ExpressionAttributeValues: {
+            ":user":email,
+            ":statusPending":"Pending"
+        },
+        "TableName": "Subscriptions"
+    }, function(err, data) {
+        if (err) {
+            console.error("User not found: " + JSON.stringify(err))
+            fn('User not found', null)
+        }
+        else {
+            if(data.Count > 1) {
+                console.error("User hads multiple pending Subscriptions: " + JSON.stringify(data))
+                fn('User has multiple pending Subscriptions', null);
+            }
+
+            var plan = data.Items[0].Plan;
+            console.log("User plan is " + plan)
+            fn(null, plan);
+        }
+    });
+}
