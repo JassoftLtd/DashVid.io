@@ -28,6 +28,10 @@ describe('Subscription', function () {
 
 
                     stripe.tokens.create(payload, function (err, token) {
+                        if(err) {
+                            console.error("Error creating token")
+                            done("Error creating token")
+                        }
 
                         subscriptionHelper.addCard(user, token.id)
                             .then(function (result) {
@@ -35,12 +39,14 @@ describe('Subscription', function () {
                                 done();
                             })
                             .catch(function (error) {
+                                console.error("Error adding card")
                                 done(error)
                             })
                     })
 
                 })
                .catch(function (error) {
+                   console.error("Error getting LoggedInUser")
                    done(error)
                });
         });
