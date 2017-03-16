@@ -34,9 +34,15 @@ describe('Subscription', function () {
                                 assert.equal(result.data.added, true);
                                 done();
                             })
+                            .catch(function (error) {
+                                done(error)
+                            })
                     })
 
-                });
+                })
+               .catch(function (error) {
+                   done(error)
+               });
         });
     });
 
