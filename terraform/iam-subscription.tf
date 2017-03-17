@@ -34,7 +34,8 @@ data "aws_iam_policy_document" "IamForAddCardLambda" {
   "statement" = {
     "effect" = "Allow",
     "actions" = [
-      "dynamodb:Query"
+      "dynamodb:Query",
+      "dynamodb:UpdateItem"
     ],
     "resources" = [
       "arn:aws:dynamodb:${var.aws_region}:${var.aws_account_id}:table/${aws_dynamodb_table.subscriptions-table.name}"
