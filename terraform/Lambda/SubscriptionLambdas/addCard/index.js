@@ -107,20 +107,19 @@ exports.handler = function(event, context) {
                                                 context.fail()
                                             }
 
-                                            // asynchronously called
                                             dynamodb.update({
                                                 TableName: "Subscriptions",
                                                 Key: {
                                                     "email": email
                                                 },
-                                                FilterExpression: '#planStatus = :statusPending',
+                                                // FilterExpression: '#planStatus = :statusPending',
                                                 ExpressionAttributeNames: {
                                                     "#planStatus": "PlanStatus"
                                                 },
                                                 UpdateExpression: "set SubscriptionId = :id, #planStatus = :statusActive",
                                                 ExpressionAttributeValues: {
                                                     ":id": subscription.id,
-                                                    ":statusPending": "Pending",
+                                                    // ":statusPending": "Pending",
                                                     ":statusActive": "Active"
                                                 },
                                                 ReturnValues: "UPDATED_NEW"
