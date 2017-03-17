@@ -26,7 +26,7 @@ resource "aws_dynamodb_table" "videos-table" {
     }
     attribute {
         name = "RecordedDate"
-        type = "D"
+        type = "N"
     }
     global_secondary_index {
         name = "UserVideosByDate"
@@ -49,7 +49,7 @@ resource "aws_dynamodb_table" "subscriptions-table" {
   }
   attribute {
     name = "SubscriptionTime"
-    type = "D"
+    type = "N"
   }
   global_secondary_index {
     name = "UserPlanByDate"
