@@ -110,7 +110,7 @@ exports.handler = function(event, context) {
                                             dynamodb.update({
                                                 TableName: "Subscriptions",
                                                 Key: {
-                                                    "email": email
+                                                    "User": email
                                                 },
                                                 // FilterExpression: '#planStatus = :statusPending',
                                                 ExpressionAttributeNames: {
