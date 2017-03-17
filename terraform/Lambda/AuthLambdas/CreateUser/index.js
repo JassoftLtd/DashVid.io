@@ -86,7 +86,7 @@ function storePlan(email, plan, token, fn) {
 			User: email,
 			Plan: plan,
             PlanStatus: planStatus,
-            SubscriptionTime: new Date().getTime().toString()
+            SubscriptionTime: new Date().getTime()
 		},
 		ConditionExpression: 'attribute_not_exists (email)'
 	}, function(err, data) {
