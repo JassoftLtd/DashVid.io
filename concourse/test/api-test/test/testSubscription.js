@@ -34,16 +34,25 @@ describe('Subscription', function () {
                         }
 
                         subscriptionHelper.addCard(user, token.id)
-                            .then(function (result) {
-                                assert.equal(result.data.added, true);
-                                done();
-                            })
                             .catch(function (error) {
-                                if(error.data) {
-                                    console.error(JSON.stringify(error.data))
-                                }
                                 console.error("Error adding card")
                                 done(error)
+                            })
+                            .then(function (result) {
+                                assert.equal(result.data.added, true);
+
+                                planHelper.getPlan(user)
+                                    .catch(function (error) {
+                                        console.error("Error getting plan")
+                                        done(error)
+                                    })
+                                    .then(function (result) {
+                                        assert(result.data.plan);
+                                        assert.equal(result.data.plan, "standard");
+                                        assert.equal(result.data.status, "Active");
+                                        done();
+                                    });
+
                             })
                     })
 
