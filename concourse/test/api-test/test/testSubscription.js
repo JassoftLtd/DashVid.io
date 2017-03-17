@@ -2,8 +2,7 @@ var assert = require('assert');
 
 var authHelper = require('./helpers/authHelper.js');
 var subscriptionHelper = require('./helpers/subscriptionHelper.js');
-var generator = require('./helpers/generators.js');
-
+var planHelper = require('./helpers/planHelper.js');
 
 var stripe = require('stripe')('pk_test_ebVZiJokoWIbXD1TNNZ8lj2A');
 
