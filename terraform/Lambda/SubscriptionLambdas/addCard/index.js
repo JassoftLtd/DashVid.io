@@ -94,10 +94,19 @@ exports.handler = function(event, context) {
 
                                 console.log('I guess we now need to subscribe the user to their chosen plan')
                                 getUserPendingPlan(email, function (plan) {
+                                    if (err) {
+                                        console.error("Unable to get users pending plan. Error JSON:", JSON.stringify(err, null, 2));
+                                        context.fail()
+                                    }
                                     stripe.subscriptions.create({
                                             customer: customer.id,
                                             plan: plan
                                         }, function(err, subscription) {
+                                            if (err) {
+                                                console.error("Unable to create subscription. Error JSON:", JSON.stringify(err, null, 2));
+                                                context.fail()
+                                            }
+
                                             // asynchronously called
                                             dynamodb.update({
                                                 TableName: "Subscriptions",
@@ -106,16 +115,16 @@ exports.handler = function(event, context) {
                                                 },
                                                 FilterExpression: '#planStatus = :statusPending',
                                                 ExpressionAttributeNames: {
-                                                    "#planStatus":"PlanStatus"
+                                                    "#planStatus": "PlanStatus"
                                                 },
                                                 UpdateExpression: "set SubscriptionId = :id, #planStatus = :statusActive",
-                                                ExpressionAttributeValues:{
-                                                    ":id":subscription.id,
-                                                    ":statusPending":"Pending",
-                                                    ":statusActive":"Active"
+                                                ExpressionAttributeValues: {
+                                                    ":id": subscription.id,
+                                                    ":statusPending": "Pending",
+                                                    ":statusActive": "Active"
                                                 },
-                                                ReturnValues:"UPDATED_NEW"
-                                            }, function(err, data) {
+                                                ReturnValues: "UPDATED_NEW"
+                                            }, function (err, data) {
                                                 if (err) {
                                                     console.error("Unable to update subscription. Error JSON:", JSON.stringify(err, null, 2));
                                                     context.fail()
@@ -135,6 +144,7 @@ exports.handler = function(event, context) {
 
                                                 }
                                             })
+
                                         }
                                     );
                                 });
