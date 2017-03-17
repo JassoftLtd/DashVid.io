@@ -93,7 +93,7 @@ exports.handler = function(event, context) {
                                 console.log("UpdateItem succeeded:", JSON.stringify(data, null, 2));
 
                                 console.log('I guess we now need to subscribe the user to their chosen plan')
-                                getUserPendingPlan(email, function (plan) {
+                                getUserPendingPlan(email, function (err, plan) {
                                     if (err) {
                                         console.error("Unable to get users pending plan. Error JSON:", JSON.stringify(err, null, 2));
                                         context.fail()
