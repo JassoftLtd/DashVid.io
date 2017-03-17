@@ -39,7 +39,9 @@ describe('Subscription', function () {
                                 done();
                             })
                             .catch(function (error) {
-                                console.error(JSON.stringify(error))
+                                if(error.data) {
+                                    console.error(JSON.stringify(error.data))
+                                }
                                 console.error("Error adding card")
                                 done(error)
                             })
