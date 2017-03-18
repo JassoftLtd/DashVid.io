@@ -98,6 +98,7 @@ exports.handler = function(event, context) {
 
                             sns.publish({
                                 Message: JSON.stringify({
+                                    default: videoId,
                                     videoId: videoId
                                 }),
                                 MessageStructure: 'json',
