@@ -94,7 +94,7 @@ exports.handler = function(event, context) {
                             context.fail('Unable to create video record for key [' + key + ']. Error: ' + err);
                             deleteFile(bucket, key)
                         } else {
-                            console.log("Video create DynammoDb record succeeded");
+                            console.log("Video create DynammoDb record succeeded. ID: " + videoId);
 
                             sns.publish({
                                 Message: JSON.stringify({
