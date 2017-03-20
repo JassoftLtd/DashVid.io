@@ -42,27 +42,6 @@ data "aws_iam_policy_document" "IamForGetVideosLambda" {
       "*"
     ]
   }
-
-  "statement" = {
-    "effect" = "Allow",
-    "actions" = [
-      "lambda:InvokeFunction"
-    ],
-    "resources" = [
-      "*"
-    ]
-  }
-  "statement" = {
-    "effect" = "Allow",
-    "actions" = [
-      "cloudwatch:Describe*",
-      "cloudwatch:Get*",
-      "cloudwatch:List*"
-    ],
-    "resources" = [
-      "*"
-    ]
-  }
 }
 
 resource "aws_iam_role_policy" "IamForGetVideosLambda" {
@@ -123,28 +102,6 @@ data "aws_iam_policy_document" "IamForCreateVideoLambda" {
       ],
       "resources" = [
           "*"
-        ]
-    }
-
-  "statement" = {
-      "effect" = "Allow",
-      "effect" = "Allow",
-      "actions" = [
-        "lambda:InvokeFunction"
-      ],
-      "resources" = [
-        "*"
-        ]
-    }
-  "statement" = {
-      "effect" = "Allow",
-      "actions" = [
-        "cloudwatch:Describe*",
-        "cloudwatch:Get*",
-        "cloudwatch:List*"
-      ],
-      "resources" = [
-        "*"
         ]
     }
 }
@@ -220,27 +177,6 @@ data "aws_iam_policy_document" "IamForUploadedVideoLambda" {
           "*"
         ]
     }
-
-  "statement" = {
-      "effect" = "Allow",
-      "actions" = [
-        "lambda:InvokeFunction"
-      ],
-      "resources" = [
-        "*"
-        ]
-    }
-  "statement" = {
-      "effect" = "Allow",
-      "actions" = [
-        "cloudwatch:Describe*",
-        "cloudwatch:Get*",
-        "cloudwatch:List*"
-      ],
-      "resources" = [
-        "*"
-        ]
-    }
 }
 
 resource "aws_iam_role_policy" "IamForUploadedVideoLambda" {
@@ -303,27 +239,6 @@ data "aws_iam_policy_document" "IamForGetVideoLambda" {
       "*"
     ]
   }
-
-  "statement" = {
-    "effect" = "Allow",
-    "actions" = [
-      "lambda:InvokeFunction"
-    ],
-    "resources" = [
-      "*"
-    ]
-  }
-  "statement" = {
-    "effect" = "Allow",
-    "actions" = [
-      "cloudwatch:Describe*",
-      "cloudwatch:Get*",
-      "cloudwatch:List*"
-    ],
-    "resources" = [
-      "*"
-    ]
-  }
 }
 
 resource "aws_iam_role_policy" "IamForGetVideoLambda" {
@@ -371,27 +286,6 @@ data "aws_iam_policy_document" "IamForExpiredVideoLambda" {
       "logs:CreateLogGroup",
       "logs:CreateLogStream",
       "logs:PutLogEvents"
-    ],
-    "resources" = [
-      "*"
-    ]
-  }
-
-  "statement" = {
-    "effect" = "Allow",
-    "actions" = [
-      "lambda:InvokeFunction"
-    ],
-    "resources" = [
-      "*"
-    ]
-  }
-  "statement" = {
-    "effect" = "Allow",
-    "actions" = [
-      "cloudwatch:Describe*",
-      "cloudwatch:Get*",
-      "cloudwatch:List*"
     ],
     "resources" = [
       "*"

@@ -43,27 +43,6 @@ data "aws_iam_policy_document" "IamForStripeWebhookLambda" {
       "*"
     ]
   }
-
-  "statement" = {
-    "effect" = "Allow",
-    "actions" = [
-      "lambda:InvokeFunction"
-    ],
-    "resources" = [
-      "*"
-    ]
-  }
-  "statement" = {
-    "effect" = "Allow",
-    "actions" = [
-      "cloudwatch:Describe*",
-      "cloudwatch:Get*",
-      "cloudwatch:List*"
-    ],
-    "resources" = [
-      "*"
-    ]
-  }
 }
 
 resource "aws_iam_role_policy" "IamForStripeWebhookLambda" {
