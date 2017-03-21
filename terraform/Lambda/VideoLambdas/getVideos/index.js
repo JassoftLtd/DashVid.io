@@ -37,7 +37,11 @@ exports.handler = function(event, context) {
         for(var i = 0, len = data.Items.length; i<len; i+=1) {
             var video = data.Items[i];
 
-            var recordedDay = new Date(video.RecordedDate).getUTCDay()
+            console.log("getUTCDay:" + new Date(video.RecordedDate).getUTCDay())
+            console.log("getDate:" + new Date(video.RecordedDate).getDate())
+            console.log("getDay:" + new Date(video.RecordedDate).getDay())
+
+            var recordedDay = new Date(video.RecordedDate).getDate()
 
             if(!dayGroups[recordedDay]) {
             	dayGroups[recordedDay] = []
