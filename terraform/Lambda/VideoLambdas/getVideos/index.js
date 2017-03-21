@@ -28,18 +28,34 @@ exports.handler = function(event, context) {
 		// "Limit": "100",
 		"TableName": "Videos"
 	}, function(err, data) {
-		if (err)
-			return context.fail(err);
-		else
+		if (err) {
+            return context.fail(err);
+        }
+
+        var dayGroups = [];
+
+        for(var i = 0, len = data.Items.length; i<len; i+=1) {
+            var video = data.Items[i];
+
+            var recordedDay = new Date(video.RecordedDate).getUTCDay()
+
+            if(!dayGroups[recordedDay]) {
+            	dayGroups[recordedDay] = []
+			}
+
+            dayGroups[recordedDay] = video
+        }
+
 		var response = {
 			statusCode: responseCode,
 			headers: {
 				'Access-Control-Allow-Origin': '*'
 			},
 			body: JSON.stringify({
-				videos: data.Items
+				videos: dayGroups
 			})
 		};
+
 		console.log("response: " + JSON.stringify(response))
 		context.succeed(response);
 	});
