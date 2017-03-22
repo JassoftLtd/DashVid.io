@@ -52,6 +52,8 @@ exports.handler = function(event, context) {
             	dayGroups.push(recordedDate, [])
 			}
 
+            console.log("dayGroups: " + dayGroups)
+
             dayGroups[recordedDate].push(video)
         }
 
