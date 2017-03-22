@@ -44,7 +44,7 @@ exports.handler = function(event, context) {
             recordedDate.setSeconds(0)
             recordedDate.setMilliseconds(0)
 
-            recordedDate = new String(recordedDate.getTime())
+            recordedDate = recordedDate.getTime().toString()
 
 			console.log("recordedDate: " + recordedDate)
 
