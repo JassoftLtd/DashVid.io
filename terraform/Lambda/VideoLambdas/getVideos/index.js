@@ -49,7 +49,7 @@ exports.handler = function(event, context) {
 			console.log("recordedDate: " + recordedDate)
 
             if(!dayGroups[recordedDate]) {
-            	dayGroups.push(recordedDate, [])
+            	dayGroups[recordedDate] = []
 			}
 
             console.log("dayGroups: " + dayGroups)
