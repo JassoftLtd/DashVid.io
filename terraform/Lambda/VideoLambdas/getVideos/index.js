@@ -34,7 +34,7 @@ exports.handler = function(event, context) {
 
         var dayGroups = [];
 
-        for(var i = 0, len = data.Items.length; i<len; i+=1) {
+        for(var i = 0; i < data.Items.length; i++) {
             var video = data.Items[i];
 
             var recordedDate = new Date(video.RecordedDate)
@@ -50,8 +50,10 @@ exports.handler = function(event, context) {
             	dayGroups[recordedDate] = []
 			}
 
-            dayGroups[recordedDate] = video
+            dayGroups[recordedDate].push(video)
         }
+
+        console.log("dayGroups: " + JSON.stringify(dayGroups))
 
 		var response = {
 			statusCode: responseCode,
