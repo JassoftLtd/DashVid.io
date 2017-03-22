@@ -56,7 +56,7 @@ exports.handler = function(event, context) {
 
             console.log("dayGroups: " + dayGroups)
 
-            dayGroups[recordedDate].push(video)
+            dayGroups.push(video)
         }
 
         console.log("dayGroups: " + JSON.stringify(dayGroups))
