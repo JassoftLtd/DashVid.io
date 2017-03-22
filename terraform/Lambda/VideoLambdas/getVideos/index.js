@@ -49,6 +49,7 @@ exports.handler = function(event, context) {
 			console.log("recordedDate: " + recordedDate)
 
             if(!dayGroups[recordedDate]) {
+            	console.log(recordedDate + " not in " + dayGroups)
             	dayGroups[recordedDate] = []
 			}
 
