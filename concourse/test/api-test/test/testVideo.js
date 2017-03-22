@@ -56,7 +56,7 @@ describe('Video', function () {
 
                     return videoHelper.getVideos(user)
                         .then(function (result) {
-                            assert.equal(result.data.videos.length, 0);
+                            assert.equal(result.data.length, 0);
                         })
 
                 });
@@ -92,7 +92,7 @@ describe('Video', function () {
 
                                     return videoHelper.getVideos(user)
                                         .then(function (result) {
-                                            assert.equal(result.data.videos.length, 1);
+                                            assert.equal(result.data.length, 1);
                                         })
                                 });
 

@@ -46,15 +46,9 @@ exports.handler = function(event, context) {
 
             recordedDate = recordedDate.getTime().toString()
 
-			console.log("recordedDate: " + recordedDate)
-
             if(!dayGroups[recordedDate]) {
-            	console.log(recordedDate + " not in " + JSON.stringify(dayGroups))
             	dayGroups[recordedDate] = []
-                console.log("Is it in? " + JSON.stringify(dayGroups))
 			}
-
-            console.log("dayGroups: " + dayGroups)
 
             dayGroups[recordedDate].push(video)
         }
