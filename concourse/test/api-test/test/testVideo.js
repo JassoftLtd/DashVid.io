@@ -56,7 +56,17 @@ describe('Video', function () {
 
                     return videoHelper.getVideos(user)
                         .then(function (result) {
-                            assert.equal(result.data.length, 0);
+
+                            var recordedDate = new Date()
+
+                            recordedDate.setHours(0)
+                            recordedDate.setMinutes(0)
+                            recordedDate.setSeconds(0)
+                            recordedDate.setMilliseconds(0)
+
+                            recordedDate = recordedDate.getTime()
+
+                            assert.equal(result.data.videos[recordedDate].length, 0);
                         })
 
                 });
@@ -92,7 +102,16 @@ describe('Video', function () {
 
                                     return videoHelper.getVideos(user)
                                         .then(function (result) {
-                                            assert.equal(result.data.length, 1);
+                                            var recordedDate = new Date()
+
+                                            recordedDate.setHours(0)
+                                            recordedDate.setMinutes(0)
+                                            recordedDate.setSeconds(0)
+                                            recordedDate.setMilliseconds(0)
+
+                                            recordedDate = recordedDate.getTime()
+
+                                            assert.equal(result.data.videos[recordedDate].length, 1);
                                         })
                                 });
 
