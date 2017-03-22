@@ -48,9 +48,9 @@ exports.handler = function(event, context) {
 
 			console.log("recordedDate: " + recordedDate)
 
-            if(!dayGroups[recordedDate]) {
+            if(!dayGroups["" + recordedDate]) {
             	console.log(recordedDate + " not in " + JSON.stringify(dayGroups))
-            	dayGroups[recordedDate] = []
+            	dayGroups.push("" + recordedDate, [])
                 console.log("Is it in? " + JSON.stringify(dayGroups))
 			}
 
