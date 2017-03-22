@@ -32,7 +32,7 @@ exports.handler = function(event, context) {
             return context.fail(err);
         }
 
-        var dayGroups = [];
+        var dayGroups = new Object();
 
         for(var i = 0; i < data.Items.length; i++) {
             var video = data.Items[i];
@@ -48,15 +48,15 @@ exports.handler = function(event, context) {
 
 			console.log("recordedDate: " + recordedDate)
 
-            if(!dayGroups["" + recordedDate]) {
+            if(!dayGroups[recordedDate]) {
             	console.log(recordedDate + " not in " + JSON.stringify(dayGroups))
-            	dayGroups["" + recordedDate] = {}
+            	dayGroups[recordedDate] = []
                 console.log("Is it in? " + JSON.stringify(dayGroups))
 			}
 
             console.log("dayGroups: " + dayGroups)
 
-            dayGroups.push(video)
+            dayGroups[recordedDate].push(video)
         }
 
         console.log("dayGroups: " + JSON.stringify(dayGroups))
