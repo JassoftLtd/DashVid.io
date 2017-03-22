@@ -44,10 +44,12 @@ exports.handler = function(event, context) {
             recordedDate.setSeconds(0)
             recordedDate.setMilliseconds(0)
 
+            recordedDate = recordedDate.getTime()
+
 			console.log("recordedDate: " + recordedDate)
 
             if(!dayGroups[recordedDate]) {
-            	dayGroups[recordedDate] = []
+            	dayGroups.push(recordedDate, [])
 			}
 
             dayGroups[recordedDate].push(video)
