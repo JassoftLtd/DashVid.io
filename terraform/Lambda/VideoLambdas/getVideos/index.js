@@ -51,6 +51,7 @@ exports.handler = function(event, context) {
             if(!dayGroups[recordedDate]) {
             	console.log(recordedDate + " not in " + JSON.stringify(dayGroups))
             	dayGroups[recordedDate] = []
+                console.log("Is it in? " + JSON.stringify(dayGroups))
 			}
 
             console.log("dayGroups: " + dayGroups)
