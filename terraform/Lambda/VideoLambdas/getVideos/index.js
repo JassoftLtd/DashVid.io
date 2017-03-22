@@ -44,13 +44,13 @@ exports.handler = function(event, context) {
             recordedDate.setSeconds(0)
             recordedDate.setMilliseconds(0)
 
-            recordedDate = recordedDate.getTime()
+            recordedDate = new String(recordedDate.getTime())
 
 			console.log("recordedDate: " + recordedDate)
 
             if(!dayGroups[recordedDate]) {
             	console.log(recordedDate + " not in " + JSON.stringify(dayGroups))
-            	dayGroups.push(recordedDate, [])
+            	dayGroups[recordedDate] = []
                 console.log("Is it in? " + JSON.stringify(dayGroups))
 			}
 
