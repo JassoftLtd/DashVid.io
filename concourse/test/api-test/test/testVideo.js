@@ -69,7 +69,7 @@ describe('Video', function () {
                             console.error("recordedDate: " + recordedDate)
                             console.error("DATA: " + JSON.stringify(result.data))
 
-                            assert.equal(result.data.videos[recordedDate].length, 0);
+                            assert(result.data.videos);
                         })
 
                 });
@@ -113,6 +113,9 @@ describe('Video', function () {
                                             recordedDate.setMilliseconds(0)
 
                                             recordedDate = recordedDate.getTime()
+
+                                            console.error("recordedDate: " + recordedDate)
+                                            console.error("DATA: " + JSON.stringify(result.data))
 
                                             assert.equal(result.data.videos[recordedDate].length, 1);
                                         })
