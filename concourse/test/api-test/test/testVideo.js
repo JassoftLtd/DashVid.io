@@ -114,7 +114,7 @@ describe('Video', function () {
                                             console.error("recordedDate: " + recordedDate)
                                             console.error("DATA.videos: " + JSON.stringify(result.data.videos))
                                             console.error("DATA.videos[recordedDate]: " + JSON.stringify(result.data.videos[recordedDate]))
-                                            console.error("DATA.videos[recordedDate]: " + JSON.stringify(result.data.videos["" + recordedDate]))
+                                            console.error("DATA.videos[recordedDate]: " + JSON.stringify(result.data.videos[eval(recordedDate)]))
 
                                             assert.equal(result.data.videos[recordedDate].length, 1);
                                         })
