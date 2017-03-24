@@ -111,6 +111,9 @@ describe('Video', function () {
 
                                             recordedDate = recordedDate.getTime()
 
+                                            console.error("recordedDate: " + recordedDate)
+                                            console.error("DATA.videos: " + JSON.stringify(result.data.videos))
+
                                             assert.equal(result.data.videos.length, 1);
 
                                             assert.equal(getRecordForDate(result.data.videos, recordedDate).videos, 1);
