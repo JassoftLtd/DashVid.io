@@ -66,7 +66,7 @@ describe('Video', function () {
 
                             recordedDate = recordedDate.getTime()
 
-                            assert(result.data.videos);
+                            assert.equal(result.data.length, 0);
                         })
 
                 });
@@ -113,7 +113,7 @@ describe('Video', function () {
 
                                             assert.equal(result.data.length, 1);
 
-                                            assert.equal(result.data[0].videos, 1);
+                                            assert.equal(result.data[0].videos.length, 1);
                                         })
                                 });
 
