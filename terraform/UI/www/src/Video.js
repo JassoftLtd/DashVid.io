@@ -116,12 +116,12 @@ var VideoList = React.createClass({
 
         const _this = this;
 
-        var days;
+        let days;
 
         if (this.state.data) {
             days = this.state.data.map(function (dayData, i) {
 
-                videos = dayData.videos.map(function (video, i) {
+                let videos = dayData.videos.map(function (video, i) {
 
                     var uploaded = moment(video.Uploaded).toISOString()
                     var recorded = moment(video.RecordedDate).toISOString()
