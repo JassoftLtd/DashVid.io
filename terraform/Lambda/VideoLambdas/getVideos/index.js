@@ -32,7 +32,8 @@ exports.handler = function(event, context) {
             return context.fail(err);
         }
 
-        var dayGroups = new Object();
+        var responseBody = new Object();
+		responseBody.videos = []
 
         for(var i = 0; i < data.Items.length; i++) {
             var video = data.Items[i];
@@ -46,23 +47,24 @@ exports.handler = function(event, context) {
 
             recordedDate = recordedDate.getTime().toString()
 
-            if(!dayGroups[recordedDate]) {
-            	dayGroups[recordedDate] = []
+            let recordForDate = getRecordForDate(responseBody.videos, recordedDate)
+            if(!recordForDate) {
+                responseBody.videos.push({date: recordedDate, videos: []})
+                recordForDate = getRecordForDate(responseBody.videos, recordedDate)
 			}
 
-            dayGroups[recordedDate].push(video)
+            recordForDate.videos.push(video)
+			console.log("recordForDate: " + JSON.stringify(recordForDate))
         }
 
-        console.log("dayGroups: " + JSON.stringify(dayGroups))
+        console.log("dayGroups: " + JSON.stringify(responseBody))
 
 		var response = {
 			statusCode: responseCode,
 			headers: {
 				'Access-Control-Allow-Origin': '*'
 			},
-			body: JSON.stringify({
-				videos: dayGroups
-			})
+			body: JSON.stringify(responseBody)
 		};
 
 		console.log("response: " + JSON.stringify(response))
@@ -70,3 +72,13 @@ exports.handler = function(event, context) {
 	});
 
 };
+
+
+function getRecordForDate(collection, date) {
+    for(var i = 0; i < collection.length; i++) {
+        var record = collection[i];
+
+        if(record.date == date)
+        	return record
+    }
+}
