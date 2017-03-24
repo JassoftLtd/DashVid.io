@@ -32,7 +32,7 @@ exports.handler = function(event, context) {
             return context.fail(err);
         }
 
-        var dayGroups = [];
+        var dayGroups = new Object();
 
         for(var i = 0; i < data.Items.length; i++) {
             var video = data.Items[i];
