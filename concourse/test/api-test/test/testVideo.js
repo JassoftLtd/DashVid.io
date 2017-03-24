@@ -111,12 +111,9 @@ describe('Video', function () {
 
                                             recordedDate = recordedDate.getTime()
 
-                                            console.error("recordedDate: " + recordedDate)
-                                            console.error("DATA.videos: " + JSON.stringify(result.data.videos))
-                                            console.error("DATA.videos[recordedDate]: " + JSON.stringify(result.data.videos[recordedDate]))
-                                            console.error("DATA.videos[recordedDate]: " + JSON.stringify(result.data.videos[eval(recordedDate)]))
+                                            assert.equal(result.data.videos.length, 1);
 
-                                            assert.equal(result.data.videos[recordedDate].length, 1);
+                                            assert.equal(getRecordForDate(result.data.videos, recordedDate).videos, 1);
                                         })
                                 });
 
@@ -127,3 +124,12 @@ describe('Video', function () {
     });
 
 });
+
+function getRecordForDate(collection, date) {
+    for(var i = 0; i < collection.length; i++) {
+        var record = collection[i];
+
+        if(record.date == date)
+            return record
+    }
+}

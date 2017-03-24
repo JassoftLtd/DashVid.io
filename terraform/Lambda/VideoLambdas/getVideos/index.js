@@ -43,6 +43,7 @@ exports.handler = function(event, context) {
             recordedDate.setHours(0)
             recordedDate.setMinutes(0)
             recordedDate.setSeconds(0)
+
             recordedDate.setMilliseconds(0)
 
             recordedDate = recordedDate.getTime().toString()
