@@ -91,7 +91,7 @@ var VideoList = React.createClass({
                 .then(function (result) {
                     //This is where you would put a success callback
                     _this.setState({
-                        videos: result.data.videos,
+                        data: result.data,
                         mounted: true
                     })
                 }).catch(function (result) {
@@ -118,23 +118,35 @@ var VideoList = React.createClass({
 
         var videos;
 
-        if (this.state.videos) {
-            videos = this.state.videos.map(function (video, i) {
+        if (this.state.data) {
+            days = this.state.data.map(function (dayData, i) {
 
-                var uploaded = moment(video.Uploaded).toISOString()
-                var recorded = moment(video.RecordedDate).toISOString()
+                videos = dayData.videos.map(function (video, i) {
+
+                    var uploaded = moment(video.Uploaded).toISOString()
+                    var recorded = moment(video.RecordedDate).toISOString()
+
+                    return (
+                        <tr key={video.Id}>
+                            <td>{video.Id}</td>
+                            <td>{uploaded}</td>
+                            <td>{video.User}</td>
+                            <td>{video.VideoStatus}</td>
+                            <td>{recorded}</td>
+                            <td>{video.VideoDuration /1000}s</td>
+                            <td><button onClick={()=>{_this.props.playVideoCallback(video.Id)}}>Play</button></td>
+                            {/*<td><Share videoId={video.Id}/></td>*/}
+                        </tr>
+                    );
+                });
 
                 return (
-                    <tr key={video.Id}>
-                        <td>{video.Id}</td>
-                        <td>{uploaded}</td>
-                        <td>{video.User}</td>
-                        <td>{video.VideoStatus}</td>
-                        <td>{recorded}</td>
-                        <td>{video.VideoDuration /1000}s</td>
-                        <td><button onClick={()=>{_this.props.playVideoCallback(video.Id)}}>Play</button></td>
-                        {/*<td><Share videoId={video.Id}/></td>*/}
-                    </tr>
+                    <span>
+                        <tr key={dayData.date}>
+                            <td colSpan="7">{dayData.date}</td>
+                        </tr>
+                        {videos}
+                    </span>
                 );
             });
 
@@ -155,7 +167,7 @@ var VideoList = React.createClass({
                             </tr>
                             </thead>
                             <tbody>
-                            {videos}
+                            {days}
                             </tbody>
                         </table>
                     </div>
