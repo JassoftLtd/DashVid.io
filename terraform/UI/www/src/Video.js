@@ -116,7 +116,7 @@ var VideoList = React.createClass({
 
         const _this = this;
 
-        var videos;
+        var days;
 
         if (this.state.data) {
             days = this.state.data.map(function (dayData, i) {
