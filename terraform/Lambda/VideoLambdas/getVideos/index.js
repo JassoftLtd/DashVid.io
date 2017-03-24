@@ -32,8 +32,7 @@ exports.handler = function(event, context) {
             return context.fail(err);
         }
 
-        var responseBody = new Object();
-		responseBody.videos = []
+        var responseBody = []
 
         for(var i = 0; i < data.Items.length; i++) {
             var video = data.Items[i];
@@ -48,10 +47,10 @@ exports.handler = function(event, context) {
 
             recordedDate = recordedDate.getTime().toString()
 
-            let recordForDate = getRecordForDate(responseBody.videos, recordedDate)
+            let recordForDate = getRecordForDate(responseBody, recordedDate)
             if(!recordForDate) {
-                responseBody.videos.push({date: recordedDate, videos: []})
-                recordForDate = getRecordForDate(responseBody.videos, recordedDate)
+                responseBody.push({date: recordedDate, videos: []})
+                recordForDate = getRecordForDate(responseBody, recordedDate)
 			}
 
             recordForDate.videos.push(video)
