@@ -121,19 +121,19 @@ var VideoList = React.createClass({
         if (this.state.data) {
             days = this.state.data.map(function (dayData, i) {
 
-                var date = Moment(dayData.date).format('DD MMMM YYYY').toString()
+                var date = Moment(dayData.date).format('DD MMMM YYYY')
 
                 let videos = dayData.videos.map(function (video, i) {
 
-                    var recorded = Moment(parseInt(video.RecordedDate, 10)).format('HH:mm:ss').toString()
-                    // var recordedEnd = new Date(parseInt(video.RecordedDate + video.VideoDuration, 10)).toISOString()
+                    var start = Moment(video.RecordedDate).format('HH:mm:ss')
+                    var end = Moment(video.RecordedDate + video.VideoDuration).format('HH:mm:ss')
 
                     return (
                         <tr key={video.Id}>
                             <td>{video.VideoStatus}</td>
-                            <td>{recorded}</td>
-                            <td>{video.VideoDuration /1000}s</td>
-                            <td><button onClick={()=>{_this.props.playVideoCallback(video.Id)}}>Play</button></td>
+                            <td>{start}</td>
+                            <td>{end}</td>
+                            <td><button className="button-success pure-button" onClick={()=>{_this.props.playVideoCallback(video.Id)}}>Play</button></td>
                             {/*<td><Share videoId={video.Id}/></td>*/}
                         </tr>
                     );
@@ -141,7 +141,7 @@ var VideoList = React.createClass({
 
                 return (
                     <tbody key={date}>
-                        <tr>
+                        <tr className="pure-table-odd">
                             <td colSpan="4">
                                 <strong>
                                     {date}
@@ -154,14 +154,14 @@ var VideoList = React.createClass({
             });
 
             return (
-                <div ref="videocategory" className="VideoList">
-                    <div className="Video">
-                        <table className="table">
+                <div ref="videocategory" className="pure-g">
+                    <div className="pure-u-1-1">
+                        <table className="pure-table pure-table-horizontal" width="100%">
                             <thead>
                             <tr>
                                 <td>Status</td>
-                                <td>Recorded Date</td>
-                                <td>Duration</td>
+                                <td>Start</td>
+                                <td>End</td>
                                 <td>Play</td>
                                 {/*<td>Share</td>*/}
                             </tr>
@@ -298,11 +298,15 @@ var VideoAdd = React.createClass({
         }
 
         return (
-            <div>
-                <Dropzone onDrop={this.onDrop}>
-                    <div>Try dropping some files here, or click to select files to upload.</div>
-                </Dropzone>
-                {uploading}
+            <div className="pure-g">
+                <div className="pure-u-1-24"/>
+                <div className="pure-u-22-24">
+                    <Dropzone onDrop={this.onDrop} className="video-dropzone">
+                        <div>Try dropping some files here, or click to select files to upload.</div>
+                    </Dropzone>
+                    {uploading}
+                </div>
+                <div className="pure-u-1-24"/>
             </div>
         );
     }

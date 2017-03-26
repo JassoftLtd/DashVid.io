@@ -25,7 +25,6 @@ exports.handler = function(event, context) {
 			":user":currentUser,
             ":status":"Uploaded"
 		},
-		// "Limit": "100",
 		"TableName": "Videos"
 	}, function(err, data) {
 		if (err) {

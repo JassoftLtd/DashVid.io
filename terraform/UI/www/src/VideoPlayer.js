@@ -74,7 +74,13 @@ var VideoPlayer = React.createClass({
 
     render: function () {
         if(this.state.url) {
-            return <ReactPlayer url={this.state.url} playing controls/>
+            return (
+                <div className="pure-g">
+                    <div className="pure-u-1-1">
+                        <ReactPlayer url={this.state.url} width="100%" playing controls/>
+                    </div>
+                </div>
+            )
         }
         else {
             return (<p>Select video to play</p>)
