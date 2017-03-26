@@ -8,6 +8,7 @@ var apigClientFactory = require('aws-api-gateway-client')
 AWS.config.region = 'eu-west-1'; // Region
 
 var authUtils = require('./utils/auth.js');
+var api = require('./utils/api.js');
 
 ////////////////
 // Video Player //
@@ -31,7 +32,7 @@ var VideoPlayer = React.createClass({
         authUtils.runWithCredentials(function () {
 
             var config = {
-                invokeUrl: 'https://0qomu2q3rb.execute-api.eu-west-1.amazonaws.com/Dev',
+                invokeUrl: api.getApiAddress(),
                 accessKey: AWS.config.credentials.accessKeyId,
                 secretKey: AWS.config.credentials.secretAccessKey,
                 sessionToken: AWS.config.credentials.sessionToken,
