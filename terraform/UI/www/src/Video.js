@@ -141,12 +141,12 @@ var VideoList = React.createClass({
                 });
 
                 return (
-                    <span>
+                    <tbody>
                         <tr key={dayData.date}>
                             <td colSpan="7">{dayData.date}</td>
                         </tr>
                         {videos}
-                    </span>
+                    </tbody>
                 );
             });
 
@@ -166,9 +166,7 @@ var VideoList = React.createClass({
                                 {/*<td>Share</td>*/}
                             </tr>
                             </thead>
-                            <tbody>
                             {days}
-                            </tbody>
                         </table>
                     </div>
                 </div>
