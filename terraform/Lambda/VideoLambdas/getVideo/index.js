@@ -48,7 +48,9 @@ exports.handler = function(event, context) {
                     'Access-Control-Allow-Origin': '*'
                 },
                 body: JSON.stringify({
-                    video: data.Item,
+                    video: {
+                        Id: data.Item.Id
+                    },
                     url: url
                 })
             };
