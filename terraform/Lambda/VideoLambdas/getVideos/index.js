@@ -45,7 +45,7 @@ exports.handler = function(event, context) {
 
             recordedDate.setMilliseconds(0)
 
-            recordedDate = recordedDate.getTime().toString()
+            recordedDate = recordedDate.getTime()
 
             let recordForDate = getRecordForDate(responseBody, recordedDate)
             if(!recordForDate) {
@@ -53,7 +53,14 @@ exports.handler = function(event, context) {
                 recordForDate = getRecordForDate(responseBody, recordedDate)
 			}
 
-            recordForDate.videos.push(video)
+			var videoDate = {
+                Id: video.Id,
+                VideoStatus: video.VideoStatus,
+                RecordedDate: parseInt(video.RecordedDate, 10),
+                VideoDuration: video.VideoDuration,
+			}
+
+            recordForDate.videos.push(videoDate)
 			console.log("recordForDate: " + JSON.stringify(recordForDate))
         }
 

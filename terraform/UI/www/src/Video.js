@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 var Dropzone = require('react-dropzone');
+import Moment from 'moment';
 import './Video.css';
 import 'whatwg-fetch'
 var AWS = require('aws-sdk');
@@ -120,18 +121,15 @@ var VideoList = React.createClass({
         if (this.state.data) {
             days = this.state.data.map(function (dayData, i) {
 
-                var date = new Date(parseInt(dayData.date)).toISOString()
+                var date = Moment(dayData.date).format('DD MMMM YYYY').toString()
 
                 let videos = dayData.videos.map(function (video, i) {
 
-                    var uploaded = new Date(parseInt(video.Uploaded)).toISOString()
-                    var recorded = new Date(parseInt(video.RecordedDate)).toISOString()
+                    var recorded = Moment(parseInt(video.RecordedDate, 10)).format('HH:mm:ss').toString()
+                    // var recordedEnd = new Date(parseInt(video.RecordedDate + video.VideoDuration, 10)).toISOString()
 
                     return (
                         <tr key={video.Id}>
-                            <td>{video.Id}</td>
-                            <td>{uploaded}</td>
-                            <td>{video.User}</td>
                             <td>{video.VideoStatus}</td>
                             <td>{recorded}</td>
                             <td>{video.VideoDuration /1000}s</td>
@@ -144,7 +142,11 @@ var VideoList = React.createClass({
                 return (
                     <tbody key={date}>
                         <tr>
-                            <td colSpan="7">{date}</td>
+                            <td colSpan="4">
+                                <strong>
+                                    {date}
+                                </strong>
+                            </td>
                         </tr>
                         {videos}
                     </tbody>
@@ -157,11 +159,8 @@ var VideoList = React.createClass({
                         <table className="table">
                             <thead>
                             <tr>
-                                <td>Id</td>
-                                <td>Uploaded</td>
-                                <td>By</td>
                                 <td>Status</td>
-                                <td>Redorded Date</td>
+                                <td>Recorded Date</td>
                                 <td>Duration</td>
                                 <td>Play</td>
                                 {/*<td>Share</td>*/}
