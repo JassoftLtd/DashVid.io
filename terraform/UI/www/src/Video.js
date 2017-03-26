@@ -21,7 +21,7 @@ class Video extends Component {
         super(props);
 
         this.state = {
-            videosRequiresReload: true,
+            videosRequiresReload: false,
             videoToPlay: null
         };
     }

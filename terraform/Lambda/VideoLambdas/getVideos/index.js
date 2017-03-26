@@ -57,7 +57,7 @@ exports.handler = function(event, context) {
                 Id: video.Id,
                 VideoStatus: video.VideoStatus,
                 RecordedDate: parseInt(video.RecordedDate, 10),
-                VideoDuration: video.VideoDuration,
+                VideoDuration: parseInt(video.VideoDuration, 10),
 			}
 
             recordForDate.videos.push(videoDate)
