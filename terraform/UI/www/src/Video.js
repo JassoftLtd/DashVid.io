@@ -5,7 +5,6 @@ import 'whatwg-fetch'
 var AWS = require('aws-sdk');
 var apigClientFactory = require('aws-api-gateway-client')
 var S3Upload = require('./s3upload.js')
-var moment = require("moment");
 
 import VideoPlayer from './VideoPlayer.js'
 // import Share from './Share.js'
@@ -121,10 +120,12 @@ var VideoList = React.createClass({
         if (this.state.data) {
             days = this.state.data.map(function (dayData, i) {
 
+                var date = new Date(parseInt(dayData.date)).toISOString()
+
                 let videos = dayData.videos.map(function (video, i) {
 
-                    var uploaded = moment(video.Uploaded).toISOString()
-                    var recorded = moment(video.RecordedDate).toISOString()
+                    var uploaded = new Date(parseInt(video.Uploaded)).toISOString()
+                    var recorded = new Date(parseInt(video.RecordedDate)).toISOString()
 
                     return (
                         <tr key={video.Id}>
@@ -141,9 +142,9 @@ var VideoList = React.createClass({
                 });
 
                 return (
-                    <tbody>
-                        <tr key={dayData.date}>
-                            <td colSpan="7">{dayData.date}</td>
+                    <tbody key={date}>
+                        <tr>
+                            <td colSpan="7">{date}</td>
                         </tr>
                         {videos}
                     </tbody>
