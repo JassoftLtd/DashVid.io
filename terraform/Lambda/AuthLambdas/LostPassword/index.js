@@ -24,7 +24,7 @@ var responseError = {
 
 function getUser(event, email, fn) {
 	dynamodb.getItem({
-		TableName: event.stageVariables.auth_db_table,
+		TableName: process.env.auth_db_table,
 		Key: {
 			email: {
 				S: email
@@ -55,7 +55,7 @@ function storeLostToken(event, email, fn) {
         }
 
 		dynamodb.updateItem({
-				TableName: event.stageVariables.auth_db_table,
+				TableName: process.env.auth_db_table,
 				Key: {
 					email: {
 						S: email
@@ -80,11 +80,11 @@ function storeLostToken(event, email, fn) {
 function sendLostPasswordEmail(event, email, token, fn) {
 
     if(!process.env.email_disabled) {
-        var subject = 'Password Lost for ' + event.stageVariables.auth_application_name;
-        var lostLink = event.stageVariables.auth_reset_page + '?email=' + encodeURIComponent(email) + '&lost=' + token;
+        var subject = 'Password Lost for ' + process.env.auth_application_name;
+        var lostLink = process.env.auth_reset_page + '?email=' + encodeURIComponent(email) + '&lost=' + token;
 
         ses.sendEmail({
-            Source: event.stageVariables.auth_email_from_address,
+            Source: process.env.auth_email_from_address,
             Destination: {
                 ToAddresses: [
                     email

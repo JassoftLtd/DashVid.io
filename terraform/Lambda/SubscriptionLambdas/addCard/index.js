@@ -20,7 +20,7 @@ exports.handler = function(event, context) {
     var email = event.requestContext.identity.cognitoAuthenticationProvider.split(':').pop();
 
     dynamodb.get({
-        TableName: event.stageVariables.auth_db_table,
+        TableName: process.env.auth_db_table,
         Key:{
             "email": email
         }
@@ -76,7 +76,7 @@ exports.handler = function(event, context) {
                         console.log(JSON.stringify(customer))
 
                         dynamodb.update({
-                            TableName: event.stageVariables.auth_db_table,
+                            TableName: process.env.auth_db_table,
                             Key: {
                                 "email": email
                             },

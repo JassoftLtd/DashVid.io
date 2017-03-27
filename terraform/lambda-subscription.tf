@@ -13,6 +13,7 @@ resource "aws_lambda_function" "addCard" {
   environment {
     variables = {
       stripe_api_key = "${var.stripe_api_key}"
+      auth_db_table = "${aws_dynamodb_table.users-table.name}"
     }
   }
 }

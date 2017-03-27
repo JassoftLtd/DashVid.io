@@ -69,16 +69,6 @@ resource "aws_api_gateway_deployment" "DevDeployment" {
   ]
   rest_api_id = "${aws_api_gateway_rest_api.DashCamAPI.id}"
   stage_name = "Dev"
-  variables = {
-    "auth_email_from_address" = "${var.auth_email_from_address}"
-    "auth_db_table" = "Users"
-    "auth_application_name" = "Dashvid.io"
-    "auth_verification_page" = "http://DashVid.io/#/verify"
-    "auth_reset_page" = "http://DashVid.io/#/reset"
-    "auth_identity_pool" = "${var.aws_identity_pool}"
-    "auth_developer_provider_name" = "${var.auth_developer_provider_name}"
-    "user_verified_sns_arn" = "${aws_sns_topic.user_verified.arn}"
-  }
 }
 
 // Auth

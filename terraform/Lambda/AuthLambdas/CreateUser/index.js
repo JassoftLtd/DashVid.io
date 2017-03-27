@@ -58,7 +58,7 @@ function storeUser(event, email, hash, salt, fn) {
         }
 
 		dynamodb.put({
-			TableName: event.stageVariables.auth_db_table,
+			TableName: process.env.auth_db_table,
 			Item: {
 				email: email,
 				passwordHash: hash,
@@ -106,10 +106,10 @@ function sendVerificationEmail(event, email, token, fn) {
 
 		console.log('Sending Email to User: ' + email)
 
-        var subject = 'Verification Email for ' + event.stageVariables.auth_application_name;
-        var verificationLink = event.stageVariables.auth_verification_page + '?email=' + encodeURIComponent(email) + '&verify=' + token;
+        var subject = 'Verification Email for ' + process.env.auth_application_name;
+        var verificationLink = process.env.auth_verification_page + '?email=' + encodeURIComponent(email) + '&verify=' + token;
         ses.sendEmail({
-            Source: event.stageVariables.auth_email_from_address,
+            Source: process.env.auth_email_from_address,
             Destination: {
                 ToAddresses: [
                     email
@@ -142,6 +142,8 @@ function sendVerificationEmail(event, email, token, fn) {
 exports.handler = function(event, context) {
 
 	var event = event;
+
+	console.log(event.body)
 
 	var payload = JSON.parse(event.body);
 

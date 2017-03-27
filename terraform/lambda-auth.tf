@@ -12,6 +12,10 @@ resource "aws_lambda_function" "createUser" {
     variables = {
       email_disabled = "${var.email_disabled}"
       token_override = "${var.token_override}"
+      auth_db_table = "${aws_dynamodb_table.users-table.name}"
+      auth_application_name = "${var.application_name}"
+      auth_verification_page = "http://DashVid.io/#/verify"
+      auth_email_from_address = "${var.auth_email_from_address}"
     }
   }
 }
@@ -25,6 +29,11 @@ resource "aws_lambda_function" "changePassword" {
   timeout = "30"
   memory_size = "256"
   source_code_hash = "${base64sha256(file("${path.module}/Lambda/AuthLambdas/ChangePassword.zip"))}"
+  environment {
+    variables = {
+      auth_db_table = "${aws_dynamodb_table.users-table.name}"
+    }
+  }
 }
 
 resource "aws_lambda_function" "login" {
@@ -36,6 +45,13 @@ resource "aws_lambda_function" "login" {
   timeout = "30"
   memory_size = "256"
   source_code_hash = "${base64sha256(file("${path.module}/Lambda/AuthLambdas/Login.zip"))}"
+  environment {
+    variables = {
+      auth_db_table = "${aws_dynamodb_table.users-table.name}"
+      auth_identity_pool = "${var.aws_identity_pool}"
+      auth_developer_provider_name = "${var.auth_developer_provider_name}"
+    }
+  }
 }
 
 resource "aws_lambda_function" "lostPassword" {
@@ -49,8 +65,12 @@ resource "aws_lambda_function" "lostPassword" {
   source_code_hash = "${base64sha256(file("${path.module}/Lambda/AuthLambdas/LostPassword.zip"))}"
   environment {
     variables = {
+      auth_db_table = "${aws_dynamodb_table.users-table.name}"
       email_disabled = "${var.email_disabled}"
       token_override = "${var.token_override}"
+      auth_application_name = "${var.application_name}"
+      auth_reset_page = "http://DashVid.io/#/reset"
+      auth_email_from_address = "${var.auth_email_from_address}"
     }
   }
 }
@@ -64,6 +84,11 @@ resource "aws_lambda_function" "resetPassword" {
   timeout = "30"
   memory_size = "256"
   source_code_hash = "${base64sha256(file("${path.module}/Lambda/AuthLambdas/ResetPassword.zip"))}"
+  environment {
+    variables = {
+      auth_db_table = "${aws_dynamodb_table.users-table.name}"
+    }
+  }
 }
 
 resource "aws_lambda_function" "verifyUser" {
@@ -75,4 +100,9 @@ resource "aws_lambda_function" "verifyUser" {
   timeout = "30"
   memory_size = "256"
   source_code_hash = "${base64sha256(file("${path.module}/Lambda/AuthLambdas/VerifyUser.zip"))}"
+  environment {
+    variables = {
+      auth_db_table = "${aws_dynamodb_table.users-table.name}"
+    }
+  }
 }

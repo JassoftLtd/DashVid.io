@@ -43,7 +43,7 @@ function computeHash(password, salt, fn) {
 
 function getUser(event, email, fn) {
 	dynamodb.getItem({
-		TableName: event.stageVariables.auth_db_table,
+		TableName: process.env.auth_db_table,
 		Key: {
 			email: {
 				S: email
@@ -65,7 +65,7 @@ function getUser(event, email, fn) {
 
 function updateUser(event, email, password, salt, fn) {
 	dynamodb.updateItem({
-			TableName: event.stageVariables.auth_db_table,
+			TableName: process.env.auth_db_table,
 			Key: {
 				email: {
 					S: email

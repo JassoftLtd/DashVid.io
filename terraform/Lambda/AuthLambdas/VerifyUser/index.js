@@ -22,7 +22,7 @@ var responseError = {
 
 function getUser(event, email, fn) {
 	dynamodb.get({
-		TableName: event.stageVariables.auth_db_table,
+		TableName: process.env.auth_db_table,
 		Key: {
 			email: email
 		}
@@ -45,7 +45,7 @@ function getUser(event, email, fn) {
 
 function updateUser(event, email, fn) {
 	dynamodb.update({
-			TableName: event.stageVariables.auth_db_table,
+			TableName: process.env.auth_db_table,
 			Key: {
 				email: email
 			},

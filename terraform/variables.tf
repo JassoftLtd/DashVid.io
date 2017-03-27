@@ -33,6 +33,11 @@ variable "aws_identity_pool" {
   default     = ""
 }
 
+variable "application_name" {
+  description = "The Application name."
+  default     = "DashVid.io"
+}
+
 variable "auth_developer_provider_name" {
   description = "The Developer Provider name."
   default     = "login.terraform.dashcam"

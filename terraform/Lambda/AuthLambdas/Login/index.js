@@ -44,7 +44,7 @@ function computeHash(password, salt, fn) {
 
 function getUser(event, email, fn) {
 	dynamodb.getItem({
-		TableName: event.stageVariables.auth_db_table,
+		TableName: process.env.auth_db_table,
 		Key: {
 			email: {
 				S: email
@@ -67,10 +67,10 @@ function getUser(event, email, fn) {
 
 function getToken(event, email, fn) {
 	var param = {
-		IdentityPoolId: event.stageVariables.auth_identity_pool,
+		IdentityPoolId: process.env.auth_identity_pool,
 		Logins: {} // To have provider name in a variable
 	};
-	param.Logins[event.stageVariables.auth_developer_provider_name] = email;
+	param.Logins[process.env.auth_developer_provider_name] = email;
 	cognitoidentity.getOpenIdTokenForDeveloperIdentity(param,
 		function(err, data) {
 			if (err) return fn(err); // an error occurred
