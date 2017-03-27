@@ -167,6 +167,7 @@ exports.handler = function(event, context) {
 						console.log("response: " + JSON.stringify(responseSuccess))
 						context.succeed(responseSuccess);
 					} else {
+						console.error('Error in storeUser: ' + err)
 						responseError.body = new Error('Error in storeUser: ' + err)
 						context.fail(responseError);
 					}
