@@ -47,7 +47,7 @@ function computeHash(password, salt, fn) {
 
 function storeUser(event, email, hash, salt, fn) {
 
-    console.log('Storing User: ' + email)
+    console.log('Storing User in [' + process.env.auth_db_table + ']: ' + email)
 
 	// Bytesize
 	var len = 128;
