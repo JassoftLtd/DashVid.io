@@ -288,47 +288,48 @@ resource "aws_iam_role_policy" "LambdAuthChangePassword_LambdAuthChangePassword"
 POLICY
 }
 
-resource "aws_iam_role_policy" "LambdAuthCreateUser_LambdAuthCreateUser" {
-    name   = "${var.environment_name}LambdAuthCreateUser"
-    role   = "${aws_iam_role.LambdAuthCreateUser.name}"
-    policy = <<POLICY
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Action": [
-        "dynamodb:PutItem"
-      ],
-      "Effect": "Allow",
-      "Resource": "arn:aws:dynamodb:${var.aws_region}:${var.aws_account_id}:table/${aws_dynamodb_table.users-table.name}"
-    },
-    {
-      "Action": [
-        "dynamodb:PutItem"
-      ],
-      "Effect": "Allow",
-      "Resource": "arn:aws:dynamodb:${var.aws_region}:${var.aws_account_id}:table/${aws_dynamodb_table.subscriptions-table.name}"
-    },
-    {
-      "Effect": "Allow",
-      "Action": [
-        "ses:SendEmail",
-        "ses:SendRawEmail"
-      ],
-      "Resource": "*"
-    },
-    {
-      "Sid": "",
-      "Resource": "*",
-      "Action": [
-        "logs:*"
-      ],
-      "Effect": "Allow"
+data "aws_iam_policy_document" "LambdAuthCreateUser_LambdAuthCreateUser" {
+    "statement" = {
+        "effect" = "Allow",
+        "actions" = [
+            "dynamodb:PutItem",
+        ],
+        "resources" = [
+            "${aws_dynamodb_table.users-table.arn}",
+            "${aws_dynamodb_table.subscriptions-table.arn}"
+        ]
     }
-  ]
+
+    "statement" = {
+        "effect" = "Allow",
+        "actions" = [
+            "ses:SendEmail",
+            "ses:SendRawEmail",
+        ],
+        "resources" = [
+            "*"
+        ]
+    }
+
+    "statement" = {
+        "effect" = "Allow",
+        "actions" = [
+            "logs:CreateLogGroup",
+            "logs:CreateLogStream",
+            "logs:PutLogEvents"
+        ],
+        "resources" = [
+            "*"
+        ]
+    }
 }
-POLICY
+
+resource "aws_iam_role_policy" "LambdAuthCreateUser_LambdAuthCreateUser" {
+    name = "${var.environment_name}LambdAuthCreateUser"
+    role = "${aws_iam_role.LambdAuthCreateUser.name}"
+    policy = "${data.aws_iam_policy_document.LambdAuthCreateUser_LambdAuthCreateUser.json}"
 }
+
 
 resource "aws_iam_role_policy" "LambdAuthLogin_LambdAuthLogin" {
     name   = "${var.environment_name}LambdAuthLogin"
