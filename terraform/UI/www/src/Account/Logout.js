@@ -23,7 +23,7 @@ class Logout extends Component {
 
         if (authUtils.hasAuth()) {
             return (
-                <button onClick={this.handleLogout.bind(this)} id="logout-button">Logout</button>
+                <li className="pure-menu-item"><a className="pure-menu-link" onClick={this.handleLogout.bind(this)}>Logout</a></li>
             );
         } else {
             return null

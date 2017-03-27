@@ -12,7 +12,7 @@ class CurrentPlan extends Component {
 
         const _this = this;
 
-        if (authUtils.hasAuth()) {
+        if (this.props.loggedIn) {
             authUtils.runWithCredentials(function () {
 
                 var config = {
@@ -55,9 +55,7 @@ class CurrentPlan extends Component {
                 status = (<a href="/subscription/addCard">{this.state.status}</a>)
             }
             return (
-                <div>
-                    {this.state.plan}{status}
-                </div>
+                <li className="pure-menu-item"><a className="pure-menu-link" href="#">{this.state.plan}{status}</a></li>
             );
         }
         else {

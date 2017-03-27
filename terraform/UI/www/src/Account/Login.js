@@ -146,28 +146,24 @@ class Login extends Component {
             }
 
             return (
-                <table>
-                    <tbody>
+                <form action="#" className="pure-form pure-form-aligned">
+                    <fieldset>
                         {message}
-                        <tr>
-                            <td>Email</td>
-                            <td><input onChange={this.handleChangeEmail.bind(this)} type="email"
-                                       id="email"
-                                       size="20"/></td>
-                        </tr>
-                        <tr>
-                            <td>Password</td>
-                            <td><input onChange={this.handleChangePassword.bind(this)} type="password"
-                                       id="password" size="20"/></td>
-                        </tr>
-                        <tr>
-                            <td colSpan="2">
-                                <button type="submit" id="login-button" onClick={this.handleLogin.bind(this)}>Login</button>
-                                <button id="lost-password-button" onClick={this.handleLostPassword.bind(this)}>Lost Password</button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+                        <div className="pure-control-group">
+                            <label htmlFor="name">Email</label>
+                            <input className="pure-input-2-3" id="email" type="email" onChange={this.handleChangeEmail.bind(this)} placeholder="Email" />
+                        </div>
+                        <div className="pure-control-group">
+                            <label htmlFor="name">Password</label>
+                            <input className="pure-input-2-3" id="password" type="password" onChange={this.handleChangePassword.bind(this)} placeholder="Password" />
+                        </div>
+                        <div className="pure-controls">
+                            <button type="button" id="login-button" className="pure-button button-success" onClick={this.handleLogin.bind(this)}>Login</button>
+                            <br /><br />
+                            <a href="#" onClick={this.handleLostPassword.bind(this)}>Forgotten Password</a>
+                        </div>
+                    </fieldset>
+                </form>
             );
         } else {
             return ( <p>Logged In</p> )

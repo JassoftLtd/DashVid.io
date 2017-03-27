@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import Login from './Login.js'
+import './Signup.css';
 var api = require('../utils/api.js');
 
 class Signup extends Component {
@@ -79,47 +80,42 @@ class Signup extends Component {
 
         if(this.state.message) {
             message = (
-                <tr>
-                    <td colSpan="2">
-                        <p>{this.state.message}</p>
-                    </td>
-                </tr>
+                <legend>{this.state.message}</legend>
             )
         }
 
         if (!this.props.route.loggedIn) {
             return (
-                <div className="pricing-tables pure-g">
+                <div className="pure-g">
                     <div className="pure-u-1 pure-u-md-1-2">
+                        <h2 className="content-subhead">Login</h2>
                         <Login loggedIn={this.props.route.loggedIn} loggedInCallback={this.props.route.loggedInCallback}/>
                     </div>
                     <div className="pure-u-1 pure-u-md-1-2">
-                        <form action="#" onSubmit={this.handleSignup.bind(this)}>
-                            <table>
-                                <tbody>
+                        <h2 className="content-subhead">Signup</h2>
+                        <form action="#" onSubmit={this.handleSignup.bind(this)} className="pure-form pure-form-aligned">
+                            <fieldset>
                                 {message}
-                                <tr>
-                                    <td>Email</td>
-                                    <td><input onChange={this.handleChangeEmail.bind(this)}
-                                               type="email" id="email" size="20"/></td>
-                                </tr>
-                                <tr>
-                                    <td>Password</td>
-                                    <td><input onChange={this.handleChangePassword.bind(this)}
-                                               type="password" id="password" size="20"/></td>
-                                </tr>
-                                <tr>
-                                    <td>Verify Password</td>
-                                    <td><input onChange={this.handleChangeVerifyPassword.bind(this)}
-                                               type="password" id="verifyPassword" size="20"/></td>
-                                </tr>
-                                <tr>
-                                    <td colSpan="2">
-                                        <button id="signup-button">Sign Up</button>
-                                    </td>
-                                </tr>
-                                </tbody>
-                            </table>
+                                <div className="pure-control-group">
+                                    <label htmlFor="name">Email</label>
+                                    <input className="pure-input-2-3" id="email" type="email" onChange={this.handleChangeEmail.bind(this)} placeholder="Email" autoComplete="off" />
+                                </div>
+                                <div className="pure-control-group">
+                                    <label htmlFor="name">Password</label>
+                                    <input className="pure-input-2-3" id="password" type="password" onChange={this.handleChangePassword.bind(this)} placeholder="Password" autoComplete="off" />
+                                </div>
+                                <div className="pure-control-group">
+                                    <label htmlFor="name">Verify Password</label>
+                                    <input className="pure-input-2-3" id="verifyPassword" type="password" onChange={this.handleChangeVerifyPassword.bind(this)} placeholder="Verify Password" autoComplete="off" />
+                                </div>
+                                <div className="pure-controls">
+                                    <label htmlFor="cb" className="pure-checkbox">
+                                        <input id="cb" type="checkbox" />I've read the terms and conditions
+                                    </label>
+
+                                    <button type="submit" className="pure-button button-success">Sign Up</button>
+                                </div>
+                            </fieldset>
                         </form>
                     </div>
                 </div>

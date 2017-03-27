@@ -1,0 +1,25 @@
+.button-success,
+.button-secondary {
+  color: white;
+  border-radius: 4px;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+}
+
+.button-success {
+  background: rgb(28, 184, 65); /* this is a green */
+}
+
+.button-secondary {
+  background: rgb(66, 184, 221); /* this is a light blue */
+}
+
+.content-subhead {
+  margin: 0 auto;
+  text-align: center;
+  vertical-align: middle;
+  display: inline-block;
+  margin-left: 2em;
+  margin: 0;
+  padding: 20px 0;
+  display: block;
+}
