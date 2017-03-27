@@ -84,7 +84,7 @@ function storePlan(email, plan, token, fn) {
     console.log('Storing Plan: ' + plan)
 
 	dynamodb.put({
-		TableName: "Subscriptions",
+		TableName: process.env.subscriptions_db_table,
 		Item: {
 			User: email,
 			Plan: plan,
