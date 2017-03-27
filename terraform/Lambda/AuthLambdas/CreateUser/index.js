@@ -1,12 +1,14 @@
 console.log('Loading function');
 
 // dependencies
-var AWS = require('aws-sdk');
-var crypto = require('crypto');
+const AWS = require('aws-sdk');
+const crypto = require('crypto');
+
+AWS.config.region = 'eu-west-1'; // Region
 
 // Get reference to AWS clients
-var dynamodb = new AWS.DynamoDB.DocumentClient();
-var ses = new AWS.SES();
+const dynamodb = new AWS.DynamoDB.DocumentClient();
+const ses = new AWS.SES();
 
 var responseSuccess = {
 	statusCode: 200,
@@ -26,15 +28,16 @@ function computeHash(password, salt, fn) {
 	// Bytesize
 	var len = 128;
 	var iterations = 4096;
+	var digest = 'SHA1'
 
 	if (3 == arguments.length) {
-		crypto.pbkdf2(password, salt, iterations, len, fn);
+		crypto.pbkdf2(password, salt, iterations, len, digest, fn);
 	} else {
 		fn = salt;
 		crypto.randomBytes(len, function(err, salt) {
 			if (err) return fn(err);
 			salt = salt.toString('base64');
-			crypto.pbkdf2(password, salt, iterations, len, function(err, derivedKey) {
+			crypto.pbkdf2(password, salt, iterations, len, digest, function(err, derivedKey) {
 				if (err) return fn(err);
 				fn(null, salt, derivedKey.toString('base64'));
 			});
@@ -143,15 +146,11 @@ exports.handler = function(event, context) {
 
 	var event = event;
 
-	console.log(event.body)
-
 	var payload = JSON.parse(event.body);
 
 	var email = payload.email;
 	var clearPassword = payload.password;
     var plan = payload.plan.toLowerCase();
-
-    console.log('Payload: ' + JSON.stringify(payload))
 
 	computeHash(clearPassword, function(err, salt, hash) {
 		if (err) {
@@ -175,6 +174,7 @@ exports.handler = function(event, context) {
 					storePlan(email, plan, token, function (email, token) {
 						sendVerificationEmail(event, email, token, function(err, data) {
 							if (err) {
+								console.error(err)
 								responseError.body = new Error('Error in sendVerificationEmail: ' + err)
 								context.fail(responseError);
 							} else {

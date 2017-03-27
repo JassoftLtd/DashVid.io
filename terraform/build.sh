@@ -6,7 +6,13 @@ npm config set loglevel warn
 
 #terraform get -update
 
-find ./Lambda/* -maxdepth 2 -name package.json -execdir npm install \;
+for directory in $(find ./Lambda/* -maxdepth 2 -name package.json); do
+echo "Testing: " ${directory/package.json/}
+ pushd ${directory/package.json/}
+ npm install
+ npm test
+ popd
+done
 
 cd Lambda/AuthLambdas/
 
