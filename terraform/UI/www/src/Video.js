@@ -1,11 +1,11 @@
 import React, {Component} from 'react';
 var Dropzone = require('react-dropzone');
+import Moment from 'moment';
 import './Video.css';
 import 'whatwg-fetch'
 var AWS = require('aws-sdk');
 var apigClientFactory = require('aws-api-gateway-client')
 var S3Upload = require('./s3upload.js')
-var moment = require("moment");
 
 import VideoPlayer from './VideoPlayer.js'
 // import Share from './Share.js'
@@ -21,7 +21,7 @@ class Video extends Component {
         super(props);
 
         this.state = {
-            videosRequiresReload: true,
+            videosRequiresReload: false,
             videoToPlay: null
         };
     }
@@ -116,59 +116,57 @@ var VideoList = React.createClass({
 
         const _this = this;
 
-        var days;
+        let days;
 
         if (this.state.data) {
             days = this.state.data.map(function (dayData, i) {
 
-                videos = dayData.videos.map(function (video, i) {
+                var date = Moment(dayData.date).format('DD MMMM YYYY')
 
-                    var uploaded = moment(video.Uploaded).toISOString()
-                    var recorded = moment(video.RecordedDate).toISOString()
+                let videos = dayData.videos.map(function (video, i) {
+
+                    var start = Moment(video.RecordedDate).format('HH:mm:ss')
+                    var end = Moment(video.RecordedDate + video.VideoDuration).format('HH:mm:ss')
 
                     return (
                         <tr key={video.Id}>
-                            <td>{video.Id}</td>
-                            <td>{uploaded}</td>
-                            <td>{video.User}</td>
                             <td>{video.VideoStatus}</td>
-                            <td>{recorded}</td>
-                            <td>{video.VideoDuration /1000}s</td>
-                            <td><button onClick={()=>{_this.props.playVideoCallback(video.Id)}}>Play</button></td>
+                            <td>{start}</td>
+                            <td>{end}</td>
+                            <td><button className="button-success pure-button" onClick={()=>{_this.props.playVideoCallback(video.Id)}}>Play</button></td>
                             {/*<td><Share videoId={video.Id}/></td>*/}
                         </tr>
                     );
                 });
 
                 return (
-                    <span>
-                        <tr key={dayData.date}>
-                            <td colSpan="7">{dayData.date}</td>
+                    <tbody key={date}>
+                        <tr className="pure-table-odd">
+                            <td colSpan="4">
+                                <strong>
+                                    {date}
+                                </strong>
+                            </td>
                         </tr>
                         {videos}
-                    </span>
+                    </tbody>
                 );
             });
 
             return (
-                <div ref="videocategory" className="VideoList">
-                    <div className="Video">
-                        <table className="table">
+                <div ref="videocategory" className="pure-g">
+                    <div className="pure-u-1-1">
+                        <table className="pure-table pure-table-horizontal" width="100%">
                             <thead>
                             <tr>
-                                <td>Id</td>
-                                <td>Uploaded</td>
-                                <td>By</td>
                                 <td>Status</td>
-                                <td>Redorded Date</td>
-                                <td>Duration</td>
+                                <td>Start</td>
+                                <td>End</td>
                                 <td>Play</td>
                                 {/*<td>Share</td>*/}
                             </tr>
                             </thead>
-                            <tbody>
                             {days}
-                            </tbody>
                         </table>
                     </div>
                 </div>
@@ -300,11 +298,15 @@ var VideoAdd = React.createClass({
         }
 
         return (
-            <div>
-                <Dropzone onDrop={this.onDrop}>
-                    <div>Try dropping some files here, or click to select files to upload.</div>
-                </Dropzone>
-                {uploading}
+            <div className="pure-g">
+                <div className="pure-u-1-24"/>
+                <div className="pure-u-22-24">
+                    <Dropzone onDrop={this.onDrop} className="video-dropzone">
+                        <div>Try dropping some files here, or click to select files to upload.</div>
+                    </Dropzone>
+                    {uploading}
+                </div>
+                <div className="pure-u-1-24"/>
             </div>
         );
     }

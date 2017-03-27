@@ -81,7 +81,7 @@ exports.handler = function(event, context) {
                         Item: {
                             Id: videoId,
                             User: user,
-                            Uploaded: new Date().getTime() / 1000,
+                            Uploaded: new Date().getTime(),
                             VideoStatus: "Uploaded",
                             Bucket: bucket,
                             Key: key,
