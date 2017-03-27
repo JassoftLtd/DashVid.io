@@ -4,8 +4,6 @@ console.log('Loading function');
 const AWS = require('aws-sdk');
 const crypto = require('crypto');
 
-AWS.config.region = 'eu-west-1'; // Region
-
 // Get reference to AWS clients
 const dynamodb = new AWS.DynamoDB.DocumentClient();
 const ses = new AWS.SES();
