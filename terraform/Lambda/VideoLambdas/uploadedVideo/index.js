@@ -1,3 +1,4 @@
+/*jshint loopfunc: true */
 console.log('videos uploaded for User');
 
 var AWS = require('aws-sdk');
@@ -41,93 +42,93 @@ exports.handler = function(event, context) {
             Expires: 3600
         });
 
-        child_process.execFile("/var/task/uploadedVideo/mediainfo", ["--full", "--Output=XML"].concat(url), handleMediaInfo);
-    }
-};
-
-function handleMediaInfo(err, stdout, stderr) {
-    // command output is in stdout
-    if(err) {
-        console.error(err);
-        context.fail();
-    }
-
-    parseString(stdout, function (err, result) {
-        console.dir(JSON.stringify(result));
-
-        if(!result.Mediainfo.File) {
-            deleteFile(bucket, key);
-        }
-
-        var videoRecord;
-
-        if(result.Mediainfo.File) {
-            for (var f = 0; f < result.Mediainfo.File[0].track.length; f++) {
-
-                var track = result.Mediainfo.File[0].track[f];
-
-                if (track.$.type == "Video") {
-                    videoRecord = track;
-                }
+        child_process.execFile("/var/task/uploadedVideo/mediainfo", ["--full", "--Output=XML"].concat(url), function (err, stdout, stderr) {
+            // command output is in stdout
+            if(err) {
+                console.error(err);
+                context.fail();
             }
-        }
 
-        if(!videoRecord) {
-            deleteFile(bucket, key);
-        }
-        else {
+            parseString(stdout, function (err, result) {
+                console.dir(JSON.stringify(result));
 
-            console.log("Video Record: " + JSON.stringify(videoRecord));
-
-            var encodedDate = (videoRecord.Encoded_date) ? Date.parse(videoRecord.Encoded_date[0]) : new Date().getTime() / 1000;
-
-            dynamodb.put({
-                TableName: "Videos",
-                Item: {
-                    Id: videoId,
-                    User: user,
-                    Uploaded: new Date().getTime(),
-                    VideoStatus: "Uploaded",
-                    Bucket: bucket,
-                    Key: key,
-                    RecordedDate: encodedDate,
-                    VideoDuration: videoRecord.Duration[0],
-                    MediaInfo: result
-                }
-            }, function (err, data) {
-                if (err) {
-                    context.fail('Unable to create video record for key [' + key + ']. Error: ' + err);
+                if(!result.Mediainfo.File) {
                     deleteFile(bucket, key);
-                } else {
-                    console.log("Video create DynammoDb record succeeded. ID: " + videoId);
+                }
 
-                    sns.publish({
-                        Message: JSON.stringify({
-                            default: videoId,
-                            videoId: videoId
-                        }),
-                        MessageStructure: 'json',
-                        TargetArn: process.env.snsNewVideoArn
-                    }, function(err, data) {
-                        if (err) {
-                            context.fail('Error sending SNS message: ' + err);
+                var videoRecord;
 
-                            return;
+                if(result.Mediainfo.File) {
+                    for (var f = 0; f < result.Mediainfo.File[0].track.length; f++) {
+
+                        var track = result.Mediainfo.File[0].track[f];
+
+                        if (track.$.type == "Video") {
+                            videoRecord = track;
                         }
+                    }
+                }
 
-                        console.log('push sent');
-                        console.log(data);
+                if(!videoRecord) {
+                    deleteFile(bucket, key);
+                }
+                else {
 
-                        if (i == event.Records.length - 1) {
-                            context.succeed();
+                    console.log("Video Record: " + JSON.stringify(videoRecord));
+
+                    var encodedDate = (videoRecord.Encoded_date) ? Date.parse(videoRecord.Encoded_date[0]) : new Date().getTime() / 1000;
+
+                    dynamodb.put({
+                        TableName: "Videos",
+                        Item: {
+                            Id: videoId,
+                            User: user,
+                            Uploaded: new Date().getTime(),
+                            VideoStatus: "Uploaded",
+                            Bucket: bucket,
+                            Key: key,
+                            RecordedDate: encodedDate,
+                            VideoDuration: videoRecord.Duration[0],
+                            MediaInfo: result
+                        }
+                    }, function (err, data) {
+                        if (err) {
+                            context.fail('Unable to create video record for key [' + key + ']. Error: ' + err);
+                            deleteFile(bucket, key);
+                        } else {
+                            console.log("Video create DynammoDb record succeeded. ID: " + videoId);
+
+                            sns.publish({
+                                Message: JSON.stringify({
+                                    default: videoId,
+                                    videoId: videoId
+                                }),
+                                MessageStructure: 'json',
+                                TargetArn: process.env.snsNewVideoArn
+                            }, function(err, data) {
+                                if (err) {
+                                    context.fail('Error sending SNS message: ' + err);
+
+                                    return;
+                                }
+
+                                console.log('push sent');
+                                console.log(data);
+
+                                if (i == event.Records.length - 1) {
+                                    context.succeed();
+                                }
+                            });
                         }
                     });
                 }
             });
-        }
-    });
 
-}
+        });
+    }
+};
+
+
 
 function deleteFile (bucket, key) {
 
