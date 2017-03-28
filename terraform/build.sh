@@ -17,7 +17,7 @@ done
 
 cd Lambda/AuthLambdas/
 
-rm *.zip || true
+rm -f *.zip || true
 
 for f in $(ls -d */ | cut -f1 -d'/'); do
     echo "Zipping $f"
@@ -26,7 +26,7 @@ done
 
 cd ../../Lambda/VideoLambdas/
 
-rm *.zip || true
+rm -f *.zip || true
 
 for f in $(ls -d */ | cut -f1 -d'/'); do
     echo "Zipping $f"
@@ -35,7 +35,7 @@ done
 
 cd ../../Lambda/SubscriptionLambdas/
 
-rm *.zip || true
+rm -f *.zip || true
 
 for f in $(ls -d */ | cut -f1 -d'/'); do
     echo "Zipping $f"
@@ -44,7 +44,7 @@ done
 
 cd ../../Lambda/PlanLambdas/
 
-rm *.zip || true
+rm -f *.zip || true
 
 for f in $(ls -d */ | cut -f1 -d'/'); do
     echo "Zipping $f"
@@ -53,7 +53,7 @@ done
 
 cd ../../Lambda/StripeLambdas/
 
-rm *.zip || true
+rm -f *.zip || true
 
 for f in $(ls -d */ | cut -f1 -d'/'); do
     echo "Zipping $f"
