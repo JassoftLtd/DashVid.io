@@ -43,8 +43,6 @@ function computeHash(password, salt, fn) {
 
 function storeUser(event, email, hash, salt, fn) {
 
-    console.log('Storing User in [' + process.env.auth_db_table + ']: ' + email);
-
 	// Bytesize
 	var len = 128;
 	crypto.randomBytes(len, function(err, token) {
@@ -55,6 +53,15 @@ function storeUser(event, email, hash, salt, fn) {
             console.log('Auth token override: ' + process.env.token_override);
             token = process.env.token_override;
         }
+
+        console.log('Storing User in [' + process.env.auth_db_table + ']: ' + email);
+        console.log({
+            email: email,
+            passwordHash: hash,
+            passwordSalt: salt,
+            verified: false,
+            verifyToken: token
+        });
 
 		dynamodb.put({
 			TableName: process.env.auth_db_table,
@@ -67,8 +74,23 @@ function storeUser(event, email, hash, salt, fn) {
 			},
 			ConditionExpression: 'attribute_not_exists (email)'
 		}, function(err, data) {
-			if (err) return fn(err);
-			else fn(null, token);
+            if (err) {
+                if (err.code == 'ConditionalCheckFailedException') {
+                    // userId already found
+                    responseSuccess.body = JSON.stringify({
+                        created: false
+                    });
+                    console.log("response: " + JSON.stringify(responseSuccess));
+                    context.succeed(responseSuccess);
+                } else {
+                    console.error('Error in storeUser: ' + err);
+                    responseError.body = new Error('Error in storeUser: ' + err);
+                    context.fail(responseError);
+                }
+            }
+            else {
+                fn(token);
+            }
 		});
 	});
 }
@@ -152,38 +174,23 @@ exports.handler = function(event, context) {
 			responseError.body = new Error('Error in hash: ' + err);
 			context.fail(responseError);
 		} else {
-			storeUser(event, email, hash, salt, function(err, token) {
-				if (err) {
-					if (err.code == 'ConditionalCheckFailedException') {
-						// userId already found
-						responseSuccess.body = JSON.stringify({
-							created: false
-						});
-						console.log("response: " + JSON.stringify(responseSuccess));
-						context.succeed(responseSuccess);
-					} else {
-						console.error('Error in storeUser: ' + err);
-						responseError.body = new Error('Error in storeUser: ' + err);
-						context.fail(responseError);
-					}
-				} else {
-					storePlan(email, plan, token, function (email, token) {
-						sendVerificationEmail(event, email, token, function(err, data) {
-							if (err) {
-								console.error(err);
-								responseError.body = new Error('Error in sendVerificationEmail: ' + err);
-								context.fail(responseError);
-							} else {
-								responseSuccess.body = JSON.stringify({
-									created: true
-								});
+			storeUser(event, email, hash, salt, function(token) {
+				storePlan(email, plan, token, function (email, token) {
+					sendVerificationEmail(event, email, token, function(err, data) {
+						if (err) {
+							console.error(err);
+							responseError.body = new Error('Error in sendVerificationEmail: ' + err);
+							context.fail(responseError);
+						} else {
+							responseSuccess.body = JSON.stringify({
+								created: true
+							});
 
-								console.log("response: " + JSON.stringify(responseSuccess));
-								context.succeed(responseSuccess);
-							}
-						});
-                    });
-				}
+							console.log("response: " + JSON.stringify(responseSuccess));
+							context.succeed(responseSuccess);
+						}
+					});
+				});
 			});
 		}
 	});
