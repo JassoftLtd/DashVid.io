@@ -41,7 +41,8 @@ exports.handler = function(event, context) {
             Expires: 3600
         });
 
-        child_process.execFile("/var/task/uploadedVideo/mediainfo", ["--full", "--Output=XML"].concat(url), handleMediaInfo(err, stdout, stderr));
+        child_process.execFile("/var/task/uploadedVideo/mediainfo", ["--full", "--Output=XML"].concat(url), (err, stdout, stderr) => handleMediaInfo(err, stdout, stderr));
+
     }
 };
 
