@@ -60,7 +60,7 @@ variable "environment_subdomain" {
 
 variable "email_disabled" {
   description = "Should emails from the system be disabled"
-  default     = false
+  default     = "false"
 }
 
 variable "token_override" {
