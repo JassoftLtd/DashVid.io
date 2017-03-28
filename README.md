@@ -1,21 +1,19 @@
-# DashCam Video Processor - Serverless Design
+# DashVid.io
 
-Setup S3 state
+# Concourse
 
+To load the build into Concourse run the following commands
+
+`fly -t jassoft login -c http://concourse.jassoft.co.uk:8080`
+
+`fly -t jassoft set-pipeline -p DashVid.io -c DashVid.yml --load-vars-from secrets.yml`
+
+`fly -t jassoft unpause-pipeline --pipeline DashVid.io`
+
+# Setup GitHub OAuth 
 ```
-terraform remote config \
-    -backend=s3 \
-    -backend-config="bucket=dashvid-terraform-state-tests" \
-    -backend-config="key=terraform.tfstate" \
-    -backend-config="region=eu-west-1"
+fly -t jassoft set-team -n JassoftLtd \
+    --github-auth-client-id CLIENT_ID \
+    --github-auth-client-secret CLIENT_SECRET \
+    --github-auth-organization=JassoftLtd
 ```
-
-Running
-
-run `terraform apply -parallelism=1` to see it work.
-
-
-
-`fly -t dashvid login -c http://concourse.jassoft.co.uk`
-`fly -t dashvid set-pipeline -p DashVid.io -c DashVid.yml --load-vars-from secrets.yml`
-`fly -t dashvid unpause-pipeline --pipeline DashVid.io`
