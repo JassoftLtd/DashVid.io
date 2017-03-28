@@ -1,4 +1,3 @@
-'use strict';
 console.log('add card to User');
 
 var AWS = require('aws-sdk');
@@ -12,8 +11,8 @@ var stripe = require("stripe")(
 exports.handler = function(event, context) {
 	var responseCode = 200;
 
-    console.log("event: " + JSON.stringify(event))
-    console.log("identity: " + JSON.stringify(event.requestContext.identity.cognitoIdentityId))
+    console.log("event: " + JSON.stringify(event));
+    console.log("identity: " + JSON.stringify(event.requestContext.identity.cognitoIdentityId));
 
     var payload = JSON.parse(event.body);
 
@@ -27,8 +26,8 @@ exports.handler = function(event, context) {
     }, function(err, data) {
 
         if (err) {
-            console.error(err)
-            context.fail()
+            console.error(err);
+            context.fail();
         }
         else {
             if ('Item' in data) {
@@ -40,8 +39,8 @@ exports.handler = function(event, context) {
                         source: payload.token, // obtained with Stripe.js
                     }, function(err, customer) {
                         if (err) {
-                            console.error(err)
-                            context.fail()
+                            console.error(err);
+                            context.fail();
                         }
 
                         var response = {
@@ -53,7 +52,7 @@ exports.handler = function(event, context) {
                                 added: true
                             })
                         };
-                        console.log("response: " + JSON.stringify(response))
+                        console.log("response: " + JSON.stringify(response));
                         context.succeed(response);
                     });
 
@@ -69,11 +68,11 @@ exports.handler = function(event, context) {
                         }
                     }, function(err, customer) {
                         if (err) {
-                            console.error(err)
-                            context.fail()
+                            console.error(err);
+                            context.fail();
                         }
 
-                        console.log(JSON.stringify(customer))
+                        console.log(JSON.stringify(customer));
 
                         dynamodb.update({
                             TableName: process.env.auth_db_table,
@@ -88,15 +87,15 @@ exports.handler = function(event, context) {
                         }, function(err, data) {
                             if (err) {
                                 console.error("Unable to update item. Error JSON:", JSON.stringify(err, null, 2));
-                                context.fail()
+                                context.fail();
                             } else {
                                 console.log("UpdateItem succeeded:", JSON.stringify(data, null, 2));
 
-                                console.log('I guess we now need to subscribe the user to their chosen plan')
+                                console.log('I guess we now need to subscribe the user to their chosen plan');
                                 getUserPendingPlan(email, function (err, plan) {
                                     if (err) {
                                         console.error("Unable to get users pending plan. Error JSON:", JSON.stringify(err, null, 2));
-                                        context.fail()
+                                        context.fail();
                                     }
                                     stripe.subscriptions.create({
                                             customer: customer.id,
@@ -104,7 +103,7 @@ exports.handler = function(event, context) {
                                         }, function(err, subscription) {
                                             if (err) {
                                                 console.error("Unable to create subscription. Error JSON:", JSON.stringify(err, null, 2));
-                                                context.fail()
+                                                context.fail();
                                             }
 
                                             dynamodb.update({
@@ -126,7 +125,7 @@ exports.handler = function(event, context) {
                                             }, function (err, data) {
                                                 if (err) {
                                                     console.error("Unable to update subscription. Error JSON:", JSON.stringify(err, null, 2));
-                                                    context.fail()
+                                                    context.fail();
                                                 } else {
 
                                                     var response = {
@@ -138,11 +137,11 @@ exports.handler = function(event, context) {
                                                             added: true
                                                         })
                                                     };
-                                                    console.log("response: " + JSON.stringify(response))
+                                                    console.log("response: " + JSON.stringify(response));
                                                     context.succeed(response);
 
                                                 }
-                                            })
+                                            });
 
                                         }
                                     );
@@ -162,7 +161,7 @@ exports.handler = function(event, context) {
 };
 
 function getUserPendingPlan(email, fn) {
-    console.log('Getting plan for user: ' + email)
+    console.log('Getting plan for user: ' + email);
 
     dynamodb.query({
         KeyConditionExpression:"#user = :user",
@@ -178,17 +177,17 @@ function getUserPendingPlan(email, fn) {
         "TableName": "Subscriptions"
     }, function(err, data) {
         if (err) {
-            console.error("User not found: " + JSON.stringify(err))
-            fn('User not found', null)
+            console.error("User not found: " + JSON.stringify(err));
+            fn('User not found', null);
         }
         else {
             if(data.Count > 1) {
-                console.error("User hads multiple pending Subscriptions: " + JSON.stringify(data))
+                console.error("User hads multiple pending Subscriptions: " + JSON.stringify(data));
                 fn('User has multiple pending Subscriptions', null);
             }
 
             var plan = data.Items[0].Plan;
-            console.log("User plan is " + plan)
+            console.log("User plan is " + plan);
             fn(null, plan);
         }
     });

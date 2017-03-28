@@ -3,8 +3,14 @@
   "version": "1.0.0",
   "description": "Webhook for Stripe",
   "main": "index.js",
+  "scripts": {
+    "lint": "jshint **.js"
+  },
   "author": "",
   "license": "ISC",
+  "devDependencies": {
+    "jshint": "^2.9.4"
+  },
   "dependencies": {
     "stripe": "^4.15.0"
   }

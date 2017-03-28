@@ -1,4 +1,3 @@
-'use strict';
 console.log('create video for User');
 
 var AWS = require('aws-sdk');
@@ -10,13 +9,13 @@ var uuid = require('node-uuid');
 exports.handler = function(event, context) {
 	var responseCode = 200;
 
-    console.log("event: " + JSON.stringify(event))
-    console.log("identity: " + JSON.stringify(event.requestContext.identity.cognitoIdentityId))
+    console.log("event: " + JSON.stringify(event));
+    console.log("identity: " + JSON.stringify(event.requestContext.identity.cognitoIdentityId));
 
     var payload = JSON.parse(event.body);
 
 
-    const signedUrlExpireSeconds = 3600 // 1 hour
+    const signedUrlExpireSeconds = 3600; // 1 hour
 
 	var generatedId = uuid.v1();
 	var currentUser = event.requestContext.identity.cognitoIdentityId.split(':')[1];
@@ -26,10 +25,10 @@ exports.handler = function(event, context) {
 
     getUserPlan(email, function (err, plan) {
         if (err) {
-            context.fail()
+            context.fail();
         }
 
-        let bucket = process.env['plan_bucket_' + plan.toLowerCase()]
+        let bucket = process.env['plan_bucket_' + plan.toLowerCase()];
 
         var s3 = new AWS.S3({
             apiVersion: '2006-03-01'
@@ -52,14 +51,14 @@ exports.handler = function(event, context) {
             },
             body: JSON.stringify(responseBody)
         };
-        console.log("response: " + JSON.stringify(response))
+        console.log("response: " + JSON.stringify(response));
         context.succeed(response);
-    })
+    });
 
 };
 
 function getUserPlan(email, fn) {
-    console.log('Getting plan for user: ' + email)
+    console.log('Getting plan for user: ' + email);
 
     dynamodb.query({
         KeyConditionExpression:"#user = :user",
@@ -75,17 +74,17 @@ function getUserPlan(email, fn) {
         "TableName": "Subscriptions"
     }, function(err, data) {
         if (err) {
-            console.error("User not found: " + JSON.stringify(err))
-            fn('User not found', null)
+            console.error("User not found: " + JSON.stringify(err));
+            fn('User not found', null);
         }
         else {
             if(data.Count > 1) {
-                console.error("User had multiple active Subscriptions: " + JSON.stringify(data))
+                console.error("User had multiple active Subscriptions: " + JSON.stringify(data));
                 fn('User had multiple active Subscriptions', null); // User not found
             }
 
             var plan = data.Items[0].Plan;
-            console.log("User plan is " + plan)
+            console.log("User plan is " + plan);
             fn(null, plan);
         }
     });

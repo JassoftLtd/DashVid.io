@@ -10,6 +10,7 @@ for directory in $(find ./Lambda/* -maxdepth 2 -name package.json); do
 echo "Testing: " ${directory/package.json/}
  pushd ${directory/package.json/}
  npm install
+ npm run lint
  npm test
  popd
 done

@@ -26,7 +26,7 @@ function computeHash(password, salt, fn) {
 	// Bytesize
 	var len = 128;
 	var iterations = 4096;
-	var digest = 'SHA1'
+	var digest = 'SHA1';
 
 	if (3 == arguments.length) {
 		crypto.pbkdf2(password, salt, iterations, len, digest, fn);
@@ -45,7 +45,7 @@ function computeHash(password, salt, fn) {
 
 function storeUser(event, email, hash, salt, fn) {
 
-    console.log('Storing User in [' + process.env.auth_db_table + ']: ' + email)
+    console.log('Storing User in [' + process.env.auth_db_table + ']: ' + email);
 
 	// Bytesize
 	var len = 128;
@@ -55,7 +55,7 @@ function storeUser(event, email, hash, salt, fn) {
 
         if(process.env.token_override && process.env.token_override !== '') {
             console.log('Auth token override: ' + process.env.token_override);
-            token = process.env.token_override
+            token = process.env.token_override;
         }
 
 		dynamodb.put({
@@ -79,7 +79,7 @@ function storePlan(email, plan, token, fn) {
 
 	planStatus = plan == "free" ? "Active" : "Pending";
 
-    console.log('Storing Plan: ' + plan)
+    console.log('Storing Plan: ' + plan);
 
 	dynamodb.put({
 		TableName: process.env.subscriptions_db_table,
@@ -92,7 +92,7 @@ function storePlan(email, plan, token, fn) {
 		ConditionExpression: 'attribute_not_exists (email)'
 	}, function(err, data) {
 		if (err) {
-            responseError.body = new Error('Error storing plan: ' + err)
+            responseError.body = new Error('Error storing plan: ' + err);
             context.fail(responseError);
 		}
 		else fn(email, token);
@@ -101,11 +101,11 @@ function storePlan(email, plan, token, fn) {
 
 function sendVerificationEmail(event, email, token, fn) {
 
-	console.log('Email Disabled Status:' + process.env.email_disabled)
+	console.log('Email Disabled Status:' + process.env.email_disabled);
 
     if(!process.env.email_disabled) {
 
-		console.log('Sending Email to User: ' + email)
+		console.log('Sending Email to User: ' + email);
 
         var subject = 'Verification Email for ' + process.env.auth_application_name;
         var verificationLink = process.env.auth_verification_page + '?email=' + encodeURIComponent(email) + '&verify=' + token;
@@ -122,27 +122,25 @@ function sendVerificationEmail(event, email, token, fn) {
                 },
                 Body: {
                     Html: {
-                        Data: '<html><head>'
-                        + '<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />'
-                        + '<title>' + subject + '</title>'
-                        + '</head><body>'
-                        + 'Please <a href="' + verificationLink + '">click here to verify your email address</a> or copy & paste the following link in a browser:'
-                        + '<br><br>'
-                        + '<a href="' + verificationLink + '">' + verificationLink + '</a>'
-                        + '</body></html>'
+                        Data: '<html><head>' +
+						'<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />' +
+                        '<title>' + subject + '</title>' +
+                        '</head><body>' +
+                        'Please <a href="' + verificationLink + '">click here to verify your email address</a> or copy & paste the following link in a browser:' +
+                        '<br><br>' +
+                        '<a href="' + verificationLink + '">' + verificationLink + '</a>' +
+                        '</body></html>'
                     }
                 }
             }
         }, fn);
     }
     else {
-    	fn(null, null)
+    	fn(null, null);
 	}
 }
 
 exports.handler = function(event, context) {
-
-	var event = event;
 
 	var payload = JSON.parse(event.body);
 
@@ -152,7 +150,7 @@ exports.handler = function(event, context) {
 
 	computeHash(clearPassword, function(err, salt, hash) {
 		if (err) {
-			responseError.body = new Error('Error in hash: ' + err)
+			responseError.body = new Error('Error in hash: ' + err);
 			context.fail(responseError);
 		} else {
 			storeUser(event, email, hash, salt, function(err, token) {
@@ -161,33 +159,33 @@ exports.handler = function(event, context) {
 						// userId already found
 						responseSuccess.body = JSON.stringify({
 							created: false
-						})
-						console.log("response: " + JSON.stringify(responseSuccess))
+						});
+						console.log("response: " + JSON.stringify(responseSuccess));
 						context.succeed(responseSuccess);
 					} else {
-						console.error('Error in storeUser: ' + err)
-						responseError.body = new Error('Error in storeUser: ' + err)
+						console.error('Error in storeUser: ' + err);
+						responseError.body = new Error('Error in storeUser: ' + err);
 						context.fail(responseError);
 					}
 				} else {
 					storePlan(email, plan, token, function (email, token) {
 						sendVerificationEmail(event, email, token, function(err, data) {
 							if (err) {
-								console.error(err)
-								responseError.body = new Error('Error in sendVerificationEmail: ' + err)
+								console.error(err);
+								responseError.body = new Error('Error in sendVerificationEmail: ' + err);
 								context.fail(responseError);
 							} else {
 								responseSuccess.body = JSON.stringify({
 									created: true
-								})
+								});
 
-								console.log("response: " + JSON.stringify(responseSuccess))
+								console.log("response: " + JSON.stringify(responseSuccess));
 								context.succeed(responseSuccess);
 							}
-						})
-                    })
+						});
+                    });
 				}
 			});
 		}
 	});
-}
+};

@@ -1,4 +1,3 @@
-'use strict';
 console.log('Stripe Webhook');
 
 var AWS = require('aws-sdk');
@@ -12,7 +11,7 @@ var stripe = require("stripe")(
 exports.handler = function(event, context) {
 	var responseCode = 200;
 
-    console.log("event: " + JSON.stringify(event))
+    console.log("event: " + JSON.stringify(event));
 
     var response = {
         statusCode: responseCode,
@@ -20,7 +19,7 @@ exports.handler = function(event, context) {
             'Access-Control-Allow-Origin': '*'
         }
     };
-    console.log("response: " + JSON.stringify(response))
+    console.log("response: " + JSON.stringify(response));
     context.succeed(response);
 
 };
