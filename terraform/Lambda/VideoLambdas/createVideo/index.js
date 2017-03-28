@@ -14,7 +14,6 @@ exports.handler = function(event, context) {
 
     var payload = JSON.parse(event.body);
 
-
     const signedUrlExpireSeconds = 3600; // 1 hour
 
 	var generatedId = uuid.v1();
