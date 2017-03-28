@@ -1,5 +1,3 @@
-console.log('Loading function');
-
 // dependencies
 const AWS = require('aws-sdk');
 const crypto = require('crypto');

@@ -17,6 +17,7 @@
     "jshint": "^2.9.4"
   },
   "dependencies": {
-    "aws-sdk": "^2.7.20"
+    "aws-sdk": "^2.33.0",
+    "crypto": "0.0.3"
   }
 }

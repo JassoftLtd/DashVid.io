@@ -6,8 +6,8 @@ var dynamodb = new AWS.DynamoDB.DocumentClient();
 
 var uuid = require('node-uuid');
 
-exports.handler = function(event, context) {
-	var responseCode = 200;
+exports.handler = function (event, context) {
+    var responseCode = 200;
 
     console.log("event: " + JSON.stringify(event));
     console.log("identity: " + JSON.stringify(event.requestContext.identity.cognitoIdentityId));
@@ -16,8 +16,8 @@ exports.handler = function(event, context) {
 
     const signedUrlExpireSeconds = 3600; // 1 hour
 
-	var generatedId = uuid.v1();
-	var currentUser = event.requestContext.identity.cognitoIdentityId.split(':')[1];
+    var generatedId = uuid.v1();
+    var currentUser = event.requestContext.identity.cognitoIdentityId.split(':')[1];
     var email = event.requestContext.identity.cognitoAuthenticationProvider.split(':').pop();
     var fileExtension = payload.fileName.split('.').pop();
     const _key = currentUser + '/' + generatedId + '.' + fileExtension;
@@ -60,24 +60,24 @@ function getUserPlan(email, fn) {
     console.log('Getting plan for user: ' + email);
 
     dynamodb.query({
-        KeyConditionExpression:"#user = :user",
+        KeyConditionExpression: "#user = :user",
         FilterExpression: '#planStatus = :status',
         ExpressionAttributeNames: {
-            "#user":"User",
-            "#planStatus":"PlanStatus",
+            "#user": "User",
+            "#planStatus": "PlanStatus",
         },
         ExpressionAttributeValues: {
-            ":user":email,
-            ":status":"Active"
+            ":user": email,
+            ":status": "Active"
         },
         "TableName": "Subscriptions"
-    }, function(err, data) {
+    }, function (err, data) {
         if (err) {
             console.error("User not found: " + JSON.stringify(err));
             fn('User not found', null);
         }
         else {
-            if(data.Count > 1) {
+            if (data.Count > 1) {
                 console.error("User had multiple active Subscriptions: " + JSON.stringify(data));
                 fn('User had multiple active Subscriptions', null); // User not found
             }
