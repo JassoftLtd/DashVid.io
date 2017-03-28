@@ -11,7 +11,11 @@ class Signup extends Component {
         var plan = this.props.location.query.plan ? this.props.location.query.plan : "Free";
 
         this.state = {
-            plan: plan
+            plan: plan,
+            email: "",
+            password: "",
+            verifyPassword: "",
+            message: null
         };
     }
 
@@ -98,15 +102,15 @@ class Signup extends Component {
                                 {message}
                                 <div className="pure-control-group">
                                     <label htmlFor="name">Email</label>
-                                    <input className="pure-input-2-3" id="email" type="email" onChange={this.handleChangeEmail.bind(this)} placeholder="Email" autoComplete="off" />
+                                    <input className="pure-input-2-3" id="email" type="email" value={this.state.email} onChange={this.handleChangeEmail.bind(this)} placeholder="Email" autoComplete="off" />
                                 </div>
                                 <div className="pure-control-group">
                                     <label htmlFor="name">Password</label>
-                                    <input className="pure-input-2-3" id="password" type="password" onChange={this.handleChangePassword.bind(this)} placeholder="Password" autoComplete="off" />
+                                    <input className="pure-input-2-3" id="password" type="password" value={this.state.password} onChange={this.handleChangePassword.bind(this)} placeholder="Password" autoComplete="off" />
                                 </div>
                                 <div className="pure-control-group">
                                     <label htmlFor="name">Verify Password</label>
-                                    <input className="pure-input-2-3" id="verifyPassword" type="password" onChange={this.handleChangeVerifyPassword.bind(this)} placeholder="Verify Password" autoComplete="off" />
+                                    <input className="pure-input-2-3" id="verifyPassword" type="password"value={this.state.verifyPassword}  onChange={this.handleChangeVerifyPassword.bind(this)} placeholder="Verify Password" autoComplete="off" />
                                 </div>
                                 <div className="pure-controls">
                                     <label htmlFor="cb" className="pure-checkbox">

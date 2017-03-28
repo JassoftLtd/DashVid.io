@@ -53,6 +53,12 @@ class Login extends Component {
             console.log('parsed json', json)
 
             if(json.login) {
+
+                _this.setState({
+                    email: "",
+                    password: ""
+                });
+
                 var params = {
                     IdentityPoolId: window.REACT_APP_AWS_IDENTITY_POOL,
                     IdentityId: json.identityId,
@@ -146,19 +152,19 @@ class Login extends Component {
             }
 
             return (
-                <form action="#" className="pure-form pure-form-aligned">
+                <form action="#" onSubmit={this.handleLogin.bind(this)} className="pure-form pure-form-aligned">
                     <fieldset>
                         {message}
                         <div className="pure-control-group">
                             <label htmlFor="name">Email</label>
-                            <input className="pure-input-2-3" id="email" type="email" onChange={this.handleChangeEmail.bind(this)} placeholder="Email" />
+                            <input className="pure-input-2-3" id="email" type="email" value={this.state.email} onChange={this.handleChangeEmail.bind(this)} placeholder="Email" />
                         </div>
                         <div className="pure-control-group">
                             <label htmlFor="name">Password</label>
-                            <input className="pure-input-2-3" id="password" type="password" onChange={this.handleChangePassword.bind(this)} placeholder="Password" />
+                            <input className="pure-input-2-3" id="password" type="password" value={this.state.password} onChange={this.handleChangePassword.bind(this)} placeholder="Password" />
                         </div>
                         <div className="pure-controls">
-                            <button type="button" id="login-button" className="pure-button button-success" onClick={this.handleLogin.bind(this)}>Login</button>
+                            <button type="submit" className="pure-button button-success">Login</button>
                             <br /><br />
                             <a href="#" onClick={this.handleLostPassword.bind(this)}>Forgotten Password</a>
                         </div>
