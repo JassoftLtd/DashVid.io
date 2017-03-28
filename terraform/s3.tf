@@ -96,3 +96,15 @@ resource "aws_s3_bucket_notification" "standard_bucket_created_notification" {
         events = ["s3:ObjectRemoved:*"]
     }
 }
+resource "aws_s3_bucket_notification" "premium_bucket_created_notification" {
+    depends_on = ["aws_s3_bucket.dash-cam-videos-premium-bucket"]
+    bucket = "${aws_s3_bucket.dash-cam-videos-premium-bucket.id}"
+    lambda_function {
+        lambda_function_arn = "${aws_lambda_function.uploadedVideo.arn}"
+        events = ["s3:ObjectCreated:*"]
+    }
+    lambda_function {
+        lambda_function_arn = "${aws_lambda_function.expiredVideo.arn}"
+        events = ["s3:ObjectRemoved:*"]
+    }
+}
