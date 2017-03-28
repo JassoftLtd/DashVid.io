@@ -27,7 +27,7 @@ data "aws_iam_policy_document" "IamForGetPlanLambda" {
       "dynamodb:Query",
     ],
     "resources" = [
-      "arn:aws:dynamodb:${var.aws_region}:${var.aws_account_id}:table/${aws_dynamodb_table.subscriptions-table.name}"
+      "${aws_dynamodb_table.subscriptions-table.arn}"
     ]
   }
 

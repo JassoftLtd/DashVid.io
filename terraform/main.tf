@@ -5,6 +5,8 @@ provider "aws" {
     secret_key = "${var.aws_secret_key}"
 }
 
+data "aws_caller_identity" "current" {}
+
 data "terraform_remote_state" "remote-state" {
     backend = "s3"
     config {

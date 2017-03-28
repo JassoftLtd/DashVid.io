@@ -199,13 +199,13 @@ resource "aws_iam_role_policy" "Cognito_LambdAuthAuth_Role_Cognito_LambdAuthAuth
         "iam:PassRole"
       ],
       "Resource": [
-        "arn:aws:lambda:${var.aws_region}:${var.aws_account_id}:function:LambdAuthCreateUser",
-        "arn:aws:lambda:${var.aws_region}:${var.aws_account_id}:function:LambdAuthVerifyUser",
-        "arn:aws:lambda:${var.aws_region}:${var.aws_account_id}:function:LambdAuthChangePassword",
-        "arn:aws:lambda:${var.aws_region}:${var.aws_account_id}:function:LambdAuthLostUser",
-        "arn:aws:lambda:${var.aws_region}:${var.aws_account_id}:function:LambdAuthLostPassword",
-        "arn:aws:lambda:${var.aws_region}:${var.aws_account_id}:function:LambdAuthResetPassword",
-        "arn:aws:lambda:${var.aws_region}:${var.aws_account_id}:function:LambdAuthLogin"
+        "${aws_lambda_function.createUser.arn}",
+        "${aws_lambda_function.verifyUser.arn}",
+        "${aws_lambda_function.changePassword.arn}",
+        "${aws_lambda_function.lostPassword.arn}",
+        "${aws_lambda_function.resetPassword.arn}",
+        "${aws_lambda_function.login.arn}",
+        "${aws_lambda_function.createUser.arn}"
       ]
     },
     {
@@ -247,12 +247,11 @@ resource "aws_iam_role_policy" "Cognito_LambdAuthUnauth_Role_Cognito_LambdAuthUn
         "iam:PassRole"
       ],
       "Resource": [
-        "arn:aws:lambda:${var.aws_region}:${var.aws_account_id}:function:LambdAuthCreateUser",
-        "arn:aws:lambda:${var.aws_region}:${var.aws_account_id}:function:LambdAuthVerifyUser",
-        "arn:aws:lambda:${var.aws_region}:${var.aws_account_id}:function:LambdAuthLostUser",
-        "arn:aws:lambda:${var.aws_region}:${var.aws_account_id}:function:LambdAuthLostPassword",
-        "arn:aws:lambda:${var.aws_region}:${var.aws_account_id}:function:LambdAuthResetPassword",
-        "arn:aws:lambda:${var.aws_region}:${var.aws_account_id}:function:LambdAuthLogin"
+        "${aws_lambda_function.createUser.arn}",
+        "${aws_lambda_function.verifyUser.arn}",
+        "${aws_lambda_function.lostPassword.arn}",
+        "${aws_lambda_function.resetPassword.arn}",
+        "${aws_lambda_function.login.arn}"
       ]
     }
   ]
@@ -273,7 +272,7 @@ resource "aws_iam_role_policy" "LambdAuthChangePassword_LambdAuthChangePassword"
         "dynamodb:UpdateItem"
       ],
       "Effect": "Allow",
-      "Resource": "arn:aws:dynamodb:${var.aws_region}:${var.aws_account_id}:table/${aws_dynamodb_table.users-table.name}"
+      "Resource": "${aws_dynamodb_table.users-table.arn}"
     },
     {
       "Sid": "",
@@ -343,14 +342,14 @@ resource "aws_iam_role_policy" "LambdAuthLogin_LambdAuthLogin" {
         "dynamodb:GetItem"
       ],
       "Effect": "Allow",
-      "Resource": "arn:aws:dynamodb:${var.aws_region}:${var.aws_account_id}:table/${aws_dynamodb_table.users-table.name}"
+      "Resource": "${aws_dynamodb_table.users-table.arn}"
     },
     {
       "Effect": "Allow",
       "Action": [
         "cognito-identity:GetOpenIdTokenForDeveloperIdentity"
       ],
-      "Resource": "arn:aws:cognito-identity:${var.aws_region}:${var.aws_account_id}:identitypool/${var.aws_identity_pool}"
+      "Resource": "arn:aws:cognito-identity:${var.aws_region}:${data.aws_caller_identity.current.account_id}:identitypool/${var.aws_identity_pool}"
     },
     {
       "Sid": "",
@@ -378,7 +377,7 @@ resource "aws_iam_role_policy" "LambdAuthLostPassword_LambdAuthLostPassword" {
         "dynamodb:UpdateItem"
       ],
       "Effect": "Allow",
-      "Resource": "arn:aws:dynamodb:${var.aws_region}:${var.aws_account_id}:table/${aws_dynamodb_table.users-table.name}"
+      "Resource": "${aws_dynamodb_table.users-table.arn}"
     },
     {
       "Effect": "Allow",
@@ -414,7 +413,7 @@ resource "aws_iam_role_policy" "LambdAuthResetPassword_LambdAuthResetPassword" {
         "dynamodb:UpdateItem"
       ],
       "Effect": "Allow",
-      "Resource": "arn:aws:dynamodb:${var.aws_region}:${var.aws_account_id}:table/${aws_dynamodb_table.users-table.name}"
+      "Resource": "${aws_dynamodb_table.users-table.arn}"
     },
     {
       "Sid": "",
@@ -442,14 +441,14 @@ resource "aws_iam_role_policy" "LambdAuthVerifyUser_LambdAuthVerifyUser" {
         "dynamodb:UpdateItem"
       ],
       "Effect": "Allow",
-      "Resource": "arn:aws:dynamodb:${var.aws_region}:${var.aws_account_id}:table/${aws_dynamodb_table.users-table.name}"
+      "Resource": "${aws_dynamodb_table.users-table.arn}"
     },
     {
       "Action": [
         "dynamodb:Query"
       ],
       "Effect": "Allow",
-      "Resource": "arn:aws:dynamodb:${var.aws_region}:${var.aws_account_id}:table/${aws_dynamodb_table.subscriptions-table.name}"
+      "Resource": "${aws_dynamodb_table.subscriptions-table.arn}"
     },
     {
       "Sid": "",

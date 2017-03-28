@@ -28,7 +28,7 @@ data "aws_iam_policy_document" "IamForStripeWebhookLambda" {
       "dynamodb:UpdateItem"
     ],
     "resources" = [
-      "arn:aws:dynamodb:${var.aws_region}:${var.aws_account_id}:table/${aws_dynamodb_table.users-table.name}"
+      "${aws_dynamodb_table.users-table.arn}"
     ]
   }
 

@@ -34,7 +34,7 @@ module "ApiGatewayLambda-webhook" {
   aws_lambda_function_arn = "${aws_lambda_function.webhook.arn}"
   aws_lambda_function_name = "${aws_lambda_function.webhook.function_name}"
   aws_region = "${var.aws_region}"
-  aws_account_id = "${var.aws_account_id}"
+  aws_account_id = "${data.aws_caller_identity.current.account_id}"
   environment_name = "${var.environment_name}"
   aws_api_gateway_method_authorization = "NONE"
 }

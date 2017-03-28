@@ -74,7 +74,7 @@ module "ApiGatewayLambda-createUser" {
   aws_lambda_function_arn = "${aws_lambda_function.createUser.arn}"
   aws_lambda_function_name = "${aws_lambda_function.createUser.function_name}"
   aws_region = "${var.aws_region}"
-  aws_account_id = "${var.aws_account_id}"
+  aws_account_id = "${data.aws_caller_identity.current.account_id}"
   environment_name = "${var.environment_name}"
   aws_api_gateway_method_authorization = "NONE"
 }
@@ -97,7 +97,7 @@ module "ApiGatewayLambda-login" {
   aws_lambda_function_arn = "${aws_lambda_function.login.arn}"
   aws_lambda_function_name = "${aws_lambda_function.login.function_name}"
   aws_region = "${var.aws_region}"
-  aws_account_id = "${var.aws_account_id}"
+  aws_account_id = "${data.aws_caller_identity.current.account_id}"
   environment_name = "${var.environment_name}"
   aws_api_gateway_method_authorization = "NONE"
 }
@@ -120,7 +120,7 @@ module "ApiGatewayLambda-changePassword" {
   aws_lambda_function_arn = "${aws_lambda_function.changePassword.arn}"
   aws_lambda_function_name = "${aws_lambda_function.changePassword.function_name}"
   aws_region = "${var.aws_region}"
-  aws_account_id = "${var.aws_account_id}"
+  aws_account_id = "${data.aws_caller_identity.current.account_id}"
   environment_name = "${var.environment_name}"
   aws_api_gateway_method_authorization = "AWS_IAM"
 }
@@ -143,7 +143,7 @@ module "ApiGatewayLambda-lostPassword" {
   aws_lambda_function_arn = "${aws_lambda_function.lostPassword.arn}"
   aws_lambda_function_name = "${aws_lambda_function.lostPassword.function_name}"
   aws_region = "${var.aws_region}"
-  aws_account_id = "${var.aws_account_id}"
+  aws_account_id = "${data.aws_caller_identity.current.account_id}"
   environment_name = "${var.environment_name}"
   aws_api_gateway_method_authorization = "NONE"
 }
@@ -166,7 +166,7 @@ module "ApiGatewayLambda-resetPassword" {
   aws_lambda_function_arn = "${aws_lambda_function.resetPassword.arn}"
   aws_lambda_function_name = "${aws_lambda_function.resetPassword.function_name}"
   aws_region = "${var.aws_region}"
-  aws_account_id = "${var.aws_account_id}"
+  aws_account_id = "${data.aws_caller_identity.current.account_id}"
   environment_name = "${var.environment_name}"
   aws_api_gateway_method_authorization = "NONE"
 }
@@ -189,7 +189,7 @@ module "ApiGatewayLambda-verifyUser" {
   aws_lambda_function_arn = "${aws_lambda_function.verifyUser.arn}"
   aws_lambda_function_name = "${aws_lambda_function.verifyUser.function_name}"
   aws_region = "${var.aws_region}"
-  aws_account_id = "${var.aws_account_id}"
+  aws_account_id = "${data.aws_caller_identity.current.account_id}"
   environment_name = "${var.environment_name}"
   aws_api_gateway_method_authorization = "NONE"
 }

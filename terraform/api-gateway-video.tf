@@ -26,7 +26,7 @@ module "ApiGatewayLambda-getVideos" {
   aws_lambda_function_arn = "${aws_lambda_function.getVideos.arn}"
   aws_lambda_function_name = "${aws_lambda_function.getVideos.function_name}"
   aws_region = "${var.aws_region}"
-  aws_account_id = "${var.aws_account_id}"
+  aws_account_id = "${data.aws_caller_identity.current.account_id}"
   environment_name = "${var.environment_name}"
   aws_api_gateway_method_authorization = "AWS_IAM"
 }
@@ -41,7 +41,7 @@ module "ApiGatewayLambda-createVideo" {
   aws_lambda_function_arn = "${aws_lambda_function.createVideo.arn}"
   aws_lambda_function_name = "${aws_lambda_function.createVideo.function_name}"
   aws_region = "${var.aws_region}"
-  aws_account_id = "${var.aws_account_id}"
+  aws_account_id = "${data.aws_caller_identity.current.account_id}"
   environment_name = "${var.environment_name}"
   aws_api_gateway_method_authorization = "AWS_IAM"
 }
@@ -71,7 +71,7 @@ module "ApiGatewayLambda-getVideo" {
   aws_lambda_function_arn = "${aws_lambda_function.getVideo.arn}"
   aws_lambda_function_name = "${aws_lambda_function.getVideo.function_name}"
   aws_region = "${var.aws_region}"
-  aws_account_id = "${var.aws_account_id}"
+  aws_account_id = "${data.aws_caller_identity.current.account_id}"
   environment_name = "${var.environment_name}"
   aws_api_gateway_method_authorization = "AWS_IAM"
 }

@@ -2,7 +2,7 @@ resources:
 - name: source-code
   type: git
   source:
-    uri: https://github.com/jonnyshaw89/VideoServerless.git
+    uri: https://github.com/JassoftLtd/DashVid.io.git
     branch: master
 
 jobs:
@@ -22,7 +22,6 @@ jobs:
       TF_VAR_email_disabled: true
       TF_VAR_token_override: TestToken
       TF_VAR_bucket_force_destroy: true
-      TF_VAR_aws_account_id: {{aws_account_id}}
       TF_VAR_aws_access_key: {{aws_access_key}}
       TF_VAR_aws_secret_key: {{aws_secret_key}}
       TF_VAR_stripe_api_key: {{stripe_api_key_test}}
@@ -64,7 +63,6 @@ jobs:
 #      TF_VAR_email_disabled: true
 #      TF_VAR_token_override: TestToken
 #      TF_VAR_bucket_force_destroy: true
-#      TF_VAR_aws_account_id: {{aws_account_id}}
 #      TF_VAR_aws_access_key: {{aws_access_key}}
 #      TF_VAR_aws_secret_key: {{aws_secret_key}}
 #      TF_VAR_stripe_api_key: {{stripe_api_key_test}}
@@ -90,7 +88,6 @@ jobs:
     params:
       TF_VAR_aws_terraform_state_bucket: dashvid-terraform-state
       TF_VAR_aws_region: eu-west-1
-      TF_VAR_aws_account_id: {{aws_account_id}}
       TF_VAR_aws_access_key: {{aws_access_key}}
       TF_VAR_aws_secret_key: {{aws_secret_key}}
       TF_VAR_stripe_api_key: {{stripe_api_key_test}}
@@ -103,7 +100,6 @@ jobs:
     params:
       TF_VAR_aws_terraform_state_bucket: dashvid-terraform-state
       TF_VAR_aws_region: eu-west-1
-      TF_VAR_aws_account_id: {{aws_account_id}}
       TF_VAR_aws_access_key: {{aws_access_key}}
       TF_VAR_aws_secret_key: {{aws_secret_key}}
       TF_VAR_stripe_api_key: {{stripe_api_key_test}}
