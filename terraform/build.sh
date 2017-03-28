@@ -21,7 +21,7 @@ rm *.zip || true
 
 for f in $(ls -d */ | cut -f1 -d'/'); do
     echo "Zipping $f"
-    zip -9 -r $f.zip $f/*
+    zip -q -9 -r $f.zip $f/*
 done
 
 cd ../../Lambda/VideoLambdas/
@@ -30,7 +30,7 @@ rm *.zip || true
 
 for f in $(ls -d */ | cut -f1 -d'/'); do
     echo "Zipping $f"
-    zip -9 -r $f.zip $f/*
+    zip -q -9 -r $f.zip $f/*
 done
 
 cd ../../Lambda/SubscriptionLambdas/
@@ -39,7 +39,7 @@ rm *.zip || true
 
 for f in $(ls -d */ | cut -f1 -d'/'); do
     echo "Zipping $f"
-    zip -9 -r $f.zip $f/*
+    zip -q -9 -r $f.zip $f/*
 done
 
 cd ../../Lambda/PlanLambdas/
@@ -48,7 +48,7 @@ rm *.zip || true
 
 for f in $(ls -d */ | cut -f1 -d'/'); do
     echo "Zipping $f"
-    zip -9 -r $f.zip $f/*
+    zip -q -9 -r $f.zip $f/*
 done
 
 cd ../../Lambda/StripeLambdas/
@@ -57,5 +57,5 @@ rm *.zip || true
 
 for f in $(ls -d */ | cut -f1 -d'/'); do
     echo "Zipping $f"
-    zip -9 -r $f.zip $f/*
+    zip -q -9 -r $f.zip $f/*
 done
