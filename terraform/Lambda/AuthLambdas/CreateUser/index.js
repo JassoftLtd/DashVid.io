@@ -121,7 +121,7 @@ function sendVerificationEmail(email, token, fn) {
 
 	console.log('Email Disabled Status:' + process.env.email_disabled);
 
-    if(!process.env.email_disabled) {
+    if(process.env.email_disabled === false) {
 
 		console.log('Sending Email to User: ' + email);
 
