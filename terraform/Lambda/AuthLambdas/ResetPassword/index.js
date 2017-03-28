@@ -90,6 +90,7 @@ function updateUser(event, email, password, salt, fn) {
 }
 
 exports.handler = function(event, context) {
+    "use strict";
 
 	var payload = JSON.parse(event.body);
 

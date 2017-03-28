@@ -7,6 +7,8 @@ var dynamodb = new AWS.DynamoDB.DocumentClient();
 var uuid = require('node-uuid');
 
 exports.handler = function (event, context) {
+    "use strict";
+
     var responseCode = 200;
 
     console.log("event: " + JSON.stringify(event));

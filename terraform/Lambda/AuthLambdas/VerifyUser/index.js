@@ -89,6 +89,7 @@ function getUserPlanAndStatus(email, fn) {
 }
 
 exports.handler = function(event, context) {
+    "use strict";
 
 	var payload = JSON.parse(event.body);
 

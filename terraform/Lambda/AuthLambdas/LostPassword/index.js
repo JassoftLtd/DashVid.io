@@ -113,6 +113,7 @@ function sendLostPasswordEmail(event, email, token, fn) {
 }
 
 exports.handler = function(event, context) {
+    "use strict";
 
 	var payload = JSON.parse(event.body);
 

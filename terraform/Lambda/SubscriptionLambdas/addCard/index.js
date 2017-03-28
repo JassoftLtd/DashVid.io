@@ -9,6 +9,8 @@ var stripe = require("stripe")(
 );
 
 exports.handler = function(event, context) {
+    "use strict";
+
 	var responseCode = 200;
 
     console.log("event: " + JSON.stringify(event));

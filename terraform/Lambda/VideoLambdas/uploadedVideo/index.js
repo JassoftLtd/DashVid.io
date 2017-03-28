@@ -9,6 +9,8 @@ var child_process = require("child_process");
 var parseString = require('xml2js').parseString;
 
 exports.handler = function(event, context) {
+    "use strict";
+
 	var responseCode = 200;
 	console.log("request: " + JSON.stringify(event));
 

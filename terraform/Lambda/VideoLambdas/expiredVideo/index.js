@@ -5,6 +5,8 @@ var AWS = require('aws-sdk');
 var dynamodb = new AWS.DynamoDB.DocumentClient();
 
 exports.handler = function(event, context) {
+    "use strict";
+
 	var responseCode = 200;
 	console.log("request: " + JSON.stringify(event));
 
