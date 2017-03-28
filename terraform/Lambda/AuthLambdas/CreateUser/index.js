@@ -34,14 +34,19 @@ function computeHash(password, salt, fn) {
 			if (err) return fn(err);
 			salt = salt.toString('base64');
 			crypto.pbkdf2(password, salt, iterations, len, digest, function(err, derivedKey) {
-				if (err) return fn(err);
-				fn(null, salt, derivedKey.toString('base64'));
+                if (err) {
+                    responseError.body = new Error('Error in hash: ' + err);
+                    context.fail(responseError);
+                }
+                else {
+                    fn(salt, derivedKey.toString('base64'));
+                }
 			});
 		});
 	}
 }
 
-function storeUser(event, email, hash, salt, fn) {
+function storeUser(email, hash, salt, fn) {
 
 	// Bytesize
 	var len = 128;
@@ -55,13 +60,6 @@ function storeUser(event, email, hash, salt, fn) {
         }
 
         console.log('Storing User in [' + process.env.auth_db_table + ']: ' + email);
-        console.log({
-            email: email,
-            passwordHash: hash,
-            passwordSalt: salt,
-            verified: false,
-            verifyToken: token
-        });
 
 		dynamodb.put({
 			TableName: process.env.auth_db_table,
@@ -119,7 +117,7 @@ function storePlan(email, plan, token, fn) {
 	});
 }
 
-function sendVerificationEmail(event, email, token, fn) {
+function sendVerificationEmail(email, token, fn) {
 
 	console.log('Email Disabled Status:' + process.env.email_disabled);
 
@@ -169,29 +167,24 @@ exports.handler = function(event, context) {
 	var clearPassword = payload.password;
     var plan = payload.plan.toLowerCase();
 
-	computeHash(clearPassword, function(err, salt, hash) {
-		if (err) {
-			responseError.body = new Error('Error in hash: ' + err);
-			context.fail(responseError);
-		} else {
-			storeUser(event, email, hash, salt, function(token) {
-				storePlan(email, plan, token, function (email, token) {
-					sendVerificationEmail(event, email, token, function(err, data) {
-						if (err) {
-							console.error(err);
-							responseError.body = new Error('Error in sendVerificationEmail: ' + err);
-							context.fail(responseError);
-						} else {
-							responseSuccess.body = JSON.stringify({
-								created: true
-							});
+	computeHash(clearPassword, function(salt, hash) {
+		storeUser(email, hash, salt, function(token) {
+			storePlan(email, plan, token, function (email, token) {
+				sendVerificationEmail(email, token, function(err, data) {
+					if (err) {
+						console.error(err);
+						responseError.body = new Error('Error in sendVerificationEmail: ' + err);
+						context.fail(responseError);
+					} else {
+						responseSuccess.body = JSON.stringify({
+							created: true
+						});
 
-							console.log("response: " + JSON.stringify(responseSuccess));
-							context.succeed(responseSuccess);
-						}
-					});
+						console.log("response: " + JSON.stringify(responseSuccess));
+						context.succeed(responseSuccess);
+					}
 				});
 			});
-		}
+		});
 	});
 };
