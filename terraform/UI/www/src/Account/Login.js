@@ -22,6 +22,8 @@ class Login extends Component {
 
     handleLogin (e) {
 
+        e.preventDefault();
+
         if(this.state.email.length === 0) {
             this.setState({
                 message: "Please enter an email address"
@@ -152,7 +154,7 @@ class Login extends Component {
             }
 
             return (
-                <form action="#" onSubmit={this.handleLogin.bind(this)} className="pure-form pure-form-aligned">
+                <form onSubmit={this.handleLogin.bind(this)} className="pure-form pure-form-aligned">
                     <fieldset>
                         {message}
                         <div className="pure-control-group">

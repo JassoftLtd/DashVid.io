@@ -97,7 +97,7 @@ class Signup extends Component {
                     </div>
                     <div className="pure-u-1 pure-u-md-1-2">
                         <h2 className="content-subhead">Signup</h2>
-                        <form action="#" onSubmit={this.handleSignup.bind(this)} className="pure-form pure-form-aligned">
+                        <form onSubmit={this.handleSignup.bind(this)} className="pure-form pure-form-aligned">
                             <fieldset>
                                 {message}
                                 <div className="pure-control-group">
