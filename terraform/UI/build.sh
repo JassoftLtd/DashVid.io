@@ -3,6 +3,7 @@ set -e
 
 # Reduce npm logging
 npm config set loglevel warn
+npm install -g marked
 
 #terraform get -update
 
