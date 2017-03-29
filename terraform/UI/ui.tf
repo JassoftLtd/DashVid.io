@@ -77,5 +77,5 @@ EOF
 }
 
 output "ui-address" {
-    value = "${aws_s3_bucket.dashvid-io-bucket.website_endpoint}"
+    value = "${aws_route53_record.DashCamWeb.fqdn}"
 }
