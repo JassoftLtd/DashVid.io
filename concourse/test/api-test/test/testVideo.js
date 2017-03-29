@@ -89,7 +89,7 @@ describe('Video', function () {
                             return rp(options)
                                 .then(function () {
 
-                                    sleep.sleep(2)
+                                    sleep.sleep(3)
 
                                     return videoHelper.getVideos(user)
                                         .then(function (result) {
@@ -132,7 +132,7 @@ describe('Video', function () {
                             return rp(options)
                                 .then(function () {
 
-                                    sleep.sleep(2)
+                                    sleep.sleep(3)
 
                                     return videoHelper.getVideos(user)
                                         .then(function (result) {
