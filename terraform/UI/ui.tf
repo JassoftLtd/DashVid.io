@@ -10,17 +10,28 @@ variable "environment_name" {
 
 variable "aws_region" {
     description = "The AWS region to create things in."
-    default     = ""
 }
 
 variable "aws_access_key" {
     description = "The AWS access key."
-    default = ""
 }
 
 variable "aws_secret_key" {
     description = "The AWS secret key."
+}
+
+variable "environment_subdomain" {
+    description = "A subdomain to prepend to the urls"
     default     = ""
+}
+
+# DNS
+variable "dns_zone_id" {
+    description = "Amazon Route53 DNS zone identifier"
+}
+
+variable "dns_zone_name" {
+    description = "Amazon Route53 DNS zone name"
 }
 
 provider "aws" {
