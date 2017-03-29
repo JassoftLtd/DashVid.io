@@ -1,9 +1,21 @@
+resource_types:
+- name: slack-notification
+  type: docker-image
+  source:
+    repository: cfcommunity/slack-notification-resource
+    tag: latest
+
 resources:
 - name: source-code
   type: git
   source:
     uri: https://github.com/JassoftLtd/DashVid.io.git
     branch: master
+
+- name: slack-alert
+  type: slack-notification
+  source:
+    url: {{slack_webhook_url}}
 
 jobs:
 - name: DashVid.io
@@ -107,3 +119,12 @@ jobs:
       REACT_APP_AWS_IDENTITY_POOL: {{aws_identity_pool}}
       AWS_ACCESS_KEY_ID: {{aws_access_key}}
       AWS_SECRET_ACCESS_KEY: {{aws_secret_key}}
+
+  - put: slack-alert
+    params:
+      channel: '#build-notifications'
+      text: |
+        The build had a result. Check it out at:
+        http://concourse.jassoft.co.uk:8080//teams/$BUILD_TEAM_NAME/pipelines/$BUILD_PIPELINE_NAME/jobs/$BUILD_JOB_NAME/builds/$BUILD_NAME
+        or at:
+        http://concourse.jassoft.co.uk:8080//builds/$BUILD_ID
