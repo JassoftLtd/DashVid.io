@@ -106,34 +106,31 @@ class ChangePassword extends Component {
         }
 
         return (
-            <div>
-                <h2>Change Password</h2>
-                <table>
-                    <tbody>
+        <div className="pure-g">
+            <div className="pure-u-1 pure-u-md-1-2">
+                <h2 className="content-subhead">Change Password</h2>
+                <form onSubmit={this.handleChangePassword.bind(this)} className="pure-form pure-form-aligned">
+                    <fieldset>
                         {message}
-                        <tr>
-                            <td>Old Password</td>
-                            <td><input onChange={this.handleChangeOldPassword.bind(this)}
-                                       type="password" id="oldPassword" size="20" /></td>
-                        </tr>
-                        <tr>
-                            <td>Password</td>
-                            <td><input onChange={this.handleChangeNewPassword.bind(this)}
-                                       type="password" id="newPassword" size="20" /></td>
-                        </tr>
-                        <tr>
-                            <td>Verify Password</td>
-                            <td><input onChange={this.handleChangeVerifyPassword.bind(this)}
-                                       type="password" id="verifyPassword" size="20" /></td>
-                        </tr>
-                        <tr>
-                            <td colSpan="2">
-                                <button id="signup-button" onClick={this.handleChangePassword.bind(this)}>Change Password</button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+                        <div className="pure-control-group">
+                            <label htmlFor="name">Old Password</label>
+                            <input className="pure-input-2-3" id="oldPassword" type="password" value={this.state.oldPassword} onChange={this.handleChangeOldPassword.bind(this)} placeholder="Old Password" autoComplete="off" />
+                        </div>
+                        <div className="pure-control-group">
+                            <label htmlFor="name">Password</label>
+                            <input className="pure-input-2-3" id="newPassword" type="password" value={this.state.newPassword} onChange={this.handleChangeNewPassword.bind(this)} placeholder="Password" autoComplete="off" />
+                        </div>
+                        <div className="pure-control-group">
+                            <label htmlFor="name">Verify Password</label>
+                            <input className="pure-input-2-3" id="verifyPassword" type="password"value={this.state.verifyPassword}  onChange={this.handleChangeVerifyPassword.bind(this)} placeholder="Verify Password" autoComplete="off" />
+                        </div>
+                        <div className="pure-controls">
+                            <button type="submit" className="pure-button button-success">Change Password</button>
+                        </div>
+                    </fieldset>
+                </form>
             </div>
+        </div>
         );
     }
 }
