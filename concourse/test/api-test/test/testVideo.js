@@ -14,7 +14,7 @@ describe('Video', function () {
 
     describe('Create Video', function () {
 
-        it('Given I have a verified account, When I request to upload a video, Then I should be given the URl to upload it to', function () {
+        it('Given I have a verified account, When I request to upload a video, Then I should be given the URL to upload it to', function () {
            return authHelper.getLoggedInUser()
                 .then(function (user) {
 
@@ -50,7 +50,7 @@ describe('Video', function () {
 
     describe('Get Videos', function () {
 
-        it('Given I have a verified account, When I havent uploaded any videos, Then It should recieve an empty list', function () {
+        it('Given I have a verified account, When I havent uploaded any videos, Then It should receive an empty list', function () {
            return authHelper.getLoggedInUser()
                 .then(function (user) {
 
@@ -106,7 +106,7 @@ describe('Video', function () {
                 });
         });
 
-        it('Given I have a verified account, When I have videos loaded, Then I should be able to retireve the video', function () {
+        it('Given I have a verified account, When I have videos loaded, Then I should be able to retrieve the video', function () {
            return authHelper.getLoggedInUser()
                 .then(function (user) {
 
