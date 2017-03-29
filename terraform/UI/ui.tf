@@ -20,11 +20,6 @@ variable "aws_secret_key" {
     description = "The AWS secret key."
 }
 
-variable "route53_type" {
-    description = "The type of Route53 record"
-    default     = "A"
-}
-
 variable "environment_subdomain" {
     description = "A subdomain to prepend to the urls"
     default     = ""
