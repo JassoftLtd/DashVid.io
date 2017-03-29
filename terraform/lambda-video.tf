@@ -38,7 +38,7 @@ resource "aws_lambda_function" "uploadedVideo" {
   role = "${aws_iam_role.IamForUploadedVideoLambda.arn}"
   handler = "uploadedVideo.handler"
   runtime = "nodejs6.10"
-  timeout = "30"
+  timeout = "300"
   memory_size = "256"
   source_code_hash = "${base64sha256(file("Lambda/VideoLambdas/uploadedVideo.zip"))}"
   environment = {
@@ -91,7 +91,7 @@ resource "aws_lambda_function" "expiredVideo" {
   role = "${aws_iam_role.IamForExpiredVideoLambda.arn}"
   handler = "expiredVideo.handler"
   runtime = "nodejs6.10"
-  timeout = "30"
+  timeout = "300"
   memory_size = "256"
   source_code_hash = "${base64sha256(file("Lambda/VideoLambdas/expiredVideo.zip"))}"
 }
