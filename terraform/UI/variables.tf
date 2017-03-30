@@ -25,6 +25,11 @@ variable "environment_subdomain" {
   default     = ""
 }
 
+variable "cloudfront_default_ttl" {
+  description = "The default TTL for the cloudfront distribution"
+  default     = "60"
+}
+
 # DNS
 variable "dns_zone_id" {
   description = "Amazon Route53 DNS zone identifier"
