@@ -50,6 +50,7 @@ jobs:
       TF_VAR_environment_subdomain: test.
       TF_VAR_dns_zone_id: {{dns_zone_id}}
       TF_VAR_dns_zone_name: {{dns_zone_name}}
+      TF_VAR_acm_certificate_arn: {{acm_certificate_arn_test}}
       TF_VAR_aws_access_key: {{aws_access_key}}
       TF_VAR_aws_secret_key: {{aws_secret_key}}
       TF_VAR_stripe_api_key: {{stripe_api_key_test}}
@@ -116,6 +117,7 @@ jobs:
       TF_VAR_aws_region: eu-west-1
       TF_VAR_dns_zone_id: {{dns_zone_id}}
       TF_VAR_dns_zone_name: {{dns_zone_name}}
+      TF_VAR_acm_certificate_arn: {{acm_certificate_arn}}
       TF_VAR_aws_access_key: {{aws_access_key}}
       TF_VAR_aws_secret_key: {{aws_secret_key}}
       TF_VAR_stripe_api_key: {{stripe_api_key_test}}
@@ -129,6 +131,4 @@ jobs:
       channel: '#build-notifications'
       text: |
         The build had a result. Check it out at:
-        http://concourse.jassoft.co.uk:8080//teams/$BUILD_TEAM_NAME/pipelines/$BUILD_PIPELINE_NAME/jobs/$BUILD_JOB_NAME/builds/$BUILD_NAME
-        or at:
-        http://concourse.jassoft.co.uk:8080//builds/$BUILD_ID
+        http://concourse.jassoft.co.uk:8080/builds/$BUILD_ID

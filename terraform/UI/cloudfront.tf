@@ -22,6 +22,10 @@ resource "aws_cloudfront_distribution" "website_s3_distribution" {
 
     aliases = ["www.${var.environment_subdomain}dashvid.io", "${var.environment_subdomain}dashvid.io"]
 
+    viewer_certificate {
+      acm_certificate_arn = "${var.acm_certificate_arn}"
+    }
+
     default_cache_behavior {
         allowed_methods  = ["GET", "HEAD"]
         cached_methods   = ["GET", "HEAD"]

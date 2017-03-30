@@ -1,39 +1,3 @@
-variable "aws_terraform_state_bucket" {
-    description = "The S3 bucket that holds state"
-    default     = "dashvid-terraform-state"
-}
-
-variable "environment_name" {
-    description = "A name to prepend to the environment"
-    default     = ""
-}
-
-variable "aws_region" {
-    description = "The AWS region to create things in."
-}
-
-variable "aws_access_key" {
-    description = "The AWS access key."
-}
-
-variable "aws_secret_key" {
-    description = "The AWS secret key."
-}
-
-variable "environment_subdomain" {
-    description = "A subdomain to prepend to the urls"
-    default     = ""
-}
-
-# DNS
-variable "dns_zone_id" {
-    description = "Amazon Route53 DNS zone identifier"
-}
-
-variable "dns_zone_name" {
-    description = "Amazon Route53 DNS zone name"
-}
-
 provider "aws" {
     region = "${var.aws_region}",
     access_key = "${var.aws_access_key}",
