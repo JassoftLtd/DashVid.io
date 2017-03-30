@@ -57,8 +57,4 @@ resource "aws_cloudfront_distribution" "website_s3_distribution" {
       response_code = 200
       response_page_path = "/index.html"
     }
-
-    viewer_certificate {
-        cloudfront_default_certificate = true
-    }
 }
