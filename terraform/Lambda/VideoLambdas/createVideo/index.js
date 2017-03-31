@@ -32,7 +32,8 @@ exports.handler = function (event, context) {
         let bucket = process.env['plan_bucket_' + plan.toLowerCase()];
 
         var s3 = new AWS.S3({
-            apiVersion: '2006-03-01'
+            apiVersion: '2006-03-01',
+            useAccelerateEndpoint: true
         });
 
         const url = s3.getSignedUrl('putObject', {
