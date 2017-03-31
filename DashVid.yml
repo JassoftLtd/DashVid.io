@@ -48,7 +48,6 @@ jobs:
       TF_VAR_aws_region: us-east-1
       TF_VAR_environment_name: test-
       TF_VAR_environment_subdomain: test.
-      TF_VAR_cloudfront_default_ttl: 0
       TF_VAR_dns_zone_id: {{dns_zone_id}}
       TF_VAR_dns_zone_name: {{dns_zone_name}}
       TF_VAR_acm_certificate_arn: {{acm_certificate_arn_test}}
