@@ -32,6 +32,7 @@ resource "aws_cloudfront_distribution" "website_s3_distribution" {
         allowed_methods  = ["GET", "HEAD"]
         cached_methods   = ["GET", "HEAD"]
         target_origin_id = "myS3Origin"
+        compress = true
 
         forwarded_values {
             query_string = false
