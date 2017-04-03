@@ -24,7 +24,7 @@ resource "aws_elastictranscoder_preset" "free" {
     codec                = "H.264"
     display_aspect_ratio = "auto"
     fixed_gop            = "false"
-    frame_rate           = "30§"
+    frame_rate           = "30"
     keyframes_max_dist   = "90"
     max_height           = "auto"
     max_width            = "auto"
