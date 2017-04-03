@@ -30,7 +30,7 @@ class Video extends Component {
     onVideosModified(videoId) {
         this.setState({
                 videosRequiresReload: true,
-                expectedVideos: this.expectedVideos.arrayvar.concat([videoId])
+                expectedVideos: this.state.expectedVideos.concat([videoId])
             })
     }
 
