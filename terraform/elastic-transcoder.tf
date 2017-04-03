@@ -26,7 +26,7 @@ resource "aws_elastictranscoder_preset" "free" {
     fixed_gop            = "false"
     frame_rate           = "auto"
     max_frame_rate       = "30"
-    keyframes_max_dist   = 240
+    keyframes_max_dist   = true
     max_height           = "auto"
     max_width            = "auto"
     padding_policy       = "Pad"
