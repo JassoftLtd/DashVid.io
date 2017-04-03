@@ -97,20 +97,7 @@ var VideoList = React.createClass({
                     _this.setState({
                         data: result.data,
                         mounted: true
-                    })
-
-                        [
-                            {
-                                "date":1485907200000,
-                                "videos":[
-                                    {"Id":"f70bda10-1267-11e7-8965-db4504c1ca5b","VideoStatus":"Uploaded","RecordedDate":1485968940000,"VideoDuration":180180},
-                                    {"Id":"f72e2f20-1267-11e7-a543-21744de42157","VideoStatus":"Uploaded","RecordedDate":1485968759000,"VideoDuration":180180}]
-                            },
-                                {"date":1485648000000,
-                                    "videos":[
-                                        {"Id":"f23127b0-1254-11e7-87df-594f945de87a","VideoStatus":"Uploaded","RecordedDate":1485693539000,"VideoDuration":1068}]
-                                },
-                                {"date":1485216000000,"videos":[{"Id":"c97a3eb0-0c23-11e7-9c82-8d279c492c82","VideoStatus":"Uploaded","RecordedDate":1485269220000,"VideoDuration":39540}]},{"date":1485129600000,"videos":[{"Id":"6cde6de0-0c21-11e7-9c5f-6135bfbd69b4","VideoStatus":"Uploaded","RecordedDate":1485199006000,"VideoDuration":95429},{"Id":"b29f8380-0c1e-11e7-899c-7d323848f6eb","VideoStatus":"Uploaded","RecordedDate":1485193462000,"VideoDuration":29429}]}]
+                    });
 
                     for(var i = 0; i < result.data.length; i++) {
                         let day = result.data[i]
