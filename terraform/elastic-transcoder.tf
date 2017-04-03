@@ -26,7 +26,6 @@ resource "aws_elastictranscoder_preset" "free" {
     fixed_gop            = "false"
     frame_rate           = "auto"
     max_frame_rate       = "30"
-    keyframes_max_dist   = true
     max_height           = "auto"
     max_width            = "auto"
     padding_policy       = "Pad"
@@ -34,7 +33,7 @@ resource "aws_elastictranscoder_preset" "free" {
   }
 
   video_codec_options = {
-    Profile                  = "main"
+    Profile                  = "baseline"
     Level                    = "2.2"
     MaxReferenceFrames       = 3
     InterlaceMode            = "Progressive"
