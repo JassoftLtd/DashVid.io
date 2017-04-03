@@ -22,10 +22,11 @@ resource "aws_elastictranscoder_preset" "free" {
   video = {
     bit_rate             = "1600"
     codec                = "H.264"
-    display_aspect_ratio = "auto"
+    display_aspect_ratio = "16:9"
     fixed_gop            = "false"
-    frame_rate           = "30"
-    keyframes_max_dist   = "90"
+    frame_rate           = "auto"
+    max_frame_rate       = "60"
+    keyframes_max_dist   = 240
     max_height           = "auto"
     max_width            = "auto"
     padding_policy       = "Pad"
