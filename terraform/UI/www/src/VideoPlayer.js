@@ -21,6 +21,7 @@ var VideoPlayer = React.createClass({
     getInitialState: function () {
         return {
             video: {},
+            playing: true,
             url: ""
         };
     },
@@ -77,7 +78,11 @@ var VideoPlayer = React.createClass({
             return (
                 <div className="pure-g">
                     <div className="pure-u-1-1">
-                        <ReactPlayer url={this.state.url} width="100%" playing controls/>
+                        <ReactPlayer url={this.state.url}
+                                     width="100%"
+                                     playing={this.state.playing}
+                                     controls
+                                     fileConfig={{ attributes: { autoPlay: true }}}/>
                     </div>
                 </div>
             )
