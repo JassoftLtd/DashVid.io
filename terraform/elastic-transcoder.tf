@@ -1,6 +1,6 @@
 resource "aws_elastictranscoder_pipeline" "free" {
   input_bucket = "${aws_s3_bucket.dash-cam-videos-free-bucket.bucket}"
-  name         = "aws_elastictranscoder_pipeline_free"
+  name         = "DashVid.io Free Plan"
   role         = "${aws_iam_role.IamForVideoTranscoder.arn}"
 
   content_config = {
