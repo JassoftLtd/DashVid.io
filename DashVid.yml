@@ -130,5 +130,5 @@ jobs:
     params:
       channel: '#build-notifications'
       text: |
-        The build had a result. Check it out at:
+        Production Deployment Successful. Check it out at:
         http://concourse.jassoft.co.uk:8080/builds/$BUILD_ID
