@@ -1,3 +1,4 @@
+/*jshint loopfunc: true */
 console.log('video expiring for User');
 
 var AWS = require('aws-sdk');
@@ -32,19 +33,17 @@ exports.handler = function(event, context) {
                 ":status":"Removed",
             },
             ReturnValues:"UPDATED_NEW"
-        }, handleUpdateResponse(err, data));
+        }, function(err, data) {
+            if (err) {
+                console.error('Unable to update video status for videoId [' + videoId + ']. Error JSON:', JSON.stringify(err, null, 2));
+                context.fail();
+            } else {
+                console.log("Video status updated succeeded:", JSON.stringify(data, null, 2));
+
+                if (i == event.Records.length - 1) {
+                    context.succeed();
+                }
+            }
+        });
     }
 };
-
-function handleUpdateResponse(err, data) {
-    if (err) {
-        console.error('Unable to update video status for videoId [' + videoId + ']. Error JSON:', JSON.stringify(err, null, 2));
-        context.fail();
-    } else {
-        console.log("Video status updated succeeded:", JSON.stringify(data, null, 2));
-
-        if (i == event.Records.length - 1) {
-            context.succeed();
-        }
-    }
-}
