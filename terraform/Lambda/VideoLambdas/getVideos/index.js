@@ -62,7 +62,6 @@ exports.handler = function(event, context) {
 			}
 
             recordForDate.videos.push(videoDate)
-			console.log("recordForDate: " + JSON.stringify(recordForDate))
         }
 
         console.log("dayGroups: " + JSON.stringify(responseBody))

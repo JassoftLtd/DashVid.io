@@ -21,7 +21,6 @@ resource "aws_s3_bucket" "dash-cam-videos-free-bucket" {
             days = 7
         }
     }
-
 }
 
 // Video Store
