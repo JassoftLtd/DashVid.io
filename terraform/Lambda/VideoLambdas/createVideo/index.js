@@ -44,6 +44,7 @@ exports.handler = function (event, context) {
         });
 
         var responseBody = {
+            Id: generatedId,
             url: url
         };
         var response = {
