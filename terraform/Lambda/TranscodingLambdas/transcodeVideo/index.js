@@ -36,7 +36,7 @@ exports.handler = function(event, context) {
                     OutputKeyPrefix: 'transcoder/output/',
                     Outputs: [
                         {
-                            Key: outputKey(basename(key),'mp4'),
+                            Key: key.split('.')[0] + '.mp4',
                             PresetId: '1351620000001-500030', // h264
                         }
                     ]
