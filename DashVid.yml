@@ -40,6 +40,13 @@ jobs:
       TF_VAR_aws_identity_pool: {{aws_identity_pool_test}}
       AWS_ACCESS_KEY_ID: {{aws_access_key}}
       AWS_SECRET_ACCESS_KEY: {{aws_secret_key}}
+    on_failure:
+      put: slack-alert
+      params:
+        channel: '#build-notifications'
+        text: |
+          Test API Deploy Failed. Check it out at:
+          http://concourse.jassoft.co.uk:8080/builds/$BUILD_ID
 
   - task: Test Deploy UI
     file: source-code/concourse/build-ui.yml
@@ -58,6 +65,13 @@ jobs:
       REACT_APP_AWS_IDENTITY_POOL: {{aws_identity_pool_test}}
       AWS_ACCESS_KEY_ID: {{aws_access_key}}
       AWS_SECRET_ACCESS_KEY: {{aws_secret_key}}
+    on_failure:
+      put: slack-alert
+      params:
+        channel: '#build-notifications'
+        text: |
+          Test UI Deploy Failed. Check it out at:
+          http://concourse.jassoft.co.uk:8080/builds/$BUILD_ID
 
   - aggregate:
     - task: API Tests
@@ -65,8 +79,23 @@ jobs:
       params:
         aws_region: us-east-1
         aws_identity_pool: {{aws_identity_pool_test}}
+      on_failure:
+        put: slack-alert
+        params:
+          channel: '#build-notifications'
+          text: |
+            API Tests Failed. Check it out at:
+            http://concourse.jassoft.co.uk:8080/builds/$BUILD_ID
+
     - task: UI Tests
       file: source-code/concourse/test/ui-tests.yml
+      on_failure:
+        put: slack-alert
+        params:
+          channel: '#build-notifications'
+          text: |
+            UI Tests Failed. Check it out at:
+            http://concourse.jassoft.co.uk:8080/builds/$BUILD_ID
 
 #  - task: Test Destroy API
 #    file: source-code/concourse/destroy-api.yml
@@ -109,6 +138,13 @@ jobs:
       TF_VAR_aws_identity_pool: {{aws_identity_pool}}
       AWS_ACCESS_KEY_ID: {{aws_access_key}}
       AWS_SECRET_ACCESS_KEY: {{aws_secret_key}}
+    on_failure:
+      put: slack-alert
+      params:
+        channel: '#build-notifications'
+        text: |
+          Production API Deploy Failed. Check it out at:
+          http://concourse.jassoft.co.uk:8080/builds/$BUILD_ID
 
   - task: Production Deploy UI
     file: source-code/concourse/build-ui.yml
@@ -125,6 +161,13 @@ jobs:
       REACT_APP_AWS_IDENTITY_POOL: {{aws_identity_pool}}
       AWS_ACCESS_KEY_ID: {{aws_access_key}}
       AWS_SECRET_ACCESS_KEY: {{aws_secret_key}}
+    on_failure:
+      put: slack-alert
+      params:
+        channel: '#build-notifications'
+        text: |
+          Production UI Deploy Failed. Check it out at:
+          http://concourse.jassoft.co.uk:8080/builds/$BUILD_ID
 
   - put: slack-alert
     params:
