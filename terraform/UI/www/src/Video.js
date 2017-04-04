@@ -114,7 +114,9 @@ var VideoList = React.createClass({
                     if(expectedVideos.length = 0) {
                         this.props.reloadedCallback();
                     } else {
-                        setTimeout(this.loadContent(expectedVideos), 1000);
+                        setTimeout(function(expectedVideos) {
+                            this.loadContent(expectedVideos)
+                        }, 1000);
                     }
                 }).catch(function (result) {
                 //This is where you would put an error callback
