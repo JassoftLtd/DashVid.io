@@ -87,6 +87,16 @@ data "aws_iam_policy_document" "IamForTranscodeVideoLambda" {
   "statement" = {
     "effect" = "Allow",
     "actions" = [
+      "elastictranscoder:CreateJob",
+    ],
+    "resources" = [
+      "*"
+    ]
+  }
+
+  "statement" = {
+    "effect" = "Allow",
+    "actions" = [
       "logs:CreateLogGroup",
       "logs:CreateLogStream",
       "logs:PutLogEvents"
