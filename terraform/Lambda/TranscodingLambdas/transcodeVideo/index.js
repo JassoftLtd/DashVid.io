@@ -8,8 +8,6 @@ var elastictranscoder = new AWS.ElasticTranscoder();
 exports.handler = function(event, context) {
     "use strict";
 
-	console.log("request: " + JSON.stringify(event));
-
     for(var i = 0; i < event.Records.length; i++) {
 
         let record = event.Records[i];
@@ -49,6 +47,8 @@ exports.handler = function(event, context) {
                         context.fail();
                         return;
                     }
+
+                    console.log("request: " + JSON.stringify(data));
 
                     if (i == event.Records.length - 1) {
                         context.succeed();
