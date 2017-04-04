@@ -39,6 +39,12 @@ exports.handler = function(event, context) {
                             Key: key.split('.')[0] + '.mp4',
                             PresetId: '1351620000001-500030', // h264
                         }
+                    ],
+                    Playlists: [
+                        {
+                            Name: key.split('.')[0],
+                            Format: 'MPEG_DASH',
+                        }
                     ]
                 };
 
