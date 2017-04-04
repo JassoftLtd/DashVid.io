@@ -59,3 +59,12 @@ for f in $(ls -d */ | cut -f1 -d'/'); do
     echo "Zipping $f"
     zip -q -9 -r $f.zip $f/*
 done
+
+cd ../../Lambda/TranscodingLambdas/
+
+rm -f *.zip || true
+
+for f in $(ls -d */ | cut -f1 -d'/'); do
+    echo "Zipping $f"
+    zip -q -9 -r $f.zip $f/*
+done

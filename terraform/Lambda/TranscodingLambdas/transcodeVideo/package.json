@@ -1,0 +1,17 @@
+{
+  "name": "transcodeVideo",
+  "version": "1.0.0",
+  "description": "Transcode the video to create smaller optimised versions",
+  "main": "index.js",
+  "scripts": {
+    "lint": "jshint **.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "jshint": "^2.9.4"
+  },
+  "dependencies": {
+    "xml2js": "^0.4.17"
+  }
+}
