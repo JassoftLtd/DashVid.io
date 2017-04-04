@@ -21,17 +21,17 @@ EOF
 }
 
 data "aws_iam_policy_document" "IamForVideoTranscoder" {
-  "statement" = {
-    "effect" = "Allow",
-    "actions" = [
-      "s3:GetObject"
-    ],
-    "resources" = [
-      "arn:aws:s3:::${aws_s3_bucket.dash-cam-videos-free-bucket.bucket}/*",
-      "arn:aws:s3:::${aws_s3_bucket.dash-cam-videos-standard-bucket.bucket}/*",
-      "arn:aws:s3:::${aws_s3_bucket.dash-cam-videos-premium-bucket.bucket}/*"
-    ]
-  }
+//  "statement" = {
+//    "effect" = "Allow",
+//    "actions" = [
+//      "s3:GetObject"
+//    ],
+//    "resources" = [
+//      "arn:aws:s3:::${aws_s3_bucket.dash-cam-videos-free-bucket.bucket}/*",
+//      "arn:aws:s3:::${aws_s3_bucket.dash-cam-videos-standard-bucket.bucket}/*",
+//      "arn:aws:s3:::${aws_s3_bucket.dash-cam-videos-premium-bucket.bucket}/*"
+//    ]
+//  }
 
   "statement" = {
     "effect" = "Allow",
@@ -39,8 +39,7 @@ data "aws_iam_policy_document" "IamForVideoTranscoder" {
       "s3:*"
     ],
     "resources" = [
-      "arn:aws:s3:::${aws_s3_bucket.dash-cam-videos-free-bucket-transcoded.bucket}/*",
-      "arn:aws:s3:::${aws_s3_bucket.dash-cam-videos-free-bucket-thumbnails.bucket}/*",
+      "*",
     ]
   }
 
