@@ -12,7 +12,7 @@ resource "aws_lambda_function" "transcodeVideo" {
   source_code_hash = "${base64sha256(file("Lambda/TranscodingLambdas/transcodeVideo.zip"))}"
   environment {
     variables = {
-      plan_bucket_free = "${aws_s3_bucket.dash-cam-videos-free-bucket.bucket}"
+      PipelineId = "${aws_elastictranscoder_pipeline.free.id}"
     }
   }
 }
