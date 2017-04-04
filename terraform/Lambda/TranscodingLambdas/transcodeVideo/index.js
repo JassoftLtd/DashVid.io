@@ -44,6 +44,9 @@ exports.handler = function(event, context) {
                         {
                             Name: key.split('.')[0],
                             Format: 'MPEG-DASH',
+                            OutputKeys: [
+                                key.split('.')[0] + '.mp4',
+                            ]
                         }
                     ]
                 };
