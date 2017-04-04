@@ -21,6 +21,7 @@ exports.handler = function(event, context) {
             }
         }, function(err, data) {
             if (err) {
+                console.log(err);
                 return context.fail(err);
             }
             else {
@@ -43,12 +44,12 @@ exports.handler = function(event, context) {
 
                 elastictranscoder.createJob(params, function(err, data) {
                     if (err){
-                        console.log(err, err.stack); // an error occurred
+                        console.log(err);
                         context.fail();
                         return;
                     }
 
-                    console.log("request: " + JSON.stringify(data));
+                    console.log("Data: " + JSON.stringify(data));
 
                     if (i == event.Records.length - 1) {
                         context.succeed();
@@ -57,8 +58,5 @@ exports.handler = function(event, context) {
 
             }
         });
-
     }
-
-    context.succeed();
 };
