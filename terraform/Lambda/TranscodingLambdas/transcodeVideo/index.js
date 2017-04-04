@@ -43,7 +43,7 @@ exports.handler = function(event, context) {
                     Playlists: [
                         {
                             Name: key.split('.')[0],
-                            Format: 'MPEG_DASH',
+                            Format: 'MPEG-DASH',
                         }
                     ]
                 };
