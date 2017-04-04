@@ -12,6 +12,5 @@
     "jshint": "^2.9.4"
   },
   "dependencies": {
-    "xml2js": "^0.4.17"
   }
 }
