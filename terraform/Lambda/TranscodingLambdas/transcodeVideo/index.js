@@ -38,6 +38,7 @@ exports.handler = function(event, context) {
                         {
                             Key: key.split('.')[0] + '.mp4',
                             PresetId: '1351620000001-500030', // h264
+                            SegmentDuration: 30,
                         }
                     ],
                     Playlists: [
