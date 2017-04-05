@@ -13,7 +13,7 @@ exports.handler = function(event, context) {
 
         let record = event.Records[i];
 
-        let message = JSON.stringify(record.Sns.Message);
+        let message = record.Sns.Message;
 
         var videoId = /(.+?)(\.[^.]*$|$)/.exec(/[^/]*$/.exec(message.input.key)[0])[1];
 
