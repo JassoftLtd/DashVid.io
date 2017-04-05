@@ -12,4 +12,8 @@ resource "aws_elastictranscoder_pipeline" "free" {
     bucket        = "${aws_s3_bucket.dash-cam-videos-free-bucket-thumbnails.bucket}"
     storage_class = "Standard"
   }
+
+  notifications = {
+    completed     = "${aws_sns_topic.video_transcoded.arn}"
+  }
 }
