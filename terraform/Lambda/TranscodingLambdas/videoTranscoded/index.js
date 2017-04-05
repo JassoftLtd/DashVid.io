@@ -1,5 +1,8 @@
 console.log('video transcoded');
 
+var AWS = require('aws-sdk');
+var dynamodb = new AWS.DynamoDB.DocumentClient();
+
 exports.handler = function(event, context) {
     "use strict";
 
@@ -11,6 +14,27 @@ exports.handler = function(event, context) {
 
         let message = JSON.stringify(record.Sns.Message);
 
+        var videoId = /(.+?)(\.[^.]*$|$)/.exec(/[^/]*$/.exec(message.input.key)[0])[1];
+
         console.log("Message: " + JSON.parse(message));
+
+        dynamodb.get({
+            TableName: "Videos",
+            Key:{
+                "Id": videoId
+            }
+        }, function(err, data) {
+            if (err) {
+                console.log(err);
+                return context.fail(err);
+            }
+            else {
+                console.log("Video: " + JSON.stringify(data.Item));
+
+                if (i == event.Records.length - 1) {
+                    context.succeed();
+                }
+            }
+        })
     }
 };
