@@ -15,7 +15,7 @@ exports.handler = function(event, context) {
 
         let message = record.Sns.Message;
 
-        console.log("Message: " + JSON.parse(message));
+        console.log("Message: " + JSON.stringify(message));
 
         var videoId = /(.+?)(\.[^.]*$|$)/.exec(/[^/]*$/.exec(message.input.key)[0])[1];
 
