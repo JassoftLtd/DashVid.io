@@ -146,6 +146,7 @@ describe('Video', function () {
                                                 .then(function (result) {
                                                     assert(result.data.video);
                                                     assert(result.data.url);
+                                                    assert(result.data.originalUrl);
                                                 })
                                         })
                                 });
