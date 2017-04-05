@@ -1,3 +1,4 @@
+/*jshint loopfunc: true */
 console.log('video transcoded');
 
 var AWS = require('aws-sdk');
@@ -35,6 +36,6 @@ exports.handler = function(event, context) {
                     context.succeed();
                 }
             }
-        })
+        });
     }
 };
