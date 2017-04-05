@@ -15,9 +15,9 @@ exports.handler = function(event, context) {
 
         let message = record.Sns.Message;
 
-        var videoId = /(.+?)(\.[^.]*$|$)/.exec(/[^/]*$/.exec(message.input.key)[0])[1];
-
         console.log("Message: " + JSON.parse(message));
+
+        var videoId = /(.+?)(\.[^.]*$|$)/.exec(/[^/]*$/.exec(message.input.key)[0])[1];
 
         dynamodb.get({
             TableName: "Videos",
