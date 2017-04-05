@@ -33,7 +33,7 @@ exports.handler = function(event, context) {
                         Key: key
                     },
                     PipelineId: process.env.PipelineId, /* test-web-transcoder */
-                    OutputKeyPrefix: '/',
+                    OutputKeyPrefix: 'transcoded/',
                     Outputs: [
                         {
                             Key: key.split('.')[0] + '.mp4',
