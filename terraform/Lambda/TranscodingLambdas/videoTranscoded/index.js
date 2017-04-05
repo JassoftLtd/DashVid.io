@@ -11,6 +11,6 @@ exports.handler = function(event, context) {
 
         let message = JSON.stringify(record.Sns.Message);
 
-        console.log("Message: " + JSON.stringify(message));
+        console.log("Message: " + JSON.parse(message));
     }
 };
