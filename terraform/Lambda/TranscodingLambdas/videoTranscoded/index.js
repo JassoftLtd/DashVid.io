@@ -13,7 +13,7 @@ exports.handler = function(event, context) {
 
         let record = event.Records[i];
 
-        let message = record.Sns.Message;
+        let message = JSON.parse(record.Sns.Message);
 
         console.log("Message: " + JSON.stringify(message));
 
