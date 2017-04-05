@@ -36,6 +36,16 @@ data "aws_iam_policy_document" "IamForVideoTranscoder" {
   "statement" = {
     "effect" = "Allow",
     "actions" = [
+      "SNS:Publish"
+    ],
+    "resources" = [
+      "${aws_sns_topic.video_transcoded.arn}"
+    ]
+  }
+
+  "statement" = {
+    "effect" = "Allow",
+    "actions" = [
       "s3:*"
     ],
     "resources" = [
