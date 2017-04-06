@@ -39,11 +39,21 @@ exports.handler = function(event, context) {
 
             console.log('Getting video from Bucket [' + data.Item.Bucket + '] Key [' + data.Item.Key + ']')
 
-            const url = s3.getSignedUrl('getObject', {
+            var url = s3.getSignedUrl('getObject', {
                 Bucket: data.Item.Bucket,
                 Key: data.Item.Key,
                 Expires: 3600
             });
+
+            var transcodedUrl;
+
+            if(data.Item.TranscodedVideo) {
+                transcodedUrl = s3.getSignedUrl('getObject', {
+                    Bucket: data.Item.TranscodedVideo.Bucket,
+                    Key: data.Item.TranscodedVideo.Key,
+                    Expires: 3600
+                });
+            }
 
             var response = {
                 statusCode: responseCode,
@@ -54,7 +64,8 @@ exports.handler = function(event, context) {
                     video: {
                         Id: data.Item.Id
                     },
-                    url: url
+                    originalUrl: url,
+                    url: transcodedUrl
                 })
             };
             console.log("response: " + JSON.stringify(response))

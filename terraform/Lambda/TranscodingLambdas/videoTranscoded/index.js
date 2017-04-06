@@ -32,9 +32,31 @@ exports.handler = function(event, context) {
             else {
                 console.log("Video: " + JSON.stringify(data.Item));
 
-                if (i == event.Records.length - 1) {
-                    context.succeed();
-                }
+                dynamodb.update({
+                    TableName: "Videos",
+                    Key:{
+                        "Id": videoId
+                    },
+                    UpdateExpression: "set TranscodedVideo = :transcoded",
+                    ExpressionAttributeValues:{
+                        ":transcoded":{
+                            "Bucket": data.Item.Bucket + "-transcoded",
+                            "Key": message.input.key
+                        },
+                    },
+                    ReturnValues:"UPDATED_NEW"
+                }, function(err, data) {
+                    if (err) {
+                        console.error('Unable to update video with transcoded key for videoId [' + videoId + ']. Error JSON:', JSON.stringify(err, null, 2));
+                        context.fail();
+                    } else {
+                        console.log("Video transcoded location updated succeeded:", JSON.stringify(data, null, 2));
+
+                        if (i == event.Records.length - 1) {
+                            context.succeed();
+                        }
+                    }
+                });
             }
         });
     }
