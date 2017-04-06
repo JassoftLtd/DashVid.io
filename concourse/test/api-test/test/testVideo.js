@@ -142,7 +142,7 @@ describe('Video', function () {
 
                                             assert.equal(result.data[0].videos.length, 1);
 
-                                            sleep.sleep(12)
+                                            sleep.sleep(10)
 
                                             return videoHelper.getVideo(user, result.data[0].videos[0].Id)
                                                 .then(function (result) {
