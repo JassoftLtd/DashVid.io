@@ -134,7 +134,7 @@ describe('Video', function () {
 
                                     sleep.sleep(3)
 
-                                    return videoHelper.getVideos(user)
+                                    return retry(videoHelper.getVideos(user)
                                         .then(function (result) {
                                             var recordedDate = new Date()
 
@@ -148,7 +148,7 @@ describe('Video', function () {
                                                     assert(result.data.url);
                                                     assert(result.data.originalUrl);
                                                 })
-                                        })
+                                        }), 1000)
                                 });
 
                         });
@@ -158,3 +158,9 @@ describe('Video', function () {
     });
 
 });
+
+function retry(operation, delay) {
+    return operation().catch(function(reason) {
+        return Q.delay(delay).then(retry.bind(null, operation, delay * 2));
+    });
+}
