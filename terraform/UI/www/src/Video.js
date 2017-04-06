@@ -66,7 +66,7 @@ var VideoList = React.createClass({
         return {videos: [], mounted: false};
     },
 
-    loadContent: function (expectedVideos) {
+    loadContent: function (expectedVideos = []) {
 
         const _this = this;
 

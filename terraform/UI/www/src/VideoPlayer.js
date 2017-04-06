@@ -58,7 +58,7 @@ var VideoPlayer = React.createClass({
                     //This is where you would put a success callback
                     _this.setState({
                         video: result.data.video,
-                        url: result.data.url
+                        url: (result.data.url) ? result.data.url : result.data.originalUrl
                     })
                 }).catch(function (result) {
                 //This is where you would put an error callback
