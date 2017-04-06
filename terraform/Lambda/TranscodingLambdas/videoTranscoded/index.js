@@ -41,7 +41,7 @@ exports.handler = function(event, context) {
                     ExpressionAttributeValues:{
                         ":transcoded":{
                             "Bucket": data.Item.Bucket + "-transcoded",
-                            "Key": message.input.key
+                            "Key": message.outputKeyPrefix + message.outputs[0].key
                         },
                     },
                     ReturnValues:"UPDATED_NEW"
