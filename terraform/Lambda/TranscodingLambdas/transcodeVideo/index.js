@@ -37,7 +37,7 @@ exports.handler = function(event, context) {
                     Outputs: [
                         {
                             Key: key.split('.')[0] + '.mp4',
-                            PresetId: '1351620000001-500030', // h264
+                            PresetId: '1351620000001-000010', // System preset: Generic 720p
                             SegmentDuration: "30",
                         }
                     ],
