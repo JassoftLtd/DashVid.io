@@ -63,7 +63,7 @@ class Video extends Component {
 var VideoList = React.createClass({
 
     getInitialState: function () {
-        return {videos: [], mounted: false};
+        return {data: [], mounted: false};
     },
 
     loadContent: function (expectedVideos) {
@@ -93,29 +93,28 @@ var VideoList = React.createClass({
 
             apigClient.invokeApi(params, pathTemplate, method, additionalParams, body)
                 .then(function (result) {
-                    //This is where you would put a success callback
+                    _this.props.reloadedCallback();
+
                     _this.setState({
                         data: result.data,
                         mounted: true
                     });
 
-                    for(var i = 0; i < result.data.length; i++) {
+                    for (var i = 0; i < result.data.length; i++) {
                         let day = result.data[i]
-                        for(var o = 0; o < day.videos.length; o++) {
+                        for (var o = 0; o < day.videos.length; o++) {
                             let video = day.videos[o]
                             var index = expectedVideos.indexOf(video.Id);
 
-                            if(index > -1) {
+                            if (index > -1) {
                                 expectedVideos.splice(index, 1);
                             }
                         }
                     }
 
-                    if(!expectedVideos || expectedVideos.length == 0) {
-                        this.props.reloadedCallback();
-                    } else {
+                    if(expectedVideos && expectedVideos.length > 0) {
                         setTimeout(function() {
-                            this.loadContent(expectedVideos);
+                            _this.loadContent(expectedVideos);
                         }, 2000);
                     }
                 }).catch(function (result) {
