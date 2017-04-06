@@ -40,15 +40,6 @@ exports.handler = function(event, context) {
                             PresetId: '1351620000001-100070', // System preset: Web
                         }
                     ],
-                    // Playlists: [
-                    //     {
-                    //         Name: key.split('.')[0],
-                    //         Format: 'MPEG-DASH',
-                    //         OutputKeys: [
-                    //             key.split('.')[0] + '.mp4',
-                    //         ]
-                    //     }
-                    // ]
                 };
 
                 elastictranscoder.createJob(params, function(err, data) {
