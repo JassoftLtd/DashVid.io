@@ -134,7 +134,7 @@ describe('Video', function () {
 
                                     sleep.sleep(3)
 
-                                    return retry(videoHelper.getVideos(user)
+                                    return videoHelper.getVideos(user)
                                         .then(function (result) {
                                             var recordedDate = new Date()
 
@@ -142,13 +142,15 @@ describe('Video', function () {
 
                                             assert.equal(result.data[0].videos.length, 1);
 
+                                            sleep.sleep(10)
+
                                             return videoHelper.getVideo(user, result.data[0].videos[0].Id)
                                                 .then(function (result) {
                                                     assert(result.data.video);
                                                     assert(result.data.url);
                                                     assert(result.data.originalUrl);
                                                 })
-                                        }), 1000)
+                                        })
                                 });
 
                         });
@@ -158,9 +160,3 @@ describe('Video', function () {
     });
 
 });
-
-function retry(operation, delay) {
-    return operation().catch(function(reason) {
-        return Q.delay(delay).then(retry.bind(null, operation, delay * 2));
-    });
-}
