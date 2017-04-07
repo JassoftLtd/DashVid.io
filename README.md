@@ -4,7 +4,7 @@
 
 To load the build into Concourse run the following commands
 
-`fly -t jassoft login -c http://concourse.jassoft.co.uk:8080`
+`fly -t jassoft login -n JassoftLtd -c http://concourse.jassoft.co.uk:8080`
 
 `fly -t jassoft set-pipeline -p DashVid.io -c DashVid.yml --load-vars-from secrets.yml`
 
