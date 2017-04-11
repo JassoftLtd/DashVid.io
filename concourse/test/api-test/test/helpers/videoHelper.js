@@ -1,7 +1,7 @@
 var AWS = require('aws-sdk');
 var apigClientFactory = require('aws-api-gateway-client')
 
-exports.createVideo  = function (user, fileName, fileType) {
+exports.createVideo  = function (user, cameraKey, fileName, fileType) {
     var config = {
         invokeUrl: process.env.DASHVID_API_ADDRESS,
         accessKey: user.credentials.accessKeyId,
@@ -20,7 +20,8 @@ exports.createVideo  = function (user, fileName, fileType) {
     var additionalParams = {};
     var body = {
         fileName: fileName,
-        fileType: fileType
+        fileType: fileType,
+        cameraKey: cameraKey
     };
 
     return apigClient.invokeApi(params, pathTemplate, method, additionalParams, body)
