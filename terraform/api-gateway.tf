@@ -65,7 +65,8 @@ resource "aws_api_gateway_deployment" "DevDeployment" {
     "module.ApiGatewayLambda-addCard",
     "module.ApiGatewayLambda-getVideos",
     "module.ApiGatewayLambda-createVideo",
-    "module.ApiGatewayLambda-getVideo"
+    "module.ApiGatewayLambda-getVideo",
+    "module.ApiGatewayLambda-getCameras"
   ]
   rest_api_id = "${aws_api_gateway_rest_api.DashCamAPI.id}"
   stage_name = "Dev"
