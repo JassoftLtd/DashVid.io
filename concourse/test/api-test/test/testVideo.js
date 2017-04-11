@@ -22,7 +22,7 @@ describe('Video', function () {
                     return cameraHelper.getCameras(user)
                         .then(function (result) {
                             console.log(JSON.stringify(result.data))
-                            return videoHelper.createVideo(user, result.data[0].cameraKey, "01291238_0160.MP4", ".MP4")
+                            return videoHelper.createVideo(user, result.data[0].CameraKey, "01291238_0160.MP4", ".MP4")
                                 .then(function (result) {
                                     assert(result.data.url);
 
@@ -72,7 +72,7 @@ describe('Video', function () {
 
                     return cameraHelper.getCameras(user)
                         .then(function (result) {
-                            return videoHelper.createVideo(user, result.data[0].cameraKey, "01291238_0160.MP4", ".MP4")
+                            return videoHelper.createVideo(user, result.data[0].CameraKey, "01291238_0160.MP4", ".MP4")
                                 .then(function (result) {
                                     assert(result.data.url);
 
@@ -116,7 +116,7 @@ describe('Video', function () {
 
                     return cameraHelper.getCameras(user)
                         .then(function (result) {
-                            return videoHelper.createVideo(user, result.data[0].cameraKey, "01291238_0160.MP4", ".MP4")
+                            return videoHelper.createVideo(user, result.data[0].CameraKey, "01291238_0160.MP4", ".MP4")
                                 .then(function (result) {
                                     assert(result.data.url);
 
