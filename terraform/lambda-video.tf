@@ -26,7 +26,6 @@ resource "aws_lambda_function" "createVideo" {
     variables = {
       plan_bucket_free = "${aws_s3_bucket.dash-cam-videos-free-bucket.bucket}"
       plan_bucket_standard = "${aws_s3_bucket.dash-cam-videos-standard-bucket.bucket}"
-      plan_bucket_premium = "${aws_s3_bucket.dash-cam-videos-premium-bucket.bucket}"
     }
   }
 }
@@ -62,14 +61,6 @@ resource "aws_lambda_permission" "uploadedVideo_allow_standard_bucket" {
   function_name = "${aws_lambda_function.uploadedVideo.arn}"
   principal = "s3.amazonaws.com"
   source_arn = "${aws_s3_bucket.dash-cam-videos-standard-bucket.arn}"
-}
-
-resource "aws_lambda_permission" "uploadedVideo_allow_premium_bucket" {
-  statement_id = "AllowExecutionFromPremiumS3Bucket"
-  action = "lambda:InvokeFunction"
-  function_name = "${aws_lambda_function.uploadedVideo.arn}"
-  principal = "s3.amazonaws.com"
-  source_arn = "${aws_s3_bucket.dash-cam-videos-premium-bucket.arn}"
 }
 
 // Video GET
@@ -110,12 +101,4 @@ resource "aws_lambda_permission" "expiredVideo_allow_standard_bucket" {
   function_name = "${aws_lambda_function.expiredVideo.arn}"
   principal = "s3.amazonaws.com"
   source_arn = "${aws_s3_bucket.dash-cam-videos-standard-bucket.arn}"
-}
-
-resource "aws_lambda_permission" "expiredVideo_allow_premium_bucket" {
-  statement_id = "AllowExecutionFromPremiumS3BucketForExpiredVideo"
-  action = "lambda:InvokeFunction"
-  function_name = "${aws_lambda_function.expiredVideo.arn}"
-  principal = "s3.amazonaws.com"
-  source_arn = "${aws_s3_bucket.dash-cam-videos-premium-bucket.arn}"
 }

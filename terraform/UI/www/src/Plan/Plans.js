@@ -44,24 +44,6 @@ class Plans extends Component {
                         <button className="button-choose pure-button" onClick={() => this.onPlanSelect('standard').bind(this)}>Choose</button>
                     </div>
                 </div>
-
-                <div className="pure-u-1 pure-u-md-1-3">
-                    <div className="pricing-table pricing-table-premium">
-                        <div className="pricing-table-header">
-                            <h2>Premium</h2>
-
-                            <span className="pricing-table-price">
-                            £18 <span>per month</span>
-                        </span>
-                        </div>
-
-                        <ul className="pricing-table-list">
-                            <li>60 Days video retention</li>
-                        </ul>
-
-                        <button className="button-choose pure-button" onClick={() => this.onPlanSelect('premium').bind(this)}>Choose</button>
-                    </div>
-                </div>
             </div>
         );
     }

@@ -28,8 +28,7 @@ data "aws_iam_policy_document" "IamForVideoTranscoder" {
 //    ],
 //    "resources" = [
 //      "arn:aws:s3:::${aws_s3_bucket.dash-cam-videos-free-bucket.bucket}/*",
-//      "arn:aws:s3:::${aws_s3_bucket.dash-cam-videos-standard-bucket.bucket}/*",
-//      "arn:aws:s3:::${aws_s3_bucket.dash-cam-videos-premium-bucket.bucket}/*"
+//      "arn:aws:s3:::${aws_s3_bucket.dash-cam-videos-standard-bucket.bucket}/*"
 //    ]
 //  }
 

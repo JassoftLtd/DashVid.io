@@ -17,8 +17,12 @@ resource "aws_s3_bucket" "dash-cam-videos-free-bucket-transcoded" {
         prefix = "/"
         enabled = true
 
+        transition {
+            days = 30
+            storage_class = "STANDARD_IA"
+        }
         expiration {
-            days = 7
+            days = 60
         }
     }
 }
@@ -39,8 +43,12 @@ resource "aws_s3_bucket" "dash-cam-videos-free-bucket-thumbnails" {
         prefix = "/"
         enabled = true
 
+        transition {
+            days = 30
+            storage_class = "STANDARD_IA"
+        }
         expiration {
-            days = 7
+            days = 60
         }
     }
 }
