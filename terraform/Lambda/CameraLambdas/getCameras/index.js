@@ -42,6 +42,8 @@ exports.handler = function(event, context) {
                 });
         }
 
+        console.log("Cameras: " + JSON.stringify(responseBody))
+
 		var response = {
 			statusCode: responseCode,
 			headers: {
