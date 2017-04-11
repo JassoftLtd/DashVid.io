@@ -22,40 +22,37 @@ exports.handler = function (event, context) {
     var currentUser = event.requestContext.identity.cognitoIdentityId.split(':')[1];
     var email = event.requestContext.identity.cognitoAuthenticationProvider.split(':').pop();
     var fileExtension = payload.fileName.split('.').pop();
-    const _key = currentUser + '/' + generatedId + '.' + fileExtension;
 
-    getUserPlan(email, function (err, plan) {
-        if (err) {
-            context.fail();
-        }
-
+    getUserPlan(email, function (plan) {
         let bucket = process.env['plan_bucket_' + plan.toLowerCase()];
 
-        var s3 = new AWS.S3({
-            apiVersion: '2006-03-01',
-            useAccelerateEndpoint: true
-        });
+        getCameraId(email, payload.cameraKey, function (cameraId) {
+            var s3 = new AWS.S3({
+                apiVersion: '2006-03-01',
+                useAccelerateEndpoint: true
+            });
 
-        const url = s3.getSignedUrl('putObject', {
-            Bucket: bucket,
-            Key: _key,
-            Expires: signedUrlExpireSeconds,
-            ContentType: 'text/plain;charset=UTF-8'
-        });
+            const url = s3.getSignedUrl('putObject', {
+                Bucket: bucket,
+                Key: currentUser + '/' + cameraId + '/' + generatedId + '.' + fileExtension,
+                Expires: signedUrlExpireSeconds,
+                ContentType: 'text/plain;charset=UTF-8'
+            });
 
-        var responseBody = {
-            Id: generatedId,
-            url: url
-        };
-        var response = {
-            statusCode: responseCode,
-            headers: {
-                'Access-Control-Allow-Origin': '*'
-            },
-            body: JSON.stringify(responseBody)
-        };
-        console.log("response: " + JSON.stringify(response));
-        context.succeed(response);
+            var responseBody = {
+                Id: generatedId,
+                url: url
+            };
+            var response = {
+                statusCode: responseCode,
+                headers: {
+                    'Access-Control-Allow-Origin': '*'
+                },
+                body: JSON.stringify(responseBody)
+            };
+            console.log("response: " + JSON.stringify(response));
+            context.succeed(response);
+        })
     });
 
 };
@@ -78,17 +75,52 @@ function getUserPlan(email, fn) {
     }, function (err, data) {
         if (err) {
             console.error("User not found: " + JSON.stringify(err));
-            fn('User not found', null);
+            context.fail()
         }
         else {
             if (data.Count > 1) {
                 console.error("User had multiple active Subscriptions: " + JSON.stringify(data));
-                fn('User had multiple active Subscriptions', null); // User not found
+                context.fail()
             }
 
             var plan = data.Items[0].Plan;
             console.log("User plan is " + plan);
-            fn(null, plan);
+            fn(plan);
+        }
+    });
+}
+
+
+
+function getCameraId(email, cameraKey, fn) {
+    console.log('Getting camera for key: ' + cameraKey);
+
+    dynamodb.query({
+        KeyConditionExpression: "#user = :user",
+        FilterExpression: '#cameraKey = :cameraKey',
+        ExpressionAttributeNames: {
+            "#user": "User",
+            "#cameraKey": "CameraKey",
+        },
+        ExpressionAttributeValues: {
+            ":user": email,
+            ":cameraKey": cameraKey
+        },
+        "TableName": "Cameras"
+    }, function (err, data) {
+        if (err) {
+            console.error("Camera not found for User");
+            context.fail();
+        }
+        else {
+            if (data.Count > 1) {
+                console.error("User has multiple cameras with same key? This should not happen: " + JSON.stringify(data));
+                context.fail();
+            }
+
+            let cameraId = data.Items[0].Id;
+            console.log("Camera Id is " + cameraId);
+            fn(cameraId);
         }
     });
 }

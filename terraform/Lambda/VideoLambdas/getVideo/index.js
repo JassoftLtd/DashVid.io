@@ -12,8 +12,6 @@ exports.handler = function(event, context) {
 	console.log("request: " + JSON.stringify(event));
 
 	var videoId = event.pathParameters["id"];
-    var currentUser = event.requestContext.identity.cognitoIdentityId.split(':')[1];
-
 
 	dynamodb.get({
 		TableName: "Videos",

@@ -2,6 +2,8 @@
 const AWS = require('aws-sdk');
 const crypto = require('crypto');
 
+var uuid = require('node-uuid');
+
 // Get reference to AWS clients
 const dynamodb = new AWS.DynamoDB.DocumentClient();
 const ses = new AWS.SES();
@@ -117,6 +119,29 @@ function storePlan(email, plan, token, fn) {
 	});
 }
 
+function createCamera(email, fn) {
+
+    let generatedId = uuid.v1();
+
+    console.log('Creating Camera: ' + generatedId);
+
+	dynamodb.put({
+		TableName: process.env.cameras_db_table,
+		Item: {
+			Id: generatedId,
+			User: email,
+            CameraKey: uuid.v1(),
+            CameraName: 'Camera 1',
+		}
+	}, function(err, data) {
+		if (err) {
+            responseError.body = new Error('Error creating Camera: ' + err);
+            context.fail(responseError);
+		}
+		else fn(email);
+	});
+}
+
 function sendVerificationEmail(email, token, fn) {
 
     if(process.env.email_disabled === 'false') {
@@ -169,20 +194,22 @@ exports.handler = function(event, context) {
 	computeHash(clearPassword, function(salt, hash) {
 		storeUser(email, hash, salt, function(token) {
 			storePlan(email, plan, token, function (email, token) {
-				sendVerificationEmail(email, token, function(err, data) {
-					if (err) {
-						console.error(err);
-						responseError.body = new Error('Error in sendVerificationEmail: ' + err);
-						context.fail(responseError);
-					} else {
-						responseSuccess.body = JSON.stringify({
-							created: true
-						});
+				createCamera(email, function (email) {
+					sendVerificationEmail(email, token, function(err, data) {
+						if (err) {
+							console.error(err);
+							responseError.body = new Error('Error in sendVerificationEmail: ' + err);
+							context.fail(responseError);
+						} else {
+							responseSuccess.body = JSON.stringify({
+								created: true
+							});
 
-						console.log("response: " + JSON.stringify(responseSuccess));
-						context.succeed(responseSuccess);
-					}
-				});
+							console.log("response: " + JSON.stringify(responseSuccess));
+							context.succeed(responseSuccess);
+						}
+					});
+                })
 			});
 		});
 	});

@@ -22,11 +22,12 @@ exports.handler = function(event, context) {
 		var bucket = record.s3.bucket.name;
 		var key = record.s3.object.key;
 
-        //Extract the user from the key
-        var user = /[^/]*/.exec(key)[0];
+		let keyParts = key.split('/');
 
-		//Extract the videoId from the key
-		var videoId = /(.+?)(\.[^.]*$|$)/.exec(/[^/]*$/.exec(key)[0])[1];
+        //Extract the parts from the key
+        var user = keyParts[0];
+        var cameraId = keyParts[1];
+        var videoId = keyParts[2].split('.')[0];
 
         // TODO, validate the uploaded file
 
@@ -83,6 +84,7 @@ exports.handler = function(event, context) {
                         Item: {
                             Id: videoId,
                             User: user,
+                            CameraId: cameraId,
                             Uploaded: new Date().getTime(),
                             VideoStatus: "Uploaded",
                             Bucket: bucket,

@@ -90,7 +90,8 @@ data "aws_iam_policy_document" "IamForCreateVideoLambda" {
       "dynamodb:Query"
     ],
     "resources" = [
-      "${aws_dynamodb_table.subscriptions-table.arn}"
+      "${aws_dynamodb_table.subscriptions-table.arn}",
+      "${aws_dynamodb_table.cameras-table.arn}"
     ]
   }
 

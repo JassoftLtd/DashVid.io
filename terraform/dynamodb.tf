@@ -71,12 +71,23 @@ resource "aws_dynamodb_table" "cameras-table" {
     type = "S"
   }
   attribute {
+    name = "CameraKey"
+    type = "S"
+  }
+  attribute {
     name = "User"
     type = "S"
   }
   global_secondary_index {
     name = "UserCameras"
     hash_key = "User"
+    write_capacity = 1
+    read_capacity = 1
+    projection_type = "ALL"
+  }
+  global_secondary_index {
+    name = "CameraKey"
+    hash_key = "CameraKey"
     write_capacity = 1
     read_capacity = 1
     projection_type = "ALL"

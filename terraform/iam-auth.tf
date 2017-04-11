@@ -295,7 +295,8 @@ data "aws_iam_policy_document" "LambdAuthCreateUser_LambdAuthCreateUser" {
         ],
         "resources" = [
             "${aws_dynamodb_table.users-table.arn}",
-            "${aws_dynamodb_table.subscriptions-table.arn}"
+            "${aws_dynamodb_table.subscriptions-table.arn}",
+            "${aws_dynamodb_table.cameras-table.arn}"
         ]
     }
 
