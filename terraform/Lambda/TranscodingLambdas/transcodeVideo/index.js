@@ -37,19 +37,9 @@ exports.handler = function(event, context) {
                     Outputs: [
                         {
                             Key: key.split('.')[0] + '.mp4',
-                            PresetId: '1351620000001-500030', // h264
-                            SegmentDuration: "30",
+                            PresetId: '1351620000001-100070', // System preset: Web
                         }
                     ],
-                    Playlists: [
-                        {
-                            Name: key.split('.')[0],
-                            Format: 'MPEG-DASH',
-                            OutputKeys: [
-                                key.split('.')[0] + '.mp4',
-                            ]
-                        }
-                    ]
                 };
 
                 elastictranscoder.createJob(params, function(err, data) {

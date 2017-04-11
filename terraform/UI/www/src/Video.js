@@ -63,10 +63,10 @@ class Video extends Component {
 var VideoList = React.createClass({
 
     getInitialState: function () {
-        return {videos: [], mounted: false};
+        return {data: [], mounted: false};
     },
 
-    loadContent: function (expectedVideos = []) {
+    loadContent: function (expectedVideos) {
 
         const _this = this;
 
@@ -93,30 +93,29 @@ var VideoList = React.createClass({
 
             apigClient.invokeApi(params, pathTemplate, method, additionalParams, body)
                 .then(function (result) {
-                    //This is where you would put a success callback
+                    _this.props.reloadedCallback();
+
                     _this.setState({
                         data: result.data,
                         mounted: true
                     });
 
-                    for(var i = 0; i < result.data.length; i++) {
+                    for (var i = 0; i < result.data.length; i++) {
                         let day = result.data[i]
-                        for(var o = 0; o < day.videos.length; o++) {
+                        for (var o = 0; o < day.videos.length; o++) {
                             let video = day.videos[o]
                             var index = expectedVideos.indexOf(video.Id);
 
-                            if(index > -1) {
+                            if (index > -1) {
                                 expectedVideos.splice(index, 1);
                             }
                         }
                     }
 
-                    if(expectedVideos.length = 0) {
-                        this.props.reloadedCallback();
-                    } else {
-                        setTimeout(function(expectedVideos) {
-                            this.loadContent(expectedVideos)
-                        }, 1000);
+                    if(expectedVideos && expectedVideos.length > 0) {
+                        setTimeout(function() {
+                            _this.loadContent(expectedVideos);
+                        }, 2000);
                     }
                 }).catch(function (result) {
                 //This is where you would put an error callback
