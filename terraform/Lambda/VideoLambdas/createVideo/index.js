@@ -52,7 +52,7 @@ exports.handler = function (event, context) {
             };
             console.log("response: " + JSON.stringify(response));
             context.succeed(response);
-        })
+        });
     });
 
 };
@@ -75,12 +75,12 @@ function getUserPlan(email, fn) {
     }, function (err, data) {
         if (err) {
             console.error("User not found: " + JSON.stringify(err));
-            context.fail()
+            context.fail();
         }
         else {
             if (data.Count > 1) {
                 console.error("User had multiple active Subscriptions: " + JSON.stringify(data));
-                context.fail()
+                context.fail();
             }
 
             var plan = data.Items[0].Plan;
