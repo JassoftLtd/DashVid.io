@@ -16,15 +16,20 @@ exports.handler = function(event, context) {
 
 	dynamodb.query({
 		IndexName: "UserCameras",
-		KeyConditionExpression:"User = :user",
-		ExpressionAttributeValues: {
-			":user":email,
-		},
+        KeyConditionExpression:"User = :user",
+        ExpressionAttributeNames: {
+            "#user":"User",
+        },
+        ExpressionAttributeValues: {
+            ":user":email,
+        },
 		TableName: "Cameras"
 	}, function(err, data) {
 		if (err) {
             return context.fail(err);
         }
+
+        console.log("Dynamo Result:" + JSON.stringify(data.Items))
 
         var responseBody = []
 
