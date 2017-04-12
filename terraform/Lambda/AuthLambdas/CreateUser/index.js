@@ -2,7 +2,7 @@
 const AWS = require('aws-sdk');
 const crypto = require('crypto');
 
-var uuid = require('node-uuid');
+const uuidV4 = require('uuid/v4');
 
 // Get reference to AWS clients
 const dynamodb = new AWS.DynamoDB.DocumentClient();
@@ -121,7 +121,7 @@ function storePlan(email, plan, token, fn) {
 
 function createCamera(email, fn) {
 
-    let generatedId = uuid.v1();
+    let generatedId = uuidV4();
 
     console.log('Creating Camera: ' + generatedId);
 
@@ -130,7 +130,7 @@ function createCamera(email, fn) {
 		Item: {
 			Id: generatedId,
 			User: email,
-            CameraKey: uuid.v1(),
+            CameraKey: uuidV4(),
             CameraName: 'Camera 1',
 		}
 	}, function(err, data) {

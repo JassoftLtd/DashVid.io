@@ -4,7 +4,7 @@ var AWS = require('aws-sdk');
 // Get reference to AWS clients
 var dynamodb = new AWS.DynamoDB.DocumentClient();
 
-var uuid = require('node-uuid');
+const uuidV4 = require('uuid/v4');
 
 exports.handler = function (event, context) {
     "use strict";
@@ -18,15 +18,15 @@ exports.handler = function (event, context) {
 
     const signedUrlExpireSeconds = 3600; // 1 hour
 
-    var generatedId = uuid.v1();
+    var generatedId = uuidV4();
     var currentUser = event.requestContext.identity.cognitoIdentityId.split(':')[1];
     var email = event.requestContext.identity.cognitoAuthenticationProvider.split(':').pop();
     var fileExtension = payload.fileName.split('.').pop();
 
-    getUserPlan(email, function (plan) {
+    getUserPlan(context, email, function (plan) {
         let bucket = process.env['plan_bucket_' + plan.toLowerCase()];
 
-        getCameraId(email, payload.cameraKey, function (cameraId) {
+        getCameraId(context, email, payload.cameraKey, function (cameraId) {
             var s3 = new AWS.S3({
                 apiVersion: '2006-03-01',
                 useAccelerateEndpoint: true
@@ -57,7 +57,7 @@ exports.handler = function (event, context) {
 
 };
 
-function getUserPlan(email, fn) {
+function getUserPlan(context, email, fn) {
     console.log('Getting plan for user: ' + email);
 
     dynamodb.query({
@@ -92,7 +92,7 @@ function getUserPlan(email, fn) {
 
 
 
-function getCameraId(email, cameraKey, fn) {
+function getCameraId(context, email, cameraKey, fn) {
     console.log('Getting camera for key: ' + cameraKey);
 
     dynamodb.query({
@@ -109,7 +109,7 @@ function getCameraId(email, cameraKey, fn) {
         "TableName": "Cameras"
     }, function (err, data) {
         if (err) {
-            console.error("Camera not found for User");
+            console.error("Camera not found for User: " + email);
             context.fail();
         }
         else {
