@@ -30,6 +30,8 @@ exports.handler = function(event, context) {
             return context.fail(err);
         }
 
+        console.log("Dynamo Result:" + JSON.stringify(data.Items))
+
         var responseBody = []
 
         for(var i = 0; i < data.Items.length; i++) {
