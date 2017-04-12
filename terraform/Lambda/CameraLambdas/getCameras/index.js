@@ -16,7 +16,7 @@ exports.handler = function(event, context) {
 
 	dynamodb.query({
 		IndexName: "UserCameras",
-        KeyConditionExpression:"User = :user",
+        KeyConditionExpression:"#user = :user",
         ExpressionAttributeNames: {
             "#user":"User",
         },
