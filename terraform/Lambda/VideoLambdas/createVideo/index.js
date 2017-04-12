@@ -110,7 +110,7 @@ function getCameraId(context, email, cameraKey, fn) {
         "TableName": "Cameras"
     }, function (err, data) {
         if (err) {
-            console.error("Camera not found for User: " + email);
+            console.error("Camera not found for User: " + email + " Error: " + err);
             context.fail();
         }
         else {
