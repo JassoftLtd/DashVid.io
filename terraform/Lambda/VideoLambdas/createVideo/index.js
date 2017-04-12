@@ -96,6 +96,7 @@ function getCameraId(context, email, cameraKey, fn) {
     console.log('Getting camera for key: ' + cameraKey);
 
     dynamodb.query({
+        IndexName: "UserCameras",
         KeyConditionExpression: "#user = :user",
         FilterExpression: '#cameraKey = :cameraKey',
         ExpressionAttributeNames: {
