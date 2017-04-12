@@ -13,7 +13,6 @@ exports.handler = function(event, context) {
 
     var email = event.requestContext.identity.cognitoAuthenticationProvider.split(':').pop();
 
-
     getUserPlan(email, function (err, plan, status) {
         if (err) {
             context.fail(err)

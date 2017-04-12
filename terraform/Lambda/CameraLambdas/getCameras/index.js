@@ -12,23 +12,19 @@ exports.handler = function(event, context) {
 
     console.log("event: " + JSON.stringify(event))
 
-	var currentUser = event.requestContext.identity.cognitoIdentityId.split(':')[1];
-
-	console.log("Getting cameras for user: " + currentUser)
+    var email = event.requestContext.identity.cognitoAuthenticationProvider.split(':').pop();
 
 	dynamodb.query({
 		IndexName: "UserCameras",
 		KeyConditionExpression:"User = :user",
 		ExpressionAttributeValues: {
-			":user":currentUser,
+			":user":email,
 		},
 		TableName: "Cameras"
 	}, function(err, data) {
 		if (err) {
             return context.fail(err);
         }
-
-        console.log("Dynamo Result:" + JSON.stringify(data.Items))
 
         var responseBody = []
 
