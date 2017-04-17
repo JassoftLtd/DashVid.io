@@ -208,7 +208,43 @@ var VideoList = React.createClass({
 var VideoAdd = React.createClass({
 
     getInitialState: function () {
-        return {uploadStatus: []};
+
+        const _this = this;
+
+        authUtils.runWithCredentials(function () {
+
+            var config = {
+                invokeUrl: api.getApiAddress(),
+                accessKey: AWS.config.credentials.accessKeyId,
+                secretKey: AWS.config.credentials.secretAccessKey,
+                sessionToken: AWS.config.credentials.sessionToken,
+                region: AWS.config.region
+            }
+            var apigClient = apigClientFactory.newClient(config);
+
+            console.log('Loading Cameras')
+
+            var params = {
+                //This is where any header, path, or querystring request params go. The key is the parameter named as defined in the API
+            };
+            // Template syntax follows url-template https://www.npmjs.com/package/url-template
+            var pathTemplate = '/v1/camera'
+            var method = 'GET';
+            var additionalParams = {};
+
+            return apigClient.invokeApi(params, pathTemplate, method, additionalParams)
+                .then(function (result) {
+                    console.log('Loaded Cameras: [' + result.data + ']')
+
+                    _this.setState({
+                        cameras: result.data
+                    });
+                });
+        });
+
+        return {
+            uploadStatus: []
+        };
     },
 
     getStatusIndex(file) {
@@ -262,16 +298,17 @@ var VideoAdd = React.createClass({
                 var additionalParams = {};
                 var body = {
                     fileName: file.name,
-                    fileType: file.type
+                    fileType: file.type,
+                    cameraKey: _this.state.CameraKey
                 };
 
                 apigClient.invokeApi(params, pathTemplate, method, additionalParams, body)
                     .then(function (result) {
                         console.log('Uploading video to URL: [' + result.data.url + ']')
 
-                        var videoId = result.data.Id
+                        var videoId = result.data.Id;
 
-                        this.myUploader = new S3Upload(file, result.data.url,
+                        new S3Upload(file, result.data.url,
                             function(percent, status, file) {
                                 var index = _this.getStatusIndex(file);
 
@@ -301,6 +338,10 @@ var VideoAdd = React.createClass({
         });
     },
 
+    handleSelectCamera (e) {
+        this.setState({CameraKey: e.target.value});
+    },
+
     render: function () {
         var uploading;
         if(this.state && this.state.uploadStatus && this.state.uploadStatus.length > 0) {
@@ -321,8 +362,21 @@ var VideoAdd = React.createClass({
             )
         }
 
+        let cameras
+
+        if(this.state.cameras) {
+            cameras = this.state.cameras.map(function (camera, i) {
+                return <option value={camera.CameraKey}>{camera.Name}</option>
+            });
+        }
+
         return (
             <div className="pure-g">
+                <div className="pure-u-22-24">
+                    <select name="CameraKey" onChange={this.handleSelectCamera}>
+                        {cameras}
+                    </select>
+                </div>
                 <div className="pure-u-1-24"/>
                 <div className="pure-u-22-24">
                     <Dropzone onDrop={this.onDrop} className="video-dropzone">
