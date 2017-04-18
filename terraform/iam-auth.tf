@@ -115,7 +115,7 @@ POLICY
 }
 
 resource "aws_iam_role" "LambdAuthLoginCameraKey" {
-    name               = "${var.environment_name}LambdAuthLogin"
+    name               = "${var.environment_name}LambdAuthLoginCameraKey"
     path               = "/"
     assume_role_policy = <<POLICY
 {
