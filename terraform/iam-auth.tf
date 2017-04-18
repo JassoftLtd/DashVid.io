@@ -213,22 +213,6 @@ resource "aws_iam_role_policy" "Cognito_LambdAuthAuth_Role_Cognito_LambdAuthAuth
       ]
     },
     {
-      "Effect": "Allow",
-      "Action": [
-        "lambda:InvokeFunction",
-        "iam:PassRole"
-      ],
-      "Resource": [
-        "${aws_lambda_function.createUser.arn}",
-        "${aws_lambda_function.verifyUser.arn}",
-        "${aws_lambda_function.changePassword.arn}",
-        "${aws_lambda_function.lostPassword.arn}",
-        "${aws_lambda_function.resetPassword.arn}",
-        "${aws_lambda_function.login.arn}",
-        "${aws_lambda_function.createUser.arn}"
-      ]
-    },
-    {
         "Effect": "Allow",
         "Action": [
             "execute-api:Invoke"
@@ -258,20 +242,6 @@ resource "aws_iam_role_policy" "Cognito_LambdAuthUnauth_Role_Cognito_LambdAuthUn
       ],
       "Resource": [
         "*"
-      ]
-    },
-    {
-      "Effect": "Allow",
-      "Action": [
-        "lambda:InvokeFunction",
-        "iam:PassRole"
-      ],
-      "Resource": [
-        "${aws_lambda_function.createUser.arn}",
-        "${aws_lambda_function.verifyUser.arn}",
-        "${aws_lambda_function.lostPassword.arn}",
-        "${aws_lambda_function.resetPassword.arn}",
-        "${aws_lambda_function.login.arn}"
       ]
     }
   ]
