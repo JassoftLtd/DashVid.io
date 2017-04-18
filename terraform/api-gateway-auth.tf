@@ -96,7 +96,7 @@ module "loginOptionsCORS" {
 }
 
 // /login/cameraKey OPTIONS
-module "loginOptionsCORS" {
+module "loginCameraKeyOptionsCORS" {
   source = "github.com/jonnyshaw89/terraform-api-gateway-cors-module"
   resource_name = "${aws_api_gateway_resource.LoginCameraKey.path}"
   resource_id = "${aws_api_gateway_resource.LoginCameraKey.id}"
