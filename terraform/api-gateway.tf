@@ -57,6 +57,7 @@ resource "aws_api_gateway_deployment" "DevDeployment" {
     "aws_api_gateway_rest_api.DashCamAPI",
     "module.ApiGatewayLambda-createUser",
     "module.ApiGatewayLambda-login",
+    "module.ApiGatewayLambda-loginCameraKey",
     "module.ApiGatewayLambda-changePassword",
     "module.ApiGatewayLambda-lostPassword",
     "module.ApiGatewayLambda-resetPassword",
