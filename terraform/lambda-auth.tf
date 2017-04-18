@@ -56,6 +56,23 @@ resource "aws_lambda_function" "login" {
   }
 }
 
+resource "aws_lambda_function" "loginCameraKey" {
+  filename = "${path.module}/Lambda/AuthLambdas/CameraKeyAuth.zip"
+  function_name = "CameraKeyAuth"
+  role = "${aws_iam_role.LambdAuthLoginCameraKey.arn}"
+  handler = "Login.handler"
+  runtime = "nodejs6.10"
+  timeout = "30"
+  memory_size = "256"
+  source_code_hash = "${base64sha256(file("${path.module}/Lambda/AuthLambdas/CameraKeyAuth.zip"))}"
+  environment {
+    variables = {
+      auth_identity_pool = "${var.aws_identity_pool}"
+      auth_developer_provider_name = "${var.auth_developer_provider_name}"
+    }
+  }
+}
+
 resource "aws_lambda_function" "lostPassword" {
   filename = "${path.module}/Lambda/AuthLambdas/LostPassword.zip"
   function_name = "LambdAuthLostPassword"

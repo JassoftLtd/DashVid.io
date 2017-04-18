@@ -24,6 +24,14 @@ resource "aws_api_gateway_resource" "Login" {
   path_part = "login"
 }
 
+// /login/cameraKey
+resource "aws_api_gateway_resource" "LoginCameraKey" {
+  depends_on = ["aws_api_gateway_rest_api.DashCamAPI", "aws_api_gateway_resource.Login"]
+  rest_api_id = "${aws_api_gateway_rest_api.DashCamAPI.id}"
+  parent_id = "${aws_api_gateway_resource.Login.id}"
+  path_part = "cameraKey"
+}
+
 // /changePassword
 resource "aws_api_gateway_resource" "ChangePassword" {
   depends_on = ["aws_api_gateway_rest_api.DashCamAPI", "aws_api_gateway_resource.Auth"]
@@ -87,6 +95,14 @@ module "loginOptionsCORS" {
   rest_api_id = "${aws_api_gateway_rest_api.DashCamAPI.id}"
 }
 
+// /login/cameraKey OPTIONS
+module "loginOptionsCORS" {
+  source = "github.com/jonnyshaw89/terraform-api-gateway-cors-module"
+  resource_name = "${aws_api_gateway_resource.LoginCameraKey.path}"
+  resource_id = "${aws_api_gateway_resource.LoginCameraKey.id}"
+  rest_api_id = "${aws_api_gateway_rest_api.DashCamAPI.id}"
+}
+
 // /login POST
 module "ApiGatewayLambda-login" {
   source = "github.com/jonnyshaw89/api-gateway-lambda-method"
@@ -96,6 +112,21 @@ module "ApiGatewayLambda-login" {
   aws_api_gateway_resource_path = "${aws_api_gateway_resource.Login.path}"
   aws_lambda_function_arn = "${aws_lambda_function.login.arn}"
   aws_lambda_function_name = "${aws_lambda_function.login.function_name}"
+  aws_region = "${var.aws_region}"
+  aws_account_id = "${data.aws_caller_identity.current.account_id}"
+  environment_name = "${var.environment_name}"
+  aws_api_gateway_method_authorization = "NONE"
+}
+
+// /login/cameraKey POST
+module "ApiGatewayLambda-loginCameraKey" {
+  source = "github.com/jonnyshaw89/api-gateway-lambda-method"
+  aws_api_gateway_method_http_method = "POST"
+  aws_api_gateway_rest_api = "${aws_api_gateway_rest_api.DashCamAPI.id}"
+  aws_api_gateway_resource_id = "${aws_api_gateway_resource.LoginCameraKey.id}"
+  aws_api_gateway_resource_path = "${aws_api_gateway_resource.LoginCameraKey.path}"
+  aws_lambda_function_arn = "${aws_lambda_function.loginCameraKey.arn}"
+  aws_lambda_function_name = "${aws_lambda_function.loginCameraKey.function_name}"
   aws_region = "${var.aws_region}"
   aws_account_id = "${data.aws_caller_identity.current.account_id}"
   environment_name = "${var.environment_name}"

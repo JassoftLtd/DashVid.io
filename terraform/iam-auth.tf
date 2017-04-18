@@ -114,6 +114,26 @@ resource "aws_iam_role" "LambdAuthLogin" {
 POLICY
 }
 
+resource "aws_iam_role" "LambdAuthLoginCameraKey" {
+    name               = "${var.environment_name}LambdAuthLogin"
+    path               = "/"
+    assume_role_policy = <<POLICY
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "",
+      "Effect": "Allow",
+      "Principal": {
+        "Service": "lambda.amazonaws.com"
+      },
+      "Action": "sts:AssumeRole"
+    }
+  ]
+}
+POLICY
+}
+
 resource "aws_iam_role" "LambdAuthLostPassword" {
     name               = "${var.environment_name}LambdAuthLostPassword"
     path               = "/"
@@ -344,6 +364,40 @@ resource "aws_iam_role_policy" "LambdAuthLogin_LambdAuthLogin" {
       ],
       "Effect": "Allow",
       "Resource": "${aws_dynamodb_table.users-table.arn}"
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "cognito-identity:GetOpenIdTokenForDeveloperIdentity"
+      ],
+      "Resource": "arn:aws:cognito-identity:${var.aws_region}:${data.aws_caller_identity.current.account_id}:identitypool/${var.aws_identity_pool}"
+    },
+    {
+      "Sid": "",
+      "Resource": "*",
+      "Action": [
+        "logs:*"
+      ],
+      "Effect": "Allow"
+    }
+  ]
+}
+POLICY
+}
+
+resource "aws_iam_role_policy" "LambdAuthLogin_LambdAuthLoginCameraKey" {
+    name   = "${var.environment_name}LambdAuthLoginCameraKey"
+    role   = "${aws_iam_role.LambdAuthLoginCameraKey.name}"
+    policy = <<POLICY
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Action": [
+        "dynamodb:GetItem"
+      ],
+      "Effect": "Allow",
+      "Resource": "${aws_dynamodb_table.cameras-table.arn}/index/UserCameras"
     },
     {
       "Effect": "Allow",
