@@ -26,16 +26,16 @@ function computeHash(password, salt, fn) {
 	// Bytesize
 	var len = 128;
 	var iterations = 4096;
-	var digest = 'SHA1';
+	var digest = 'SHA512';
 
 	if (3 == arguments.length) {
-		crypto.pbkdf2(password, salt, iterations, len, 'SHA1', digest, fn);
+		crypto.pbkdf2(password, salt, iterations, len, digest, fn);
 	} else {
 		fn = salt;
 		crypto.randomBytes(len, function(err, salt) {
 			if (err) return fn(err);
 			salt = salt.toString('base64');
-			crypto.pbkdf2(password, salt, iterations, len, digest, 'SHA1', function(err, derivedKey) {
+			crypto.pbkdf2(password, salt, iterations, len, digest, function(err, derivedKey) {
                 if (err) {
                     responseError.body = new Error('Error in hash: ' + err);
                     context.fail(responseError);
