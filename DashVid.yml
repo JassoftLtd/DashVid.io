@@ -159,6 +159,7 @@ jobs:
       TF_VAR_stripe_api_key: {{stripe_api_key_test}}
       REACT_APP_STRIPE_PUBLISHABLE_KEY: pk_live_IYFID6k8KNK8uTVSeKQ6Ync5
       REACT_APP_AWS_IDENTITY_POOL: {{aws_identity_pool}}
+      REACT_APP_GA_TRACKING_CODE: {{ga_tracking_code}}
       AWS_ACCESS_KEY_ID: {{aws_access_key}}
       AWS_SECRET_ACCESS_KEY: {{aws_secret_key}}
     on_failure:
