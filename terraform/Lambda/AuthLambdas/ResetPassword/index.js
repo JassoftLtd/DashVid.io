@@ -25,7 +25,7 @@ function computeHash(password, salt, fn) {
 	var iterations = 4096;
 
 	if (3 == arguments.length) {
-		crypto.pbkdf2(password, salt, iterations, len, function(err, derivedKey) {
+		crypto.pbkdf2(password, salt, iterations, len, 'SHA1', function(err, derivedKey) {
 			if (err) return fn(err);
 			else fn(null, salt, derivedKey.toString('base64'));
 		});

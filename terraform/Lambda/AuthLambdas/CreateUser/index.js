@@ -29,13 +29,13 @@ function computeHash(password, salt, fn) {
 	var digest = 'SHA1';
 
 	if (3 == arguments.length) {
-		crypto.pbkdf2(password, salt, iterations, len, digest, fn);
+		crypto.pbkdf2(password, salt, iterations, len, 'SHA1', digest, fn);
 	} else {
 		fn = salt;
 		crypto.randomBytes(len, function(err, salt) {
 			if (err) return fn(err);
 			salt = salt.toString('base64');
-			crypto.pbkdf2(password, salt, iterations, len, digest, function(err, derivedKey) {
+			crypto.pbkdf2(password, salt, iterations, len, digest, 'SHA1', function(err, derivedKey) {
                 if (err) {
                     responseError.body = new Error('Error in hash: ' + err);
                     context.fail(responseError);
