@@ -142,13 +142,10 @@ exports.getLoggedInUser = function (plan="Free") {
 
     return exports.signup(email, password, plan)
         .then(function (result) {
-            console.log('User Signed Up')
             return exports.verify(email, exports.tokenOverride)
                 .then(function (result) {
-                    console.log('User Verified')
                     return exports.login(email, password)
                         .then(function (result) {
-                            console.log('User Logged In')
 
                             var params = {
                                 IdentityPoolId: process.env.aws_identity_pool,
@@ -174,9 +171,6 @@ exports.getLoggedInUser = function (plan="Free") {
                                 });
 
 
-                        })
-                        .catch(function (error) {
-                            console.error(error)
                         });
                 });
         });
