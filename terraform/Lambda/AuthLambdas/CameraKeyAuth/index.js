@@ -20,7 +20,7 @@ var responseError = {
     }
 };
 
-function getUserByCameraKey(cameraKey, fn) {
+function getUserByCameraKey(context, cameraKey, fn) {
     console.log('Getting camera for key: ' + cameraKey);
 
     dynamodb.query({
@@ -71,7 +71,7 @@ exports.handler = function (event, context) {
 
     var cameraKey = payload.cameraKey;
 
-    getUserByCameraKey(cameraKey, function (email) {
+    getUserByCameraKey(context, cameraKey, function (email) {
         // Login ok
         console.log('User logged in: ' + email);
         getToken(email, function (err, identityId, token) {
