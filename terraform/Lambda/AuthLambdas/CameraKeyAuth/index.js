@@ -44,6 +44,8 @@ function getUserByCameraKey(context, cameraKey, fn) {
                 context.fail();
             }
 
+            console.log('DB Data: ', JSON.stringify(data.Items));
+
             let email = data.Items[0].User;
             console.log("User is " + email);
             fn(email);
