@@ -367,7 +367,7 @@ resource "aws_iam_role_policy" "LambdAuthLogin_LambdAuthLoginCameraKey" {
         "dynamodb:Query"
       ],
       "Effect": "Allow",
-      "Resource": "${aws_dynamodb_table.cameras-table.arn}/index/UserCameras"
+      "Resource": "${aws_dynamodb_table.cameras-table.arn}/index/CameraKey"
     },
     {
       "Effect": "Allow",

@@ -24,7 +24,7 @@ function getUserByCameraKey(context, cameraKey, fn) {
     console.log('Getting camera for key: ' + cameraKey);
 
     dynamodb.query({
-        IndexName: "UserCameras",
+        IndexName: "CameraKey",
         KeyConditionExpression: '#cameraKey = :cameraKey',
         ExpressionAttributeNames: {
             "#cameraKey": "CameraKey",
