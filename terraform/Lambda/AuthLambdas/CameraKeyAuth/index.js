@@ -3,7 +3,7 @@ var AWS = require('aws-sdk');
 var crypto = require('crypto');
 
 // Get reference to AWS clients
-var dynamodb = new AWS.DynamoDB();
+var dynamodb = new AWS.DynamoDB.DocumentClient();
 var cognitoidentity = new AWS.CognitoIdentity();
 
 var responseSuccess = {
