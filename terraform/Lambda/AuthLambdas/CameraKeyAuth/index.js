@@ -43,6 +43,10 @@ function getUserByCameraKey(context, cameraKey, fn) {
                 console.error("User has multiple cameras with same key? This should not happen: " + JSON.stringify(data));
                 context.fail();
             }
+            if (data.Count === 0) {
+                console.error("User not found with camera key");
+                context.fail();
+            }
 
             console.log('DB Data: ', JSON.stringify(data.Items));
 
