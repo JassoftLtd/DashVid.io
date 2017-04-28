@@ -20,7 +20,7 @@ var responseError = {
 	}
 };
 
-function getUser(event, email, fn) {
+function getUser(email, fn) {
 	dynamodb.getItem({
 		TableName: process.env.auth_db_table,
 		Key: {
@@ -40,7 +40,7 @@ function getUser(event, email, fn) {
 	});
 }
 
-function storeLostToken(event, email, fn) {
+function storeLostToken(email, fn) {
 	// Bytesize
 	var len = 128;
 	crypto.randomBytes(len, function(err, token) {
@@ -75,7 +75,7 @@ function storeLostToken(event, email, fn) {
 	});
 }
 
-function sendLostPasswordEmail(event, email, token, fn) {
+function sendLostPasswordEmail(email, token, fn) {
 
     if(!process.env.email_disabled) {
         var subject = 'Password Lost for ' + process.env.auth_application_name;
@@ -119,7 +119,7 @@ exports.handler = function(event, context) {
 
 	var email = payload.email;
 
-	getUser(event, email, function(err, emailFound) {
+	getUser(email, function(err, emailFound) {
 		if (err) {
 			responseError.body = new Error('Error in getUserFromEmail: ' + err)
 			context.fail(responseError);
@@ -131,12 +131,12 @@ exports.handler = function(event, context) {
 			console.log("response: " + JSON.stringify(responseSuccess))
 			context.succeed(responseSuccess);
 		} else {
-			storeLostToken(event, email, function(err, token) {
+			storeLostToken(email, function(err, token) {
 				if (err) {
 					responseError.body = new Error('Error in storeLostToken: ' + err)
 					context.fail(responseError);
 				} else {
-					sendLostPasswordEmail(event, email, token, function(err, data) {
+					sendLostPasswordEmail(email, token, function(err, data) {
 						if (err) {
 							responseError.body = new Error('Error in sendLostPasswordEmail: ' + err)
 							context.fail(responseError);

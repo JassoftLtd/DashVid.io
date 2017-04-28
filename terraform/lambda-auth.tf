@@ -60,7 +60,7 @@ resource "aws_lambda_function" "loginCameraKey" {
   filename = "${path.module}/Lambda/AuthLambdas/CameraKeyAuth.zip"
   function_name = "CameraKeyAuth"
   role = "${aws_iam_role.LambdAuthLoginCameraKey.arn}"
-  handler = "Login.handler"
+  handler = "CameraKeyAuth.handler"
   runtime = "nodejs6.10"
   timeout = "30"
   memory_size = "256"
