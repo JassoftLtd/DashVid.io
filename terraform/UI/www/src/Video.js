@@ -237,7 +237,8 @@ var VideoAdd = React.createClass({
                     console.log('Loaded Cameras: [' + result.data + ']')
 
                     _this.setState({
-                        cameras: result.data
+                        cameras: result.data,
+                        CameraKey: result.data[0].CameraKey
                     });
                 });
         });
