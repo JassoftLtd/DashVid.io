@@ -25,6 +25,11 @@ variable "environment_subdomain" {
   default     = ""
 }
 
+variable "domain_name" {
+  description = "The Domain name."
+  default     = "dashvid.io"
+}
+
 # DNS
 variable "dns_zone_id" {
   description = "Amazon Route53 DNS zone identifier"
