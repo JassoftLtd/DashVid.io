@@ -93,3 +93,9 @@ resource "aws_api_gateway_domain_name" "DashCamAPI" {
 
   certificate_arn        = "${var.api_certificate_arn}"
 }
+
+resource "aws_api_gateway_base_path_mapping" "DashCamAPI" {
+  api_id      = "${aws_api_gateway_rest_api.DashCamAPI.id}"
+  stage_name  = "${aws_api_gateway_deployment.DevDeployment.stage_name}"
+  domain_name = "${aws_api_gateway_domain_name.DashCamAPI.domain_name}"
+}
