@@ -21,3 +21,7 @@ terraform {
 output "api-address" {
     value = "https://${aws_api_gateway_deployment.DevDeployment.rest_api_id}.execute-api.${var.aws_region}.amazonaws.com/${aws_api_gateway_deployment.DevDeployment.stage_name}"
 }
+
+output "ui-address" {
+    value = "${aws_route53_record.DashCamWeb.fqdn}"
+}
