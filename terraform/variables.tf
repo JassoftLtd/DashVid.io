@@ -30,7 +30,7 @@ variable "application_name" {
 
 variable "domain_name" {
   description = "The Domain name."
-  default     = "DashVid.io"
+  default     = "dashvid.io"
 }
 
 variable "auth_developer_provider_name" {
