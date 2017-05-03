@@ -7,9 +7,8 @@ provider "aws" {
 
 data "aws_caller_identity" "current" {}
 
-data "terraform_remote_state" "remote-state" {
-    backend = "s3"
-    config {
+terraform {
+    backend "s3" {
         bucket = "${var.aws_terraform_state_bucket}"
         key = "terraform.tfstate"
         region = "eu-west-1"
