@@ -26,4 +26,4 @@ run:
     terraform plan
     ls -ltrh .terraform
     terraform apply
-    echo "export DASHVID_API_ADDRESS=$(terraform output api-address) export REACT_APP_API_ADRESS=$(terraform output api-address)" > ../../api-exports/exports
+    echo "export DASHVID_API_ADDRESS=$(terraform output api-address)" > ../../api-exports/exports
