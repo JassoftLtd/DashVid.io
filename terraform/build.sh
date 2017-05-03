@@ -4,8 +4,6 @@ set -e
 # Reduce npm logging
 npm config set loglevel warn
 
-#terraform get -update
-
 for directory in $(find ./Lambda/* -maxdepth 2 -name package.json); do
 echo "Testing: " ${directory/package.json/}
  pushd ${directory/package.json/}
