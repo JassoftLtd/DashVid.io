@@ -16,7 +16,7 @@ resource "aws_lambda_function" "createUser" {
       subscriptions_db_table = "${aws_dynamodb_table.subscriptions-table.name}"
       cameras_db_table = "${aws_dynamodb_table.cameras-table.name}"
       auth_application_name = "${var.application_name}"
-      auth_verification_page = "http://DashVid.io/verify"
+      auth_verification_page = "http://${var.environment_subdomain}${var.dns_zone_name}/verify"
       auth_email_from_address = "${var.auth_email_from_address}"
     }
   }
@@ -88,7 +88,7 @@ resource "aws_lambda_function" "lostPassword" {
       email_disabled = "${var.email_disabled}"
       token_override = "${var.token_override}"
       auth_application_name = "${var.application_name}"
-      auth_reset_page = "http://DashVid.io/reset"
+      auth_reset_page = "http://${var.environment_subdomain}${var.dns_zone_name}/reset"
       auth_email_from_address = "${var.auth_email_from_address}"
     }
   }

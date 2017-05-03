@@ -62,3 +62,17 @@ variable "bucket_force_destroy" {
   description = "force destruction of S3 buckets even if they have content"
   default     = false
 }
+
+# Certificate
+variable "api_certificate_arn" {
+  description = "The ARN of the certificate to be used by api gateway"
+}
+
+# DNS
+variable "dns_zone_id" {
+  description = "Amazon Route53 DNS zone identifier"
+}
+
+variable "dns_zone_name" {
+  description = "Amazon Route53 DNS zone name"
+}

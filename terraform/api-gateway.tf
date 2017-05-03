@@ -87,3 +87,9 @@ resource "aws_api_gateway_resource" "v1" {
   parent_id = "${aws_api_gateway_rest_api.DashCamAPI.root_resource_id}"
   path_part = "v1"
 }
+
+resource "aws_api_gateway_domain_name" "DashCamAPI" {
+  domain_name = "${var.environment_subdomain}api.${var.dns_zone_name}"
+
+  certificate_arn        = "${var.api_certificate_arn}"
+}

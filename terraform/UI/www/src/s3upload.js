@@ -3,12 +3,6 @@
  * https://github.com/flyingsparx/NodeDirectUploader
  */
 
-S3Upload.prototype.server = '';
-S3Upload.prototype.signingUrl = '/sign-s3';
-S3Upload.prototype.signingUrlMethod = 'GET';
-S3Upload.prototype.fileElement = null;
-S3Upload.prototype.files = null;
-
 S3Upload.prototype.onFinishS3Put = function(signResult, file) {
     return console.log('base.onFinishS3Put()', signResult.publicUrl);
 };
