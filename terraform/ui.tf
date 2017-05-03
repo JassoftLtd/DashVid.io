@@ -1,16 +1,3 @@
-provider "aws" {
-    region = "${var.aws_region}",
-    access_key = "${var.aws_access_key}",
-    secret_key = "${var.aws_secret_key}"
-}
-
-terraform {
-    backend "s3" {
-        key = "ui-terraform.tfstate"
-        region = "eu-west-1"
-    }
-}
-
 // UI
 resource "aws_s3_bucket" "dashvid-io-bucket" {
     bucket = "${var.environment_name}dashvid.io"

@@ -24,7 +24,7 @@ jobs:
   - get: source-code
     trigger: true
 
-  - task: Test Deploy API
+  - task: Test Deploy
     file: source-code/concourse/build-api.yml
     params:
       TF_VAR_aws_terraform_state_bucket: dashvid-terraform-state-tests
@@ -40,6 +40,7 @@ jobs:
       TF_VAR_aws_identity_pool: {{aws_identity_pool_test}}
       TF_VAR_dns_zone_id: {{dns_zone_id}}
       TF_VAR_dns_zone_name: {{dns_zone_name}}
+      TF_VAR_acm_certificate_arn: {{acm_certificate_arn_test}}
       TF_VAR_api_certificate_arn: {{api_certificate_arn_test}}
       AWS_ACCESS_KEY_ID: {{aws_access_key}}
       AWS_SECRET_ACCESS_KEY: {{aws_secret_key}}
@@ -49,32 +50,6 @@ jobs:
         channel: '#build-notifications'
         text: |
           Test API Deploy Failed. Check it out at:
-          http://concourse.jassoft.co.uk:8080/builds/$BUILD_ID
-
-  - task: Test Deploy UI
-    file: source-code/concourse/build-ui.yml
-    params:
-      TF_VAR_aws_terraform_state_bucket: dashvid-terraform-state-tests
-      TF_VAR_aws_region: us-east-1
-      TF_VAR_environment_name: test-
-      TF_VAR_environment_subdomain: test.
-      TF_VAR_dns_zone_id: {{dns_zone_id}}
-      TF_VAR_dns_zone_name: {{dns_zone_name}}
-      TF_VAR_acm_certificate_arn: {{acm_certificate_arn_test}}
-      TF_VAR_aws_access_key: {{aws_access_key}}
-      TF_VAR_aws_secret_key: {{aws_secret_key}}
-      TF_VAR_stripe_api_key: {{stripe_api_key_test}}
-      REACT_APP_STRIPE_PUBLISHABLE_KEY: pk_test_ebVZiJokoWIbXD1TNNZ8lj2A
-      REACT_APP_AWS_IDENTITY_POOL: {{aws_identity_pool_test}}
-      REACT_APP_API_ADRESS: test-api.dashvid.io
-      AWS_ACCESS_KEY_ID: {{aws_access_key}}
-      AWS_SECRET_ACCESS_KEY: {{aws_secret_key}}
-    on_failure:
-      put: slack-alert
-      params:
-        channel: '#build-notifications'
-        text: |
-          Test UI Deploy Failed. Check it out at:
           http://concourse.jassoft.co.uk:8080/builds/$BUILD_ID
 
   - aggregate:
@@ -131,7 +106,7 @@ jobs:
 #      AWS_ACCESS_KEY_ID: {{aws_access_key}}
 #      AWS_SECRET_ACCESS_KEY: {{aws_secret_key}}
 
-  - task: Production Deploy API
+  - task: Production Deploy
     file: source-code/concourse/build-api.yml
     params:
       TF_VAR_aws_terraform_state_bucket: dashvid-terraform-state
@@ -142,6 +117,7 @@ jobs:
       TF_VAR_aws_identity_pool: {{aws_identity_pool}}
       TF_VAR_dns_zone_id: {{dns_zone_id}}
       TF_VAR_dns_zone_name: {{dns_zone_name}}
+      TF_VAR_acm_certificate_arn: {{acm_certificate_arn}}
       TF_VAR_api_certificate_arn: {{api_certificate_arn}}
       AWS_ACCESS_KEY_ID: {{aws_access_key}}
       AWS_SECRET_ACCESS_KEY: {{aws_secret_key}}
@@ -151,31 +127,6 @@ jobs:
         channel: '#build-notifications'
         text: |
           Production API Deploy Failed. Check it out at:
-          http://concourse.jassoft.co.uk:8080/builds/$BUILD_ID
-
-  - task: Production Deploy UI
-    file: source-code/concourse/build-ui.yml
-    params:
-      TF_VAR_aws_terraform_state_bucket: dashvid-terraform-state
-      TF_VAR_aws_region: eu-west-1
-      TF_VAR_dns_zone_id: {{dns_zone_id}}
-      TF_VAR_dns_zone_name: {{dns_zone_name}}
-      TF_VAR_acm_certificate_arn: {{acm_certificate_arn}}
-      TF_VAR_aws_access_key: {{aws_access_key}}
-      TF_VAR_aws_secret_key: {{aws_secret_key}}
-      TF_VAR_stripe_api_key: {{stripe_api_key_test}}
-      REACT_APP_STRIPE_PUBLISHABLE_KEY: pk_live_IYFID6k8KNK8uTVSeKQ6Ync5
-      REACT_APP_AWS_IDENTITY_POOL: {{aws_identity_pool}}
-      REACT_APP_GA_TRACKING_CODE: {{ga_tracking_code}}
-      REACT_APP_API_ADRESS: api.dashvid.io
-      AWS_ACCESS_KEY_ID: {{aws_access_key}}
-      AWS_SECRET_ACCESS_KEY: {{aws_secret_key}}
-    on_failure:
-      put: slack-alert
-      params:
-        channel: '#build-notifications'
-        text: |
-          Production UI Deploy Failed. Check it out at:
           http://concourse.jassoft.co.uk:8080/builds/$BUILD_ID
 
   - put: slack-alert

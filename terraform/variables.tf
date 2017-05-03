@@ -69,6 +69,10 @@ variable "bucket_force_destroy" {
 }
 
 # Certificate
+variable "acm_certificate_arn" {
+  description = "The ARN of the certificate to be used by cloudfront"
+}
+
 variable "api_certificate_arn" {
   description = "The ARN of the certificate to be used by api gateway"
 }
