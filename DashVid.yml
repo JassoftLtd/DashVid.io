@@ -49,7 +49,7 @@ jobs:
       params:
         channel: '#build-notifications'
         text: |
-          Test API Deploy Failed. Check it out at:
+          Test Deploy Failed. Check it out at:
           http://concourse.jassoft.co.uk:8080/builds/$BUILD_ID
 
   - aggregate:
@@ -126,7 +126,7 @@ jobs:
       params:
         channel: '#build-notifications'
         text: |
-          Production API Deploy Failed. Check it out at:
+          Production Deploy Failed. Check it out at:
           http://concourse.jassoft.co.uk:8080/builds/$BUILD_ID
 
   - put: slack-alert
