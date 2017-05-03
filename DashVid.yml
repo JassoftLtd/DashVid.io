@@ -54,7 +54,7 @@ jobs:
   - task: Test Deploy UI
     file: source-code/concourse/build-ui.yml
     params:
-      TF_VAR_aws_terraform_state_bucket: dashvid-ui-terraform-state-tests
+      TF_VAR_aws_terraform_state_bucket: dashvid-terraform-state-tests
       TF_VAR_aws_region: us-east-1
       TF_VAR_environment_name: test-
       TF_VAR_environment_subdomain: test.
@@ -155,7 +155,7 @@ jobs:
   - task: Production Deploy UI
     file: source-code/concourse/build-ui.yml
     params:
-      TF_VAR_aws_terraform_state_bucket: dashvid-ui-terraform-state
+      TF_VAR_aws_terraform_state_bucket: dashvid-terraform-state
       TF_VAR_aws_region: eu-west-1
       TF_VAR_dns_zone_id: {{dns_zone_id}}
       TF_VAR_dns_zone_name: {{dns_zone_name}}
