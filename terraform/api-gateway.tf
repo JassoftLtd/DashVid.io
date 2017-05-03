@@ -89,7 +89,7 @@ resource "aws_api_gateway_resource" "v1" {
 }
 
 resource "aws_api_gateway_domain_name" "DashCamAPI" {
-  domain_name = "${var.environment_name}-api.${var.domain_name}"
+  domain_name = "${var.environment_name}api.${var.domain_name}"
 
   certificate_arn        = "${var.api_certificate_arn}"
 }
