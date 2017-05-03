@@ -9,7 +9,6 @@ data "aws_caller_identity" "current" {}
 
 terraform {
     backend "s3" {
-        bucket = "${var.aws_terraform_state_bucket}"
         key = "terraform.tfstate"
         region = "eu-west-1"
     }
