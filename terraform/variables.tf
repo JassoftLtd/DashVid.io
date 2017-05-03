@@ -28,6 +28,11 @@ variable "application_name" {
   default     = "DashVid.io"
 }
 
+variable "domain_name" {
+  description = "The Domain name."
+  default     = "DashVid.io"
+}
+
 variable "auth_developer_provider_name" {
   description = "The Developer Provider name."
   default     = "login.terraform.dashcam"
