@@ -14,11 +14,7 @@ run:
   - -exc
   - |
     cd build-source-ui/terraform/UI
-    terraform remote config \
-        -backend=s3 \
-        -backend-config="bucket=$TF_VAR_aws_terraform_state_bucket" \
-        -backend-config="key=terraform.tfstate" \
-        -backend-config="region=eu-west-1"
+    terraform init -backend-config="bucket=$TF_VAR_aws_terraform_state_bucket"
     terraform get
     ls -ltrh .terraform
     terraform destroy -force

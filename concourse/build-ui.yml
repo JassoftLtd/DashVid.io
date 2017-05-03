@@ -21,17 +21,11 @@ run:
     cat api-exports/exports
     $(cat api-exports/exports)
     cd source-code/terraform/UI
-    terraform remote config \
-        -backend=s3 \
-        -backend-config="bucket=$TF_VAR_aws_terraform_state_bucket" \
-        -backend-config="key=terraform-ui.tfstate" \
-        -backend-config="region=eu-west-1"
+    terraform init -backend-config="bucket=$TF_VAR_aws_terraform_state_bucket"
     ./build.sh
     mkdir ../../../build-source-ui/terraform
     cp -R ../../../source-code/terraform/UI ../../../build-source-ui/terraform/UI
     terraform get
-    echo $TF_VAR_aws_region
-    echo $TF_VAR_aws_terraform_state_bucket
     terraform validate
     terraform plan
     ls -ltrh .terraform

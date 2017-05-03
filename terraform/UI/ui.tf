@@ -4,10 +4,8 @@ provider "aws" {
     secret_key = "${var.aws_secret_key}"
 }
 
-data "terraform_remote_state" "remote-state" {
-    backend = "s3"
-    config {
-        bucket = "${var.aws_terraform_state_bucket}"
+terraform {
+    backend "s3" {
         key = "terraform.tfstate"
         region = "eu-west-1"
     }
