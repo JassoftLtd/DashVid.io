@@ -27,7 +27,7 @@ resource "aws_route53_record" "www_DashCamWeb" {
   name    = "www.${var.environment_subdomain}${var.dns_zone_name}"
   type    = "A"
   alias {
-    name                   = "${aws_s3_bucket.www-dashvid-io-bucket.bucket_domain_name}"
+    name                   = "${aws_s3_bucket.www-dashvid-io-bucket.website_domain}"
     zone_id                = "${aws_s3_bucket.www-dashvid-io-bucket.hosted_zone_id}"
     evaluate_target_health = true
   }
