@@ -19,7 +19,7 @@ resource "aws_cloudfront_distribution" "website_s3_distribution" {
     default_root_object = "index.html"
     retain_on_delete = true
 
-    aliases = ["${var.environment_subdomain}${var.domain_name}"]
+    aliases = ["www.${var.environment_subdomain}${var.domain_name}", "${var.environment_subdomain}${var.domain_name}"]
 
     viewer_certificate {
       acm_certificate_arn = "${var.acm_certificate_arn}"
