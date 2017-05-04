@@ -10,7 +10,7 @@ resource "aws_cloudfront_distribution" "website_s3_distribution" {
   ]
     origin {
         domain_name = "${aws_s3_bucket.dashvid-io-bucket.bucket}.s3.amazonaws.com"
-        origin_id   = "S3Origin"
+        origin_id   = "myS3Origin"
     }
 
     enabled             = true
@@ -68,7 +68,7 @@ resource "aws_cloudfront_distribution" "www-website_s3_distribution" {
   ]
   origin {
     domain_name = "${aws_s3_bucket.www-dashvid-io-bucket.bucket}.s3.amazonaws.com"
-    origin_id   = "wwwS3Origin"
+    origin_id   = "myS3Origin"
   }
 
   enabled             = true
