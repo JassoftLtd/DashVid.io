@@ -95,6 +95,8 @@ go install github.com/jonnyshaw89/terraform-s3-dir
 
 cd UI/www/
 echo "Building UI"
+echo "Environment variables in use:"
+env | grep REACT_APP
 npm install
 npm run build
 cd ../../
