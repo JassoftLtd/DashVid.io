@@ -7,6 +7,7 @@ resource "aws_cloudwatch_metric_alarm" "5xx_errors" {
   period = "60"
   statistic = "Sum"
   threshold = "1"
+  treat_missing_data = "notBreaching"
   alarm_description = "There have been at least 1 5xx errors in the past 60 seconds"
   alarm_actions       = ["${aws_sns_topic.slack_alert.arn}"]
   dimensions {
