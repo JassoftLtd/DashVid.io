@@ -85,3 +85,13 @@ variable "dns_zone_id" {
 variable "dns_zone_name" {
   description = "Amazon Route53 DNS zone name"
 }
+
+# Slack
+variable "slack_webhook_url" {
+  description = "Slack Webhook path for the alert. Obtained via, https://api.slack.com/incoming-webhooks"
+}
+
+variable "slack_channel" {
+  description = "Slack Channel to post alerts to"
+  default = "application-alerts"
+}

@@ -42,6 +42,7 @@ jobs:
       TF_VAR_dns_zone_name: {{dns_zone_name}}
       TF_VAR_acm_certificate_arn: {{acm_certificate_arn_test}}
       TF_VAR_api_certificate_arn: {{api_certificate_arn_test}}
+      TF_VAR_slack_webhook_url: {{slack_webhook_url}}
       REACT_APP_STRIPE_PUBLISHABLE_KEY: pk_test_ebVZiJokoWIbXD1TNNZ8lj2A
       REACT_APP_AWS_IDENTITY_POOL: {{aws_identity_pool_test}}
       REACT_APP_API_ADRESS: https://test-api.dashvid.io
@@ -122,6 +123,7 @@ jobs:
       TF_VAR_dns_zone_name: {{dns_zone_name}}
       TF_VAR_acm_certificate_arn: {{acm_certificate_arn}}
       TF_VAR_api_certificate_arn: {{api_certificate_arn}}
+      TF_VAR_slack_webhook_url: {{slack_webhook_url}}
       REACT_APP_STRIPE_PUBLISHABLE_KEY: pk_live_IYFID6k8KNK8uTVSeKQ6Ync5
       REACT_APP_AWS_IDENTITY_POOL: {{aws_identity_pool}}
       REACT_APP_GA_TRACKING_CODE: {{ga_tracking_code}}

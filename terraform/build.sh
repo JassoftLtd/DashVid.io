@@ -77,6 +77,15 @@ for f in $(ls -d */ | cut -f1 -d'/'); do
     zip -q -9 -r $f.zip $f/*
 done
 
+cd ../../Lambda/SlackLambdas/
+
+rm -f *.zip || true
+
+for f in $(ls -d */ | cut -f1 -d'/'); do
+    echo "Zipping $f"
+    zip -q -9 -r $f.zip $f/*
+done
+
 cd ../../
 
 export GOPATH=$(pwd)/gopath
