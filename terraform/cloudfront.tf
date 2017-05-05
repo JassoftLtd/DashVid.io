@@ -73,8 +73,7 @@ resource "aws_cloudfront_distribution" "www-website_s3_distribution" {
 
   enabled             = true
   is_ipv6_enabled     = true
-  comment             = "DashVid.io Website"
-  default_root_object = "index.html"
+  comment             = "DashVid.io Website Redirect"
   retain_on_delete = true
 
   aliases = ["www.${var.environment_subdomain}${var.domain_name}"]
