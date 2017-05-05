@@ -67,8 +67,12 @@ resource "aws_cloudfront_distribution" "www-website_s3_distribution" {
     "aws_cloudfront_origin_access_identity.origin_access_identity"
   ]
   origin {
-    domain_name = "${aws_s3_bucket.www-dashvid-io-bucket.website_domain}"
+    domain_name = "${aws_s3_bucket.www-dashvid-io-bucket.bucket}.s3.amazonaws.com"
     origin_id   = "myS3Origin"
+
+    s3_origin_config {
+      origin_access_identity = "${aws_cloudfront_origin_access_identity.origin_access_identity.cloudfront_access_identity_path}"
+    }
   }
 
   enabled             = true
