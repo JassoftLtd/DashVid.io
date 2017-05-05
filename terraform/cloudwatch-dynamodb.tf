@@ -17,7 +17,7 @@ resource "aws_cloudwatch_metric_alarm" "dynamodb-videos-consumed-read" {
 }
 
 resource "aws_cloudwatch_metric_alarm" "dynamodb-videos-consumed-write" {
-  alarm_name = "${var.environment_name}dynamodb-videos-consumed-read"
+  alarm_name = "${var.environment_name}dynamodb-videos-consumed-write"
   comparison_operator = "GreaterThanOrEqualToThreshold"
   evaluation_periods = "1"
   metric_name = "ConsumedWriteCapacityUnits"
@@ -52,7 +52,7 @@ resource "aws_cloudwatch_metric_alarm" "dynamodb-users-consumed-read" {
 }
 
 resource "aws_cloudwatch_metric_alarm" "dynamodb-users-consumed-write" {
-  alarm_name = "${var.environment_name}dynamodb-users-consumed-read"
+  alarm_name = "${var.environment_name}dynamodb-users-consumed-write"
   comparison_operator = "GreaterThanOrEqualToThreshold"
   evaluation_periods = "1"
   metric_name = "ConsumedWriteCapacityUnits"
@@ -87,7 +87,7 @@ resource "aws_cloudwatch_metric_alarm" "dynamodb-subscriptions-consumed-read" {
 }
 
 resource "aws_cloudwatch_metric_alarm" "dynamodb-subscriptions-consumed-write" {
-  alarm_name = "${var.environment_name}dynamodb-subscriptions-consumed-read"
+  alarm_name = "${var.environment_name}dynamodb-subscriptions-consumed-write"
   comparison_operator = "GreaterThanOrEqualToThreshold"
   evaluation_periods = "1"
   metric_name = "ConsumedWriteCapacityUnits"
@@ -122,7 +122,7 @@ resource "aws_cloudwatch_metric_alarm" "dynamodb-cameras-consumed-read" {
 }
 
 resource "aws_cloudwatch_metric_alarm" "dynamodb-cameras-consumed-write" {
-  alarm_name = "${var.environment_name}dynamodb-cameras-consumed-read"
+  alarm_name = "${var.environment_name}dynamodb-cameras-consumed-write"
   comparison_operator = "GreaterThanOrEqualToThreshold"
   evaluation_periods = "1"
   metric_name = "ConsumedWriteCapacityUnits"
