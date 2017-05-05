@@ -98,28 +98,3 @@ EOF
         index_document = "index.html"
     }
 }
-
-resource "aws_s3_bucket" "www-dashvid-io-bucket" {
-    bucket = "www.${var.environment_name}dashvid.io"
-    acl = "public-read"
-    policy = <<EOF
-{
-  "Id": "bucket_policy_site",
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Sid": "bucket_policy_www_site_main",
-      "Action": [
-        "s3:GetObject"
-      ],
-      "Effect": "Allow",
-      "Resource": "arn:aws:s3:::www.${var.environment_name}dashvid.io/*",
-      "Principal": "*"
-    }
-  ]
-}
-EOF
-    website {
-        redirect_all_requests_to = "${var.environment_name}dashvid.io"
-    }
-}
