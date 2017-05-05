@@ -108,7 +108,7 @@ resource "aws_s3_bucket" "www-dashvid-io-bucket" {
   "Version": "2012-10-17",
   "Statement": [
     {
-      "Sid": "bucket_policy_site_main",
+      "Sid": "bucket_policy_www_site_main",
       "Action": [
         "s3:GetObject"
       ],
