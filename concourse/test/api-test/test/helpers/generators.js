@@ -8,7 +8,7 @@ exports.email = function() {
         capitalization: 'lowercase'
     });
 
-    return prefix + '@dashvid.io'
+    return prefix + '@test.dashvid.io'
 }
 
 exports.password = function() {
