@@ -33,6 +33,7 @@ jobs:
       TF_VAR_environment_subdomain: test.
 #      TF_VAR_email_disabled: true
       TF_VAR_token_override: TestToken
+      TF_VAR_auth_email_from_address: no-reply@test.dashvid.io
       TF_VAR_bucket_force_destroy: true
       TF_VAR_aws_access_key: {{aws_access_key}}
       TF_VAR_aws_secret_key: {{aws_secret_key}}
