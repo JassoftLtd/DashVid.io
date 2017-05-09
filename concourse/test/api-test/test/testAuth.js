@@ -1,6 +1,7 @@
 var assert = require('assert');
 
 var authHelper = require('./helpers/authHelper.js');
+var emailHelper = require('./helpers/emailHelper.js');
 var generator = require('./helpers/generators.js');
 
 describe('Auth', function () {
@@ -31,12 +32,16 @@ describe('Auth', function () {
 
             return authHelper.signup(email, password, "Free")
                 .then(function (result) {
-                    return authHelper.verify(email, authHelper.tokenOverride)
-                        .then(function (result) {
-                            assert.equal(result.data.verified, true);
-                            assert.equal(result.data.plan, "free");
-                            assert.equal(result.data.status, "Active");
-                        });
+
+                    return emailHelper.getEmails(email)
+
+
+                    // return authHelper.verify(email, authHelper.tokenOverride)
+                    //     .then(function (result) {
+                    //         assert.equal(result.data.verified, true);
+                    //         assert.equal(result.data.plan, "free");
+                    //         assert.equal(result.data.status, "Active");
+                    //     });
                 });
         })
 
