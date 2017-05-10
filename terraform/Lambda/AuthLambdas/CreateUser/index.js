@@ -5,8 +5,8 @@ const crypto = require('crypto');
 const uuidV4 = require('uuid/v4');
 
 // Get reference to AWS clients
-var dynamodb
-var ses
+var dynamodb;
+var ses;
 
 var responseSuccess = {
 	statusCode: 200,
