@@ -56,10 +56,6 @@ describe('Subscription', function () {
                     })
 
                 })
-               .catch(function (error) {
-                   console.error("Error getting LoggedInUser")
-                   done(error)
-               });
         });
     });
 
