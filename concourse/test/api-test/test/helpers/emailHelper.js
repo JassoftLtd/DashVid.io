@@ -41,7 +41,6 @@ exports.getVerifyTokenFromEmail = function (emailContent) {
 }
 
 exports.getResetTokenFromEmail = function (emailContent) {
-    console.error(emailContent)
     var re = new RegExp('lost=([a-zA-Z0-9]*)<');
     var matches  = String(emailContent).match(re);
     return matches[1];

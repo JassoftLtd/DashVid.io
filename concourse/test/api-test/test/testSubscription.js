@@ -8,7 +8,7 @@ var stripe = require('stripe')('pk_test_ebVZiJokoWIbXD1TNNZ8lj2A');
 
 describe('Subscription', function () {
 
-    this.timeout(10000);
+    this.timeout(30000);
 
     describe('Add Card', function () {
 
