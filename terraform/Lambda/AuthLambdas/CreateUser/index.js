@@ -5,8 +5,8 @@ const crypto = require('crypto');
 const uuidV4 = require('uuid/v4');
 
 // Get reference to AWS clients
-const dynamodb = new AWS.DynamoDB.DocumentClient();
-const ses = new AWS.SES();
+var dynamodb
+var ses
 
 var responseSuccess = {
 	statusCode: 200,
@@ -177,6 +177,9 @@ function sendVerificationEmail(email, token, fn) {
 
 exports.handler = function(event, context) {
     "use strict";
+
+    dynamodb = new AWS.DynamoDB.DocumentClient();
+    ses = new AWS.SES();
 
 	var payload = JSON.parse(event.body);
 

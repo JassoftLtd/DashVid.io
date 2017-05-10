@@ -1,7 +1,6 @@
-var sinon = require('sinon');
 var expect = require( 'chai' ).expect;
 
-var AWS = require('aws-sdk');
+var AWS = require('aws-sdk-mock');
 
 var LambdaTester = require( 'lambda-tester' );
 
@@ -13,11 +12,13 @@ describe('Create User', function () {
     process.env['auth_email_from_address'] = 'from@email-address.com';
 
     before(function() {
-        // runs before all tests in this block
-        var createBucket = sinon.stub(AWS.DynamoDB.DocumentClient.prototype, 'put');
-        createBucket.yields(null, {});
+        AWS.mock('DynamoDB.DocumentClient', 'put', function(params, callback) {
+            callback(null, 'success');
+        });
 
-        var sendEmail = sinon.stub(AWS.SES.prototype, 'sendEmail');
+        AWS.mock('SES', 'sendEmail', function(params, callback) {
+            callback(null, 'success');
+        });
     });
 
     after(function() {
