@@ -10,8 +10,6 @@ resource "aws_lambda_function" "createUser" {
   source_code_hash = "${base64sha256(file("${path.module}/Lambda/AuthLambdas/CreateUser.zip"))}"
   environment {
     variables = {
-      email_disabled = "${var.email_disabled}"
-      token_override = "${var.token_override}"
       auth_db_table = "${aws_dynamodb_table.users-table.name}"
       subscriptions_db_table = "${aws_dynamodb_table.subscriptions-table.name}"
       cameras_db_table = "${aws_dynamodb_table.cameras-table.name}"
@@ -85,8 +83,6 @@ resource "aws_lambda_function" "lostPassword" {
   environment {
     variables = {
       auth_db_table = "${aws_dynamodb_table.users-table.name}"
-      email_disabled = "${var.email_disabled}"
-      token_override = "${var.token_override}"
       auth_application_name = "${var.application_name}"
       auth_reset_page = "http://${var.environment_subdomain}${var.domain_name}/reset"
       auth_email_from_address = "${var.auth_email_from_address}"

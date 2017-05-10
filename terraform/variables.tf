@@ -53,16 +53,6 @@ variable "environment_subdomain" {
   default     = ""
 }
 
-variable "email_disabled" {
-  description = "Should emails from the system be disabled"
-  default     = "false"
-}
-
-variable "token_override" {
-  description = "If supplied, the token to use for all user verifications"
-  default     = ""
-}
-
 variable "bucket_force_destroy" {
   description = "force destruction of S3 buckets even if they have content"
   default     = false

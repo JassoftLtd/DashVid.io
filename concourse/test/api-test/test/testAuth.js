@@ -1,11 +1,12 @@
 var assert = require('assert');
 
 var authHelper = require('./helpers/authHelper.js');
+var emailHelper = require('./helpers/emailHelper.js');
 var generator = require('./helpers/generators.js');
 
 describe('Auth', function () {
 
-    this.timeout(10000);
+    this.timeout(20000);
 
     describe('Signup', function () {
 
@@ -31,11 +32,17 @@ describe('Auth', function () {
 
             return authHelper.signup(email, password, "Free")
                 .then(function (result) {
-                    return authHelper.verify(email, authHelper.tokenOverride)
-                        .then(function (result) {
-                            assert.equal(result.data.verified, true);
-                            assert.equal(result.data.plan, "free");
-                            assert.equal(result.data.status, "Active");
+
+                    return emailHelper.getEmails(email, "Verification Email for DashVid.io")
+                        .then((result) => emailHelper.getVerifyTokenFromEmail(result))
+                        .then(function (token) {
+
+                            return authHelper.verify(email, token)
+                                .then(function (result) {
+                                    assert.equal(result.data.verified, true);
+                                    assert.equal(result.data.plan, "free");
+                                    assert.equal(result.data.status, "Active");
+                                });
                         });
                 });
         })
@@ -47,11 +54,16 @@ describe('Auth', function () {
 
             return authHelper.signup(email, password, "Standard")
                 .then(function (result) {
-                    return authHelper.verify(email, authHelper.tokenOverride)
-                        .then(function (result) {
-                            assert.equal(result.data.verified, true);
-                            assert.equal(result.data.plan, "standard");
-                            assert.equal(result.data.status, "Pending");
+
+                    return emailHelper.getEmails(email, "Verification Email for DashVid.io")
+                        .then((result) => emailHelper.getVerifyTokenFromEmail(result))
+                        .then(function (token) {
+                            return authHelper.verify(email, token)
+                                .then(function (result) {
+                                    assert.equal(result.data.verified, true);
+                                    assert.equal(result.data.plan, "standard");
+                                    assert.equal(result.data.status, "Pending");
+                                });
                         });
                 });
         })
@@ -66,13 +78,17 @@ describe('Auth', function () {
 
             return authHelper.signup(email, password, "Free")
                 .then(function (result) {
-                    return authHelper.verify(email, authHelper.tokenOverride)
-                        .then(function (result) {
-                            return authHelper.login(email, password)
+                    return emailHelper.getEmails(email, "Verification Email for DashVid.io")
+                        .then((result) => emailHelper.getVerifyTokenFromEmail(result))
+                        .then(function (token) {
+                            return authHelper.verify(email, token)
                                 .then(function (result) {
-                                    assert.equal(result.data.login, true);
-                                    assert(result.data.identityId);
-                                    assert(result.data.token);
+                                    return authHelper.login(email, password)
+                                        .then(function (result) {
+                                            assert.equal(result.data.login, true);
+                                            assert(result.data.identityId);
+                                            assert(result.data.token);
+                                        });
                                 });
                         });
                 });
@@ -106,14 +122,18 @@ describe('Auth', function () {
                         .then(function (result) {
                             assert.equal(result.data.sent, true);
 
-                            var newPassword = generator.password();
+                            return emailHelper.getEmails(user.email, "Password Lost for DashVid.io")
+                                .then((result) => emailHelper.getResetTokenFromEmail(result))
+                                .then(function (token) {
 
-                            return authHelper.resetPassword(user.email, newPassword)
-                                .then(function (result) {
-                                    assert.equal(result.data.changed, true);
+                                    var newPassword = generator.password();
+
+                                    return authHelper.resetPassword(user.email, newPassword, token)
+                                        .then(function (result) {
+                                            assert.equal(result.data.changed, true);
+                                        });
                                 });
-
-                        })
+                        });
 
                 });
         });
