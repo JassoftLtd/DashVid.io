@@ -26,8 +26,7 @@ exports.handler = function(event, context) {
     switch(type) {
         case "customer.subscription.created":
             console.log("some logic for handing this type of event", type);
-            break
-
+            break;
         default:
             console.log("Unhandled event type: " + type);
     }
