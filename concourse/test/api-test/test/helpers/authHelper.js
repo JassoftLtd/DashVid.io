@@ -2,7 +2,7 @@ var AWS = require('aws-sdk');
 var apigClientFactory = require('aws-api-gateway-client')
 var generator = require('./generators.js');
 
-exports.tokenOverride = 'TestToken';
+var emailHelper = require('./emailHelper.js');
 
 exports.signup  = function (email, password, plan) {
     var config = {
@@ -88,7 +88,7 @@ exports.lostPassword  = function (email) {
     return apigClient.invokeApi(params, pathTemplate, method, additionalParams, body)
 }
 
-exports.resetPassword  = function (email, newPassword) {
+exports.resetPassword  = function (email, newPassword, token) {
     var config = {
         invokeUrl: process.env.DASHVID_API_ADDRESS
     }
@@ -103,7 +103,7 @@ exports.resetPassword  = function (email, newPassword) {
     var additionalParams = {};
     var body = {
         email: email,
-        lost: exports.tokenOverride,
+        lost: token,
         password: newPassword
     };
 
@@ -142,35 +142,40 @@ exports.getLoggedInUser = function (plan="Free") {
 
     return exports.signup(email, password, plan)
         .then(function (result) {
-            return exports.verify(email, exports.tokenOverride)
-                .then(function (result) {
-                    return exports.login(email, password)
+            return emailHelper.getEmails(email, "Verification Email for DashVid.io")
+                .then((result) => emailHelper.getVerifyTokenFromEmail(result))
+                .then(function (token) {
+
+                    return exports.verify(email, token)
                         .then(function (result) {
+                            return exports.login(email, password)
+                                .then(function (result) {
 
-                            var params = {
-                                IdentityPoolId: process.env.aws_identity_pool,
-                                IdentityId: result.data.identityId,
-                                Logins: {
-                                    'cognito-identity.amazonaws.com': result.data.token
-                                }
-                            }
+                                    var params = {
+                                        IdentityPoolId: process.env.aws_identity_pool,
+                                        IdentityId: result.data.identityId,
+                                        Logins: {
+                                            'cognito-identity.amazonaws.com': result.data.token
+                                        }
+                                    }
 
-                            AWS.config.credentials = new AWS.CognitoIdentityCredentials(params);
+                                    AWS.config.credentials = new AWS.CognitoIdentityCredentials(params);
 
-                            AWS.config.region = process.env.aws_region;
+                                    AWS.config.region = process.env.aws_region;
 
-                            return AWS.config.credentials.getPromise()
-                                .then(function() {
+                                    return AWS.config.credentials.getPromise()
+                                        .then(function () {
 
-                                return Promise.resolve({
-                                        email: email,
-                                        password: password,
-                                        credentials: AWS.config.credentials
-                                    })
+                                            return Promise.resolve({
+                                                email: email,
+                                                password: password,
+                                                credentials: AWS.config.credentials
+                                            })
+
+                                        });
+
 
                                 });
-
-
                         });
                 });
         });

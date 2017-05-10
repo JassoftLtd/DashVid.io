@@ -11,7 +11,6 @@ describe('Create User', function () {
 
     process.env['auth_db_table'] = 'Users';
     process.env['auth_email_from_address'] = 'from@email-address.com';
-    process.env['email_disabled'] = true;
 
     before(function() {
         // runs before all tests in this block

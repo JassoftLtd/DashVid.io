@@ -77,39 +77,34 @@ function storeLostToken(email, fn) {
 
 function sendLostPasswordEmail(email, token, fn) {
 
-    if(!process.env.email_disabled) {
-        var subject = 'Password Lost for ' + process.env.auth_application_name;
-        var lostLink = process.env.auth_reset_page + '?email=' + encodeURIComponent(email) + '&lost=' + token;
+	var subject = 'Password Lost for ' + process.env.auth_application_name;
+	var lostLink = process.env.auth_reset_page + '?email=' + encodeURIComponent(email) + '&lost=' + token;
 
-        ses.sendEmail({
-            Source: process.env.auth_email_from_address,
-            Destination: {
-                ToAddresses: [
-                    email
-                ]
-            },
-            Message: {
-                Subject: {
-                    Data: subject
-                },
-                Body: {
-                    Html: {
-                        Data: '<html><head>'
-                        + '<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />'
-                        + '<title>' + subject + '</title>'
-                        + '</head><body>'
-                        + 'Please <a href="' + lostLink + '">click here to reset your password</a> or copy & paste the following link in a browser:'
-                        + '<br><br>'
-                        + '<a href="' + lostLink + '">' + lostLink + '</a>'
-                        + '</body></html>'
-                    }
-                }
-            }
-        }, fn);
-    }
-    else {
-        fn(null, null)
-    }
+	ses.sendEmail({
+		Source: process.env.auth_email_from_address,
+		Destination: {
+			ToAddresses: [
+				email
+			]
+		},
+		Message: {
+			Subject: {
+				Data: subject
+			},
+			Body: {
+				Html: {
+					Data: '<html><head>'
+					+ '<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />'
+					+ '<title>' + subject + '</title>'
+					+ '</head><body>'
+					+ 'Please <a href="' + lostLink + '">click here to reset your password</a> or copy & paste the following link in a browser:'
+					+ '<br><br>'
+					+ '<a href="' + lostLink + '">' + lostLink + '</a>'
+					+ '</body></html>'
+				}
+			}
+		}
+	}, fn);
 }
 
 exports.handler = function(event, context) {
