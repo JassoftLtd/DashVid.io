@@ -14,6 +14,7 @@ exports.handler = function(event, context) {
 	var responseCode = 200;
 
     console.log("event: " + JSON.stringify(event));
+    console.log("body: " + JSON.stringify(event.body));
 
     var response = {
         statusCode: responseCode,
