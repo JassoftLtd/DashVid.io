@@ -1,10 +1,10 @@
 console.log('Stripe Webhook');
 
-var AWS = require('aws-sdk');
+const AWS = require('aws-sdk');
 // Get reference to AWS clients
-var dynamodb = new AWS.DynamoDB.DocumentClient();
+const dynamodb = new AWS.DynamoDB.DocumentClient();
 
-var stripe = require("stripe")(
+const stripe = require("stripe")(
     process.env.stripe_api_key
 );
 
@@ -17,18 +17,18 @@ exports.handler = function(event, context) {
 
     var payload = JSON.parse(event.body);
 
-    console.log("body: " + payload);
-
     var type = payload.type;
 
-    console.log("type: " + type);
+    console.log("Event Type: " + type);
 
     switch(type) {
-        case "customer.subscription.created":
-            console.log("some logic for handing this type of event", type);
-            break;
+        // case "customer.subscription.created":
+        //     console.log("some logic for handing this type of event", type);
+        //     break;
         default:
             console.log("Unhandled event type: " + type);
+            console.log(JSON.stringify(payload));
+            break;
     }
 
     var response = {
