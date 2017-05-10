@@ -14,7 +14,21 @@ exports.handler = function(event, context) {
 	var responseCode = 200;
 
     console.log("event: " + JSON.stringify(event));
-    console.log("body: " + JSON.stringify(event.body));
+
+    var payload = JSON.parse(event.body);
+
+    console.log("body: " + payload);
+
+    var type = payload.type;
+
+    console.log("type: " + type);
+
+    switch(type) {
+        case "customer.subscription.created":
+            console.log("some logic for handing this type of event", type);
+        default:
+            console.log("Unhandled event type: " + type);
+    }
 
     var response = {
         statusCode: responseCode,
