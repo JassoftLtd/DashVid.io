@@ -1,4 +1,3 @@
-'use strict';
 console.log('switching plan for User');
 
 var AWS = require('aws-sdk');
@@ -13,7 +12,7 @@ exports.handler = function(event, context) {
 
     var payload = JSON.parse(event.body);
 
-    var switchToPlan = payload.plan
+    var switchToPlan = payload.plan;
 
     console.log('User wants to switch to plan:', switchToPlan);
 
@@ -39,13 +38,13 @@ exports.handler = function(event, context) {
         },
         body: JSON.stringify(responseBody)
     };
-    console.log("response: " + JSON.stringify(response))
+    console.log("response: " + JSON.stringify(response));
     context.succeed(response);
 
 };
 
 function getUserPlan(context, email, fn) {
-    console.log('Getting plan for user: ' + email)
+    console.log('Getting plan for user: ' + email);
 
     dynamodb.query({
         KeyConditionExpression:"#user = :user",
@@ -67,13 +66,13 @@ function getUserPlan(context, email, fn) {
         }
         else {
             if(data.Count > 1) {
-                console.error("User had multiple active Subscriptions: " + JSON.stringify(data))
+                console.error("User had multiple active Subscriptions: " + JSON.stringify(data));
                 context.fail('User had multiple active Subscriptions'); // User not found
             }
 
             var plan = data.Items[0].Plan;
             var status = data.Items[0].PlanStatus;
-            console.log("User plan is " + plan)
+            console.log("User plan is " + plan);
             fn(plan, status);
         }
     });
