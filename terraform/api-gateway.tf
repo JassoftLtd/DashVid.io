@@ -63,6 +63,7 @@ resource "aws_api_gateway_deployment" "DevDeployment" {
     "module.ApiGatewayLambda-resetPassword",
     "module.ApiGatewayLambda-verifyUser",
     "module.ApiGatewayLambda-getPlan",
+    "module.ApiGatewayLambda-switchPlan",
     "module.ApiGatewayLambda-addCard",
     "module.ApiGatewayLambda-getVideos",
     "module.ApiGatewayLambda-createVideo",
