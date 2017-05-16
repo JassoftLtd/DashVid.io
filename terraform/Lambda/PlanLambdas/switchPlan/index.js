@@ -13,6 +13,10 @@ exports.handler = function(event, context) {
 
     var payload = JSON.parse(event.body);
 
+    var switchToPlan = payload.plan
+
+    console.log('User wants to switch to plan:', switchToPlan);
+
     var email = event.requestContext.identity.cognitoAuthenticationProvider.split(':').pop();
 
     // if switching to current active plan, then cancel any pending

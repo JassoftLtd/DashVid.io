@@ -30,3 +30,18 @@ module "ApiGatewayLambda-getPlan" {
   environment_name = "${var.environment_name}"
   aws_api_gateway_method_authorization = "AWS_IAM"
 }
+
+// /plan POST
+module "ApiGatewayLambda-switchPlan" {
+  source = "github.com/jonnyshaw89/api-gateway-lambda-method"
+  aws_api_gateway_method_http_method = "POST"
+  aws_api_gateway_rest_api = "${aws_api_gateway_rest_api.DashCamAPI.id}"
+  aws_api_gateway_resource_id = "${aws_api_gateway_resource.Plan.id}"
+  aws_api_gateway_resource_path = "${aws_api_gateway_resource.Plan.path}"
+  aws_lambda_function_arn = "${aws_lambda_function.switchPlan.arn}"
+  aws_lambda_function_name = "${aws_lambda_function.switchPlan.function_name}"
+  aws_region = "${var.aws_region}"
+  aws_account_id = "${data.aws_caller_identity.current.account_id}"
+  environment_name = "${var.environment_name}"
+  aws_api_gateway_method_authorization = "AWS_IAM"
+}
