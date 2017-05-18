@@ -27,28 +27,18 @@ exports.handler = function(event, context) {
             console.log("Cancel any pending plan");
             getUserPlan(context, email, 'Pending', function (plan, status) {
                 console.log("Has a pending plan that needs canceling:", plan, status);
+
+                successfulResponse(context, plan, status)
             });
         }
+
+        successfulResponse(context, plan, status)
 
     });
 
     // if plan switching to is not free check if user has card attached, if not make new plan pending
 
     // if card attached or switching to free plan make new plan active immediately
-
-    var responseBody = {
-        plan: plan,
-        status: status
-    };
-    var response = {
-        statusCode: responseCode,
-        headers: {
-            'Access-Control-Allow-Origin': '*'
-        },
-        body: JSON.stringify(responseBody)
-    };
-    console.log("response: " + JSON.stringify(response));
-    context.succeed(response);
 
 };
 
@@ -83,4 +73,20 @@ function getUserPlan(context, email, status, fn) {
             fn(plan, status);
         }
     });
+}
+
+function successfulResponse(context, plan, status) {
+    var responseBody = {
+        plan: plan,
+        status: status
+    };
+    var response = {
+        statusCode: responseCode,
+        headers: {
+            'Access-Control-Allow-Origin': '*'
+        },
+        body: JSON.stringify(responseBody)
+    };
+    console.log("response: " + JSON.stringify(response));
+    context.succeed(response);
 }
