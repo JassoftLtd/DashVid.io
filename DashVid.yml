@@ -56,7 +56,6 @@ jobs:
           http://concourse.jassoft.co.uk:8080/builds/$BUILD_ID
 
 - name: api-tests
-  serial_groups: [DashVidTestDeploy]
   plan:
   - aggregate:
     - get: source-code
@@ -75,7 +74,6 @@ jobs:
           http://concourse.jassoft.co.uk:8080/builds/$BUILD_ID
 
 - name: ui-tests
-  serial_groups: [DashVidTestDeploy]
   plan:
   - aggregate:
     - get: source-code
