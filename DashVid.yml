@@ -18,13 +18,13 @@ resources:
     url: {{slack_webhook_url}}
 
 jobs:
-- name: DashVid.io
+- name: Test Deploy
   serial_groups: [DashVidDeploy]
   plan:
   - get: source-code
     trigger: true
 
-  - task: Test Deploy
+  - task: Deploy
     file: source-code/concourse/build-api.yml
     params:
       TF_VAR_aws_terraform_state_bucket: dashvid-terraform-state-tests
@@ -55,7 +55,12 @@ jobs:
           Test Deploy Failed. Check it out at:
           http://concourse.jassoft.co.uk:8080/builds/$BUILD_ID
 
+- name: Tests
+  serial_groups: [DashVidDeploy]
+  plan:
   - aggregate:
+    - get: source-code
+      passed: [Test Deploy]
     - task: API Tests
       file: source-code/concourse/test/api-tests.yml
       params:
@@ -106,7 +111,11 @@ jobs:
 #      TF_VAR_stripe_api_key: {{stripe_api_key_test}}
 #      AWS_ACCESS_KEY_ID: {{aws_access_key}}
 #      AWS_SECRET_ACCESS_KEY: {{aws_secret_key}}
-
+- name: Production Deploy
+  serial_groups: [DashVidDeploy]
+  plan:
+  - get: source-code
+    passed: [Tests]
   - task: Production Deploy
     file: source-code/concourse/build-api.yml
     params:
