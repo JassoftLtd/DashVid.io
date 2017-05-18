@@ -24,9 +24,9 @@ exports.handler = function(event, context) {
         console.log('Current Plan Status:', status);
 
         if(plan === switchToPlan) {
-            console.log("Cancel any pending plan")
+            console.log("Cancel any pending plan");
             getUserPlan(context, email, 'Pending', function (plan, status) {
-                console.log("Has a pending plan that needs canceling:", plan, status)
+                console.log("Has a pending plan that needs canceling:", plan, status);
             });
         }
 
