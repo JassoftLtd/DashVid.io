@@ -19,7 +19,16 @@ exports.handler = function(event, context) {
     var email = event.requestContext.identity.cognitoAuthenticationProvider.split(':').pop();
 
     // if switching to current active plan, then cancel any pending
-    getUserPlan(function (plan, status) {
+    getUserPlan(context, email, 'Active', function (plan, status) {
+        console.log('Current Plan:', plan);
+        console.log('Current Plan Status:', status);
+
+        if(plan === switchToPlan) {
+            console.log("Cancel any pending plan")
+            getUserPlan(context, email, 'Pending', function (plan, status) {
+                console.log("Has a pending plan that needs canceling:", plan, status)
+            });
+        }
 
     });
 
@@ -43,20 +52,19 @@ exports.handler = function(event, context) {
 
 };
 
-function getUserPlan(context, email, fn) {
+function getUserPlan(context, email, status, fn) {
     console.log('Getting plan for user: ' + email);
 
     dynamodb.query({
         KeyConditionExpression:"#user = :user",
-        FilterExpression: '#planStatus in (:statusActive, :statusPending)',
+        FilterExpression: '#planStatus = :status',
         ExpressionAttributeNames: {
             "#user":"User",
             "#planStatus":"PlanStatus",
         },
         ExpressionAttributeValues: {
             ":user":email,
-            ":statusActive":"Active",
-            ":statusPending":"Pending"
+            ":statusActive":status
         },
         "TableName": "Subscriptions"
     }, function(err, data) {
@@ -72,7 +80,6 @@ function getUserPlan(context, email, fn) {
 
             var plan = data.Items[0].Plan;
             var status = data.Items[0].PlanStatus;
-            console.log("User plan is " + plan);
             fn(plan, status);
         }
     });

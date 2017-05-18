@@ -75,7 +75,7 @@ describe('Subscription', function () {
             });
     });
 
-    it('Given I have a verified account on an active free plan with no card details, When I upgrade my subscription, Then my plan should downgrade to a pending standard plan', function () {
+    it('Given I have a verified account on an active free plan with no card details, When I upgrade my subscription, Then my plan should change to a pending standard plan', function () {
 
         return authHelper.getLoggedInUser("free")
             .then(function (user) {
@@ -86,6 +86,24 @@ describe('Subscription', function () {
                                 assert(result.data.plan);
                                 assert.equal(result.data.plan, "standard");
                                 assert.equal(result.data.status, "Pending");
+                            });
+                    })
+            });
+    });
+
+    it('Given I have a verified account on a pending standard, When I downgrade my subscription, Then my pending standard plan should be canceled', function () {
+
+        return authHelper.getLoggedInUser("free")
+            .then(function (user) {
+                return planHelper.switchPlan(user, "standard")
+                    .then(function () {
+                        return planHelper.getPlan(user)
+                            .then(function (result) {
+                                assert(result.data.plan);
+                                assert.equal(result.data.plan, "standard");
+                                assert.equal(result.data.status, "Pending");
+
+                            // Now cancel the upgrade
                             });
                     })
             });
