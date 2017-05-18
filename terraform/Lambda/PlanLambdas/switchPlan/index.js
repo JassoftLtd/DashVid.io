@@ -28,11 +28,11 @@ exports.handler = function(event, context) {
             getUserPlan(context, email, 'Pending', function (plan, status) {
                 console.log("Has a pending plan that needs canceling:", plan, status);
 
-                successfulResponse(context, plan, status)
+                successfulResponse(context, plan, status);
             });
         }
 
-        successfulResponse(context, plan, status)
+        successfulResponse(context, plan, status);
 
     });
 
