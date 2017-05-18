@@ -54,18 +54,18 @@ function getUserPlan(context, email, status, fn) {
         },
         ExpressionAttributeValues: {
             ":user":email,
-            ":statusActive":status
+            ":status":status
         },
         "TableName": "Subscriptions"
     }, function(err, data) {
         if (err) {
-            console.error("User not found: " + JSON.stringify(err));
-            context.fail('User not found');
+            console.error("User Plan not found: " + JSON.stringify(err));
+            context.fail('User Plan not found');
         }
         else {
             if(data.Count > 1) {
-                console.error("User had multiple active Subscriptions: " + JSON.stringify(data));
-                context.fail('User had multiple active Subscriptions'); // User not found
+                console.error("User has multiple active Subscriptions: " + JSON.stringify(data));
+                context.fail('User has multiple active Subscriptions');
             }
 
             var plan = data.Items[0].Plan;
