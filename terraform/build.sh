@@ -5,15 +5,6 @@ set -e
 npm config set loglevel warn
 npm install -g marked
 
-for directory in $(find ./Lambda/* -maxdepth 2 -name package.json); do
-echo "Testing: " ${directory/package.json/}
- pushd ${directory/package.json/}
- npm install
- npm run lint
- npm test
- popd
-done
-
 cd Lambda/AuthLambdas/
 
 rm -f *.zip || true

@@ -18,12 +18,27 @@ resources:
     url: {{slack_webhook_url}}
 
 jobs:
-- name: test-deploy
-  serial_groups: [DashVidTestDeploy, DashVidAPITest, DashVidUITest]
+- name: test-lambdas
   plan:
   - get: source-code
     trigger: true
+  - task: Test
+    file: source-code/concourse/test-code.yml
+    on_failure:
+      put: slack-alert
+      params:
+        channel: '#build-notifications'
+        text: |
+          Test Lambda Failed. Check it out at:
+          http://concourse.jassoft.co.uk:8080/builds/$BUILD_ID
 
+- name: test-deploy
+  serial_groups: [DashVidTestDeploy, DashVidAPITest, DashVidUITest]
+  plan:
+  - aggregate:
+    - get: source-code
+      passed: [test-lambdas]
+      trigger: true
   - task: Deploy
     file: source-code/concourse/build-api.yml
     params:
