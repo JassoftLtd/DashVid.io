@@ -60,6 +60,7 @@ jobs:
   - aggregate:
     - get: source-code
       passed: [test-deploy]
+      trigger: true
   - task: API Tests
     file: source-code/concourse/test/api-tests.yml
     params:
@@ -78,6 +79,7 @@ jobs:
   - aggregate:
     - get: source-code
       passed: [test-deploy]
+      trigger: true
   - task: UI Tests
     file: source-code/concourse/test/ui-tests.yml
     on_failure:
