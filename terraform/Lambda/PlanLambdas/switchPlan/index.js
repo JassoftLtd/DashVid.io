@@ -26,27 +26,17 @@ exports.handler = function(event, context) {
             console.log("Cancel any pending plan");
             getUserPlan(context, email, 'Pending', function (pendingPlan, pendingStatus) {
                 console.log("Has a pending plan that needs canceling:", pendingPlan, pendingStatus);
+                getUserPlan(context, email, 'Pending', function (pendingPlan, pendingStatus) { // Pending Plan Found
+                    setNewPlan(context, email, switchToPlan);
+                }, function () { // Pending Plan Not Found
+                    console.log("No Pending Plan to override", email);
+                });
 
                 successfulResponse(context, activePlan, activeStatus);
             });
         }
 
-        // if card attached or switching to free plan make new plan active immediately
-        if(switchToPlan === 'free') {
-            updateUserPlan(context, email, switchToPlan, 'Active');
-            return;
-        }
-
-        // if plan switching to is not free check if user has card attached, if not make new plan pending
-        hasUserGotActiveCard(context, email, function () { // yes
-            console.log("User has active card");
-            updateUserPlan(context, email, switchToPlan, 'Active');
-
-        }, function () { // no
-            console.log("User doesnt have active card");
-            updateUserPlan(context, email, switchToPlan, 'Pending');
-
-        });
+       setNewPlan(context, email, switchToPlan);
 
     }, function () { // Active Plan Not Found
         getUserPlan(context, email, 'Pending', function (pendingPlan, pendingStatus) { // Pending Plan Found
@@ -58,7 +48,8 @@ exports.handler = function(event, context) {
                 successfulResponse(context, pendingPlan, pendingStatus);
             }
 
-            console.log("Need to cancel pending plan");
+            console.log("Need to override pending plan");
+            setNewPlan(context, email, switchToPlan);
 
         }, function () { // Pending Plan Not Found
             console.log("No Active or Pending plan found for User", email);
@@ -151,6 +142,25 @@ function hasUserGotActiveCard(context, email, yes, no) {
             }
             no();
         });
+}
+
+function setNewPlan(context, email, switchToPlan) {
+    // if card attached or switching to free plan make new plan active immediately
+    if(switchToPlan === 'free') {
+        updateUserPlan(context, email, switchToPlan, 'Active');
+        return;
+    }
+
+    // if plan switching to is not free check if user has card attached, if not make new plan pending
+    hasUserGotActiveCard(context, email, function () { // yes
+        console.log("User has active card");
+        updateUserPlan(context, email, switchToPlan, 'Active');
+
+    }, function () { // no
+        console.log("User doesnt have active card");
+        updateUserPlan(context, email, switchToPlan, 'Pending');
+
+    });
 }
 
 function successfulResponse(context, plan, status) {
