@@ -7,14 +7,12 @@ image_resource:
 
 inputs:
 - name: source-code
-- name: api-exports
 
 run:
   path: sh
   args:
   - -exc
   - |
-    $(cat api-exports/exports)
     cd source-code/concourse/test/api-test
     echo $DASHVID_API_ADDRESS
     npm install --loglevel warn

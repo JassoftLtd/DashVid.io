@@ -66,6 +66,7 @@ jobs:
     params:
       aws_region: us-east-1
       aws_identity_pool: {{aws_identity_pool_test}}
+      DASHVID_API_ADDRESS: https://test-api.dashvid.io
     on_failure:
       put: slack-alert
       params:
@@ -82,6 +83,8 @@ jobs:
       trigger: true
   - task: UI Tests
     file: source-code/concourse/test/ui-tests.yml
+    params:
+      DASHVID_UI_ADDRESS: https://test.dashvid.io
     on_failure:
       put: slack-alert
       params:

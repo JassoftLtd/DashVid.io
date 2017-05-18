@@ -7,14 +7,10 @@ image_resource:
 
 inputs:
 - name: source-code
-- name: api-exports
-- name: ui-exports
 
 run:
   path: sh
   args:
   - -exc
   - |
-    $(cat api-exports/exports)
-    $(cat ui-exports/exports)
     echo $DASHVID_UI_ADDRESS
