@@ -7,7 +7,6 @@ var dynamodb = new AWS.DynamoDB.DocumentClient();
 exports.handler = function(event, context) {
     "use strict";
 
-	var responseCode = 200;
 	console.log("request: " + JSON.stringify(event));
 
     var payload = JSON.parse(event.body);
@@ -19,30 +18,54 @@ exports.handler = function(event, context) {
     var email = event.requestContext.identity.cognitoAuthenticationProvider.split(':').pop();
 
     // if switching to current active plan, then cancel any pending
-    getUserPlan(context, email, 'Active', function (plan, status) {
-        console.log('Current Plan:', plan);
-        console.log('Current Plan Status:', status);
+    getUserPlan(context, email, 'Active', function (activePlan, activeStatus) { // Active Plan Found
+        console.log('Current Plan:', activePlan);
+        console.log('Current Plan Status:', activeStatus);
 
-        if(plan === switchToPlan) {
+        if(activePlan === switchToPlan) {
             console.log("Cancel any pending plan");
-            getUserPlan(context, email, 'Pending', function (plan, status) {
-                console.log("Has a pending plan that needs canceling:", plan, status);
+            getUserPlan(context, email, 'Pending', function (pendingPlan, pendingStatus) {
+                console.log("Has a pending plan that needs canceling:", pendingPlan, pendingStatus);
 
-                successfulResponse(context, plan, status);
+                successfulResponse(context, activePlan, activeStatus);
             });
         }
 
-        successfulResponse(context, plan, status);
+        // if card attached or switching to free plan make new plan active immediately
+        if(switchToPlan === 'free') {
+            updateUserPlan(context, email, switchToPlan, 'Active');
+            return
+        }
 
+        // if plan switching to is not free check if user has card attached, if not make new plan pending
+        hasUserGotActiveCard(context, email, function () { // yes
+            console.log("User has active card");
+            updateUserPlan(context, email, switchToPlan, 'Active');
+
+        }, function () { // no
+            console.log("User doesnt have active card");
+            updateUserPlan(context, email, switchToPlan, 'Pending');
+
+        });
+
+    }, function () { // Active Plan Not Found
+        getUserPlan(context, email, 'Pending', function (pendingPlan, pendingStatus) { // Pending Plan Found
+
+            console.log("Pending plan found for user");
+
+            if(pendingPlan === switchToPlan) {
+                conosle.log("User is already pending switch to this plan");
+                successfulResponse(context, pendingPlan, pendingStatus);
+            }
+
+        }, function () { // Pending Plan Not Found
+            console.log("No Active or Pending plan found for User", email);
+        });
     });
-
-    // if plan switching to is not free check if user has card attached, if not make new plan pending
-
-    // if card attached or switching to free plan make new plan active immediately
 
 };
 
-function getUserPlan(context, email, status, fn) {
+function getUserPlan(context, email, status, found, notFound) {
     console.log('Getting plan for user:', email, status);
 
     dynamodb.query({
@@ -56,13 +79,18 @@ function getUserPlan(context, email, status, fn) {
             ":user":email,
             ":status":status
         },
-        "TableName": "Subscriptions"
+        TableName: process.env.subscriptions_db_table,
     }, function(err, data) {
         if (err) {
             console.error("User Plan not found: " + JSON.stringify(err));
             context.fail('User Plan not found');
         }
         else {
+            if(data.Count = 0) {
+                notFound();
+                return
+            }
+
             if(data.Count > 1) {
                 console.error("User has multiple active Subscriptions: " + JSON.stringify(data));
                 context.fail('User has multiple active Subscriptions');
@@ -72,12 +100,60 @@ function getUserPlan(context, email, status, fn) {
 
             var plan = data.Items[0].Plan;
             var status = data.Items[0].PlanStatus;
-            fn(plan, status);
+            found(plan, status);
         }
     });
 }
 
+function updateUserPlan(context, email, plan, status) {
+    console.log("Setting user plan", email, plan, status)
+
+    dynamodb.put({
+        TableName: process.env.subscriptions_db_table,
+        Item: {
+            User: email,
+            Plan: plan,
+            PlanStatus: status,
+            SubscriptionTime: new Date().getTime()
+        },
+        ConditionExpression: 'attribute_not_exists (email)'
+    }, function(err, data) {
+        if (err) {
+            responseError.body = new Error('Error storing plan: ' + err);
+            context.fail(responseError);
+        }
+
+        successfulResponse(context, plan, status);
+    });
+}
+
+function hasUserGotActiveCard(context, email, yes, no) {
+    dynamodb.get({
+        TableName: process.env.auth_db_table,
+        Key:{
+            "email": email
+        }
+    }, function(err, data) {
+
+            if (err) {
+                console.error(err);
+                context.fail();
+                return
+            }
+
+            var stripeCustomer = data.Item.stripeCustomer;
+            if (stripeCustomer) {
+                console.log('Stripe Customer exists for user', +data.Item.email);
+                yes();
+                return
+            }
+            no()
+        });
+}
+
 function successfulResponse(context, plan, status) {
+    var responseCode = 200;
+
     var responseBody = {
         plan: plan,
         status: status

@@ -22,4 +22,10 @@ resource "aws_lambda_function" "switchPlan" {
   timeout = "30"
   memory_size = "256"
   source_code_hash = "${base64sha256(file("Lambda/PlanLambdas/switchPlan.zip"))}"
+  environment {
+    variables = {
+      auth_db_table = "${aws_dynamodb_table.users-table.name}"
+      subscriptions_db_table = "${aws_dynamodb_table.subscriptions-table.name}"
+    }
+  }
 }

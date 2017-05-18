@@ -75,9 +75,20 @@ data "aws_iam_policy_document" "IamForSwitchPlanLambda" {
     "effect" = "Allow",
     "actions" = [
       "dynamodb:Query",
+      "dynamodb:PutItem"
     ],
     "resources" = [
       "${aws_dynamodb_table.subscriptions-table.arn}"
+    ]
+  }
+
+  "statement" = {
+    "effect" = "Allow",
+    "actions" = [
+      "dynamodb:GetItem"
+    ],
+    "resources" = [
+      "${aws_dynamodb_table.users-table.arn}"
     ]
   }
 
