@@ -58,7 +58,7 @@ exports.handler = function(event, context) {
                 successfulResponse(context, pendingPlan, pendingStatus);
             }
 
-            console.log("Need to cancel pending plan")
+            console.log("Need to cancel pending plan");
 
         }, function () { // Pending Plan Not Found
             console.log("No Active or Pending plan found for User", email);

@@ -97,6 +97,8 @@ function storeUser(email, hash, salt, fn) {
 
 function storePlan(email, plan, token, fn) {
 
+	// TODO, if not free plan, insert active free plan and pending plan of choice
+
 	planStatus = plan == "free" ? "Active" : "Pending";
 
     console.log('Storing Plan: ' + plan);
