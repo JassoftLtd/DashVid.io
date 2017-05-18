@@ -34,7 +34,7 @@ exports.handler = function(event, context) {
         // if card attached or switching to free plan make new plan active immediately
         if(switchToPlan === 'free') {
             updateUserPlan(context, email, switchToPlan, 'Active');
-            return
+            return;
         }
 
         // if plan switching to is not free check if user has card attached, if not make new plan pending
@@ -86,9 +86,9 @@ function getUserPlan(context, email, status, found, notFound) {
             context.fail('User Plan not found');
         }
         else {
-            if(data.Count = 0) {
+            if(data.Count === 0) {
                 notFound();
-                return
+                return;
             }
 
             if(data.Count > 1) {
@@ -106,7 +106,7 @@ function getUserPlan(context, email, status, found, notFound) {
 }
 
 function updateUserPlan(context, email, plan, status) {
-    console.log("Setting user plan", email, plan, status)
+    console.log("Setting user plan", email, plan, status);
 
     dynamodb.put({
         TableName: process.env.subscriptions_db_table,
@@ -138,16 +138,16 @@ function hasUserGotActiveCard(context, email, yes, no) {
             if (err) {
                 console.error(err);
                 context.fail();
-                return
+                return;
             }
 
             var stripeCustomer = data.Item.stripeCustomer;
             if (stripeCustomer) {
                 console.log('Stripe Customer exists for user', +data.Item.email);
                 yes();
-                return
+                return;
             }
-            no()
+            no();
         });
 }
 
