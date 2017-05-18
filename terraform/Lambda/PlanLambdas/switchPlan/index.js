@@ -43,7 +43,7 @@ exports.handler = function(event, context) {
 };
 
 function getUserPlan(context, email, status, fn) {
-    console.log('Getting plan for user: ' + email);
+    console.log('Getting plan for user:', email, status);
 
     dynamodb.query({
         KeyConditionExpression:"#user = :user",
@@ -67,6 +67,8 @@ function getUserPlan(context, email, status, fn) {
                 console.error("User has multiple active Subscriptions: " + JSON.stringify(data));
                 context.fail('User has multiple active Subscriptions');
             }
+
+            console.log("Items", JSON.stringify(data.Items));
 
             var plan = data.Items[0].Plan;
             var status = data.Items[0].PlanStatus;
