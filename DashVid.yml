@@ -18,8 +18,8 @@ resources:
     url: {{slack_webhook_url}}
 
 jobs:
-- name: Test Deploy
-  serial_groups: [DashVidDeploy]
+- name: test-deploy
+  serial_groups: [DashVidTestDeploy]
   plan:
   - get: source-code
     trigger: true
@@ -55,34 +55,40 @@ jobs:
           Test Deploy Failed. Check it out at:
           http://concourse.jassoft.co.uk:8080/builds/$BUILD_ID
 
-- name: Tests
-  serial_groups: [DashVidDeploy]
+- name: api-tests
+  serial_groups: [DashVidTestDeploy]
   plan:
   - aggregate:
     - get: source-code
-      passed: [Test Deploy]
-    - task: API Tests
-      file: source-code/concourse/test/api-tests.yml
+      passed: [test-deploy]
+  - task: API Tests
+    file: source-code/concourse/test/api-tests.yml
+    params:
+      aws_region: us-east-1
+      aws_identity_pool: {{aws_identity_pool_test}}
+    on_failure:
+      put: slack-alert
       params:
-        aws_region: us-east-1
-        aws_identity_pool: {{aws_identity_pool_test}}
-      on_failure:
-        put: slack-alert
-        params:
-          channel: '#build-notifications'
-          text: |
-            API Tests Failed. Check it out at:
-            http://concourse.jassoft.co.uk:8080/builds/$BUILD_ID
+        channel: '#build-notifications'
+        text: |
+          API Tests Failed. Check it out at:
+          http://concourse.jassoft.co.uk:8080/builds/$BUILD_ID
 
-    - task: UI Tests
-      file: source-code/concourse/test/ui-tests.yml
-      on_failure:
-        put: slack-alert
-        params:
-          channel: '#build-notifications'
-          text: |
-            UI Tests Failed. Check it out at:
-            http://concourse.jassoft.co.uk:8080/builds/$BUILD_ID
+- name: ui-tests
+  serial_groups: [DashVidTestDeploy]
+  plan:
+  - aggregate:
+    - get: source-code
+      passed: [test-deploy]
+  - task: UI Tests
+    file: source-code/concourse/test/ui-tests.yml
+    on_failure:
+      put: slack-alert
+      params:
+        channel: '#build-notifications'
+        text: |
+          UI Tests Failed. Check it out at:
+          http://concourse.jassoft.co.uk:8080/builds/$BUILD_ID
 
 #  - task: Test Destroy API
 #    file: source-code/concourse/destroy-api.yml
@@ -111,11 +117,11 @@ jobs:
 #      TF_VAR_stripe_api_key: {{stripe_api_key_test}}
 #      AWS_ACCESS_KEY_ID: {{aws_access_key}}
 #      AWS_SECRET_ACCESS_KEY: {{aws_secret_key}}
-- name: Production Deploy
-  serial_groups: [DashVidDeploy]
+- name: production-deploy
+  serial_groups: [DashVidProdDeploy]
   plan:
   - get: source-code
-    passed: [Tests]
+    passed: [api-tests, ui-tests]
   - task: Production Deploy
     file: source-code/concourse/build-api.yml
     params:
