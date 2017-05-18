@@ -16,7 +16,7 @@ resource "aws_lambda_function" "getPlan" {
 resource "aws_lambda_function" "switchPlan" {
   filename = "Lambda/PlanLambdas/switchPlan.zip"
   function_name = "switchPlan"
-  role = "${aws_iam_role.IamForGetPlanLambda.arn}"
+  role = "${aws_iam_role.IamForSwitchPlanLambda.arn}"
   handler = "switchPlan.handler"
   runtime = "nodejs6.10"
   timeout = "30"
