@@ -1,6 +1,7 @@
 /*jshint loopfunc: true */
 console.log('video transcoded');
 
+var AWSXRay = require('aws-xray-sdk');
 var AWS = AWSXRay.captureAWS(require('aws-sdk'));
 var dynamodb = new AWS.DynamoDB.DocumentClient();
 
