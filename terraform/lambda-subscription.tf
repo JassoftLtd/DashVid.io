@@ -1,6 +1,6 @@
 // Lambda
 
-// PlanSignup
+// addCard
 resource "aws_lambda_function" "addCard" {
   filename = "Lambda/SubscriptionLambdas/addCard.zip"
   function_name = "addCard"

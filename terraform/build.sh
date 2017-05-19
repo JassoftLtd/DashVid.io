@@ -5,90 +5,37 @@ set -e
 npm config set loglevel warn
 npm install -g marked
 
-cd Lambda/AuthLambdas/
+pushd Lambda
 
-rm -f *.zip || true
 
-for f in $(ls -d */ | cut -f1 -d'/'); do
+for directory in $(ls -d */ | sed 's#/##'); do
+  echo "Building: $directory"
+  pushd $directory
+
+  rm -f *.zip || true
+
+  for f in $(ls -d */ | sed 's#/##'); do
     echo "Zipping $f"
     zip -q -9 -r $f.zip $f/*
+  done
+
+  popd
 done
 
-cd ../../Lambda/VideoLambdas/
-
-rm -f *.zip || true
-
-for f in $(ls -d */ | cut -f1 -d'/'); do
-    echo "Zipping $f"
-    zip -q -9 -r $f.zip $f/*
-done
-
-cd ../../Lambda/SubscriptionLambdas/
-
-rm -f *.zip || true
-
-for f in $(ls -d */ | cut -f1 -d'/'); do
-    echo "Zipping $f"
-    zip -q -9 -r $f.zip $f/*
-done
-
-cd ../../Lambda/PlanLambdas/
-
-rm -f *.zip || true
-
-for f in $(ls -d */ | cut -f1 -d'/'); do
-    echo "Zipping $f"
-    zip -q -9 -r $f.zip $f/*
-done
-
-cd ../../Lambda/StripeLambdas/
-
-rm -f *.zip || true
-
-for f in $(ls -d */ | cut -f1 -d'/'); do
-    echo "Zipping $f"
-    zip -q -9 -r $f.zip $f/*
-done
-
-cd ../../Lambda/TranscodingLambdas/
-
-rm -f *.zip || true
-
-for f in $(ls -d */ | cut -f1 -d'/'); do
-    echo "Zipping $f"
-    zip -q -9 -r $f.zip $f/*
-done
-
-cd ../../Lambda/CameraLambdas/
-
-rm -f *.zip || true
-
-for f in $(ls -d */ | cut -f1 -d'/'); do
-    echo "Zipping $f"
-    zip -q -9 -r $f.zip $f/*
-done
-
-cd ../../Lambda/SlackLambdas/
-
-rm -f *.zip || true
-
-for f in $(ls -d */ | cut -f1 -d'/'); do
-    echo "Zipping $f"
-    zip -q -9 -r $f.zip $f/*
-done
-
-cd ../../
+popd
 
 export GOPATH=$(pwd)/gopath
 
 go get -u github.com/jonnyshaw89/terraform-s3-dir
 go install github.com/jonnyshaw89/terraform-s3-dir
 
-cd UI/www/
+pushd UI/www/
+
 echo "Building UI"
 npm install
 npm run build
-cd ../../
+
+popd
 
 echo "Creating terraform s3 for website"
 
