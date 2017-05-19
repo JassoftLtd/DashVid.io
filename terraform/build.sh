@@ -16,7 +16,9 @@ for directory in $(ls -d */ | sed 's#/##'); do
 
   for f in $(ls -d */ | sed 's#/##'); do
     echo "Building $f"
+    pushd $f
     npm install
+    popd
     echo "Zipping $f"
     zip -q -9 -r $f.zip $f/*
   done
