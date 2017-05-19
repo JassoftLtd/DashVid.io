@@ -1,6 +1,7 @@
 /*jshint loopfunc: true */
 console.log('videos uploaded for User');
 
+var AWSXRay = require('aws-xray-sdk');
 var AWS = AWSXRay.captureAWS(require('aws-sdk'));
 // Get reference to AWS clients
 var dynamodb = new AWS.DynamoDB.DocumentClient();
