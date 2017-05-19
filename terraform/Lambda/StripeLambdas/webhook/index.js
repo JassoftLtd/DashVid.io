@@ -1,6 +1,6 @@
 console.log('Stripe Webhook');
 
-const AWS = require('aws-sdk');
+const AWS = AWSXRay.captureAWS(require('aws-sdk'));
 // Get reference to AWS clients
 const dynamodb = new AWS.DynamoDB.DocumentClient();
 
