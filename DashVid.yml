@@ -5,6 +5,11 @@ resource_types:
     repository: cfcommunity/slack-notification-resource
     tag: latest
 
+- name: pull-request
+  type: docker-image
+  source:
+    repository: jtarchie/pr
+
 resources:
 - name: source-code
   type: git
@@ -16,6 +21,25 @@ resources:
   type: slack-notification
   source:
     url: {{slack_webhook_url}}
+
+- name: pull-request
+  type: pull-request
+  source:
+    access_token: {{github-access-token}}
+    repo: JassoftLtd/DashVid.io
+    base: master
+
+groups:
+- name: Deployment
+  jobs:
+  - test-lambdas
+  - test-deploy
+  - api-tests
+  - ui-tests
+  - production-deploy
+- name: Pull Requests
+  jobs:
+  - test-pull-request
 
 jobs:
 - name: test-lambdas
@@ -176,3 +200,28 @@ jobs:
       text: |
         Production Deployment Successful. Check it out at:
         http://concourse.jassoft.co.uk:8080/builds/$BUILD_ID
+
+# test a pull request
+- name: test-pull-request
+  plan:
+  - get: pull-request
+    trigger: true
+    version: every
+  - put: pull-request
+    params:
+      path: pull-request
+      status: pending
+#  Test Lambda funcitons
+  - task: Test
+    file: pull-request/concourse/test-code.yml
+    input_mapping: {source-code: pull-request}
+    on_success:
+      put: pull-request
+      params:
+        path: pull-request
+        status: success
+    on_failure:
+      put: pull-request
+      params:
+        path: pull-request
+        status: failure
