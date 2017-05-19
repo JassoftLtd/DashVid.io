@@ -109,8 +109,8 @@ describe('Subscription', function () {
             });
     });
 
-    it('Given I have a verified account on an active standard plan, When I have a payment fail, Then I should should receive a warning email', function (done) {
-
-    });
+    // it('Given I have a verified account on an active standard plan, When I have a payment fail, Then I should should receive a warning email', function (done) {
+    //     done();
+    // });
 
 });
