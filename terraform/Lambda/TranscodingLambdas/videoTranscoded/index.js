@@ -1,7 +1,7 @@
 /*jshint loopfunc: true */
 console.log('video transcoded');
 
-var AWS = require('aws-sdk');
+var AWS = AWSXRay.captureAWS(require('aws-sdk'));
 var dynamodb = new AWS.DynamoDB.DocumentClient();
 
 exports.handler = function(event, context) {

@@ -1,7 +1,7 @@
 /*jshint loopfunc: true */
 console.log('video expiring for User');
 
-var AWS = require('aws-sdk');
+var AWS = AWSXRay.captureAWS(require('aws-sdk'));
 // Get reference to AWS clients
 var dynamodb = new AWS.DynamoDB.DocumentClient();
 
