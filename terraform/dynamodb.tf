@@ -15,7 +15,7 @@ resource "aws_dynamodb_table" "users-table" {
   }
   global_secondary_index {
     name = "StripeCustomer"
-    hash_key = "User"
+    hash_key = "stripeCustomer"
     write_capacity = 1
     read_capacity = 1
     projection_type = "KEYS_ONLY"
