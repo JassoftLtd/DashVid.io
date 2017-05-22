@@ -92,7 +92,7 @@ exports.handler = function(event, context) {
 };
 
 function getUserByStripeCustomerId(context, stripeCustomer, fn) {
-    console.log('Getting camera for key: ' + cameraKey);
+    console.log('Getting User for StripeCustomerId', stripeCustomer);
 
     dynamodb.query({
         IndexName: "StripeCustomer",
