@@ -1,4 +1,3 @@
-'use strict';
 console.log('Loading videos for User');
 
 var AWS = require('aws-sdk');
@@ -10,7 +9,7 @@ exports.handler = function(event, context) {
 
 	var responseCode = 200;
 
-    console.log("event: " + JSON.stringify(event))
+    console.log("event: " + JSON.stringify(event));
 
 	var currentUser = event.requestContext.identity.cognitoIdentityId.split(':')[1];
 
@@ -33,25 +32,25 @@ exports.handler = function(event, context) {
             return context.fail(err);
         }
 
-        var responseBody = []
+        var responseBody = [];
 
         for(var i = 0; i < data.Items.length; i++) {
             var video = data.Items[i];
 
-            var recordedDate = new Date(video.RecordedDate)
+            var recordedDate = new Date(video.RecordedDate);
 
-            recordedDate.setHours(0)
-            recordedDate.setMinutes(0)
-            recordedDate.setSeconds(0)
+            recordedDate.setHours(0);
+            recordedDate.setMinutes(0);
+            recordedDate.setSeconds(0);
 
-            recordedDate.setMilliseconds(0)
+            recordedDate.setMilliseconds(0);
 
-            recordedDate = recordedDate.getTime()
+            recordedDate = recordedDate.getTime();
 
-            let recordForDate = getRecordForDate(responseBody, recordedDate)
+            let recordForDate = getRecordForDate(responseBody, recordedDate);
             if(!recordForDate) {
-                responseBody.push({date: recordedDate, videos: []})
-                recordForDate = getRecordForDate(responseBody, recordedDate)
+                responseBody.push({date: recordedDate, videos: []});
+                recordForDate = getRecordForDate(responseBody, recordedDate);
 			}
 
 			var videoDate = {
@@ -59,12 +58,12 @@ exports.handler = function(event, context) {
                 VideoStatus: video.VideoStatus,
                 RecordedDate: parseInt(video.RecordedDate, 10),
                 VideoDuration: parseInt(video.VideoDuration, 10),
-			}
+			};
 
-            recordForDate.videos.push(videoDate)
+            recordForDate.videos.push(videoDate);
         }
 
-        console.log("dayGroups: " + JSON.stringify(responseBody))
+        console.log("dayGroups: " + JSON.stringify(responseBody));
 
 		var response = {
 			statusCode: responseCode,
@@ -74,7 +73,7 @@ exports.handler = function(event, context) {
 			body: JSON.stringify(responseBody)
 		};
 
-		console.log("response: " + JSON.stringify(response))
+		console.log("response: " + JSON.stringify(response));
 		context.succeed(response);
 	});
 
@@ -86,6 +85,6 @@ function getRecordForDate(collection, date) {
         var record = collection[i];
 
         if(record.date == date)
-        	return record
+        	return record;
     }
 }
