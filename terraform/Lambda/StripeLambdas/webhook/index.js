@@ -24,7 +24,6 @@ exports.handler = function(event, context) {
 
     switch(type) {
         case "invoice.payment_succeeded":
-            console.log("If user has pending plan matching this payment then activate it", type);
 
             let plan = payload.data.object.lines.data[0].plan.id;
             let customer = payload.data.object.customer;
@@ -36,7 +35,7 @@ exports.handler = function(event, context) {
                 dynamodb.update({
                     TableName: "Subscriptions",
                     Key: {
-                        "User": email
+                        "User": user
                     },
                     FilterExpression: '#planStatus = :statusPending and #plan = :plan',
                     ExpressionAttributeNames: {
@@ -77,17 +76,18 @@ exports.handler = function(event, context) {
         default:
             console.log("Unhandled event type: " + type);
             console.log(JSON.stringify(payload));
+
+            var response = {
+                statusCode: responseCode,
+                headers: {
+                    'Access-Control-Allow-Origin': '*'
+                }
+            };
+            console.log("response: " + JSON.stringify(response));
+            context.succeed(response);
+
             break;
     }
-
-    var response = {
-        statusCode: responseCode,
-        headers: {
-            'Access-Control-Allow-Origin': '*'
-        }
-    };
-    console.log("response: " + JSON.stringify(response));
-    context.succeed(response);
 
 };
 
@@ -112,7 +112,7 @@ function getUserByStripeCustomerId(context, stripeCustomer, fn) {
         else {
             console.log('DB Data: ', JSON.stringify(data.Items));
 
-            let email = data.Items[0].User;
+            let email = data.Items[0].email;
             console.log("User is " + email);
             fn(email);
         }
