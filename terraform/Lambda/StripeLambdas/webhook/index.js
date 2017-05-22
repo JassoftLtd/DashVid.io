@@ -24,7 +24,6 @@ exports.handler = function(event, context) {
 
     switch(type) {
         case "invoice.payment_succeeded":
-            console.log("If user has pending plan matching this payment then activate it", type);
 
             let plan = payload.data.object.lines.data[0].plan.id;
             let customer = payload.data.object.customer;
@@ -36,7 +35,7 @@ exports.handler = function(event, context) {
                 dynamodb.update({
                     TableName: "Subscriptions",
                     Key: {
-                        "User": email
+                        "User": user
                     },
                     FilterExpression: '#planStatus = :statusPending and #plan = :plan',
                     ExpressionAttributeNames: {
