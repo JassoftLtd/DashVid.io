@@ -109,42 +109,17 @@ exports.handler = function(event, context) {
                                                 context.fail();
                                             }
 
-                                            dynamodb.update({
-                                                TableName: "Subscriptions",
-                                                Key: {
-                                                    "User": email
+                                            var response = {
+                                                statusCode: responseCode,
+                                                headers: {
+                                                    'Access-Control-Allow-Origin': '*'
                                                 },
-                                                // FilterExpression: '#planStatus = :statusPending',
-                                                ExpressionAttributeNames: {
-                                                    "#planStatus": "PlanStatus"
-                                                },
-                                                UpdateExpression: "set SubscriptionId = :id, #planStatus = :statusActive",
-                                                ExpressionAttributeValues: {
-                                                    ":id": subscription.id,
-                                                    // ":statusPending": "Pending",
-                                                    ":statusActive": "Active"
-                                                },
-                                                ReturnValues: "UPDATED_NEW"
-                                            }, function (err, data) {
-                                                if (err) {
-                                                    console.error("Unable to update subscription. Error JSON:", JSON.stringify(err, null, 2));
-                                                    context.fail();
-                                                } else {
-
-                                                    var response = {
-                                                        statusCode: responseCode,
-                                                        headers: {
-                                                            'Access-Control-Allow-Origin': '*'
-                                                        },
-                                                        body: JSON.stringify({
-                                                            added: true
-                                                        })
-                                                    };
-                                                    console.log("response: " + JSON.stringify(response));
-                                                    context.succeed(response);
-
-                                                }
-                                            });
+                                                body: JSON.stringify({
+                                                    added: true
+                                                })
+                                            };
+                                            console.log("response: " + JSON.stringify(response));
+                                            context.succeed(response);
 
                                         }
                                     );

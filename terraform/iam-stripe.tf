@@ -24,11 +24,20 @@ data "aws_iam_policy_document" "IamForStripeWebhookLambda" {
   "statement" = {
     "effect" = "Allow",
     "actions" = [
-      "dynamodb:GetItem",
+      "dynamodb:Query",
+    ],
+    "resources" = [
+      "${aws_dynamodb_table.users-table.arn}/index/StripeCustomer"
+    ]
+  }
+
+  "statement" = {
+    "effect" = "Allow",
+    "actions" = [
       "dynamodb:UpdateItem"
     ],
     "resources" = [
-      "${aws_dynamodb_table.users-table.arn}"
+      "${aws_dynamodb_table.subscriptions-table.arn}"
     ]
   }
 

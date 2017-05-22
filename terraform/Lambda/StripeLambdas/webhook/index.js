@@ -23,9 +23,57 @@ exports.handler = function(event, context) {
     console.log("Event Type: " + type);
 
     switch(type) {
-        // case "customer.subscription.created":
-        //     console.log("some logic for handing this type of event", type);
-        //     break;
+        case "invoice.payment_succeeded":
+            console.log("If user has pending plan matching this payment then activate it", type);
+
+            let plan = payload.data.object.lines.data[0].plan.id;
+            let customer = payload.data.object.customer;
+
+            console.log("Plan", plan);
+            console.log("Customer", customer);
+
+            getUserByStripeCustomerId(context, customer, function (user) {
+                dynamodb.update({
+                    TableName: "Subscriptions",
+                    Key: {
+                        "User": email
+                    },
+                    FilterExpression: '#planStatus = :statusPending and #plan = :plan',
+                    ExpressionAttributeNames: {
+                        "#planStatus": "PlanStatus",
+                        "#plan": "Plan"
+                    },
+                    UpdateExpression: "set #planStatus = :statusActive",
+                    ExpressionAttributeValues: {
+                        ":statusPending": "Pending",
+                        ":statusActive": "Active",
+                        ":plan": plan
+                    },
+                    ReturnValues: "UPDATED_NEW"
+                }, function (err, data) {
+                    if (err) {
+                        console.error("Unable to update subscription. Error JSON:", JSON.stringify(err, null, 2));
+                        context.fail();
+                    } else {
+
+                        console.log("Updated plan to Active");
+
+                        var response = {
+                            statusCode: responseCode,
+                            headers: {
+                                'Access-Control-Allow-Origin': '*'
+                            },
+                            body: JSON.stringify({
+                                message: "Updated plan to Active"
+                            })
+                        };
+                        console.log("response: " + JSON.stringify(response));
+                        context.succeed(response);
+
+                    }
+                });
+            });
+            break;
         default:
             console.log("Unhandled event type: " + type);
             console.log(JSON.stringify(payload));
@@ -42,3 +90,31 @@ exports.handler = function(event, context) {
     context.succeed(response);
 
 };
+
+function getUserByStripeCustomerId(context, stripeCustomer, fn) {
+    console.log('Getting camera for key: ' + cameraKey);
+
+    dynamodb.query({
+        IndexName: "StripeCustomer",
+        KeyConditionExpression: '#stripeCustomer = :stripeCustomer',
+        ExpressionAttributeNames: {
+            "#stripeCustomer": "stripeCustomer",
+        },
+        ExpressionAttributeValues: {
+            ":stripeCustomer": stripeCustomer
+        },
+        "TableName": "Users"
+    }, function (err, data) {
+        if (err) {
+            console.error("User not found for Stripe Customer", cameraKey, err);
+            context.fail();
+        }
+        else {
+            console.log('DB Data: ', JSON.stringify(data.Items));
+
+            let email = data.Items[0].User;
+            console.log("User is " + email);
+            fn(email);
+        }
+    });
+}

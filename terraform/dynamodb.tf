@@ -9,6 +9,17 @@ resource "aws_dynamodb_table" "users-table" {
     name = "email"
     type = "S"
   }
+  attribute {
+    name = "stripeCustomer"
+    type = "S"
+  }
+  global_secondary_index {
+    name = "StripeCustomer"
+    hash_key = "User"
+    write_capacity = 1
+    read_capacity = 1
+    projection_type = "KEYS_ONLY"
+  }
 }
 
 resource "aws_dynamodb_table" "videos-table" {
@@ -34,7 +45,8 @@ resource "aws_dynamodb_table" "videos-table" {
         range_key = "RecordedDate"
         write_capacity = 1
         read_capacity = 1
-        projection_type = "ALL"
+        projection_type = "INCLUDE"
+        non_key_attributes = ["Id", "VideoStatus", "RecordedDate", "VideoDuration"]
     }
 }
 
@@ -50,14 +62,6 @@ resource "aws_dynamodb_table" "subscriptions-table" {
   attribute {
     name = "SubscriptionTime"
     type = "N"
-  }
-  global_secondary_index {
-    name = "UserPlanByDate"
-    hash_key = "User"
-    range_key = "SubscriptionTime"
-    write_capacity = 1
-    read_capacity = 1
-    projection_type = "ALL"
   }
 }
 
@@ -90,6 +94,6 @@ resource "aws_dynamodb_table" "cameras-table" {
     hash_key = "CameraKey"
     write_capacity = 1
     read_capacity = 1
-    projection_type = "ALL"
+    projection_type = "KEYS_ONLY"
   }
 }
