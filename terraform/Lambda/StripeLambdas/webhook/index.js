@@ -12,8 +12,6 @@ const stripe = require("stripe")(
 exports.handler = function(event, context) {
     "use strict";
 
-	var responseCode = 200;
-
     console.log("event: " + JSON.stringify(event));
 
     var payload = JSON.parse(event.body);
@@ -34,7 +32,7 @@ exports.handler = function(event, context) {
             console.log(JSON.stringify(payload));
 
             var response = {
-                statusCode: responseCode,
+                statusCode: 200,
                 headers: {
                     'Access-Control-Allow-Origin': '*'
                 }
@@ -109,7 +107,7 @@ function handleInvoicePaymentSucceeded(context, payload) {
                 console.log("Updated plan to Active");
 
                 var response = {
-                    statusCode: responseCode,
+                    statusCode: 200,
                     headers: {
                         'Access-Control-Allow-Origin': '*'
                     },
@@ -154,7 +152,7 @@ function handleCustomerSubscriptionDeleted(context, payload) {
             }
 
             var response = {
-                statusCode: responseCode,
+                statusCode: 200,
                 headers: {
                     'Access-Control-Allow-Origin': '*'
                 },
