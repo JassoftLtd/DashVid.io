@@ -1,5 +1,6 @@
 // dependencies
-var AWS = require('aws-sdk');
+var AWSXRay = require('aws-xray-sdk');
+var AWS = AWSXRay.captureAWS(require('aws-sdk'));
 var crypto = require('crypto');
 
 // Get reference to AWS clients
@@ -82,19 +83,19 @@ exports.handler = function (event, context) {
         console.log('User logged in: ' + email);
         getToken(email, function (err, identityId, token) {
             if (err) {
-                responseError.body = 'Error in getToken: ' + err
+                responseError.body = 'Error in getToken: ' + err;
                 context.fail(JSON.stringify(responseError));
             } else {
                 responseSuccess.body = JSON.stringify({
                     login: true,
                     identityId: identityId,
                     token: token
-                })
-                console.log("response: " + JSON.stringify(responseSuccess))
+                });
+                console.log("response: " + JSON.stringify(responseSuccess));
                 context.succeed(responseSuccess);
             }
         });
 
 
     });
-}
+};

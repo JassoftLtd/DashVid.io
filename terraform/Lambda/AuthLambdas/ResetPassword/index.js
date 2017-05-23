@@ -1,5 +1,6 @@
 // dependencies
-var AWS = require('aws-sdk');
+var AWSXRay = require('aws-xray-sdk');
+var AWS = AWSXRay.captureAWS(require('aws-sdk'));
 var crypto = require('crypto');
 
 // Get reference to AWS clients
@@ -101,40 +102,40 @@ exports.handler = function(event, context) {
 
 	getUser(event, email, function(err, correctToken) {
 		if (err) {
-			responseError.body = new Error('Error in getUser: ' + err)
+			responseError.body = new Error('Error in getUser: ' + err);
 			context.fail(responseError);
 		} else if (!correctToken) {
 			console.log('No lostToken for user: ' + email);
 			responseSuccess.body = JSON.stringify({
 				changed: false
-			})
-			console.log("response: " + JSON.stringify(responseSuccess))
+			});
+			console.log("response: " + JSON.stringify(responseSuccess));
 			context.succeed(responseSuccess);
 		} else if (lostToken != correctToken) {
 			// Wrong token, no password lost
 			console.log('Wrong lostToken for user: ' + email);
 			responseSuccess.body = JSON.stringify({
 				changed: false
-			})
-			console.log("response: " + JSON.stringify(responseSuccess))
+			});
+			console.log("response: " + JSON.stringify(responseSuccess));
 			context.succeed(responseSuccess);
 		} else {
 			console.log('User logged in: ' + email);
 			computeHash(newPassword, function(err, newSalt, newHash) {
 				if (err) {
-					responseError.body = new Error('Error in computeHash: ' + err)
+					responseError.body = new Error('Error in computeHash: ' + err);
 					context.fail(responseError);
 				} else {
 					updateUser(event, email, newHash, newSalt, function(err, data) {
 						if (err) {
-							responseError.body = new Error('Error in updateUser: ' + err)
+							responseError.body = new Error('Error in updateUser: ' + err);
 							context.fail(responseError);
 						} else {
 							console.log('User password changed: ' + email);
 							responseSuccess.body = JSON.stringify({
 								changed: true
-							})
-							console.log("response: " + JSON.stringify(responseSuccess))
+							});
+							console.log("response: " + JSON.stringify(responseSuccess));
 							context.succeed(responseSuccess);
 						}
 					});
@@ -142,4 +143,4 @@ exports.handler = function(event, context) {
 			});
 		}
 	});
-}
+};

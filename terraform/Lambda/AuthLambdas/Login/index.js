@@ -1,5 +1,6 @@
 // dependencies
-var AWS = require('aws-sdk');
+var AWSXRay = require('aws-xray-sdk');
+var AWS = AWSXRay.captureAWS(require('aws-sdk'));
 var crypto = require('crypto');
 
 // Get reference to AWS clients
@@ -87,16 +88,16 @@ exports.handler = function(event, context) {
 
 	getUser(event, email, function(err, correctHash, salt, verified) {
 		if (err) {
-			responseError.body = new Error('Error in getUser: ' + err)
+			responseError.body = new Error('Error in getUser: ' + err);
 			context.fail(JSON.stringify(responseError));
 		} else {
-			if (correctHash == null) {
+			if (correctHash === null) {
 				// User not found
 				console.log('User not found: ' + email);
 				responseSuccess.body = JSON.stringify({
 					login: false
-				})
-				console.log("response: " + JSON.stringify(responseSuccess))
+				});
+				console.log("response: " + JSON.stringify(responseSuccess));
 				context.succeed(responseSuccess);
 			} else if (!verified) {
 				// User not verified
@@ -104,13 +105,13 @@ exports.handler = function(event, context) {
 				responseSuccess.body = JSON.stringify({
 					login: false,
 					verified: false,
-				})
-				console.log("response: " + JSON.stringify(responseSuccess))
+				});
+				console.log("response: " + JSON.stringify(responseSuccess));
 				context.succeed(responseSuccess);
 			} else {
 				computeHash(clearPassword, salt, function(err, salt, hash) {
 					if (err) {
-						responseError.body = new Error('Error in hash: ' + err)
+						responseError.body = new Error('Error in hash: ' + err);
 						context.fail(JSON.stringify(responseError));
 					} else {
 						console.log('correctHash: ' + correctHash + ' hash: ' + hash);
@@ -119,15 +120,15 @@ exports.handler = function(event, context) {
 							console.log('User logged in: ' + email);
 							getToken(event, email, function(err, identityId, token) {
 								if (err) {
-									responseError.body = 'Error in getToken: ' + err
+									responseError.body = 'Error in getToken: ' + err;
 									context.fail(JSON.stringify(responseError));
 								} else {
 									responseSuccess.body = JSON.stringify({
 										login: true,
 										identityId: identityId,
 										token: token
-									})
-									console.log("response: " + JSON.stringify(responseSuccess))
+									});
+									console.log("response: " + JSON.stringify(responseSuccess));
 									context.succeed(responseSuccess);
 								}
 							});
@@ -136,8 +137,8 @@ exports.handler = function(event, context) {
 							console.log('User login failed: ' + email);
 							responseSuccess.body = JSON.stringify({
 								login:false
-							})
-							console.log("response: " + JSON.stringify(responseSuccess))
+							});
+							console.log("response: " + JSON.stringify(responseSuccess));
 							context.succeed(responseSuccess);
 						}
 					}
@@ -145,4 +146,4 @@ exports.handler = function(event, context) {
 			}
 		}
 	});
-}
+};

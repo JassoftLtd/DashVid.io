@@ -1,5 +1,6 @@
 // dependencies
-var AWS = require('aws-sdk');
+var AWSXRay = require('aws-xray-sdk');
+var AWS = AWSXRay.captureAWS(require('aws-sdk'));
 
 // Get reference to AWS clients
 var dynamodb = new AWS.DynamoDB.DocumentClient();
@@ -58,7 +59,7 @@ function updateUser(event, email, fn) {
 }
 
 function getUserPlanAndStatus(email, fn) {
-    console.log('Getting plan for user: ' + email)
+    console.log('Getting plan for user: ' + email);
 
     dynamodb.query({
         KeyConditionExpression:"#user = :user",
@@ -71,18 +72,18 @@ function getUserPlanAndStatus(email, fn) {
         "TableName": "Subscriptions"
     }, function(err, data) {
         if (err) {
-            console.error("User Plan Error: " + JSON.stringify(err))
-            fn('User not found', null, null)
+            console.error("User Plan Error: " + JSON.stringify(err));
+            fn('User not found', null, null);
         }
         else {
             if(data.Count > 1) {
-                console.error("User had multiple pending Subscriptions: " + JSON.stringify(data))
+                console.error("User had multiple pending Subscriptions: " + JSON.stringify(data));
                 fn('User had multiple pending Subscriptions', null, null); // User not found
             }
 
             var plan = data.Items[0].Plan;
             var status = data.Items[0].PlanStatus;
-            console.log("User plan is " + plan)
+            console.log("User plan is " + plan);
             fn(null, plan, status);
         }
     });
@@ -98,25 +99,25 @@ exports.handler = function(event, context) {
 
 	getUser(event, email, function(err, verified, correctToken) {
 		if (err) {
-			responseError.body = new Error('Error in getUser: ' + err)
+			responseError.body = new Error('Error in getUser: ' + err);
 			context.fail(responseError);
 		} else if (verified) {
 			console.log('User already verified: ' + email);
 			responseSuccess.body = JSON.stringify({
 				verified: true
-			})
-			console.log("response: " + JSON.stringify(responseSuccess))
+			});
+			console.log("response: " + JSON.stringify(responseSuccess));
 			context.succeed(responseSuccess);
 		} else if (verifyToken == correctToken) {
 			// User verified
 			updateUser(event, email, function(err, data) {
 				if (err) {
-					responseError.body = new Error('Error in updateUser: ' + err)
+					responseError.body = new Error('Error in updateUser: ' + err);
 					context.fail(responseError);
 				} else {
 					getUserPlanAndStatus(email, function (err, plan, status) {
                         if (err) {
-                            responseError.body = new Error('Error in getting user plan: ' + err)
+                            responseError.body = new Error('Error in getting user plan: ' + err);
                             context.fail(responseError);
                         }
                         else {
@@ -125,11 +126,11 @@ exports.handler = function(event, context) {
                                 verified: true,
 								plan: plan,
 								status: status
-                            })
-                            console.log("response: " + JSON.stringify(responseSuccess))
+                            });
+                            console.log("response: " + JSON.stringify(responseSuccess));
                             context.succeed(responseSuccess);
                         }
-                    })
+                    });
 				}
 			});
 		} else {
@@ -137,9 +138,9 @@ exports.handler = function(event, context) {
 			console.log('User [' + email + '] not verified using token [' + verifyToken + '] Token should be [' + correctToken + ']');
 			responseSuccess.body = JSON.stringify({
 				verified: false
-			})
-			console.log("response: " + JSON.stringify(responseSuccess))
+			});
+			console.log("response: " + JSON.stringify(responseSuccess));
 			context.succeed(responseSuccess);
 		}
 	});
-}
+};

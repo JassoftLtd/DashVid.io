@@ -1,7 +1,7 @@
-'use strict';
 console.log('Loading cameras for User');
 
-var AWS = require('aws-sdk');
+var AWSXRay = require('aws-xray-sdk');
+var AWS = AWSXRay.captureAWS(require('aws-sdk'));
 // Get reference to AWS clients
 var dynamodb = new AWS.DynamoDB.DocumentClient();
 
@@ -10,7 +10,7 @@ exports.handler = function(event, context) {
 
 	var responseCode = 200;
 
-    console.log("event: " + JSON.stringify(event))
+    console.log("event: " + JSON.stringify(event));
 
     var email = event.requestContext.identity.cognitoAuthenticationProvider.split(':').pop();
 
@@ -29,9 +29,9 @@ exports.handler = function(event, context) {
             return context.fail(err);
         }
 
-        console.log("Dynamo Result:" + JSON.stringify(data.Items))
+        console.log("DynamoDB Result:" + JSON.stringify(data.Items));
 
-        var responseBody = []
+        var responseBody = [];
 
         for(var i = 0; i < data.Items.length; i++) {
             var camera = data.Items[i];
@@ -43,7 +43,7 @@ exports.handler = function(event, context) {
                 });
         }
 
-        console.log("Cameras: " + JSON.stringify(responseBody))
+        console.log("Cameras: " + JSON.stringify(responseBody));
 
 		var response = {
 			statusCode: responseCode,
@@ -53,7 +53,7 @@ exports.handler = function(event, context) {
 			body: JSON.stringify(responseBody)
 		};
 
-		console.log("response: " + JSON.stringify(response))
+		console.log("response: " + JSON.stringify(response));
 		context.succeed(response);
 	});
 
