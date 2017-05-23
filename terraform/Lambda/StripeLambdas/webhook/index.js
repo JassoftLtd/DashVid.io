@@ -127,6 +127,10 @@ function handleInvoicePaymentSucceeded(context, payload) {
 
 function handleCustomerSubscriptionDeleted(context, payload) {
 
+    let customer = payload.data.object.customer;
+
+    console.log("Customer", customer);
+
     getUserByStripeCustomerId(context, customer, function (user) {
 
         let plan = "free";
