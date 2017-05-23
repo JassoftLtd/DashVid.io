@@ -1,7 +1,8 @@
 console.log('Loading ChangePassword function');
 
 // dependencies
-var AWS = require('aws-sdk');
+var AWSXRay = require('aws-xray-sdk');
+var AWS = AWSXRay.captureAWS(require('aws-sdk'));
 var crypto = require('crypto');
 
 // Get reference to AWS clients
@@ -95,7 +96,7 @@ exports.handler = function(event, context) {
 
 	var payload = JSON.parse(event.body);
 
-	console.log('Payload: ' + JSON.stringify(payload))
+	console.log('Payload: ' + JSON.stringify(payload));
 
 	var email = event.requestContext.identity.cognitoAuthenticationProvider.split(':').pop();
 	var oldPassword = payload.oldPassword;
@@ -103,22 +104,22 @@ exports.handler = function(event, context) {
 
 	getUser(event, email, function(err, correctHash, salt) {
 		if (err) {
-			responseError.body = JSON.stringify(new Error('Error in getUser: ' + JSON.stringify(err)))
+			responseError.body = JSON.stringify(new Error('Error in getUser: ' + JSON.stringify(err)));
             console.log(JSON.stringify(responseError.body));
 			context.fail(responseError);
 		} else {
-			if (correctHash == null) {
+			if (correctHash === null) {
 				// User not found
 				console.log('User not found: ' + email);
 				responseSuccess.body = JSON.stringify({
 					changed: false
-				})
-				console.log("response: " + JSON.stringify(responseSuccess))
+				});
+				console.log("response: " + JSON.stringify(responseSuccess));
 				context.succeed(responseSuccess);
 			} else {
 				computeHash(oldPassword, salt, function(err, salt, hash) {
 					if (err) {
-						responseError.body = JSON.stringify(new Error('Error in hash: ' + err))
+						responseError.body = JSON.stringify(new Error('Error in hash: ' + err));
                         console.log(JSON.stringify(responseError.body));
 						context.fail(responseError);
 					} else {
@@ -127,21 +128,21 @@ exports.handler = function(event, context) {
 							console.log('User logged in: ' + email);
 							computeHash(newPassword, function(err, newSalt, newHash) {
 								if (err) {
-									responseError.body = JSON.stringify(new Error('Error in computeHash: ' + err))
+									responseError.body = JSON.stringify(new Error('Error in computeHash: ' + err));
                                     console.log(JSON.stringify(responseError.body));
 									context.fail(responseError);
 								} else {
 									updateUser(event, email, newHash, newSalt, function(err, data) {
 										if (err) {
-											responseError.body = JSON.stringify(new Error('Error in updateUser: ' + err))
+											responseError.body = JSON.stringify(new Error('Error in updateUser: ' + err));
                                             console.log(JSON.stringify(responseError.body));
 											context.fail(responseError);
 										} else {
 											console.log('User password changed: ' + email);
 											responseSuccess.body = JSON.stringify({
 												changed: true
-											})
-											console.log("response: " + JSON.stringify(responseSuccess))
+											});
+											console.log("response: " + JSON.stringify(responseSuccess));
 											context.succeed(responseSuccess);
 										}
 									});
@@ -152,8 +153,8 @@ exports.handler = function(event, context) {
 							console.log('User login failed: ' + email);
 							responseSuccess.body = JSON.stringify({
 								changed: false
-							})
-							console.log("response: " + JSON.stringify(responseSuccess))
+							});
+							console.log("response: " + JSON.stringify(responseSuccess));
 							context.succeed(responseSuccess);
 						}
 					}
@@ -161,4 +162,4 @@ exports.handler = function(event, context) {
 			}
 		}
 	});
-}
+};

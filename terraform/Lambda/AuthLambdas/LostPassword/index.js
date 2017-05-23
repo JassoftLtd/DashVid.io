@@ -1,5 +1,6 @@
 // dependencies
-var AWS = require('aws-sdk');
+var AWSXRay = require('aws-xray-sdk');
+var AWS = AWSXRay.captureAWS(require('aws-sdk'));
 var crypto = require('crypto');
 
 // Get reference to AWS clients
@@ -49,7 +50,7 @@ function storeLostToken(email, fn) {
 
         if(process.env.token_override && process.env.token_override !== '') {
             console.log('Reset token override: ' + process.env.token_override);
-            token = process.env.token_override
+            token = process.env.token_override;
         }
 
 		dynamodb.updateItem({
@@ -93,14 +94,14 @@ function sendLostPasswordEmail(email, token, fn) {
 			},
 			Body: {
 				Html: {
-					Data: '<html><head>'
-					+ '<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />'
-					+ '<title>' + subject + '</title>'
-					+ '</head><body>'
-					+ 'Please <a href="' + lostLink + '">click here to reset your password</a> or copy & paste the following link in a browser:'
-					+ '<br><br>'
-					+ '<a href="' + lostLink + '">' + lostLink + '</a>'
-					+ '</body></html>'
+					Data: '<html><head>' +
+					'<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />' +
+					'<title>' + subject + '</title>' +
+					'</head><body>' +
+					'Please <a href="' + lostLink + '">click here to reset your password</a> or copy & paste the following link in a browser:' +
+					'<br><br>' +
+					'<a href="' + lostLink + '">' + lostLink + '</a>' +
+					'</body></html>'
 				}
 			}
 		}
@@ -116,31 +117,31 @@ exports.handler = function(event, context) {
 
 	getUser(email, function(err, emailFound) {
 		if (err) {
-			responseError.body = new Error('Error in getUserFromEmail: ' + err)
+			responseError.body = new Error('Error in getUserFromEmail: ' + err);
 			context.fail(responseError);
 		} else if (!emailFound) {
 			console.log('User not found: ' + email);
 			responseSuccess.body = JSON.stringify({
 				sent: false
-			})
-			console.log("response: " + JSON.stringify(responseSuccess))
+			});
+			console.log("response: " + JSON.stringify(responseSuccess));
 			context.succeed(responseSuccess);
 		} else {
 			storeLostToken(email, function(err, token) {
 				if (err) {
-					responseError.body = new Error('Error in storeLostToken: ' + err)
+					responseError.body = new Error('Error in storeLostToken: ' + err);
 					context.fail(responseError);
 				} else {
 					sendLostPasswordEmail(email, token, function(err, data) {
 						if (err) {
-							responseError.body = new Error('Error in sendLostPasswordEmail: ' + err)
+							responseError.body = new Error('Error in sendLostPasswordEmail: ' + err);
 							context.fail(responseError);
 						} else {
 							console.log('User found: ' + email);
 							responseSuccess.body = JSON.stringify({
 								sent: true
-							})
-							console.log("response: " + JSON.stringify(responseSuccess))
+							});
+							console.log("response: " + JSON.stringify(responseSuccess));
 							context.succeed(responseSuccess);
 						}
 					});
@@ -148,4 +149,4 @@ exports.handler = function(event, context) {
 			});
 		}
 	});
-}
+};

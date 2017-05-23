@@ -1,5 +1,6 @@
 // dependencies
-const AWS = require('aws-sdk');
+var AWSXRay = require('aws-xray-sdk');
+var AWS = AWSXRay.captureAWS(require('aws-sdk'));
 const crypto = require('crypto');
 
 const uuidV4 = require('uuid/v4');
