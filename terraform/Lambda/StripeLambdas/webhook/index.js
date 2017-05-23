@@ -139,7 +139,7 @@ function handleCustomerSubscriptionDeleted(context, payload) {
         console.log("Setting user plan", user, plan, status);
 
         dynamodb.put({
-            TableName: Subscriptions,
+            TableName: "Subscriptions",
             Item: {
                 User: user,
                 Plan: plan,
