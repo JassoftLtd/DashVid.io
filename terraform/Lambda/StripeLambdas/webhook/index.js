@@ -76,17 +76,18 @@ exports.handler = function(event, context) {
         default:
             console.log("Unhandled event type: " + type);
             console.log(JSON.stringify(payload));
+
+            var response = {
+                statusCode: responseCode,
+                headers: {
+                    'Access-Control-Allow-Origin': '*'
+                }
+            };
+            console.log("response: " + JSON.stringify(response));
+            context.succeed(response);
+
             break;
     }
-
-    var response = {
-        statusCode: responseCode,
-        headers: {
-            'Access-Control-Allow-Origin': '*'
-        }
-    };
-    console.log("response: " + JSON.stringify(response));
-    context.succeed(response);
 
 };
 
@@ -111,7 +112,7 @@ function getUserByStripeCustomerId(context, stripeCustomer, fn) {
         else {
             console.log('DB Data: ', JSON.stringify(data.Items));
 
-            let email = data.Items[0].User;
+            let email = data.Items[0].email;
             console.log("User is " + email);
             fn(email);
         }
