@@ -6,6 +6,8 @@ var planHelper = require('./helpers/planHelper.js');
 
 var stripe = require('stripe')('pk_test_ebVZiJokoWIbXD1TNNZ8lj2A');
 
+var sleep = require('sleep');
+
 describe('Subscription', function () {
 
     this.timeout(30000);
@@ -39,6 +41,8 @@ describe('Subscription', function () {
                             })
                             .then(function (result) {
                                 assert.equal(result.data.added, true);
+
+                                sleep.sleep(10)
 
                                 planHelper.getPlan(user)
                                     .catch(function (error) {
