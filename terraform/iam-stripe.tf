@@ -34,7 +34,7 @@ data "aws_iam_policy_document" "IamForStripeWebhookLambda" {
   "statement" = {
     "effect" = "Allow",
     "actions" = [
-      "dynamodb:UpdateItem"
+      "dynamodb:UpdateItem",
       "dynamodb:PutItem"
     ],
     "resources" = [
