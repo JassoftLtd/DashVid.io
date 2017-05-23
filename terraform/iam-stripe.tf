@@ -52,6 +52,17 @@ data "aws_iam_policy_document" "IamForStripeWebhookLambda" {
       "*"
     ]
   }
+
+  "statement" = {
+    "effect" = "Allow",
+    "actions" = [
+      "xray:PutTraceSegments",
+      "xray:PutTelemetryRecords"
+    ],
+    "resources" = [
+      "*"
+    ]
+  }
 }
 
 resource "aws_iam_role_policy" "IamForStripeWebhookLambda" {

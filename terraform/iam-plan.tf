@@ -42,6 +42,17 @@ data "aws_iam_policy_document" "IamForGetPlanLambda" {
       "*"
     ]
   }
+
+  "statement" = {
+    "effect" = "Allow",
+    "actions" = [
+      "xray:PutTraceSegments",
+      "xray:PutTelemetryRecords"
+    ],
+    "resources" = [
+      "*"
+    ]
+  }
 }
 
 resource "aws_iam_role_policy" "IamForGetPlanLambda" {
@@ -98,6 +109,17 @@ data "aws_iam_policy_document" "IamForSwitchPlanLambda" {
       "logs:CreateLogGroup",
       "logs:CreateLogStream",
       "logs:PutLogEvents"
+    ],
+    "resources" = [
+      "*"
+    ]
+  }
+
+  "statement" = {
+    "effect" = "Allow",
+    "actions" = [
+      "xray:PutTraceSegments",
+      "xray:PutTelemetryRecords"
     ],
     "resources" = [
       "*"

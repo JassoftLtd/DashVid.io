@@ -30,6 +30,17 @@ data "aws_iam_policy_document" "iam_for_slack_alert" {
       "arn:aws:logs:${var.aws_region}:${data.aws_caller_identity.current.account_id}:log-group:/aws/lambda/${aws_lambda_function.slack_alert.function_name}:log-stream:*"
     ]
   }
+
+  "statement" = {
+    "effect" = "Allow",
+    "actions" = [
+      "xray:PutTraceSegments",
+      "xray:PutTelemetryRecords"
+    ],
+    "resources" = [
+      "*"
+    ]
+  }
 }
 
 resource "aws_iam_role_policy" "iam_for_slack_alert" {

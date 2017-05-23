@@ -42,6 +42,17 @@ data "aws_iam_policy_document" "IamForGetVideosLambda" {
       "*"
     ]
   }
+
+  "statement" = {
+    "effect" = "Allow",
+    "actions" = [
+      "xray:PutTraceSegments",
+      "xray:PutTelemetryRecords"
+    ],
+    "resources" = [
+      "*"
+    ]
+  }
 }
 
 resource "aws_iam_role_policy" "IamForGetVideosLambda" {
@@ -105,6 +116,17 @@ data "aws_iam_policy_document" "IamForCreateVideoLambda" {
           "*"
         ]
     }
+
+  "statement" = {
+    "effect" = "Allow",
+    "actions" = [
+      "xray:PutTraceSegments",
+      "xray:PutTelemetryRecords"
+    ],
+    "resources" = [
+      "*"
+    ]
+  }
 }
 
 resource "aws_iam_role_policy" "IamForCreateVideoLambda" {
@@ -178,6 +200,17 @@ data "aws_iam_policy_document" "IamForUploadedVideoLambda" {
           "*"
         ]
     }
+
+  "statement" = {
+    "effect" = "Allow",
+    "actions" = [
+      "xray:PutTraceSegments",
+      "xray:PutTelemetryRecords"
+    ],
+    "resources" = [
+      "*"
+    ]
+  }
 }
 
 resource "aws_iam_role_policy" "IamForUploadedVideoLambda" {
@@ -241,6 +274,17 @@ data "aws_iam_policy_document" "IamForGetVideoLambda" {
       "*"
     ]
   }
+
+  "statement" = {
+    "effect" = "Allow",
+    "actions" = [
+      "xray:PutTraceSegments",
+      "xray:PutTelemetryRecords"
+    ],
+    "resources" = [
+      "*"
+    ]
+  }
 }
 
 resource "aws_iam_role_policy" "IamForGetVideoLambda" {
@@ -288,6 +332,17 @@ data "aws_iam_policy_document" "IamForExpiredVideoLambda" {
       "logs:CreateLogGroup",
       "logs:CreateLogStream",
       "logs:PutLogEvents"
+    ],
+    "resources" = [
+      "*"
+    ]
+  }
+
+  "statement" = {
+    "effect" = "Allow",
+    "actions" = [
+      "xray:PutTraceSegments",
+      "xray:PutTelemetryRecords"
     ],
     "resources" = [
       "*"
