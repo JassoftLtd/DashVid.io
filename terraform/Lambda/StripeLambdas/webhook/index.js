@@ -37,7 +37,7 @@ exports.handler = function(event, context) {
                     Key: {
                         "User": user
                     },
-                    FilterExpression: '#planStatus = :statusPending and #plan = :plan',
+                    FilterExpression: '#planStatus = :statusPending AND #plan = :plan',
                     ExpressionAttributeNames: {
                         "#planStatus": "PlanStatus",
                         "#plan": "Plan"
