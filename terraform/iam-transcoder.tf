@@ -113,6 +113,17 @@ data "aws_iam_policy_document" "IamForTranscodeVideoLambda" {
       "*"
     ]
   }
+
+  "statement" = {
+    "effect" = "Allow",
+    "actions" = [
+      "xray:PutTraceSegments",
+      "xray:PutTelemetryRecords"
+    ],
+    "resources" = [
+      "*"
+    ]
+  }
 }
 
 resource "aws_iam_role_policy" "IamForTranscodeVideoLambda" {
@@ -159,6 +170,17 @@ data "aws_iam_policy_document" "IamForVideoTranscodedLambda" {
       "logs:CreateLogGroup",
       "logs:CreateLogStream",
       "logs:PutLogEvents"
+    ],
+    "resources" = [
+      "*"
+    ]
+  }
+
+  "statement" = {
+    "effect" = "Allow",
+    "actions" = [
+      "xray:PutTraceSegments",
+      "xray:PutTelemetryRecords"
     ],
     "resources" = [
       "*"

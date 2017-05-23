@@ -312,6 +312,17 @@ data "aws_iam_policy_document" "LambdAuthCreateUser_LambdAuthCreateUser" {
             "*"
         ]
     }
+
+    "statement" = {
+        "effect" = "Allow",
+        "actions" = [
+            "xray:PutTraceSegments",
+            "xray:PutTelemetryRecords"
+        ],
+        "resources" = [
+            "*"
+        ]
+    }
 }
 
 resource "aws_iam_role_policy" "LambdAuthCreateUser_LambdAuthCreateUser" {
