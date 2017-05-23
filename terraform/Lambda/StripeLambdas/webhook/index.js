@@ -24,54 +24,10 @@ exports.handler = function(event, context) {
 
     switch(type) {
         case "invoice.payment_succeeded":
-
-            let plan = payload.data.object.lines.data[0].plan.id;
-            let customer = payload.data.object.customer;
-
-            console.log("Plan", plan);
-            console.log("Customer", customer);
-
-            getUserByStripeCustomerId(context, customer, function (user) {
-                dynamodb.update({
-                    TableName: "Subscriptions",
-                    Key: {
-                        "User": user
-                    },
-                    ConditionExpression: '#plan = :plan AND #planStatus = :statusPending',
-                    ExpressionAttributeNames: {
-                        "#plan": "Plan",
-                        "#planStatus": "PlanStatus",
-                    },
-                    UpdateExpression: "set #planStatus = :statusActive",
-                    ExpressionAttributeValues: {
-                        ":statusPending": "Pending",
-                        ":statusActive": "Active",
-                        ":plan": plan
-                    },
-                    ReturnValues: "UPDATED_NEW"
-                }, function (err, data) {
-                    if (err) {
-                        console.error("Unable to update subscription. Error JSON:", JSON.stringify(err, null, 2));
-                        context.fail();
-                    } else {
-
-                        console.log("Updated plan to Active");
-
-                        var response = {
-                            statusCode: responseCode,
-                            headers: {
-                                'Access-Control-Allow-Origin': '*'
-                            },
-                            body: JSON.stringify({
-                                message: "Updated plan to Active"
-                            })
-                        };
-                        console.log("response: " + JSON.stringify(response));
-                        context.succeed(response);
-
-                    }
-                });
-            });
+            handleInvoicePaymentSucceeded(context, payload);
+            break;
+        case "customer.subscription.deleted":
+            handleCustomerSubscriptionDeleted(context, payload);
             break;
         default:
             console.log("Unhandled event type: " + type);
@@ -116,5 +72,94 @@ function getUserByStripeCustomerId(context, stripeCustomer, fn) {
             console.log("User is " + email);
             fn(email);
         }
+    });
+}
+
+function handleInvoicePaymentSucceeded(context, payload) {
+    let plan = payload.data.object.lines.data[0].plan.id;
+    let customer = payload.data.object.customer;
+
+    console.log("Plan", plan);
+    console.log("Customer", customer);
+
+    getUserByStripeCustomerId(context, customer, function (user) {
+        dynamodb.update({
+            TableName: "Subscriptions",
+            Key: {
+                "User": user
+            },
+            ConditionExpression: '#plan = :plan AND #planStatus = :statusPending',
+            ExpressionAttributeNames: {
+                "#plan": "Plan",
+                "#planStatus": "PlanStatus",
+            },
+            UpdateExpression: "set #planStatus = :statusActive",
+            ExpressionAttributeValues: {
+                ":statusPending": "Pending",
+                ":statusActive": "Active",
+                ":plan": plan
+            },
+            ReturnValues: "UPDATED_NEW"
+        }, function (err, data) {
+            if (err) {
+                console.error("Unable to update subscription. Error JSON:", JSON.stringify(err, null, 2));
+                context.fail();
+            } else {
+
+                console.log("Updated plan to Active");
+
+                var response = {
+                    statusCode: responseCode,
+                    headers: {
+                        'Access-Control-Allow-Origin': '*'
+                    },
+                    body: JSON.stringify({
+                        message: "Updated plan to Active"
+                    })
+                };
+                console.log("response: " + JSON.stringify(response));
+                context.succeed(response);
+
+            }
+        });
+    });
+}
+
+function handleCustomerSubscriptionDeleted(context, payload) {
+
+    getUserByStripeCustomerId(context, customer, function (user) {
+
+        let plan = "free";
+        let status = "Active";
+
+        console.log("Setting user plan", user, plan, status);
+
+        dynamodb.put({
+            TableName: Subscriptions,
+            Item: {
+                User: user,
+                Plan: plan,
+                PlanStatus: status,
+                SubscriptionTime: new Date().getTime()
+            },
+            ConditionExpression: 'attribute_not_exists (email)'
+        }, function (err, data) {
+            if (err) {
+                console.error("Error storing plan. Error JSON:", JSON.stringify(err, null, 2));
+                context.fail();
+            }
+
+            var response = {
+                statusCode: responseCode,
+                headers: {
+                    'Access-Control-Allow-Origin': '*'
+                },
+                body: JSON.stringify({
+                    message: "Downgraded Plan to Free"
+                })
+            };
+            console.log("response: " + JSON.stringify(response));
+            context.succeed(response);
+        });
     });
 }
