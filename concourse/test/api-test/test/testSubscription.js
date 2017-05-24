@@ -7,7 +7,7 @@ var stripeWebhookHelper = require('./helpers/stripeWebhookHelper.js');
 
 var stripe = require('stripe')('pk_test_ebVZiJokoWIbXD1TNNZ8lj2A');
 
-var sleep = require('sleep');
+var promiseRetry = require('promise-retry');
 
 describe('Subscription', function () {
 
@@ -42,24 +42,29 @@ describe('Subscription', function () {
                             .then(function (result) {
                                 assert.equal(result.data.added, true);
 
-                                sleep.sleep(10)
+                                promiseRetry(function (retry, number) {
 
-                                planHelper.getPlan(user)
-                                    .catch(function (error) {
-                                        console.error("Error getting plan")
-                                        done(error)
-                                    })
-                                    .then(function (result) {
-                                        assert(result.data.plan);
-                                        assert.equal(result.data.plan, "standard");
-                                        assert.equal(result.data.status, "Active");
-                                        done();
-                                    });
+                                    return planHelper.getPlan(user)
+                                        .then(function (result) {
+                                            assert(result.data.plan);
+                                            assert.equal(result.data.plan, "standard");
+                                            assert.equal(result.data.status, "Active");
+                                            done();
+                                        })
+                                        .catch(retry);
+                                })
+                                .catch(function (error) {
+                                    console.error("Error getting plan")
+                                    done(error)
+                                });
 
                             })
                     })
 
-                });
+                })
+               .catch(function (error) {
+                   done(error)
+               });
         });
     });
 
@@ -145,27 +150,44 @@ describe('Subscription', function () {
                             .then(function (result) {
                                 assert.equal(result.data.added, true);
 
-                                sleep.sleep(10);
+                                promiseRetry(function (retry1, number) {
 
-                                stripeWebhookHelper.subscriptionCancelled(user)
-                                    .catch(function (error) {
-                                        console.error("Error Canceling Subscription Via Stripe Webhook");
-                                        done(error);
-                                    })
-                                    .then(function (result) {
+                                    return planHelper.getPlan(user)
+                                        .then(function (result) {
+                                            assert(result.data.plan);
+                                            assert.equal(result.data.plan, "standard");
+                                            assert.equal(result.data.status, "Active");
 
-                                        planHelper.getPlan(user)
-                                            .catch(function (error) {
-                                                console.error("Error getting plan");
-                                                done(error);
-                                            })
-                                            .then(function (result) {
-                                                assert(result.data.plan);
-                                                assert.equal(result.data.plan, "free");
-                                                assert.equal(result.data.status, "Active");
-                                                done();
-                                            });
-                                    });
+                                            stripeWebhookHelper.subscriptionCancelled(user)
+                                                .catch(function (error) {
+                                                    console.error("Error Canceling Subscription Via Stripe Webhook");
+                                                    done(error);
+                                                })
+                                                .then(function (result) {
+
+                                                    promiseRetry(function (retry2, number) {
+
+                                                        return planHelper.getPlan(user)
+                                                            .then(function (result) {
+                                                                assert(result.data.plan);
+                                                                assert.equal(result.data.plan, "free");
+                                                                assert.equal(result.data.status, "Active");
+                                                                done();
+                                                            })
+                                                            .catch(retry2);
+                                                    })
+                                                    .catch(function (error) {
+                                                        console.error("Error getting plan")
+                                                        done(error)
+                                                    })
+                                                });
+                                        })
+                                        .catch(retry1);
+                                })
+                                .catch(function (error) {
+                                    console.error("Error getting plan")
+                                    done(error)
+                                });
 
                             })
                     })

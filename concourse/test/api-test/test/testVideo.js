@@ -2,7 +2,7 @@ var assert = require('assert');
 var fs = require('fs');
 var request = require('request');
 var rp = require('request-promise');
-var sleep = require('sleep');
+var promiseRetry = require('promise-retry');
 
 var authHelper = require('./helpers/authHelper.js');
 var videoHelper = require('./helpers/videoHelper.js');
@@ -93,16 +93,18 @@ describe('Video', function () {
                                     return rp(options)
                                         .then(function () {
 
-                                            sleep.sleep(3)
+                                            return promiseRetry(function (retryVideos, numberVideos) {
 
-                                            return videoHelper.getVideos(user)
-                                                .then(function (result) {
-                                                    var recordedDate = new Date()
+                                                return videoHelper.getVideos(user)
+                                                    .then(function (result) {
+                                                        var recordedDate = new Date()
 
-                                                    assert.equal(result.data.length, 1);
+                                                        assert.equal(result.data.length, 1);
 
-                                                    assert.equal(result.data[0].videos.length, 1);
-                                                });
+                                                        assert.equal(result.data[0].videos.length, 1);
+                                                    })
+                                                    .catch(retryVideos);
+                                            });
                                         });
                                 });
                         });
@@ -137,25 +139,28 @@ describe('Video', function () {
                                     return rp(options)
                                         .then(function () {
 
-                                            sleep.sleep(3)
+                                            return promiseRetry(function (retryVideos, numberVideos) {
 
-                                            return videoHelper.getVideos(user)
-                                                .then(function (result) {
-                                                    var recordedDate = new Date()
+                                                return videoHelper.getVideos(user)
+                                                    .then(function (result) {
+                                                        var recordedDate = new Date()
 
-                                                    assert.equal(result.data.length, 1);
+                                                        assert.equal(result.data.length, 1);
 
-                                                    assert.equal(result.data[0].videos.length, 1);
+                                                        assert.equal(result.data[0].videos.length, 1);
 
-                                                    sleep.sleep(15)
-
-                                                    return videoHelper.getVideo(user, result.data[0].videos[0].Id)
-                                                        .then(function (result) {
-                                                            assert(result.data.video);
-                                                            assert(result.data.originalUrl);
-                                                            assert(result.data.url);
+                                                        return promiseRetry(function (retryVideo, numberVideo) {
+                                                            return videoHelper.getVideo(user, result.data[0].videos[0].Id)
+                                                                .then(function (result) {
+                                                                    assert(result.data.video);
+                                                                    assert(result.data.originalUrl);
+                                                                    assert(result.data.url);
+                                                                })
+                                                                .catch(retryVideo);
                                                         })
-                                                })
+                                                    })
+                                                    .catch(retryVideos);
+                                            });
                                         });
 
                                 });
