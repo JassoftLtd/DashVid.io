@@ -14,6 +14,6 @@ resource "aws_elastictranscoder_pipeline" "free" {
   }
 
   notifications = {
-    completed     = "${aws_sns_topic.video_transcoded.arn}"
+    completed = "${aws_sns_topic.video_transcoded.arn}"
   }
 }

@@ -3,6 +3,7 @@
 // Stripe Webhook
 resource "aws_iam_role" "IamForStripeWebhookLambda" {
   name = "${var.environment_name}iam_for_stripe_webhook_lambda"
+
   assume_role_policy = <<EOF
 {
   "Version": "2012-10-17",
@@ -22,52 +23,60 @@ EOF
 
 data "aws_iam_policy_document" "IamForStripeWebhookLambda" {
   "statement" = {
-    "effect" = "Allow",
+    "effect" = "Allow"
+
     "actions" = [
       "dynamodb:Query",
-    ],
+    ]
+
     "resources" = [
-      "${aws_dynamodb_table.users-table.arn}/index/StripeCustomer"
+      "${aws_dynamodb_table.users-table.arn}/index/StripeCustomer",
     ]
   }
 
   "statement" = {
-    "effect" = "Allow",
+    "effect" = "Allow"
+
     "actions" = [
       "dynamodb:UpdateItem",
-      "dynamodb:PutItem"
-    ],
+      "dynamodb:PutItem",
+    ]
+
     "resources" = [
-      "${aws_dynamodb_table.subscriptions-table.arn}"
+      "${aws_dynamodb_table.subscriptions-table.arn}",
     ]
   }
 
   "statement" = {
-    "effect" = "Allow",
+    "effect" = "Allow"
+
     "actions" = [
       "logs:CreateLogGroup",
       "logs:CreateLogStream",
-      "logs:PutLogEvents"
-    ],
+      "logs:PutLogEvents",
+    ]
+
     "resources" = [
-      "*"
+      "*",
     ]
   }
 
   "statement" = {
-    "effect" = "Allow",
+    "effect" = "Allow"
+
     "actions" = [
       "xray:PutTraceSegments",
-      "xray:PutTelemetryRecords"
-    ],
+      "xray:PutTelemetryRecords",
+    ]
+
     "resources" = [
-      "*"
+      "*",
     ]
   }
 }
 
 resource "aws_iam_role_policy" "IamForStripeWebhookLambda" {
-  name = "${var.environment_name}IamForStripeWebhookLambda"
-  role = "${aws_iam_role.IamForStripeWebhookLambda.id}"
+  name   = "${var.environment_name}IamForStripeWebhookLambda"
+  role   = "${aws_iam_role.IamForStripeWebhookLambda.id}"
   policy = "${data.aws_iam_policy_document.IamForStripeWebhookLambda.json}"
 }
