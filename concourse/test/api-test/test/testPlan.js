@@ -2,7 +2,6 @@ var assert = require('assert');
 var fs = require('fs');
 var request = require('request');
 var rp = require('request-promise');
-var sleep = require('sleep');
 
 var authHelper = require('./helpers/authHelper.js');
 var planHelper = require('./helpers/planHelper.js');
