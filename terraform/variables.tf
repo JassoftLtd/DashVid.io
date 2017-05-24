@@ -83,5 +83,5 @@ variable "slack_webhook_url" {
 
 variable "slack_channel" {
   description = "Slack Channel to post alerts to"
-  default = "app-alerts"
+  default     = "app-alerts"
 }

@@ -1,7 +1,8 @@
 resource "aws_iam_role" "Cognito_LambdAuthAuth_Role" {
-    name               = "${var.environment_name}Cognito_LambdAuthAuth_Role"
-    path               = "/"
-    assume_role_policy = <<POLICY
+  name = "${var.environment_name}Cognito_LambdAuthAuth_Role"
+  path = "/"
+
+  assume_role_policy = <<POLICY
 {
   "Version": "2012-10-17",
   "Statement": [
@@ -27,9 +28,10 @@ POLICY
 }
 
 resource "aws_iam_role" "Cognito_LambdAuthUnauth_Role" {
-    name               = "${var.environment_name}Cognito_LambdAuthUnauth_Role"
-    path               = "/"
-    assume_role_policy = <<POLICY
+  name = "${var.environment_name}Cognito_LambdAuthUnauth_Role"
+  path = "/"
+
+  assume_role_policy = <<POLICY
 {
   "Version": "2012-10-17",
   "Statement": [
@@ -55,9 +57,10 @@ POLICY
 }
 
 resource "aws_iam_role" "LambdAuthChangePassword" {
-    name               = "${var.environment_name}LambdAuthChangePassword"
-    path               = "/"
-    assume_role_policy = <<POLICY
+  name = "${var.environment_name}LambdAuthChangePassword"
+  path = "/"
+
+  assume_role_policy = <<POLICY
 {
   "Version": "2012-10-17",
   "Statement": [
@@ -75,9 +78,10 @@ POLICY
 }
 
 resource "aws_iam_role" "LambdAuthCreateUser" {
-    name               = "${var.environment_name}LambdAuthCreateUser"
-    path               = "/"
-    assume_role_policy = <<POLICY
+  name = "${var.environment_name}LambdAuthCreateUser"
+  path = "/"
+
+  assume_role_policy = <<POLICY
 {
   "Version": "2012-10-17",
   "Statement": [
@@ -95,9 +99,10 @@ POLICY
 }
 
 resource "aws_iam_role" "LambdAuthLogin" {
-    name               = "${var.environment_name}LambdAuthLogin"
-    path               = "/"
-    assume_role_policy = <<POLICY
+  name = "${var.environment_name}LambdAuthLogin"
+  path = "/"
+
+  assume_role_policy = <<POLICY
 {
   "Version": "2012-10-17",
   "Statement": [
@@ -115,9 +120,10 @@ POLICY
 }
 
 resource "aws_iam_role" "LambdAuthLoginCameraKey" {
-    name               = "${var.environment_name}LambdAuthLoginCameraKey"
-    path               = "/"
-    assume_role_policy = <<POLICY
+  name = "${var.environment_name}LambdAuthLoginCameraKey"
+  path = "/"
+
+  assume_role_policy = <<POLICY
 {
   "Version": "2012-10-17",
   "Statement": [
@@ -135,9 +141,10 @@ POLICY
 }
 
 resource "aws_iam_role" "LambdAuthLostPassword" {
-    name               = "${var.environment_name}LambdAuthLostPassword"
-    path               = "/"
-    assume_role_policy = <<POLICY
+  name = "${var.environment_name}LambdAuthLostPassword"
+  path = "/"
+
+  assume_role_policy = <<POLICY
 {
   "Version": "2012-10-17",
   "Statement": [
@@ -155,9 +162,10 @@ POLICY
 }
 
 resource "aws_iam_role" "LambdAuthResetPassword" {
-    name               = "${var.environment_name}LambdAuthResetPassword"
-    path               = "/"
-    assume_role_policy = <<POLICY
+  name = "${var.environment_name}LambdAuthResetPassword"
+  path = "/"
+
+  assume_role_policy = <<POLICY
 {
   "Version": "2012-10-17",
   "Statement": [
@@ -175,9 +183,10 @@ POLICY
 }
 
 resource "aws_iam_role" "LambdAuthVerifyUser" {
-    name               = "${var.environment_name}LambdAuthVerifyUser"
-    path               = "/"
-    assume_role_policy = <<POLICY
+  name = "${var.environment_name}LambdAuthVerifyUser"
+  path = "/"
+
+  assume_role_policy = <<POLICY
 {
   "Version": "2012-10-17",
   "Statement": [
@@ -196,9 +205,10 @@ POLICY
 
 // Do i still need these as im now going through API Gateway
 resource "aws_iam_role_policy" "Cognito_LambdAuthAuth_Role_Cognito_LambdAuthAuth_Role" {
-    name   = "${var.environment_name}Cognito_LambdAuthAuth_Role"
-    role   = "${aws_iam_role.Cognito_LambdAuthAuth_Role.name}"
-    policy = <<POLICY
+  name = "${var.environment_name}Cognito_LambdAuthAuth_Role"
+  role = "${aws_iam_role.Cognito_LambdAuthAuth_Role.name}"
+
+  policy = <<POLICY
 {
   "Version": "2012-10-17",
   "Statement": [
@@ -227,9 +237,10 @@ POLICY
 }
 
 resource "aws_iam_role_policy" "Cognito_LambdAuthUnauth_Role_Cognito_LambdAuthUnauth_Role" {
-    name   = "${var.environment_name}Cognito_LambdAuthUnauth_Role"
-    role   = "${aws_iam_role.Cognito_LambdAuthUnauth_Role.name}"
-    policy = <<POLICY
+  name = "${var.environment_name}Cognito_LambdAuthUnauth_Role"
+  role = "${aws_iam_role.Cognito_LambdAuthUnauth_Role.name}"
+
+  policy = <<POLICY
 {
   "Version": "2012-10-17",
   "Statement": [
@@ -250,9 +261,10 @@ POLICY
 }
 
 resource "aws_iam_role_policy" "LambdAuthChangePassword_LambdAuthChangePassword" {
-    name   = "${var.environment_name}LambdAuthChangePassword"
-    role   = "${aws_iam_role.LambdAuthChangePassword.name}"
-    policy = <<POLICY
+  name = "${var.environment_name}LambdAuthChangePassword"
+  role = "${aws_iam_role.LambdAuthChangePassword.name}"
+
+  policy = <<POLICY
 {
   "Version": "2012-10-17",
   "Statement": [
@@ -278,64 +290,72 @@ POLICY
 }
 
 data "aws_iam_policy_document" "LambdAuthCreateUser_LambdAuthCreateUser" {
-    "statement" = {
-        "effect" = "Allow",
-        "actions" = [
-            "dynamodb:PutItem",
-        ],
-        "resources" = [
-            "${aws_dynamodb_table.users-table.arn}",
-            "${aws_dynamodb_table.subscriptions-table.arn}",
-            "${aws_dynamodb_table.cameras-table.arn}"
-        ]
-    }
+  "statement" = {
+    "effect" = "Allow"
 
-    "statement" = {
-        "effect" = "Allow",
-        "actions" = [
-            "ses:SendEmail",
-            "ses:SendRawEmail",
-        ],
-        "resources" = [
-            "*"
-        ]
-    }
+    "actions" = [
+      "dynamodb:PutItem",
+    ]
 
-    "statement" = {
-        "effect" = "Allow",
-        "actions" = [
-            "logs:CreateLogGroup",
-            "logs:CreateLogStream",
-            "logs:PutLogEvents"
-        ],
-        "resources" = [
-            "*"
-        ]
-    }
+    "resources" = [
+      "${aws_dynamodb_table.users-table.arn}",
+      "${aws_dynamodb_table.subscriptions-table.arn}",
+      "${aws_dynamodb_table.cameras-table.arn}",
+    ]
+  }
 
-    "statement" = {
-        "effect" = "Allow",
-        "actions" = [
-            "xray:PutTraceSegments",
-            "xray:PutTelemetryRecords"
-        ],
-        "resources" = [
-            "*"
-        ]
-    }
+  "statement" = {
+    "effect" = "Allow"
+
+    "actions" = [
+      "ses:SendEmail",
+      "ses:SendRawEmail",
+    ]
+
+    "resources" = [
+      "*",
+    ]
+  }
+
+  "statement" = {
+    "effect" = "Allow"
+
+    "actions" = [
+      "logs:CreateLogGroup",
+      "logs:CreateLogStream",
+      "logs:PutLogEvents",
+    ]
+
+    "resources" = [
+      "*",
+    ]
+  }
+
+  "statement" = {
+    "effect" = "Allow"
+
+    "actions" = [
+      "xray:PutTraceSegments",
+      "xray:PutTelemetryRecords",
+    ]
+
+    "resources" = [
+      "*",
+    ]
+  }
 }
 
 resource "aws_iam_role_policy" "LambdAuthCreateUser_LambdAuthCreateUser" {
-    name = "${var.environment_name}LambdAuthCreateUser"
-    role = "${aws_iam_role.LambdAuthCreateUser.name}"
-    policy = "${data.aws_iam_policy_document.LambdAuthCreateUser_LambdAuthCreateUser.json}"
+  name   = "${var.environment_name}LambdAuthCreateUser"
+  role   = "${aws_iam_role.LambdAuthCreateUser.name}"
+  policy = "${data.aws_iam_policy_document.LambdAuthCreateUser_LambdAuthCreateUser.json}"
 }
 
-
 resource "aws_iam_role_policy" "LambdAuthLogin_LambdAuthLogin" {
-    name   = "${var.environment_name}LambdAuthLogin"
-    role   = "${aws_iam_role.LambdAuthLogin.name}"
-    policy = <<POLICY
+  name = "${var.environment_name}LambdAuthLogin"
+  role = "${aws_iam_role.LambdAuthLogin.name}"
+
+  policy = <<POLICY
 {
   "Version": "2012-10-17",
   "Statement": [
@@ -367,9 +387,10 @@ POLICY
 }
 
 resource "aws_iam_role_policy" "LambdAuthLogin_LambdAuthLoginCameraKey" {
-    name   = "${var.environment_name}LambdAuthLoginCameraKey"
-    role   = "${aws_iam_role.LambdAuthLoginCameraKey.name}"
-    policy = <<POLICY
+  name = "${var.environment_name}LambdAuthLoginCameraKey"
+  role = "${aws_iam_role.LambdAuthLoginCameraKey.name}"
+
+  policy = <<POLICY
 {
   "Version": "2012-10-17",
   "Statement": [
@@ -401,9 +422,10 @@ POLICY
 }
 
 resource "aws_iam_role_policy" "LambdAuthLostPassword_LambdAuthLostPassword" {
-    name   = "${var.environment_name}LambdAuthLostPassword"
-    role   = "${aws_iam_role.LambdAuthLostPassword.name}"
-    policy = <<POLICY
+  name = "${var.environment_name}LambdAuthLostPassword"
+  role = "${aws_iam_role.LambdAuthLostPassword.name}"
+
+  policy = <<POLICY
 {
   "Version": "2012-10-17",
   "Statement": [
@@ -437,9 +459,10 @@ POLICY
 }
 
 resource "aws_iam_role_policy" "LambdAuthResetPassword_LambdAuthResetPassword" {
-    name   = "${var.environment_name}LambdAuthResetPassword"
-    role   = "${aws_iam_role.LambdAuthResetPassword.name}"
-    policy = <<POLICY
+  name = "${var.environment_name}LambdAuthResetPassword"
+  role = "${aws_iam_role.LambdAuthResetPassword.name}"
+
+  policy = <<POLICY
 {
   "Version": "2012-10-17",
   "Statement": [
@@ -465,9 +488,10 @@ POLICY
 }
 
 resource "aws_iam_role_policy" "LambdAuthVerifyUser_LambdAuthVerifyUser" {
-    name   = "${var.environment_name}LambdAuthVerifyUser"
-    role   = "${aws_iam_role.LambdAuthVerifyUser.name}"
-    policy = <<POLICY
+  name = "${var.environment_name}LambdAuthVerifyUser"
+  role = "${aws_iam_role.LambdAuthVerifyUser.name}"
+
+  policy = <<POLICY
 {
   "Version": "2012-10-17",
   "Statement": [
@@ -498,4 +522,3 @@ resource "aws_iam_role_policy" "LambdAuthVerifyUser_LambdAuthVerifyUser" {
 }
 POLICY
 }
-

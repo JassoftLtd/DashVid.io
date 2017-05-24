@@ -1,8 +1,8 @@
 // API Gateway
 
 resource "aws_api_gateway_rest_api" "DashCamAPI" {
-    name = "DashCamAPI"
-    description = "This is my API for DashCam UI"
+  name        = "DashCamAPI"
+  description = "This is my API for DashCam UI"
 }
 
 resource "aws_api_gateway_account" "DashCamAPIAccount" {
@@ -11,6 +11,7 @@ resource "aws_api_gateway_account" "DashCamAPIAccount" {
 
 resource "aws_iam_role" "IamForDashCamAPIAccount" {
   name = "${var.environment_name}iam_for_DashCamAPIAccount"
+
   assume_role_policy = <<EOF
 {
   "Version": "2012-10-17",
@@ -30,7 +31,8 @@ EOF
 
 data "aws_iam_policy_document" "IamForDashCamAPIAccount" {
   "statement" = {
-    "effect" = "Allow",
+    "effect" = "Allow"
+
     "actions" = [
       "logs:CreateLogGroup",
       "logs:CreateLogStream",
@@ -38,17 +40,18 @@ data "aws_iam_policy_document" "IamForDashCamAPIAccount" {
       "logs:DescribeLogStreams",
       "logs:PutLogEvents",
       "logs:GetLogEvents",
-      "logs:FilterLogEvents"
-    ],
+      "logs:FilterLogEvents",
+    ]
+
     "resources" = [
-      "*"
+      "*",
     ]
   }
 }
 
 resource "aws_iam_role_policy" "IamForDashCamAPIAccount" {
-  name = "${var.environment_name}IamForDashCamAPIAccount"
-  role = "${aws_iam_role.IamForDashCamAPIAccount.id}"
+  name   = "${var.environment_name}IamForDashCamAPIAccount"
+  role   = "${aws_iam_role.IamForDashCamAPIAccount.id}"
   policy = "${data.aws_iam_policy_document.IamForDashCamAPIAccount.json}"
 }
 
@@ -68,10 +71,11 @@ resource "aws_api_gateway_deployment" "DevDeployment" {
     "module.ApiGatewayLambda-getVideos",
     "module.ApiGatewayLambda-createVideo",
     "module.ApiGatewayLambda-getVideo",
-    "module.ApiGatewayLambda-getCameras"
+    "module.ApiGatewayLambda-getCameras",
   ]
+
   rest_api_id = "${aws_api_gateway_rest_api.DashCamAPI.id}"
-  stage_name = "Dev"
+  stage_name  = "Dev"
 }
 
 // Auth
@@ -83,16 +87,16 @@ resource "aws_api_gateway_deployment" "DevDeployment" {
 
 // /v1
 resource "aws_api_gateway_resource" "v1" {
-  depends_on = ["aws_api_gateway_rest_api.DashCamAPI"]
+  depends_on  = ["aws_api_gateway_rest_api.DashCamAPI"]
   rest_api_id = "${aws_api_gateway_rest_api.DashCamAPI.id}"
-  parent_id = "${aws_api_gateway_rest_api.DashCamAPI.root_resource_id}"
-  path_part = "v1"
+  parent_id   = "${aws_api_gateway_rest_api.DashCamAPI.root_resource_id}"
+  path_part   = "v1"
 }
 
 resource "aws_api_gateway_domain_name" "DashCamAPI" {
   domain_name = "${var.environment_name}api.${var.domain_name}"
 
-  certificate_arn        = "${var.api_certificate_arn}"
+  certificate_arn = "${var.api_certificate_arn}"
 }
 
 resource "aws_api_gateway_base_path_mapping" "DashCamAPI" {
