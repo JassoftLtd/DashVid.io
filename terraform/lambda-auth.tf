@@ -9,6 +9,10 @@ resource "aws_lambda_function" "createUser" {
   memory_size      = "256"
   source_code_hash = "${base64sha256(file("${path.module}/Lambda/AuthLambdas/CreateUser.zip"))}"
 
+  tracing_config {
+    mode = "Active"
+  }
+
   environment {
     variables = {
       auth_db_table           = "${aws_dynamodb_table.users-table.name}"
@@ -31,6 +35,10 @@ resource "aws_lambda_function" "changePassword" {
   memory_size      = "256"
   source_code_hash = "${base64sha256(file("${path.module}/Lambda/AuthLambdas/ChangePassword.zip"))}"
 
+  tracing_config {
+    mode = "Active"
+  }
+
   environment {
     variables = {
       auth_db_table = "${aws_dynamodb_table.users-table.name}"
@@ -47,6 +55,10 @@ resource "aws_lambda_function" "login" {
   timeout          = "30"
   memory_size      = "256"
   source_code_hash = "${base64sha256(file("${path.module}/Lambda/AuthLambdas/Login.zip"))}"
+
+  tracing_config {
+    mode = "Active"
+  }
 
   environment {
     variables = {
@@ -67,6 +79,10 @@ resource "aws_lambda_function" "loginCameraKey" {
   memory_size      = "256"
   source_code_hash = "${base64sha256(file("${path.module}/Lambda/AuthLambdas/CameraKeyAuth.zip"))}"
 
+  tracing_config {
+    mode = "Active"
+  }
+
   environment {
     variables = {
       auth_identity_pool           = "${var.aws_identity_pool}"
@@ -84,6 +100,10 @@ resource "aws_lambda_function" "lostPassword" {
   timeout          = "30"
   memory_size      = "256"
   source_code_hash = "${base64sha256(file("${path.module}/Lambda/AuthLambdas/LostPassword.zip"))}"
+
+  tracing_config {
+    mode = "Active"
+  }
 
   environment {
     variables = {
@@ -105,6 +125,10 @@ resource "aws_lambda_function" "resetPassword" {
   memory_size      = "256"
   source_code_hash = "${base64sha256(file("${path.module}/Lambda/AuthLambdas/ResetPassword.zip"))}"
 
+  tracing_config {
+    mode = "Active"
+  }
+
   environment {
     variables = {
       auth_db_table = "${aws_dynamodb_table.users-table.name}"
@@ -121,6 +145,10 @@ resource "aws_lambda_function" "verifyUser" {
   timeout          = "30"
   memory_size      = "256"
   source_code_hash = "${base64sha256(file("${path.module}/Lambda/AuthLambdas/VerifyUser.zip"))}"
+
+  tracing_config {
+    mode = "Active"
+  }
 
   environment {
     variables = {

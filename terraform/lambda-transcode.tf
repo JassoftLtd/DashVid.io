@@ -11,6 +11,10 @@ resource "aws_lambda_function" "transcodeVideo" {
   memory_size      = "256"
   source_code_hash = "${base64sha256(file("Lambda/TranscodingLambdas/transcodeVideo.zip"))}"
 
+  tracing_config {
+    mode = "Active"
+  }
+
   environment {
     variables = {
       PipelineId = "${aws_elastictranscoder_pipeline.free.id}"
@@ -36,6 +40,10 @@ resource "aws_lambda_function" "videoTranscoded" {
   timeout          = "30"
   memory_size      = "256"
   source_code_hash = "${base64sha256(file("Lambda/TranscodingLambdas/videoTranscoded.zip"))}"
+
+  tracing_config {
+    mode = "Active"
+  }
 }
 
 resource "aws_lambda_permission" "videoTranscoded_allow_sns" {

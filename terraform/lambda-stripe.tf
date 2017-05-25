@@ -11,6 +11,10 @@ resource "aws_lambda_function" "webhook" {
   memory_size      = "256"
   source_code_hash = "${base64sha256(file("Lambda/StripeLambdas/webhook.zip"))}"
 
+  tracing_config {
+    mode = "Active"
+  }
+
   environment {
     variables = {
       stripe_api_key = "${var.stripe_api_key}"
