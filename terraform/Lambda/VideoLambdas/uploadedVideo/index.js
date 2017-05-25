@@ -87,7 +87,7 @@ exports.handler = function(event, context) {
                     encodedDay.setSeconds(0);
                     encodedDay.setMilliseconds(0);
 
-                    encodedDay = recordedDate.getTime();
+                    encodedDay = encodedDay.getTime();
 
                     dynamodb.put({
                         TableName: "Videos",
