@@ -80,6 +80,15 @@ exports.handler = function(event, context) {
 
                     var encodedDate = (videoRecord.Encoded_date) ? Date.parse(videoRecord.Encoded_date[0]) : new Date().getTime() / 1000;
 
+                    var encodedDay = new Date(encodedDate);
+
+                    encodedDay.setHours(0);
+                    encodedDay.setMinutes(0);
+                    encodedDay.setSeconds(0);
+                    encodedDay.setMilliseconds(0);
+
+                    encodedDay = recordedDate.getTime();
+
                     dynamodb.put({
                         TableName: "Videos",
                         Item: {
@@ -91,6 +100,7 @@ exports.handler = function(event, context) {
                             Bucket: bucket,
                             Key: key,
                             RecordedDate: encodedDate,
+                            RecordedDay: encodedDay,
                             VideoDuration: videoRecord.Duration[0],
                             MediaInfo: result
                         }

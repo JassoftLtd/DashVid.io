@@ -38,20 +38,10 @@ exports.handler = function(event, context) {
         for(var i = 0; i < data.Items.length; i++) {
             var video = data.Items[i];
 
-            var recordedDate = new Date(video.RecordedDate);
-
-            recordedDate.setHours(0);
-            recordedDate.setMinutes(0);
-            recordedDate.setSeconds(0);
-
-            recordedDate.setMilliseconds(0);
-
-            recordedDate = recordedDate.getTime();
-
-            let recordForDate = getRecordForDate(responseBody, recordedDate);
+            let recordForDate = getRecordForDate(responseBody, video.RecordedDay);
             if(!recordForDate) {
-                responseBody.push({date: recordedDate, videos: []});
-                recordForDate = getRecordForDate(responseBody, recordedDate);
+                responseBody.push({date: video.RecordedDay, videos: []});
+                recordForDate = getRecordForDate(responseBody, video.RecordedDay);
 			}
 
 			var videoDate = {

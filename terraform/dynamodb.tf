@@ -42,18 +42,18 @@ resource "aws_dynamodb_table" "videos-table" {
   }
 
   attribute {
-    name = "RecordedDate"
+    name = "RecordedDay"
     type = "N"
   }
 
   global_secondary_index {
     name               = "UserVideosByDate"
     hash_key           = "User"
-    range_key          = "RecordedDate"
+    range_key          = "RecordedDay"
     write_capacity     = 1
     read_capacity      = 1
     projection_type    = "INCLUDE"
-    non_key_attributes = ["Id", "VideoStatus", "RecordedDate", "VideoDuration"]
+    non_key_attributes = ["Id", "VideoStatus", "RecordedDay", "RecordedDate", "VideoDuration"]
   }
 }
 
