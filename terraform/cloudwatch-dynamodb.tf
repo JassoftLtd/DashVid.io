@@ -35,9 +35,9 @@ resource "aws_cloudwatch_metric_alarm" "dynamodb-videos-consumed-write" {
   }
 }
 
-// Videos - UserVideosByDate
-resource "aws_cloudwatch_metric_alarm" "dynamodb-videos-UserVideosByDate-consumed-read" {
-  alarm_name          = "${var.environment_name}dynamodb-videos-UserVideosByDate-consumed-read"
+// Videos - UserVideosByDay
+resource "aws_cloudwatch_metric_alarm" "dynamodb-videos-UserVideosByDay-consumed-read" {
+  alarm_name          = "${var.environment_name}dynamodb-videos-UserVideosByDay-consumed-read"
   comparison_operator = "GreaterThanOrEqualToThreshold"
   evaluation_periods  = "1"
   metric_name         = "ConsumedReadCapacityUnits"
@@ -46,17 +46,17 @@ resource "aws_cloudwatch_metric_alarm" "dynamodb-videos-UserVideosByDate-consume
   statistic           = "Maximum"
   threshold           = "${aws_dynamodb_table.videos-table.read_capacity * 0.8}"
   treat_missing_data  = "notBreaching"
-  alarm_description   = "DynamoDB table ${aws_dynamodb_table.videos-table.name} GSI UserVideosByDate is consuming 80% of its provisioned read capacity"
+  alarm_description   = "DynamoDB table ${aws_dynamodb_table.videos-table.name} GSI UserVideosByDay is consuming 80% of its provisioned read capacity"
   alarm_actions       = ["${aws_sns_topic.slack_alert.arn}"]
 
   dimensions {
     TableName                = "${aws_dynamodb_table.videos-table.name}"
-    GlobalSecondaryIndexName = "UserVideosByDate"
+    GlobalSecondaryIndexName = "UserVideosByDay"
   }
 }
 
-resource "aws_cloudwatch_metric_alarm" "dynamodb-videos-UserVideosByDate-consumed-write" {
-  alarm_name          = "${var.environment_name}dynamodb-videos-UserVideosByDate-consumed-write"
+resource "aws_cloudwatch_metric_alarm" "dynamodb-videos-UserVideosByDay-consumed-write" {
+  alarm_name          = "${var.environment_name}dynamodb-videos-UserVideosByDay-consumed-write"
   comparison_operator = "GreaterThanOrEqualToThreshold"
   evaluation_periods  = "1"
   metric_name         = "ConsumedWriteCapacityUnits"
@@ -65,12 +65,12 @@ resource "aws_cloudwatch_metric_alarm" "dynamodb-videos-UserVideosByDate-consume
   statistic           = "Maximum"
   threshold           = "${aws_dynamodb_table.videos-table.write_capacity * 0.8}"
   treat_missing_data  = "notBreaching"
-  alarm_description   = "DynamoDB table ${aws_dynamodb_table.videos-table.name} GSI UserVideosByDate is consuming 80% of its provisioned write capacity"
+  alarm_description   = "DynamoDB table ${aws_dynamodb_table.videos-table.name} GSI UserVideosByDay is consuming 80% of its provisioned write capacity"
   alarm_actions       = ["${aws_sns_topic.slack_alert.arn}"]
 
   dimensions {
     TableName                = "${aws_dynamodb_table.videos-table.name}"
-    GlobalSecondaryIndexName = "UserVideosByDate"
+    GlobalSecondaryIndexName = "UserVideosByDay"
   }
 }
 
