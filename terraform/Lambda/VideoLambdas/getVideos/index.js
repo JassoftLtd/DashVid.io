@@ -15,7 +15,7 @@ exports.handler = function(event, context) {
 	var currentUser = event.requestContext.identity.cognitoIdentityId.split(':')[1];
 
 	dynamodb.query({
-		IndexName: "UserVideosByDate",
+		IndexName: "UserVideosByDay",
 		KeyConditionExpression:"#user = :user",
         "FilterExpression": '#videoStatus = :status',
         ScanIndexForward: false,

@@ -7,6 +7,10 @@ resource "aws_lambda_function" "slack_alert" {
   timeout          = "10"
   source_code_hash = "${base64sha256(file("Lambda/SlackLambdas/slack-alert.zip"))}"
 
+  tracing_config {
+    mode = "Active"
+  }
+
   environment {
     variables = {
       slack_webhook_url = "${var.slack_webhook_url}"

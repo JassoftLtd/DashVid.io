@@ -10,6 +10,10 @@ resource "aws_lambda_function" "getPlan" {
   timeout          = "30"
   memory_size      = "256"
   source_code_hash = "${base64sha256(file("Lambda/PlanLambdas/getPlan.zip"))}"
+
+  tracing_config {
+    mode = "Active"
+  }
 }
 
 // switchPlan
@@ -22,6 +26,10 @@ resource "aws_lambda_function" "switchPlan" {
   timeout          = "30"
   memory_size      = "256"
   source_code_hash = "${base64sha256(file("Lambda/PlanLambdas/switchPlan.zip"))}"
+
+  tracing_config {
+    mode = "Active"
+  }
 
   environment {
     variables = {

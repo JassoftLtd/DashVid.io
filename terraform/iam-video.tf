@@ -30,7 +30,7 @@ data "aws_iam_policy_document" "IamForGetVideosLambda" {
     ]
 
     "resources" = [
-      "${aws_dynamodb_table.videos-table.arn}/index/UserVideosByDate",
+      "${aws_dynamodb_table.videos-table.arn}/index/UserVideosByDay",
     ]
   }
 

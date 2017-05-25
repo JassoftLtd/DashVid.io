@@ -47,7 +47,7 @@ resource "aws_dynamodb_table" "videos-table" {
   }
 
   global_secondary_index {
-    name               = "UserVideosByDate"
+    name               = "UserVideosByDay"
     hash_key           = "User"
     range_key          = "RecordedDay"
     write_capacity     = 1
