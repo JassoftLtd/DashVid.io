@@ -11,8 +11,6 @@ var generator = require('./helpers/generators.js');
 
 describe('Video', function () {
 
-    this.timeout(60000);
-
     describe('Create Video', function () {
 
         it('Given I have a verified account, When I request to upload a video, Then I should be given the URL to upload it to', function () {

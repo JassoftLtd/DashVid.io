@@ -11,8 +11,6 @@ var promiseRetry = require('promise-retry');
 
 describe('Subscription', function () {
 
-    this.timeout(60000);
-
     describe('Add Card', function () {
 
         it('Given I have a verified account on a pending standard plan, When I add a card, Then my plan should become active', function (done) {
@@ -123,7 +121,7 @@ describe('Subscription', function () {
 
     describe('Payment Issues', function () {
 
-        it('Given I have a verified account on an active standard plan, When my payment fails consecutively , Then my plan should downgrade to an active free plan', function (done) {
+        it('Given I have a verified account on an active standard plan, When my payment fails consecutively, Then my plan should downgrade to an active free plan', function (done) {
             authHelper.getLoggedInUser("standard")
                 .then(function (user) {
 

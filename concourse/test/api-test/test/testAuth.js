@@ -6,8 +6,6 @@ var generator = require('./helpers/generators.js');
 
 describe('Auth', function () {
 
-    this.timeout(20000);
-
     describe('Signup', function () {
 
         it('Given I am a new User, When i signup for an account, Then it should be created', function () {
