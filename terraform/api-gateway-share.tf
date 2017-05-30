@@ -36,7 +36,7 @@ module "ApiGatewayLambda-shareVideo" {
   aws_region                           = "${var.aws_region}"
   aws_account_id                       = "${data.aws_caller_identity.current.account_id}"
   environment_name                     = "${var.environment_name}"
-  aws_api_gateway_method_authorization = "NONE"
+  aws_api_gateway_method_authorization = "AWS_IAM"
 }
 
 // /share GET
