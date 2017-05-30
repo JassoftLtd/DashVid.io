@@ -15,3 +15,5 @@ run:
   - |
     cd source-code/terraform/Lambda
     ./test.sh
+    cd ../
+    terraform validate
