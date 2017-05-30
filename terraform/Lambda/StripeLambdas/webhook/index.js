@@ -64,7 +64,7 @@ function getUserByStripeCustomerId(context, stripeCustomer, fn) {
             context.fail();
         }
 
-        if(data.Items.length) {
+        if(data.Items.length === 0) {
             console.error("User not found for Stripe Customer", stripeCustomer);
             context.fail();
         }
