@@ -13,7 +13,7 @@ resource "aws_api_gateway_resource" "ShareVideo" {
   depends_on  = ["aws_api_gateway_resource.Share", "aws_api_gateway_rest_api.DashCamAPI"]
   rest_api_id = "${aws_api_gateway_rest_api.DashCamAPI.id}"
   parent_id   = "${aws_api_gateway_resource.Share.id}"
-  path_part   = "{id}"
+  path_part   = "{shareId}"
 }
 
 // /share OPTIONS

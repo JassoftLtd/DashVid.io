@@ -37,7 +37,6 @@ exports.getSharedVideo  = function (shareId) {
     };
     // Template syntax follows url-template https://www.npmjs.com/package/url-template
     var pathTemplate = '/v1/share/{shareId}';
-
     var method = 'GET';
 
     return apigClient.invokeApi(params, pathTemplate, method)
