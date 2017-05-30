@@ -111,3 +111,29 @@ resource "aws_dynamodb_table" "cameras-table" {
     projection_type = "KEYS_ONLY"
   }
 }
+
+resource "aws_dynamodb_table" "shared-table" {
+  name           = "Shares"
+  read_capacity  = 1
+  write_capacity = 1
+  hash_key       = "Id"
+
+  attribute {
+    name = "Id"
+    type = "S"
+  }
+
+  attribute {
+    name = "User"
+    type = "S"
+  }
+
+  global_secondary_index {
+    name            = "UserShared"
+    hash_key        = "User"
+    write_capacity  = 1
+    read_capacity   = 1
+    projection_type    = "INCLUDE"
+    non_key_attributes = ["Id", "User", "Video"]
+  }
+}
