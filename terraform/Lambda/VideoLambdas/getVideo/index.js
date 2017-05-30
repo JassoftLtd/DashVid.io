@@ -5,6 +5,11 @@ var AWS = AWSXRay.captureAWS(require('aws-sdk'));
 // Get reference to AWS clients
 var dynamodb = new AWS.DynamoDB.DocumentClient();
 
+const s3 = new AWS.S3({
+    apiVersion: '2006-03-01',
+    useAccelerateEndpoint: true
+});
+
 exports.handler = function(event, context) {
     "use strict";
 
@@ -22,11 +27,6 @@ exports.handler = function(event, context) {
 		if (err) {
             return context.fail(err);
         }
-
-        var s3 = new AWS.S3({
-            apiVersion: '2006-03-01',
-            useAccelerateEndpoint: true
-        });
 
         var currentUser = event.requestContext.identity.cognitoIdentityId.split(':')[1];
 
