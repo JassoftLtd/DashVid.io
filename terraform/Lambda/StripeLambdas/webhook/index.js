@@ -62,11 +62,20 @@ function getUserByStripeCustomerId(context, stripeCustomer, fn) {
         if (err) {
             console.error("User not found for Stripe Customer", stripeCustomer, err);
             context.fail();
+            return;
         }
 
         if(data.Items.length === 0) {
             console.error("User not found for Stripe Customer", stripeCustomer);
-            context.fail();
+            var response = {
+                statusCode: 404,
+                headers: {
+                    'Access-Control-Allow-Origin': '*'
+                }
+            };
+            console.log("response: " + JSON.stringify(response));
+            context.succeed(response);
+            return;
         }
 
         console.log('DB Data: ', JSON.stringify(data.Items));
@@ -106,6 +115,7 @@ function handleInvoicePaymentSucceeded(context, payload) {
             if (err) {
                 console.error("Unable to update subscription. Error JSON:", JSON.stringify(err, null, 2));
                 context.fail();
+                return;
             } else {
 
                 console.log("Updated plan to Active");
@@ -153,6 +163,7 @@ function handleCustomerSubscriptionDeleted(context, payload) {
             if (err) {
                 console.error("Error storing plan. Error JSON:", JSON.stringify(err, null, 2));
                 context.fail();
+                return;
             }
 
             var response = {
