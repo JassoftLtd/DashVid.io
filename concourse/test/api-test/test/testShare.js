@@ -17,7 +17,7 @@ describe('Share', function () {
                         .then(function (video) {
                             return shareHelper.shareVideo(user, video.video)
                                 .then(function (shareResult) {
-                                    return shareHelper.getSharedVideo(shareResult.Id)
+                                    return shareHelper.getSharedVideo(shareResult.data.Id)
                                         .then(function (sharedVideo) {
                                             assert(sharedVideo);
                                             assert.equal(sharedVideo.urls.original, video.originalUrl);
