@@ -186,7 +186,7 @@ exports.handler = function(event, context) {
 
 	var payload = JSON.parse(event.body);
 
-	var email = payload.email;
+	var email = payload.email.toLowerCase();
 	var clearPassword = payload.password;
     var plan = payload.plan.toLowerCase();
 

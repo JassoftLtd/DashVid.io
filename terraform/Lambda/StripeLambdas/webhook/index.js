@@ -60,16 +60,20 @@ function getUserByStripeCustomerId(context, stripeCustomer, fn) {
         "TableName": "Users"
     }, function (err, data) {
         if (err) {
-            console.error("User not found for Stripe Customer", cameraKey, err);
+            console.error("User not found for Stripe Customer", stripeCustomer, err);
             context.fail();
         }
-        else {
-            console.log('DB Data: ', JSON.stringify(data.Items));
 
-            let email = data.Items[0].email;
-            console.log("User is " + email);
-            fn(email);
+        if(data.Items.length) {
+            console.error("User not found for Stripe Customer", stripeCustomer);
+            context.fail();
         }
+
+        console.log('DB Data: ', JSON.stringify(data.Items));
+
+        let email = data.Items[0].email;
+        console.log("User is " + email);
+        fn(email);
     });
 }
 

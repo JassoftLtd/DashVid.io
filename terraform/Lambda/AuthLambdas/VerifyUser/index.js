@@ -94,7 +94,7 @@ exports.handler = function(event, context) {
 
 	var payload = JSON.parse(event.body);
 
-	var email = payload.email;
+	var email = payload.email.toLowerCase();
 	var verifyToken = payload.verify;
 
 	getUser(event, email, function(err, verified, correctToken) {
