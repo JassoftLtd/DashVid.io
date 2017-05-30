@@ -13,5 +13,8 @@ run:
   args:
   - -exc
   - |
-    cd source-code/terraform/Lambda
+    pushd source-code/terraform
+    pushd Lambda
     ./test.sh
+    popd
+    terraform validate
