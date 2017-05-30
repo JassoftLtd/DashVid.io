@@ -25,7 +25,7 @@ module "webhook-OptionsCORS" {
 }
 
 // /share POST
-module "ApiGatewayLambda-webhook" {
+module "ApiGatewayLambda-shareVideo" {
   source                               = "github.com/jonnyshaw89/api-gateway-lambda-method"
   aws_api_gateway_method_http_method   = "POST"
   aws_api_gateway_rest_api             = "${aws_api_gateway_rest_api.DashCamAPI.id}"
@@ -40,7 +40,7 @@ module "ApiGatewayLambda-webhook" {
 }
 
 // /share GET
-module "ApiGatewayLambda-webhook" {
+module "ApiGatewayLambda-getSharedVideo" {
   source                               = "github.com/jonnyshaw89/api-gateway-lambda-method"
   aws_api_gateway_method_http_method   = "GET"
   aws_api_gateway_rest_api             = "${aws_api_gateway_rest_api.DashCamAPI.id}"
