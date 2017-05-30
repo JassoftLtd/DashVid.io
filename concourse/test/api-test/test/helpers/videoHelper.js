@@ -4,8 +4,7 @@ var promiseRetry = require('promise-retry');
 var assert = require('assert');
 var fs = require('fs');
 
-var cameraHelper = require('./helpers/cameraHelper.js');
-var generator = require('./helpers/generators.js');
+var cameraHelper = require('./cameraHelper.js');
 
 exports.createVideo  = function (user, cameraKey, fileName, fileType) {
     var config = {
@@ -109,7 +108,7 @@ exports.createVideoForUser = function(user) {
                                         assert.equal(result.data[0].videos.length, 1);
 
                                         return promiseRetry(function (retryVideo, numberVideo) {
-                                            return videoHelper.getVideo(user, result.data[0].videos[0].Id)
+                                            return exports.getVideo(user, result.data[0].videos[0].Id)
                                                 .then(function (result) {
                                                     assert(result.data.video);
                                                     assert(result.data.originalUrl);
