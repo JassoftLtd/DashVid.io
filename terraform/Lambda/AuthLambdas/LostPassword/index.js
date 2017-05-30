@@ -113,7 +113,7 @@ exports.handler = function(event, context) {
 
 	var payload = JSON.parse(event.body);
 
-	var email = payload.email;
+	var email = payload.email.toLowerCase();
 
 	getUser(email, function(err, emailFound) {
 		if (err) {
