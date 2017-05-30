@@ -1,0 +1,19 @@
+{
+  "name": "shareVideo",
+  "version": "1.0.0",
+  "description": "Share a video publicly or with a person",
+  "main": "index.js",
+  "scripts": {
+    "lint": "jshint **.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "jshint": "^2.9.4"
+  },
+  "dependencies": {
+    "aws-sdk": "^2.33.0",
+    "aws-xray-sdk": "^1.1.1",
+    "uuid": "^3.0.1"
+  }
+}
