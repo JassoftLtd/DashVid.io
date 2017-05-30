@@ -72,6 +72,8 @@ resource "aws_api_gateway_deployment" "DevDeployment" {
     "module.ApiGatewayLambda-createVideo",
     "module.ApiGatewayLambda-getVideo",
     "module.ApiGatewayLambda-getCameras",
+    "module.ApiGatewayLambda-shareVideo",
+    "module.ApiGatewayLambda-getSharedVideo",
   ]
 
   rest_api_id = "${aws_api_gateway_rest_api.DashCamAPI.id}"
