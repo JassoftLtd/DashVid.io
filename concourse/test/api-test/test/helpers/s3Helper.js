@@ -1,10 +1,9 @@
 var AWS = require('aws-sdk');
 var s3 = new AWS.S3();
 
-
 exports.expireVideo  = function (video) {
 
-    let videoLink = video.originalUrl.split('?')[0];
+    let videoLink = video.urls.original.split('?')[0];
 
     let videoLinkParts = videoLink.split('.s3-accelerate.amazonaws.com/');
 

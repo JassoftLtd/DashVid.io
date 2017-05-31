@@ -31,10 +31,7 @@ exports.handler = function(event, context) {
             Key:{
                 "Id": videoId
             },
-            UpdateExpression: "set VideoStatus = :status",
-            ExpressionAttributeValues:{
-                ":status":"Removed",
-            },
+            UpdateExpression: "remove Files.Original",
             ReturnValues:"UPDATED_NEW"
         }, function(err, data) {
             if (err) {

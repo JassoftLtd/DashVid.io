@@ -23,8 +23,8 @@ describe('Video Expiry', function () {
                                         return videoHelper.getVideo(user, video.video.Id)
                                             .then(function (expiredVideo) {
                                                 assert(expiredVideo.data.video);
-                                                assert(expiredVideo.data.url);
-                                                assert(!expiredVideo.data.originalUrl);
+                                                assert(expiredVideo.data.urls.web);
+                                                assert(!expiredVideo.data.urls.original);
                                             })
                                             .catch(retry);
                                     })

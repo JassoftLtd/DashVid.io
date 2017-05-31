@@ -152,7 +152,6 @@ var VideoList = React.createClass({
 
                     return (
                         <tr key={video.Id}>
-                            <td>{video.VideoStatus}</td>
                             <td>{start}</td>
                             <td>{end}</td>
                             <td><button className="button-success pure-button" onClick={()=>{_this.props.playVideoCallback(video.Id)}}>Play</button></td>
@@ -164,7 +163,7 @@ var VideoList = React.createClass({
                 return (
                     <tbody key={date}>
                         <tr className="pure-table-odd">
-                            <td colSpan="4">
+                            <td colSpan="3">
                                 <strong>
                                     {date}
                                 </strong>
@@ -181,7 +180,6 @@ var VideoList = React.createClass({
                         <table className="pure-table pure-table-horizontal" width="100%">
                             <thead>
                             <tr>
-                                <td>Status</td>
                                 <td>Start</td>
                                 <td>End</td>
                                 <td>Play</td>

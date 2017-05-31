@@ -96,9 +96,12 @@ exports.handler = function(event, context) {
                             User: user,
                             CameraId: cameraId,
                             Uploaded: new Date().getTime(),
-                            VideoStatus: "Uploaded",
-                            Bucket: bucket,
-                            Key: key,
+                            Files: {
+                                Original: {
+                                    Bucket: bucket,
+                                    Key: key,
+                                }
+                            },
                             RecordedDate: encodedDate,
                             RecordedDay: encodedDay,
                             VideoDuration: videoRecord.Duration[0],
@@ -145,19 +148,21 @@ exports.handler = function(event, context) {
 
 function deleteFile (bucket, key) {
 
-    console.log("Deleting file from bucket with key [" + key + "]");
+    console.log("Deleting file from bucket:", bucket, "with key:", key);
 
-    var s3 = new AWS.S3({
-        apiVersion: '2006-03-01'
-    });
+    // var s3 = new AWS.S3({
+    //     apiVersion: '2006-03-01'
+    // });
+    //
+    // const url = s3.deleteObject({
+    //     Bucket: bucket,
+    //     Key: key,
+    // }, function(err, data) {
+    //     if(err) {
+    //         context.fail('Error deleting file from S3 Bucket [' + bucket + '] Key [' + key + ']');
+    //     }
+    // });
 
-    const url = s3.deleteObject({
-        Bucket: bucket,
-        Key: key,
-    }, function(err, data) {
-        if(err) {
-            context.fail('Error deleting file from S3 Bucket [' + bucket + '] Key [' + key + ']');
-        }
-    });
+    console.log("Not actually going to delete for now as this could help with development");
 
 }

@@ -21,8 +21,8 @@ describe('Share', function () {
                                         .then(function (sharedVideo) {
                                             assert(sharedVideo.data);
                                             assert.equal(sharedVideo.data.video.Id, video.video.Id);
-                                            assert.equal(sharedVideo.data.urls.original.split('?')[0], video.originalUrl.split('?')[0]);
-                                            assert.equal(sharedVideo.data.urls.web.split('?')[0], video.url.split('?')[0]);
+                                            assert.equal(sharedVideo.data.urls.original.split('?')[0], video.urls.original.split('?')[0]);
+                                            assert.equal(sharedVideo.data.urls.web.split('?')[0], video.urls.web.split('?')[0]);
                                         })
                                 })
 
