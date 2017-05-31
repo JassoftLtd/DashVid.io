@@ -10,6 +10,22 @@ var s3Helper = require('./helpers/s3Helper.js');
 
 describe('Video Expiry', function () {
 
+    describe('Expiry Enabled', function () {
+
+        it('Given I have a verified account with an uploaded video, When that video is stored in S3, Then it should have a defined Expiry time', function () {
+            return authHelper.getLoggedInUser()
+                .then(function (user) {
+                    return videoHelper.createVideoForUser(user)
+                        .then(function (video) {
+                            return s3Helper.getObject(video)
+                                .then(function (videoObject) {
+                                    assert(videoObject.Expiration)
+                                });
+                        });
+                });
+        });
+    });
+
     describe('Video Expired', function () {
 
         it('Given I have a verified account with an uploaded video, When that video has expired and is removed by S3, Then I should no longer receive a link to that video', function () {
