@@ -53,7 +53,7 @@ resource "aws_dynamodb_table" "videos-table" {
     write_capacity     = 1
     read_capacity      = 1
     projection_type    = "INCLUDE"
-    non_key_attributes = ["Id", "VideoStatus", "RecordedDay", "RecordedDate", "VideoDuration"]
+    non_key_attributes = ["Id", "RecordedDay", "RecordedDate", "VideoDuration"]
   }
 }
 

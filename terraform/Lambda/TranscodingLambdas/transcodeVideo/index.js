@@ -26,8 +26,8 @@ exports.handler = function(event, context) {
                 return context.fail(err);
             }
             else {
-                let key = data.Item.Key;
-                console.log('video located at Bucket [' + data.Item.Bucket + '] Key [' +key + ']');
+                let key = data.Item.Files.Original.Key;
+                console.log('video located at Bucket [' + data.Item.Files.Original.Bucket + '] Key [' + key + ']');
 
                 var params = {
                     Input: {

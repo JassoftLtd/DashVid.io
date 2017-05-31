@@ -17,11 +17,9 @@ exports.handler = function(event, context) {
 	dynamodb.query({
 		IndexName: "UserVideosByDay",
 		KeyConditionExpression:"#user = :user",
-        "FilterExpression": '#videoStatus = :status',
         ScanIndexForward: false,
 		ExpressionAttributeNames: {
 			"#user":"User",
-			"#videoStatus":"VideoStatus",
 		},
 		ExpressionAttributeValues: {
 			":user":currentUser,
@@ -46,7 +44,6 @@ exports.handler = function(event, context) {
 
 			var videoDate = {
                 Id: video.Id,
-                VideoStatus: video.VideoStatus,
                 RecordedDate: parseInt(video.RecordedDate, 10),
                 VideoDuration: parseInt(video.VideoDuration, 10),
 			};

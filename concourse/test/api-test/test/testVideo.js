@@ -151,8 +151,8 @@ describe('Video', function () {
                                                             return videoHelper.getVideo(user, result.data[0].videos[0].Id)
                                                                 .then(function (result) {
                                                                     assert(result.data.video);
-                                                                    assert(result.data.originalUrl);
-                                                                    assert(result.data.url);
+                                                                    assert(result.data.urls.original);
+                                                                    assert(result.data.urls.web);
                                                                 })
                                                                 .catch(retryVideo);
                                                         })

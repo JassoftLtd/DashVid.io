@@ -16,6 +16,7 @@ resource "aws_s3_bucket" "dash-cam-videos-free-bucket" {
   lifecycle_rule {
     prefix  = ""
     enabled = true
+    abort_incomplete_multipart_upload_days = 1
 
     expiration {
       days = 7
@@ -39,6 +40,7 @@ resource "aws_s3_bucket" "dash-cam-videos-standard-bucket" {
   lifecycle_rule {
     prefix  = ""
     enabled = true
+    abort_incomplete_multipart_upload_days = 1
 
     expiration {
       days = 30

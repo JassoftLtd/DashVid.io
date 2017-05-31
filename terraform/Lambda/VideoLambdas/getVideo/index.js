@@ -37,18 +37,20 @@ exports.handler = function(event, context) {
 
         console.log('Getting video from Bucket [' + data.Item.Bucket + '] Key [' + data.Item.Key + ']');
 
-        var url = s3.getSignedUrl('getObject', {
-            Bucket: data.Item.Bucket,
-            Key: data.Item.Key,
-            Expires: 3600
-        });
+        let urls = {};
 
-        var transcodedUrl;
+        if(data.Item.Files.Original) {
+            urls.original = s3.getSignedUrl('getObject', {
+                Bucket: data.Item.Files.Original.Bucket,
+                Key: data.Item.Files.Original.Key,
+                Expires: 3600
+            });
+        }
 
-        if(data.Item.TranscodedVideo) {
-            transcodedUrl = s3.getSignedUrl('getObject', {
-                Bucket: data.Item.TranscodedVideo.Bucket,
-                Key: data.Item.TranscodedVideo.Key,
+        if(data.Item.Files.Web) {
+            urls.web = s3.getSignedUrl('getObject', {
+                Bucket: data.Item.Files.Web.Bucket,
+                Key: data.Item.Files.Web.Key,
                 Expires: 3600
             });
         }
@@ -62,8 +64,7 @@ exports.handler = function(event, context) {
                 video: {
                     Id: data.Item.Id
                 },
-                originalUrl: url,
-                url: transcodedUrl
+                urls: urls,
             })
         };
         console.log("response: " + JSON.stringify(response));

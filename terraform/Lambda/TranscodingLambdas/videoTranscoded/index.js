@@ -38,7 +38,7 @@ exports.handler = function(event, context) {
                     Key:{
                         "Id": videoId
                     },
-                    UpdateExpression: "set TranscodedVideo = :transcoded",
+                    UpdateExpression: "set Files.Web = :transcoded",
                     ExpressionAttributeValues:{
                         ":transcoded":{
                             "Bucket": data.Item.Bucket + "-transcoded",
