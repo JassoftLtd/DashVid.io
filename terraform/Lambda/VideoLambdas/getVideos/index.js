@@ -22,8 +22,7 @@ exports.handler = function(event, context) {
 			"#user":"User",
 		},
 		ExpressionAttributeValues: {
-			":user":currentUser,
-            ":status":"Uploaded"
+			":user":currentUser
 		},
 		"TableName": "Videos"
 	}, function(err, data) {
