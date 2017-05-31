@@ -3,16 +3,15 @@ var fs = require('fs');
 var request = require('request');
 var rp = require('request-promise');
 
-var authHelper = require('./helpers/authHelper.js');
+var userHelper = require('./helpers/userHelper.js');
 var planHelper = require('./helpers/planHelper.js');
-var generator = require('./helpers/generators.js');
 
 describe('Plan', function () {
 
     describe('Get Plan', function () {
 
         it('Given I have a verified account on free plan, When I request my plan, Then I should be given name of my current Plan', function () {
-           return authHelper.getLoggedInUser("free")
+           return userHelper.getLoggedInUser("free")
                 .then(function (user) {
 
                     return planHelper.getPlan(user)
@@ -26,7 +25,7 @@ describe('Plan', function () {
         });
 
         it('Given I have a verified account on standard plan, When I request my plan, Then I should be given name of my current Plan', function () {
-           return authHelper.getLoggedInUser("standard")
+           return userHelper.getLoggedInUser("standard")
                 .then(function (user) {
 
                     return planHelper.getPlan(user)

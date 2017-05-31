@@ -1,6 +1,5 @@
 var AWS = require('aws-sdk');
 var apigClientFactory = require('aws-api-gateway-client')
-var generator = require('./generators.js');
 
 var emailHelper = require('./emailHelper.js');
 
@@ -133,50 +132,4 @@ exports.changePassword  = function (user, oldPassword, newPassword) {
     };
 
     return apigClient.invokeApi(params, pathTemplate, method, additionalParams, body)
-}
-
-exports.getLoggedInUser = function (plan="Free") {
-
-    var email = generator.email();
-    var password = generator.password();
-
-    return exports.signup(email, password, plan)
-        .then(function (result) {
-            return emailHelper.getEmails(email, "Verification Email for DashVid.io")
-                .then((result) => emailHelper.getVerifyTokenFromEmail(result))
-                .then(function (token) {
-
-                    return exports.verify(email, token)
-                        .then(function (result) {
-                            return exports.login(email, password)
-                                .then(function (result) {
-
-                                    var params = {
-                                        IdentityPoolId: process.env.aws_identity_pool,
-                                        IdentityId: result.data.identityId,
-                                        Logins: {
-                                            'cognito-identity.amazonaws.com': result.data.token
-                                        }
-                                    }
-
-                                    AWS.config.credentials = new AWS.CognitoIdentityCredentials(params);
-
-                                    AWS.config.region = process.env.aws_region;
-
-                                    return AWS.config.credentials.getPromise()
-                                        .then(function () {
-
-                                            return Promise.resolve({
-                                                email: email,
-                                                password: password,
-                                                credentials: AWS.config.credentials
-                                            })
-
-                                        });
-
-
-                                });
-                        });
-                });
-        });
 }

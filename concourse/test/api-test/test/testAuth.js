@@ -1,6 +1,7 @@
 var assert = require('assert');
 
 var authHelper = require('./helpers/authHelper.js');
+var userHelper = require('./helpers/userHelper.js');
 var emailHelper = require('./helpers/emailHelper.js');
 var generator = require('./helpers/generators.js');
 
@@ -97,7 +98,7 @@ describe('Auth', function () {
     describe('Change Password', function () {
 
         it('Given I have a verified account, When I attempt to change my password, Then my password should be changed', function () {
-           return authHelper.getLoggedInUser()
+           return userHelper.getLoggedInUser()
                 .then(function (user) {
 
                     var newPassword = generator.password();
@@ -113,7 +114,7 @@ describe('Auth', function () {
     describe('Lost / Reset Password', function () {
 
         it('Given I have a verified account, When I have lost my password, Then I should be able to request a reset it', function () {
-           return authHelper.getLoggedInUser()
+           return userHelper.getLoggedInUser()
                 .then(function (user) {
 
                     return authHelper.lostPassword(user.email)
