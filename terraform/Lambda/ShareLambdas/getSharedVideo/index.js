@@ -38,11 +38,10 @@ exports.handler = function(event, context) {
                 return context.fail(err);
             }
 
-            console.log('Getting video from Bucket [' + data.Item.Bucket + '] Key [' + data.Item.Key + ']');
-
             let urls = {};
 
             if(data.Item.Files.Original) {
+                console.log('Getting video url from Bucket [' + data.Item.Files.Original.Bucket + '] Key [' + data.Item.Files.Original.Key + ']');
                 urls.original = s3.getSignedUrl('getObject', {
                     Bucket: data.Item.Files.Original.Bucket,
                     Key: data.Item.Files.Original.Key,
@@ -51,6 +50,7 @@ exports.handler = function(event, context) {
             }
 
             if(data.Item.Files.Web) {
+                console.log('Getting video url from Bucket [' + data.Item.Files.Web.Bucket + '] Key [' + data.Item.Files.Web.Key + ']');
                 urls.web = s3.getSignedUrl('getObject', {
                     Bucket: data.Item.Files.Web.Bucket,
                     Key: data.Item.Files.Web.Key,
@@ -59,7 +59,7 @@ exports.handler = function(event, context) {
             }
 
             var response = {
-                statusCode: responseCode,
+                statusCode: 200,
                 headers: {
                     'Access-Control-Allow-Origin': '*'
                 },

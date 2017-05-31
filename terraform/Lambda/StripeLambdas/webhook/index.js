@@ -68,7 +68,7 @@ function getUserByStripeCustomerId(context, stripeCustomer, fn) {
         if(data.Items.length === 0) {
             console.error("User not found for Stripe Customer", stripeCustomer);
             var response = {
-                statusCode: 404,
+                statusCode: 200,
                 headers: {
                     'Access-Control-Allow-Origin': '*'
                 }

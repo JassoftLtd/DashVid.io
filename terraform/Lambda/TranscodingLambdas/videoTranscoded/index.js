@@ -41,7 +41,7 @@ exports.handler = function(event, context) {
                     UpdateExpression: "set Files.Web = :transcoded",
                     ExpressionAttributeValues:{
                         ":transcoded":{
-                            "Bucket": data.Item.Bucket + "-transcoded",
+                            "Bucket": data.Item.Files.Original.Bucket + "-transcoded",
                             "Key": message.outputKeyPrefix + message.outputs[0].key
                         },
                     },
