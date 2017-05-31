@@ -91,8 +91,6 @@ function getUserPlan(context, email, fn) {
     });
 }
 
-
-
 function getCameraId(context, email, cameraKey, fn) {
     console.log('Getting camera for key: ' + cameraKey);
 

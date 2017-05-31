@@ -1,6 +1,6 @@
 var assert = require('assert');
 
-var authHelper = require('./helpers/authHelper.js');
+var userHelper = require('./helpers/userHelper.js');
 var subscriptionHelper = require('./helpers/subscriptionHelper.js');
 var planHelper = require('./helpers/planHelper.js');
 var stripeWebhookHelper = require('./helpers/stripeWebhookHelper.js');
@@ -14,7 +14,7 @@ describe('Subscription', function () {
     describe('Add Card', function () {
 
         it('Given I have a verified account on a pending standard plan, When I add a card, Then my plan should become active', function (done) {
-           authHelper.getLoggedInUser("standard")
+           userHelper.getLoggedInUser("standard")
                 .then(function (user) {
 
                     var payload = {
@@ -70,7 +70,7 @@ describe('Subscription', function () {
 
         it('Given I have a verified account on an active standard plan, When I downgrade my subscription, Then my plan should downgrade to an active free plan', function () {
 
-            return authHelper.getLoggedInUser("standard")
+            return userHelper.getLoggedInUser("standard")
                 .then(function (user) {
                     return planHelper.switchPlan(user, "free")
                         .then(function () {
@@ -86,7 +86,7 @@ describe('Subscription', function () {
 
         it('Given I have a verified account on an active free plan with no card details, When I upgrade my subscription, Then my plan should change to a pending standard plan', function () {
 
-            return authHelper.getLoggedInUser("free")
+            return userHelper.getLoggedInUser("free")
                 .then(function (user) {
                     return planHelper.switchPlan(user, "standard")
                         .then(function () {
@@ -102,7 +102,7 @@ describe('Subscription', function () {
 
         it('Given I have a verified account on a pending standard, When I downgrade my subscription, Then my pending standard plan should be canceled', function () {
 
-            return authHelper.getLoggedInUser("free")
+            return userHelper.getLoggedInUser("free")
                 .then(function (user) {
                     return planHelper.switchPlan(user, "standard")
                         .then(function () {
@@ -122,7 +122,7 @@ describe('Subscription', function () {
     describe('Payment Issues', function () {
 
         it('Given I have a verified account on an active standard plan, When my payment fails consecutively, Then my plan should downgrade to an active free plan', function (done) {
-            authHelper.getLoggedInUser("standard")
+            userHelper.getLoggedInUser("standard")
                 .then(function (user) {
 
                     var payload = {

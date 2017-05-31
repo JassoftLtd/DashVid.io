@@ -16,6 +16,7 @@
   "dependencies": {
     "bluebird": "^3.5.0",
     "mailparser": "^2.0.5",
+    "promise": "^7.1.1",
     "promise-filter": "^1.1.0",
     "promise-retry": "^1.1.1",
     "randomstring": "^1.1.5",
