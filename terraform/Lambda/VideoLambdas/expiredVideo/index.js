@@ -19,6 +19,8 @@ exports.handler = function(event, context) {
 		var bucket = record.s3.bucket.name;
 		var key = record.s3.object.key;
 
+        let keyParts = key.split('/');
+
         //Extract the parts from the key
         var videoId = keyParts[2].split('.')[0];
 
