@@ -3,8 +3,9 @@
 // addCard
 resource "aws_lambda_function" "addCard" {
   depends_on = [
-    "aws_iam_role_policy.IamForAddCardLambda"
+    "aws_iam_role_policy.IamForAddCardLambda",
   ]
+
   filename         = "Lambda/SubscriptionLambdas/addCard.zip"
   function_name    = "addCard"
   role             = "${aws_iam_role.IamForAddCardLambda.arn}"
