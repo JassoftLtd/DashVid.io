@@ -32,7 +32,11 @@ exports.handler = function(event, context) {
             TableName: "Videos",
             Key:{
                 "Id": data.Item.Video
-            }
+            },
+            AttributesToGet: [
+                'Id',
+                'Files',
+            ]
         }, function(err, data) {
             if (err) {
                 return context.fail(err);
