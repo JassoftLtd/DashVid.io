@@ -94,6 +94,9 @@ function handleInvoicePaymentSucceeded(context, payload) {
     console.log("Customer", customer);
 
     getUserByStripeCustomerId(context, customer, function (user) {
+
+        // TODO: Only update if plan is Pending
+
         dynamodb.update({
             TableName: "Subscriptions",
             Key: {

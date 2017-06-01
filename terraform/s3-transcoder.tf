@@ -1,8 +1,8 @@
 // S3
 
 // Transcoded Video Store
-resource "aws_s3_bucket" "dash-cam-videos-free-bucket-transcoded" {
-  bucket              = "${var.environment_name}dash-cam-videos-free-transcoded"
+resource "aws_s3_bucket" "dash-cam-videos-transcoded" {
+  bucket              = "${var.environment_name}dash-cam-videos-transcoded"
   acl                 = "private"
   force_destroy       = "${var.bucket_force_destroy}"
   acceleration_status = "Enabled"
@@ -14,22 +14,18 @@ resource "aws_s3_bucket" "dash-cam-videos-free-bucket-transcoded" {
   }
 
   lifecycle_rule {
-    prefix  = "/"
+    prefix  = ""
     enabled = true
 
     transition {
       days          = 30
       storage_class = "STANDARD_IA"
-    }
-
-    expiration {
-      days = 60
     }
   }
 }
 
-resource "aws_s3_bucket" "dash-cam-videos-free-bucket-thumbnails" {
-  bucket              = "${var.environment_name}dash-cam-videos-free-thumbnails"
+resource "aws_s3_bucket" "dash-cam-videos-thumbnails" {
+  bucket              = "${var.environment_name}dash-cam-videos-thumbnails"
   acl                 = "private"
   force_destroy       = "${var.bucket_force_destroy}"
   acceleration_status = "Enabled"
@@ -41,16 +37,12 @@ resource "aws_s3_bucket" "dash-cam-videos-free-bucket-thumbnails" {
   }
 
   lifecycle_rule {
-    prefix  = "/"
+    prefix  = ""
     enabled = true
 
     transition {
       days          = 30
       storage_class = "STANDARD_IA"
-    }
-
-    expiration {
-      days = 60
     }
   }
 }

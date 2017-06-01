@@ -29,11 +29,23 @@ exports.handler = function(event, context) {
                 let key = data.Item.Files.Original.Key;
                 console.log('video located at Bucket [' + data.Item.Files.Original.Bucket + '] Key [' + key + ']');
 
+                var pipeline;
+
+                if(data.Item.Files.Original.Bucket.indexOf("free") > -1) {
+                    pipeline = process.env.PipelineIdFree;
+                }
+                else if (data.Item.Files.Original.Bucket.indexOf("standard") > -1) {
+                    pipeline = process.env.PipelineIdStandard;
+                }
+                else {
+                    context.fail("Unknown Source Bucket");
+                }
+
                 var params = {
                     Input: {
                         Key: key
                     },
-                    PipelineId: process.env.PipelineId, /* test-web-transcoder */
+                    PipelineId: pipeline,
                     OutputKeyPrefix: 'transcoded/',
                     Outputs: [
                         {

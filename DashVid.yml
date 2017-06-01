@@ -173,7 +173,7 @@ jobs:
       TF_VAR_aws_region: eu-west-1
       TF_VAR_aws_access_key: {{aws_access_key}}
       TF_VAR_aws_secret_key: {{aws_secret_key}}
-      TF_VAR_stripe_api_key: {{stripe_api_key_test}}
+      TF_VAR_stripe_api_key: {{stripe_api_key}}
       TF_VAR_aws_identity_pool: {{aws_identity_pool}}
       TF_VAR_dns_zone_id: {{dns_zone_id}}
       TF_VAR_dns_zone_name: {{dns_zone_name}}

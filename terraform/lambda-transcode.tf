@@ -17,7 +17,8 @@ resource "aws_lambda_function" "transcodeVideo" {
 
   environment {
     variables = {
-      PipelineId = "${aws_elastictranscoder_pipeline.free.id}"
+      PipelineIdFree = "${aws_elastictranscoder_pipeline.free.id}"
+      PipelineIdStandard = "${aws_elastictranscoder_pipeline.standard.id}"
     }
   }
 }
@@ -43,6 +44,12 @@ resource "aws_lambda_function" "videoTranscoded" {
 
   tracing_config {
     mode = "Active"
+  }
+
+  environment {
+    variables = {
+      TranscodedBucket = "${aws_s3_bucket.dash-cam-videos-transcoded.bucket}"
+    }
   }
 }
 
