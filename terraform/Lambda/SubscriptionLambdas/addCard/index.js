@@ -25,7 +25,11 @@ exports.handler = function(event, context) {
         TableName: process.env.auth_db_table,
         Key:{
             "email": email
-        }
+        },
+        AttributesToGet: [
+            'stripeCustomer',
+            'email',
+        ]
     }, function(err, data) {
 
         if (err) {
