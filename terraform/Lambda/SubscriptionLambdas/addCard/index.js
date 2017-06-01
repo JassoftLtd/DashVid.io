@@ -65,10 +65,8 @@ exports.handler = function(event, context) {
 
                     stripe.customers.create({
                         description: 'Customer for ' + data.Item.email,
-                        source: payload.token, // obtained with Stripe.js
-                        metadata: {
-                            email: data.Item.email
-                        }
+                        email: data.Item.email,
+                        source: payload.token // obtained with Stripe.js
                     }, function(err, customer) {
                         if (err) {
                             console.error(err);
