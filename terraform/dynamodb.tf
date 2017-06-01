@@ -103,7 +103,7 @@ resource "aws_dynamodb_table" "cameras-table" {
     hash_key        = "CameraKey"
     write_capacity  = 1
     read_capacity   = 1
-    projection_type = "KEYS_ONLY"
+    projection_type = "ALL"
   }
 }
 
