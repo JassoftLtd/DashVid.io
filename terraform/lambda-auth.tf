@@ -1,5 +1,8 @@
 // Auth
 resource "aws_lambda_function" "createUser" {
+  depends_on = [
+    "aws_iam_role_policy.LambdAuthCreateUser"
+  ]
   filename         = "${path.module}/Lambda/AuthLambdas/CreateUser.zip"
   function_name    = "LambdAuthCreateUser"
   role             = "${aws_iam_role.LambdAuthCreateUser.arn}"
@@ -26,6 +29,9 @@ resource "aws_lambda_function" "createUser" {
 }
 
 resource "aws_lambda_function" "changePassword" {
+  depends_on = [
+    "aws_iam_role_policy.LambdAuthChangePassword"
+  ]
   filename         = "${path.module}/Lambda/AuthLambdas/ChangePassword.zip"
   function_name    = "LambdAuthChangePassword"
   role             = "${aws_iam_role.LambdAuthChangePassword.arn}"
@@ -47,6 +53,9 @@ resource "aws_lambda_function" "changePassword" {
 }
 
 resource "aws_lambda_function" "login" {
+  depends_on = [
+    "aws_iam_role_policy.LambdAuthLogin"
+  ]
   filename         = "${path.module}/Lambda/AuthLambdas/Login.zip"
   function_name    = "LambdAuthLogin"
   role             = "${aws_iam_role.LambdAuthLogin.arn}"
@@ -70,6 +79,9 @@ resource "aws_lambda_function" "login" {
 }
 
 resource "aws_lambda_function" "loginCameraKey" {
+  depends_on = [
+    "aws_iam_role_policy.LambdAuthLoginCameraKey"
+  ]
   filename         = "${path.module}/Lambda/AuthLambdas/CameraKeyAuth.zip"
   function_name    = "CameraKeyAuth"
   role             = "${aws_iam_role.LambdAuthLoginCameraKey.arn}"
@@ -92,6 +104,9 @@ resource "aws_lambda_function" "loginCameraKey" {
 }
 
 resource "aws_lambda_function" "lostPassword" {
+  depends_on = [
+    "aws_iam_role_policy.LambdAuthLostPassword"
+  ]
   filename         = "${path.module}/Lambda/AuthLambdas/LostPassword.zip"
   function_name    = "LambdAuthLostPassword"
   role             = "${aws_iam_role.LambdAuthLostPassword.arn}"
@@ -116,6 +131,9 @@ resource "aws_lambda_function" "lostPassword" {
 }
 
 resource "aws_lambda_function" "resetPassword" {
+  depends_on = [
+    "aws_iam_role_policy.LambdAuthResetPassword"
+  ]
   filename         = "${path.module}/Lambda/AuthLambdas/ResetPassword.zip"
   function_name    = "LambdAuthResetPassword"
   role             = "${aws_iam_role.LambdAuthResetPassword.arn}"

@@ -1,6 +1,5 @@
 resource "aws_iam_role" "Cognito_LambdAuthAuth_Role" {
   name = "${var.environment_name}Cognito_LambdAuthAuth_Role"
-  path = "/"
 
   assume_role_policy = <<POLICY
 {
@@ -29,7 +28,6 @@ POLICY
 
 resource "aws_iam_role" "Cognito_LambdAuthUnauth_Role" {
   name = "${var.environment_name}Cognito_LambdAuthUnauth_Role"
-  path = "/"
 
   assume_role_policy = <<POLICY
 {
@@ -58,7 +56,6 @@ POLICY
 
 resource "aws_iam_role" "LambdAuthChangePassword" {
   name = "${var.environment_name}LambdAuthChangePassword"
-  path = "/"
 
   assume_role_policy = <<POLICY
 {
@@ -79,7 +76,6 @@ POLICY
 
 resource "aws_iam_role" "LambdAuthCreateUser" {
   name = "${var.environment_name}LambdAuthCreateUser"
-  path = "/"
 
   assume_role_policy = <<POLICY
 {
@@ -100,7 +96,6 @@ POLICY
 
 resource "aws_iam_role" "LambdAuthLogin" {
   name = "${var.environment_name}LambdAuthLogin"
-  path = "/"
 
   assume_role_policy = <<POLICY
 {
@@ -121,7 +116,6 @@ POLICY
 
 resource "aws_iam_role" "LambdAuthLoginCameraKey" {
   name = "${var.environment_name}LambdAuthLoginCameraKey"
-  path = "/"
 
   assume_role_policy = <<POLICY
 {
@@ -142,7 +136,6 @@ POLICY
 
 resource "aws_iam_role" "LambdAuthLostPassword" {
   name = "${var.environment_name}LambdAuthLostPassword"
-  path = "/"
 
   assume_role_policy = <<POLICY
 {
@@ -163,7 +156,6 @@ POLICY
 
 resource "aws_iam_role" "LambdAuthResetPassword" {
   name = "${var.environment_name}LambdAuthResetPassword"
-  path = "/"
 
   assume_role_policy = <<POLICY
 {
@@ -184,7 +176,6 @@ POLICY
 
 resource "aws_iam_role" "LambdAuthVerifyUser" {
   name = "${var.environment_name}LambdAuthVerifyUser"
-  path = "/"
 
   assume_role_policy = <<POLICY
 {
@@ -203,7 +194,7 @@ resource "aws_iam_role" "LambdAuthVerifyUser" {
 POLICY
 }
 
-data "aws_iam_policy_document" "Cognito_LambdAuthAuth_Role_Cognito_LambdAuthAuth_Role" {
+data "aws_iam_policy_document" "Cognito_LambdAuthAuth_Role" {
   "statement" = {
     "effect" = "Allow"
 
@@ -244,13 +235,13 @@ data "aws_iam_policy_document" "Cognito_LambdAuthAuth_Role_Cognito_LambdAuthAuth
   }
 }
 
-resource "aws_iam_role_policy" "Cognito_LambdAuthAuth_Role_Cognito_LambdAuthAuth_Role" {
+resource "aws_iam_role_policy" "Cognito_LambdAuthAuth_Role" {
   name = "${var.environment_name}Cognito_LambdAuthAuth_Role"
   role = "${aws_iam_role.Cognito_LambdAuthAuth_Role.name}"
-  policy = "${data.aws_iam_policy_document.Cognito_LambdAuthAuth_Role_Cognito_LambdAuthAuth_Role.json}"
+  policy = "${data.aws_iam_policy_document.Cognito_LambdAuthAuth_Role.json}"
 }
 
-data "aws_iam_policy_document" "Cognito_LambdAuthUnauth_Role_Cognito_LambdAuthUnauth_Role" {
+data "aws_iam_policy_document" "Cognito_LambdAuthUnauth_Role" {
   "statement" = {
     "effect" = "Allow"
 
@@ -291,13 +282,13 @@ data "aws_iam_policy_document" "Cognito_LambdAuthUnauth_Role_Cognito_LambdAuthUn
   }
 }
 
-resource "aws_iam_role_policy" "Cognito_LambdAuthUnauth_Role_Cognito_LambdAuthUnauth_Role" {
+resource "aws_iam_role_policy" "Cognito_LambdAuthUnauth_Role" {
   name = "${var.environment_name}Cognito_LambdAuthUnauth_Role"
   role = "${aws_iam_role.Cognito_LambdAuthUnauth_Role.name}"
-  policy = "${data.aws_iam_policy_document.Cognito_LambdAuthUnauth_Role_Cognito_LambdAuthUnauth_Role.json}"
+  policy = "${data.aws_iam_policy_document.Cognito_LambdAuthUnauth_Role.json}"
 }
 
-data "aws_iam_policy_document" "LambdAuthChangePassword_LambdAuthChangePassword" {
+data "aws_iam_policy_document" "LambdAuthChangePassword" {
   "statement" = {
     "effect" = "Allow"
 
@@ -339,10 +330,10 @@ data "aws_iam_policy_document" "LambdAuthChangePassword_LambdAuthChangePassword"
   }
 }
 
-resource "aws_iam_role_policy" "LambdAuthChangePassword_LambdAuthChangePassword" {
+resource "aws_iam_role_policy" "LambdAuthChangePassword" {
   name = "${var.environment_name}LambdAuthChangePassword"
   role = "${aws_iam_role.LambdAuthChangePassword.name}"
-  policy = "${data.aws_iam_policy_document.LambdAuthChangePassword_LambdAuthChangePassword.json}"
+  policy = "${data.aws_iam_policy_document.LambdAuthChangePassword.json}"
 }
 
 
@@ -408,7 +399,7 @@ resource "aws_iam_role_policy" "LambdAuthCreateUser" {
   policy = "${data.aws_iam_policy_document.LambdAuthCreateUser.json}"
 }
 
-data "aws_iam_policy_document" "LambdAuthLogin_LambdAuthLogin" {
+data "aws_iam_policy_document" "LambdAuthLogin" {
   "statement" = {
     "effect" = "Allow"
 
@@ -461,13 +452,13 @@ data "aws_iam_policy_document" "LambdAuthLogin_LambdAuthLogin" {
   }
 }
 
-resource "aws_iam_role_policy" "LambdAuthLogin_LambdAuthLogin" {
+resource "aws_iam_role_policy" "LambdAuthLogin" {
   name = "${var.environment_name}LambdAuthLogin"
   role = "${aws_iam_role.LambdAuthLogin.name}"
-  policy = "${data.aws_iam_policy_document.LambdAuthLogin_LambdAuthLogin.json}"
+  policy = "${data.aws_iam_policy_document.LambdAuthLogin.json}"
 }
 
-data "aws_iam_policy_document" "LambdAuthLogin_LambdAuthLoginCameraKey" {
+data "aws_iam_policy_document" "LambdAuthLoginCameraKey" {
   "statement" = {
     "effect" = "Allow"
 
@@ -520,13 +511,13 @@ data "aws_iam_policy_document" "LambdAuthLogin_LambdAuthLoginCameraKey" {
   }
 }
 
-resource "aws_iam_role_policy" "LambdAuthLogin_LambdAuthLoginCameraKey" {
+resource "aws_iam_role_policy" "LambdAuthLoginCameraKey" {
   name = "${var.environment_name}LambdAuthLoginCameraKey"
   role = "${aws_iam_role.LambdAuthLoginCameraKey.name}"
-  policy = "${data.aws_iam_policy_document.LambdAuthLogin_LambdAuthLoginCameraKey.json}"
+  policy = "${data.aws_iam_policy_document.LambdAuthLoginCameraKey.json}"
 }
 
-data "aws_iam_policy_document" "LambdAuthLostPassword_LambdAuthLostPassword" {
+data "aws_iam_policy_document" "LambdAuthLostPassword" {
   "statement" = {
     "effect" = "Allow"
 
@@ -581,13 +572,13 @@ data "aws_iam_policy_document" "LambdAuthLostPassword_LambdAuthLostPassword" {
   }
 }
 
-resource "aws_iam_role_policy" "LambdAuthLostPassword_LambdAuthLostPassword" {
+resource "aws_iam_role_policy" "LambdAuthLostPassword" {
   name = "${var.environment_name}LambdAuthLostPassword"
   role = "${aws_iam_role.LambdAuthLostPassword.name}"
-  policy = "${data.aws_iam_policy_document.LambdAuthLostPassword_LambdAuthLostPassword.json}"
+  policy = "${data.aws_iam_policy_document.LambdAuthLostPassword.json}"
 }
 
-data "aws_iam_policy_document" "LambdAuthResetPassword_LambdAuthResetPassword" {
+data "aws_iam_policy_document" "LambdAuthResetPassword" {
   "statement" = {
     "effect" = "Allow"
 
@@ -629,10 +620,10 @@ data "aws_iam_policy_document" "LambdAuthResetPassword_LambdAuthResetPassword" {
   }
 }
 
-resource "aws_iam_role_policy" "LambdAuthResetPassword_LambdAuthResetPassword" {
+resource "aws_iam_role_policy" "LambdAuthResetPassword" {
   name = "${var.environment_name}LambdAuthResetPassword"
   role = "${aws_iam_role.LambdAuthResetPassword.name}"
-  policy = "${data.aws_iam_policy_document.LambdAuthResetPassword_LambdAuthResetPassword.json}"
+  policy = "${data.aws_iam_policy_document.LambdAuthResetPassword.json}"
 }
 
 data "aws_iam_policy_document" "LambdAuthVerifyUser" {

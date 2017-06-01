@@ -2,6 +2,9 @@
 
 // getPlan
 resource "aws_lambda_function" "getPlan" {
+  depends_on = [
+    "aws_iam_role_policy.IamForGetPlanLambda"
+  ]
   filename         = "Lambda/PlanLambdas/getPlan.zip"
   function_name    = "getPlan"
   role             = "${aws_iam_role.IamForGetPlanLambda.arn}"
@@ -18,6 +21,9 @@ resource "aws_lambda_function" "getPlan" {
 
 // switchPlan
 resource "aws_lambda_function" "switchPlan" {
+  depends_on = [
+    "aws_iam_role_policy.IamForSwitchPlanLambda"
+  ]
   filename         = "Lambda/PlanLambdas/switchPlan.zip"
   function_name    = "switchPlan"
   role             = "${aws_iam_role.IamForSwitchPlanLambda.arn}"
