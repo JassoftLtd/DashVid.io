@@ -24,7 +24,11 @@ function getUser(event, email, fn) {
 		TableName: process.env.auth_db_table,
 		Key: {
 			email: email
-		}
+		},
+        AttributesToGet: [
+            'verified',
+            'verifyToken',
+        ]
 	}, function(err, data) {
 		if (err) return fn(err);
 		else {

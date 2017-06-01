@@ -21,7 +21,10 @@ exports.handler = function(event, context) {
         TableName: "Shares",
         Key:{
             "Id": shareId
-        }
+        },
+        AttributesToGet: [
+            'Video',
+        ]
     }, function(err, data) {
         if (err) {
             return context.fail(err);
