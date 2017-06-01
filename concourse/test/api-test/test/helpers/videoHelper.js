@@ -104,14 +104,11 @@ exports.createVideoForUser = function(user) {
                                 return exports.getVideos(user)
                                     .then(function (result) {
                                         assert.equal(result.data.length, 1);
-
                                         assert.equal(result.data[0].videos.length, 1);
 
                                         return promiseRetry(function (retryVideo, numberVideo) {
-                                            console.log("numberVideo", numberVideo)
                                             return exports.getVideo(user, result.data[0].videos[0].Id)
                                                 .then(function (result) {
-                                                    console.log("result", result)
                                                     assert(result.data.video);
                                                     assert(result.data.urls.original);
                                                     assert(result.data.urls.web);
