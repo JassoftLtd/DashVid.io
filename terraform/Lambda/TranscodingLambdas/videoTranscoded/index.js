@@ -20,44 +20,29 @@ exports.handler = function(event, context) {
 
         var videoId = /(.+?)(\.[^.]*$|$)/.exec(/[^/]*$/.exec(message.input.key)[0])[1];
 
-        dynamodb.get({
+        dynamodb.update({
             TableName: "Videos",
             Key:{
                 "Id": videoId
-            }
+            },
+            UpdateExpression: "set Files.Web = :transcoded",
+            ExpressionAttributeValues:{
+                ":transcoded":{
+                    "Bucket": process.env.TranscodedBucket,
+                    "Key": message.outputKeyPrefix + message.outputs[0].key
+                },
+            },
+            ReturnValues:"UPDATED_NEW"
         }, function(err, data) {
             if (err) {
-                console.log(err);
-                return context.fail(err);
-            }
-            else {
-                console.log("Video: " + JSON.stringify(data.Item));
+                console.error('Unable to update video with transcoded key for videoId [' + videoId + ']. Error JSON:', JSON.stringify(err, null, 2));
+                context.fail();
+            } else {
+                console.log("Video transcoded location updated succeeded:", JSON.stringify(data, null, 2));
 
-                dynamodb.update({
-                    TableName: "Videos",
-                    Key:{
-                        "Id": videoId
-                    },
-                    UpdateExpression: "set Files.Web = :transcoded",
-                    ExpressionAttributeValues:{
-                        ":transcoded":{
-                            "Bucket": process.env.TranscodedBucket,
-                            "Key": message.outputKeyPrefix + message.outputs[0].key
-                        },
-                    },
-                    ReturnValues:"UPDATED_NEW"
-                }, function(err, data) {
-                    if (err) {
-                        console.error('Unable to update video with transcoded key for videoId [' + videoId + ']. Error JSON:', JSON.stringify(err, null, 2));
-                        context.fail();
-                    } else {
-                        console.log("Video transcoded location updated succeeded:", JSON.stringify(data, null, 2));
-
-                        if (i == event.Records.length - 1) {
-                            context.succeed();
-                        }
-                    }
-                });
+                if (i == event.Records.length - 1) {
+                    context.succeed();
+                }
             }
         });
     }
