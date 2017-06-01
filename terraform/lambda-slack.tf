@@ -1,4 +1,7 @@
 resource "aws_lambda_function" "slack_alert" {
+  depends_on = [
+    "aws_iam_role_policy.iam_for_slack_alert"
+  ]
   filename         = "Lambda/SlackLambdas/slack-alert.zip"
   function_name    = "${var.environment_name}slack-alert"
   role             = "${aws_iam_role.iam_for_slack_alert.arn}"

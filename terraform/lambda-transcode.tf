@@ -2,6 +2,9 @@
 
 // Transcode Video
 resource "aws_lambda_function" "transcodeVideo" {
+  depends_on = [
+    "aws_iam_role_policy.IamForTranscodeVideoLambda"
+  ]
   filename         = "Lambda/TranscodingLambdas/transcodeVideo.zip"
   function_name    = "transcodeVideo"
   role             = "${aws_iam_role.IamForTranscodeVideoLambda.arn}"
@@ -33,6 +36,9 @@ resource "aws_lambda_permission" "transcodeVideo_allow_sns" {
 
 // Video Transcoded
 resource "aws_lambda_function" "videoTranscoded" {
+  depends_on = [
+    "aws_iam_role_policy.IamForVideoTranscodedLambda"
+  ]
   filename         = "Lambda/TranscodingLambdas/videoTranscoded.zip"
   function_name    = "videoTranscoded"
   role             = "${aws_iam_role.IamForVideoTranscodedLambda.arn}"
