@@ -1,6 +1,5 @@
 resource "aws_iam_role" "Cognito_LambdAuthAuth_Role" {
   name = "${var.environment_name}Cognito_LambdAuthAuth_Role"
-  path = "/"
 
   assume_role_policy = <<POLICY
 {
@@ -29,7 +28,6 @@ POLICY
 
 resource "aws_iam_role" "Cognito_LambdAuthUnauth_Role" {
   name = "${var.environment_name}Cognito_LambdAuthUnauth_Role"
-  path = "/"
 
   assume_role_policy = <<POLICY
 {
@@ -58,7 +56,6 @@ POLICY
 
 resource "aws_iam_role" "LambdAuthChangePassword" {
   name = "${var.environment_name}LambdAuthChangePassword"
-  path = "/"
 
   assume_role_policy = <<POLICY
 {
@@ -79,7 +76,6 @@ POLICY
 
 resource "aws_iam_role" "LambdAuthCreateUser" {
   name = "${var.environment_name}LambdAuthCreateUser"
-  path = "/"
 
   assume_role_policy = <<POLICY
 {
@@ -100,7 +96,6 @@ POLICY
 
 resource "aws_iam_role" "LambdAuthLogin" {
   name = "${var.environment_name}LambdAuthLogin"
-  path = "/"
 
   assume_role_policy = <<POLICY
 {
@@ -121,7 +116,6 @@ POLICY
 
 resource "aws_iam_role" "LambdAuthLoginCameraKey" {
   name = "${var.environment_name}LambdAuthLoginCameraKey"
-  path = "/"
 
   assume_role_policy = <<POLICY
 {
@@ -142,7 +136,6 @@ POLICY
 
 resource "aws_iam_role" "LambdAuthLostPassword" {
   name = "${var.environment_name}LambdAuthLostPassword"
-  path = "/"
 
   assume_role_policy = <<POLICY
 {
@@ -163,7 +156,6 @@ POLICY
 
 resource "aws_iam_role" "LambdAuthResetPassword" {
   name = "${var.environment_name}LambdAuthResetPassword"
-  path = "/"
 
   assume_role_policy = <<POLICY
 {
@@ -184,7 +176,6 @@ POLICY
 
 resource "aws_iam_role" "LambdAuthVerifyUser" {
   name = "${var.environment_name}LambdAuthVerifyUser"
-  path = "/"
 
   assume_role_policy = <<POLICY
 {
