@@ -58,6 +58,107 @@ variable "bucket_force_destroy" {
   default     = false
 }
 
+# DynamoDB
+variable "users_table_read_capacity" {
+  description = "The Read Capacity of the Users DynamoDB Table"
+  default     = 1
+}
+
+variable "users_table_write_capacity" {
+  description = "The Write Capacity of the Users DynamoDB Table"
+  default     = 1
+}
+
+variable "users_table_index_StripeCustomer_read_capacity" {
+  description = "The Read Capacity of the Users DynamoDB Table StripeCustomer Index"
+  default     = 1
+}
+
+variable "users_table_index_StripeCustomer_write_capacity" {
+  description = "The Write Capacity of the Users DynamoDB Table StripeCustomer Index"
+  default     = 1
+}
+
+variable "videos_table_read_capacity" {
+  description = "The Read Capacity of the Videos DynamoDB Table"
+  default     = 1
+}
+
+variable "videos_table_write_capacity" {
+  description = "The Write Capacity of the Videos DynamoDB Table"
+  default     = 1
+}
+
+variable "videos_table_index_UserVideosByDay_read_capacity" {
+  description = "The Read Capacity of the Videos DynamoDB Table UserVideosByDay Index"
+  default     = 1
+}
+
+variable "videos_table_index_UserVideosByDay_write_capacity" {
+  description = "The Write Capacity of the Videos DynamoDB Table UserVideosByDay Index"
+  default     = 1
+}
+
+variable "subscriptions_table_read_capacity" {
+  description = "The Read Capacity of the Subscriptions DynamoDB Table"
+  default     = 1
+}
+
+variable "subscriptions_table_write_capacity" {
+  description = "The Write Capacity of the Subscriptions DynamoDB Table"
+  default     = 1
+}
+
+variable "cameras_table_read_capacity" {
+  description = "The Read Capacity of the Cameras DynamoDB Table"
+  default     = 1
+}
+
+variable "cameras_table_write_capacity" {
+  description = "The Write Capacity of the Cameras DynamoDB Table"
+  default     = 1
+}
+
+variable "cameras_table_index_UserCameras_read_capacity" {
+  description = "The Read Capacity of the Cameras DynamoDB Table UserCameras Index"
+  default     = 1
+}
+
+variable "cameras_table_index_UserCameras_write_capacity" {
+  description = "The Write Capacity of the Cameras DynamoDB Table UserCameras Index"
+  default     = 1
+}
+
+variable "cameras_table_index_CameraKey_read_capacity" {
+  description = "The Read Capacity of the Cameras DynamoDB Table CameraKey Index"
+  default     = 1
+}
+
+variable "cameras_table_index_CameraKey_write_capacity" {
+  description = "The Write Capacity of the Cameras DynamoDB Table CameraKey Index"
+  default     = 1
+}
+
+variable "shares_table_read_capacity" {
+  description = "The Read Capacity of the Shares DynamoDB Table"
+  default     = 1
+}
+
+variable "shares_table_write_capacity" {
+  description = "The Write Capacity of the Shares DynamoDB Table"
+  default     = 1
+}
+
+variable "shares_table_index_UserShared_read_capacity" {
+  description = "The Read Capacity of the Shares DynamoDB Table UserShared Index"
+  default     = 1
+}
+
+variable "shares_table_index_UserShared_write_capacity" {
+  description = "The Write Capacity of the Shares DynamoDB Table UserShared Index"
+  default     = 1
+}
+
 # Certificate
 variable "acm_certificate_arn" {
   description = "The ARN of the certificate to be used by cloudfront"

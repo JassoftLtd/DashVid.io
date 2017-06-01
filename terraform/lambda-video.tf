@@ -3,8 +3,9 @@
 // Videos GET
 resource "aws_lambda_function" "getVideos" {
   depends_on = [
-    "aws_iam_role_policy.IamForGetVideosLambda"
+    "aws_iam_role_policy.IamForGetVideosLambda",
   ]
+
   filename         = "Lambda/VideoLambdas/getVideos.zip"
   function_name    = "getVideos"
   role             = "${aws_iam_role.IamForGetVideosLambda.arn}"
@@ -18,8 +19,9 @@ resource "aws_lambda_function" "getVideos" {
 // Video Create
 resource "aws_lambda_function" "createVideo" {
   depends_on = [
-    "aws_iam_role_policy.IamForCreateVideoLambda"
+    "aws_iam_role_policy.IamForCreateVideoLambda",
   ]
+
   filename         = "Lambda/VideoLambdas/createVideo.zip"
   function_name    = "createVideo"
   role             = "${aws_iam_role.IamForCreateVideoLambda.arn}"
@@ -40,8 +42,9 @@ resource "aws_lambda_function" "createVideo" {
 // Video Uploaded
 resource "aws_lambda_function" "uploadedVideo" {
   depends_on = [
-    "aws_iam_role_policy.IamForUploadedVideoLambda"
+    "aws_iam_role_policy.IamForUploadedVideoLambda",
   ]
+
   filename         = "Lambda/VideoLambdas/uploadedVideo.zip"
   function_name    = "uploadedVideo"
   role             = "${aws_iam_role.IamForUploadedVideoLambda.arn}"
@@ -77,8 +80,9 @@ resource "aws_lambda_permission" "uploadedVideo_allow_standard_bucket" {
 // Video GET
 resource "aws_lambda_function" "getVideo" {
   depends_on = [
-    "aws_iam_role_policy.IamForGetVideoLambda"
+    "aws_iam_role_policy.IamForGetVideoLambda",
   ]
+
   filename         = "Lambda/VideoLambdas/getVideo.zip"
   function_name    = "getVideo"
   role             = "${aws_iam_role.IamForGetVideoLambda.arn}"
@@ -92,8 +96,9 @@ resource "aws_lambda_function" "getVideo" {
 // Video Expired
 resource "aws_lambda_function" "expiredVideo" {
   depends_on = [
-    "aws_iam_role_policy.IamForExpiredVideoLambda"
+    "aws_iam_role_policy.IamForExpiredVideoLambda",
   ]
+
   filename         = "Lambda/VideoLambdas/expiredVideo.zip"
   function_name    = "expiredVideo"
   role             = "${aws_iam_role.IamForExpiredVideoLambda.arn}"

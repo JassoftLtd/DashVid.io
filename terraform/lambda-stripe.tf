@@ -3,8 +3,9 @@
 // Stripe Webhook
 resource "aws_lambda_function" "webhook" {
   depends_on = [
-    "aws_iam_role_policy.IamForStripeWebhookLambda"
+    "aws_iam_role_policy.IamForStripeWebhookLambda",
   ]
+
   filename         = "Lambda/StripeLambdas/webhook.zip"
   function_name    = "webhook"
   role             = "${aws_iam_role.IamForStripeWebhookLambda.arn}"

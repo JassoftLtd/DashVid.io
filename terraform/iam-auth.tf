@@ -236,8 +236,8 @@ data "aws_iam_policy_document" "Cognito_LambdAuthAuth_Role" {
 }
 
 resource "aws_iam_role_policy" "Cognito_LambdAuthAuth_Role" {
-  name = "${var.environment_name}Cognito_LambdAuthAuth_Role"
-  role = "${aws_iam_role.Cognito_LambdAuthAuth_Role.name}"
+  name   = "${var.environment_name}Cognito_LambdAuthAuth_Role"
+  role   = "${aws_iam_role.Cognito_LambdAuthAuth_Role.name}"
   policy = "${data.aws_iam_policy_document.Cognito_LambdAuthAuth_Role.json}"
 }
 
@@ -283,8 +283,8 @@ data "aws_iam_policy_document" "Cognito_LambdAuthUnauth_Role" {
 }
 
 resource "aws_iam_role_policy" "Cognito_LambdAuthUnauth_Role" {
-  name = "${var.environment_name}Cognito_LambdAuthUnauth_Role"
-  role = "${aws_iam_role.Cognito_LambdAuthUnauth_Role.name}"
+  name   = "${var.environment_name}Cognito_LambdAuthUnauth_Role"
+  role   = "${aws_iam_role.Cognito_LambdAuthUnauth_Role.name}"
   policy = "${data.aws_iam_policy_document.Cognito_LambdAuthUnauth_Role.json}"
 }
 
@@ -331,11 +331,10 @@ data "aws_iam_policy_document" "LambdAuthChangePassword" {
 }
 
 resource "aws_iam_role_policy" "LambdAuthChangePassword" {
-  name = "${var.environment_name}LambdAuthChangePassword"
-  role = "${aws_iam_role.LambdAuthChangePassword.name}"
+  name   = "${var.environment_name}LambdAuthChangePassword"
+  role   = "${aws_iam_role.LambdAuthChangePassword.name}"
   policy = "${data.aws_iam_policy_document.LambdAuthChangePassword.json}"
 }
-
 
 data "aws_iam_policy_document" "LambdAuthCreateUser" {
   "statement" = {
@@ -453,8 +452,8 @@ data "aws_iam_policy_document" "LambdAuthLogin" {
 }
 
 resource "aws_iam_role_policy" "LambdAuthLogin" {
-  name = "${var.environment_name}LambdAuthLogin"
-  role = "${aws_iam_role.LambdAuthLogin.name}"
+  name   = "${var.environment_name}LambdAuthLogin"
+  role   = "${aws_iam_role.LambdAuthLogin.name}"
   policy = "${data.aws_iam_policy_document.LambdAuthLogin.json}"
 }
 
@@ -512,8 +511,8 @@ data "aws_iam_policy_document" "LambdAuthLoginCameraKey" {
 }
 
 resource "aws_iam_role_policy" "LambdAuthLoginCameraKey" {
-  name = "${var.environment_name}LambdAuthLoginCameraKey"
-  role = "${aws_iam_role.LambdAuthLoginCameraKey.name}"
+  name   = "${var.environment_name}LambdAuthLoginCameraKey"
+  role   = "${aws_iam_role.LambdAuthLoginCameraKey.name}"
   policy = "${data.aws_iam_policy_document.LambdAuthLoginCameraKey.json}"
 }
 
@@ -573,8 +572,8 @@ data "aws_iam_policy_document" "LambdAuthLostPassword" {
 }
 
 resource "aws_iam_role_policy" "LambdAuthLostPassword" {
-  name = "${var.environment_name}LambdAuthLostPassword"
-  role = "${aws_iam_role.LambdAuthLostPassword.name}"
+  name   = "${var.environment_name}LambdAuthLostPassword"
+  role   = "${aws_iam_role.LambdAuthLostPassword.name}"
   policy = "${data.aws_iam_policy_document.LambdAuthLostPassword.json}"
 }
 
@@ -621,8 +620,8 @@ data "aws_iam_policy_document" "LambdAuthResetPassword" {
 }
 
 resource "aws_iam_role_policy" "LambdAuthResetPassword" {
-  name = "${var.environment_name}LambdAuthResetPassword"
-  role = "${aws_iam_role.LambdAuthResetPassword.name}"
+  name   = "${var.environment_name}LambdAuthResetPassword"
+  role   = "${aws_iam_role.LambdAuthResetPassword.name}"
   policy = "${data.aws_iam_policy_document.LambdAuthResetPassword.json}"
 }
 
@@ -681,7 +680,7 @@ data "aws_iam_policy_document" "LambdAuthVerifyUser" {
 }
 
 resource "aws_iam_role_policy" "LambdAuthVerifyUser" {
-  name = "${var.environment_name}LambdAuthVerifyUser"
-  role = "${aws_iam_role.LambdAuthVerifyUser.name}"
+  name   = "${var.environment_name}LambdAuthVerifyUser"
+  role   = "${aws_iam_role.LambdAuthVerifyUser.name}"
   policy = "${data.aws_iam_policy_document.LambdAuthVerifyUser.json}"
 }

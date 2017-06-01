@@ -3,8 +3,9 @@
 // Camera GET
 resource "aws_lambda_function" "getCameras" {
   depends_on = [
-    "aws_iam_role_policy.IamForGetCamerasLambda"
+    "aws_iam_role_policy.IamForGetCamerasLambda",
   ]
+
   filename         = "Lambda/CameraLambdas/getCameras.zip"
   function_name    = "getCameras"
   role             = "${aws_iam_role.IamForGetCamerasLambda.arn}"

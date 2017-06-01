@@ -22,7 +22,6 @@ EOF
 }
 
 data "aws_iam_policy_document" "IamForShareVideoLambda" {
-
   "statement" = {
     "effect" = "Allow"
 
@@ -43,7 +42,7 @@ data "aws_iam_policy_document" "IamForShareVideoLambda" {
     ]
 
     "resources" = [
-      "${aws_dynamodb_table.shared-table.arn}",
+      "${aws_dynamodb_table.shares-table.arn}",
     ]
   }
 
@@ -123,7 +122,7 @@ data "aws_iam_policy_document" "IamForGetSharedVideoLambda" {
     ]
 
     "resources" = [
-      "${aws_dynamodb_table.shared-table.arn}",
+      "${aws_dynamodb_table.shares-table.arn}",
     ]
   }
 
