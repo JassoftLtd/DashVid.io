@@ -7,9 +7,9 @@ resource "aws_cloudwatch_metric_alarm" "dynamodb-videos-consumed-read" {
   namespace           = "AWS/DynamoDB"
   period              = "60"
   statistic           = "Maximum"
-  threshold           = "${aws_dynamodb_table.videos-table.read_capacity * 0.8}"
+  threshold           = "${aws_dynamodb_table.videos-table.read_capacity}"
   treat_missing_data  = "notBreaching"
-  alarm_description   = "DynamoDB table ${aws_dynamodb_table.videos-table.name} is consuming 80% of its provisioned read capacity"
+  alarm_description   = "DynamoDB table ${aws_dynamodb_table.videos-table.name} is consuming 100% of its provisioned read capacity"
   alarm_actions       = ["${aws_sns_topic.slack_alert.arn}"]
 
   dimensions {
@@ -25,9 +25,9 @@ resource "aws_cloudwatch_metric_alarm" "dynamodb-videos-consumed-write" {
   namespace           = "AWS/DynamoDB"
   period              = "60"
   statistic           = "Maximum"
-  threshold           = "${aws_dynamodb_table.videos-table.write_capacity * 0.8}"
+  threshold           = "${aws_dynamodb_table.videos-table.write_capacity}"
   treat_missing_data  = "notBreaching"
-  alarm_description   = "DynamoDB table ${aws_dynamodb_table.videos-table.name} is consuming 80% of its provisioned write capacity"
+  alarm_description   = "DynamoDB table ${aws_dynamodb_table.videos-table.name} is consuming 100% of its provisioned write capacity"
   alarm_actions       = ["${aws_sns_topic.slack_alert.arn}"]
 
   dimensions {
@@ -44,9 +44,9 @@ resource "aws_cloudwatch_metric_alarm" "dynamodb-videos-UserVideosByDay-consumed
   namespace           = "AWS/DynamoDB"
   period              = "60"
   statistic           = "Maximum"
-  threshold           = "${aws_dynamodb_table.videos-table.read_capacity * 0.8}"
+  threshold           = "${aws_dynamodb_table.videos-table.read_capacity}"
   treat_missing_data  = "notBreaching"
-  alarm_description   = "DynamoDB table ${aws_dynamodb_table.videos-table.name} GSI UserVideosByDay is consuming 80% of its provisioned read capacity"
+  alarm_description   = "DynamoDB table ${aws_dynamodb_table.videos-table.name} GSI UserVideosByDay is consuming 100% of its provisioned read capacity"
   alarm_actions       = ["${aws_sns_topic.slack_alert.arn}"]
 
   dimensions {
@@ -63,9 +63,9 @@ resource "aws_cloudwatch_metric_alarm" "dynamodb-videos-UserVideosByDay-consumed
   namespace           = "AWS/DynamoDB"
   period              = "60"
   statistic           = "Maximum"
-  threshold           = "${aws_dynamodb_table.videos-table.write_capacity * 0.8}"
+  threshold           = "${aws_dynamodb_table.videos-table.write_capacity}"
   treat_missing_data  = "notBreaching"
-  alarm_description   = "DynamoDB table ${aws_dynamodb_table.videos-table.name} GSI UserVideosByDay is consuming 80% of its provisioned write capacity"
+  alarm_description   = "DynamoDB table ${aws_dynamodb_table.videos-table.name} GSI UserVideosByDay is consuming 100% of its provisioned write capacity"
   alarm_actions       = ["${aws_sns_topic.slack_alert.arn}"]
 
   dimensions {
@@ -83,9 +83,9 @@ resource "aws_cloudwatch_metric_alarm" "dynamodb-users-consumed-read" {
   namespace           = "AWS/DynamoDB"
   period              = "60"
   statistic           = "Maximum"
-  threshold           = "${aws_dynamodb_table.users-table.read_capacity * 0.8}"
+  threshold           = "${aws_dynamodb_table.users-table.read_capacity}"
   treat_missing_data  = "notBreaching"
-  alarm_description   = "DynamoDB table ${aws_dynamodb_table.users-table.name} is consuming 80% of its provisioned read capacity"
+  alarm_description   = "DynamoDB table ${aws_dynamodb_table.users-table.name} is consuming 100% of its provisioned read capacity"
   alarm_actions       = ["${aws_sns_topic.slack_alert.arn}"]
 
   dimensions {
@@ -101,9 +101,9 @@ resource "aws_cloudwatch_metric_alarm" "dynamodb-users-consumed-write" {
   namespace           = "AWS/DynamoDB"
   period              = "60"
   statistic           = "Maximum"
-  threshold           = "${aws_dynamodb_table.users-table.write_capacity * 0.8}"
+  threshold           = "${aws_dynamodb_table.users-table.write_capacity}"
   treat_missing_data  = "notBreaching"
-  alarm_description   = "DynamoDB table ${aws_dynamodb_table.users-table.name} is consuming 80% of its provisioned write capacity"
+  alarm_description   = "DynamoDB table ${aws_dynamodb_table.users-table.name} is consuming 100% of its provisioned write capacity"
   alarm_actions       = ["${aws_sns_topic.slack_alert.arn}"]
 
   dimensions {
@@ -120,9 +120,9 @@ resource "aws_cloudwatch_metric_alarm" "dynamodb-subscriptions-consumed-read" {
   namespace           = "AWS/DynamoDB"
   period              = "60"
   statistic           = "Maximum"
-  threshold           = "${aws_dynamodb_table.subscriptions-table.read_capacity * 0.8}"
+  threshold           = "${aws_dynamodb_table.subscriptions-table.read_capacity}"
   treat_missing_data  = "notBreaching"
-  alarm_description   = "DynamoDB table ${aws_dynamodb_table.subscriptions-table.name} is consuming 80% of its provisioned read capacity"
+  alarm_description   = "DynamoDB table ${aws_dynamodb_table.subscriptions-table.name} is consuming 100% of its provisioned read capacity"
   alarm_actions       = ["${aws_sns_topic.slack_alert.arn}"]
 
   dimensions {
@@ -138,9 +138,9 @@ resource "aws_cloudwatch_metric_alarm" "dynamodb-subscriptions-consumed-write" {
   namespace           = "AWS/DynamoDB"
   period              = "60"
   statistic           = "Maximum"
-  threshold           = "${aws_dynamodb_table.subscriptions-table.write_capacity * 0.8}"
+  threshold           = "${aws_dynamodb_table.subscriptions-table.write_capacity}"
   treat_missing_data  = "notBreaching"
-  alarm_description   = "DynamoDB table ${aws_dynamodb_table.subscriptions-table.name} is consuming 80% of its provisioned write capacity"
+  alarm_description   = "DynamoDB table ${aws_dynamodb_table.subscriptions-table.name} is consuming 100% of its provisioned write capacity"
   alarm_actions       = ["${aws_sns_topic.slack_alert.arn}"]
 
   dimensions {
@@ -157,9 +157,9 @@ resource "aws_cloudwatch_metric_alarm" "dynamodb-cameras-consumed-read" {
   namespace           = "AWS/DynamoDB"
   period              = "60"
   statistic           = "Maximum"
-  threshold           = "${aws_dynamodb_table.cameras-table.read_capacity * 0.8}"
+  threshold           = "${aws_dynamodb_table.cameras-table.read_capacity}"
   treat_missing_data  = "notBreaching"
-  alarm_description   = "DynamoDB table ${aws_dynamodb_table.cameras-table.name} is consuming 80% of its provisioned read capacity"
+  alarm_description   = "DynamoDB table ${aws_dynamodb_table.cameras-table.name} is consuming 100% of its provisioned read capacity"
   alarm_actions       = ["${aws_sns_topic.slack_alert.arn}"]
 
   dimensions {
@@ -175,9 +175,9 @@ resource "aws_cloudwatch_metric_alarm" "dynamodb-cameras-consumed-write" {
   namespace           = "AWS/DynamoDB"
   period              = "60"
   statistic           = "Maximum"
-  threshold           = "${aws_dynamodb_table.cameras-table.write_capacity * 0.8}"
+  threshold           = "${aws_dynamodb_table.cameras-table.write_capacity}"
   treat_missing_data  = "notBreaching"
-  alarm_description   = "DynamoDB table ${aws_dynamodb_table.cameras-table.name} is consuming 80% of its provisioned write capacity"
+  alarm_description   = "DynamoDB table ${aws_dynamodb_table.cameras-table.name} is consuming 100% of its provisioned write capacity"
   alarm_actions       = ["${aws_sns_topic.slack_alert.arn}"]
 
   dimensions {
@@ -194,9 +194,9 @@ resource "aws_cloudwatch_metric_alarm" "dynamodb-cameras-UserCameras-consumed-re
   namespace           = "AWS/DynamoDB"
   period              = "60"
   statistic           = "Maximum"
-  threshold           = "${aws_dynamodb_table.cameras-table.read_capacity * 0.8}"
+  threshold           = "${aws_dynamodb_table.cameras-table.read_capacity}"
   treat_missing_data  = "notBreaching"
-  alarm_description   = "DynamoDB table ${aws_dynamodb_table.cameras-table.name} GSI UserCameras is consuming 80% of its provisioned read capacity"
+  alarm_description   = "DynamoDB table ${aws_dynamodb_table.cameras-table.name} GSI UserCameras is consuming 100% of its provisioned read capacity"
   alarm_actions       = ["${aws_sns_topic.slack_alert.arn}"]
 
   dimensions {
@@ -213,9 +213,9 @@ resource "aws_cloudwatch_metric_alarm" "dynamodb-cameras-UserCameras-consumed-wr
   namespace           = "AWS/DynamoDB"
   period              = "60"
   statistic           = "Maximum"
-  threshold           = "${aws_dynamodb_table.cameras-table.write_capacity * 0.8}"
+  threshold           = "${aws_dynamodb_table.cameras-table.write_capacity}"
   treat_missing_data  = "notBreaching"
-  alarm_description   = "DynamoDB table ${aws_dynamodb_table.cameras-table.name} GSI UserCameras is consuming 80% of its provisioned write capacity"
+  alarm_description   = "DynamoDB table ${aws_dynamodb_table.cameras-table.name} GSI UserCameras is consuming 100% of its provisioned write capacity"
   alarm_actions       = ["${aws_sns_topic.slack_alert.arn}"]
 
   dimensions {
@@ -233,9 +233,9 @@ resource "aws_cloudwatch_metric_alarm" "dynamodb-cameras-CameraKey-consumed-read
   namespace           = "AWS/DynamoDB"
   period              = "60"
   statistic           = "Maximum"
-  threshold           = "${aws_dynamodb_table.cameras-table.read_capacity * 0.8}"
+  threshold           = "${aws_dynamodb_table.cameras-table.read_capacity}"
   treat_missing_data  = "notBreaching"
-  alarm_description   = "DynamoDB table ${aws_dynamodb_table.cameras-table.name} GSI CameraKey is consuming 80% of its provisioned read capacity"
+  alarm_description   = "DynamoDB table ${aws_dynamodb_table.cameras-table.name} GSI CameraKey is consuming 100% of its provisioned read capacity"
   alarm_actions       = ["${aws_sns_topic.slack_alert.arn}"]
 
   dimensions {
@@ -252,9 +252,9 @@ resource "aws_cloudwatch_metric_alarm" "dynamodb-cameras-CameraKey-consumed-writ
   namespace           = "AWS/DynamoDB"
   period              = "60"
   statistic           = "Maximum"
-  threshold           = "${aws_dynamodb_table.cameras-table.write_capacity * 0.8}"
+  threshold           = "${aws_dynamodb_table.cameras-table.write_capacity}"
   treat_missing_data  = "notBreaching"
-  alarm_description   = "DynamoDB table ${aws_dynamodb_table.cameras-table.name} GSI CameraKey is consuming 80% of its provisioned write capacity"
+  alarm_description   = "DynamoDB table ${aws_dynamodb_table.cameras-table.name} GSI CameraKey is consuming 100% of its provisioned write capacity"
   alarm_actions       = ["${aws_sns_topic.slack_alert.arn}"]
 
   dimensions {
