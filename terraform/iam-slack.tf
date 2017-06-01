@@ -29,7 +29,7 @@ data "aws_iam_policy_document" "iam_for_slack_alert" {
     ]
 
     "resources" = [
-      "arn:aws:logs:${var.aws_region}:${data.aws_caller_identity.current.account_id}:log-group:/aws/lambda/${aws_lambda_function.slack_alert.function_name}:log-stream:*",
+      "arn:aws:logs:${var.aws_region}:${data.aws_caller_identity.current.account_id}:log-group:/aws/lambda/${var.environment_name}slack-alert:log-stream:*",
     ]
   }
 
