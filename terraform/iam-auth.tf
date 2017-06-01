@@ -346,7 +346,7 @@ resource "aws_iam_role_policy" "LambdAuthChangePassword_LambdAuthChangePassword"
 }
 
 
-data "aws_iam_policy_document" "LambdAuthCreateUser_LambdAuthCreateUser" {
+data "aws_iam_policy_document" "LambdAuthCreateUser" {
   "statement" = {
     "effect" = "Allow"
 
@@ -402,10 +402,10 @@ data "aws_iam_policy_document" "LambdAuthCreateUser_LambdAuthCreateUser" {
   }
 }
 
-resource "aws_iam_role_policy" "LambdAuthCreateUser_LambdAuthCreateUser" {
+resource "aws_iam_role_policy" "LambdAuthCreateUser" {
   name   = "${var.environment_name}LambdAuthCreateUser"
   role   = "${aws_iam_role.LambdAuthCreateUser.name}"
-  policy = "${data.aws_iam_policy_document.LambdAuthCreateUser_LambdAuthCreateUser.json}"
+  policy = "${data.aws_iam_policy_document.LambdAuthCreateUser.json}"
 }
 
 data "aws_iam_policy_document" "LambdAuthLogin_LambdAuthLogin" {
@@ -635,7 +635,7 @@ resource "aws_iam_role_policy" "LambdAuthResetPassword_LambdAuthResetPassword" {
   policy = "${data.aws_iam_policy_document.LambdAuthResetPassword_LambdAuthResetPassword.json}"
 }
 
-data "aws_iam_policy_document" "LambdAuthVerifyUser_LambdAuthVerifyUser" {
+data "aws_iam_policy_document" "LambdAuthVerifyUser" {
   "statement" = {
     "effect" = "Allow"
 
@@ -689,8 +689,8 @@ data "aws_iam_policy_document" "LambdAuthVerifyUser_LambdAuthVerifyUser" {
   }
 }
 
-resource "aws_iam_role_policy" "LambdAuthVerifyUser_LambdAuthVerifyUser" {
+resource "aws_iam_role_policy" "LambdAuthVerifyUser" {
   name = "${var.environment_name}LambdAuthVerifyUser"
   role = "${aws_iam_role.LambdAuthVerifyUser.name}"
-  policy = "${data.aws_iam_policy_document.LambdAuthVerifyUser_LambdAuthVerifyUser.json}"
+  policy = "${data.aws_iam_policy_document.LambdAuthVerifyUser.json}"
 }

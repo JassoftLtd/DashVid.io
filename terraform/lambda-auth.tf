@@ -137,6 +137,9 @@ resource "aws_lambda_function" "resetPassword" {
 }
 
 resource "aws_lambda_function" "verifyUser" {
+  depends_on = [
+    "aws_iam_role_policy.LambdAuthVerifyUser"
+  ]
   filename         = "${path.module}/Lambda/AuthLambdas/VerifyUser.zip"
   function_name    = "LambdAuthVerifyUser"
   role             = "${aws_iam_role.LambdAuthVerifyUser.arn}"
