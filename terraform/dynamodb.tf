@@ -67,11 +67,6 @@ resource "aws_dynamodb_table" "subscriptions-table" {
     name = "User"
     type = "S"
   }
-
-  attribute {
-    name = "SubscriptionTime"
-    type = "N"
-  }
 }
 
 resource "aws_dynamodb_table" "cameras-table" {
