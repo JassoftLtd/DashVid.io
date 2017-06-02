@@ -180,6 +180,7 @@ jobs:
       TF_VAR_acm_certificate_arn: {{acm_certificate_arn}}
       TF_VAR_api_certificate_arn: {{api_certificate_arn}}
       TF_VAR_slack_webhook_url: {{slack_webhook_url}}
+      TF_VAR_videos_table_read_capacity: 2
       REACT_APP_STRIPE_PUBLISHABLE_KEY: pk_live_IYFID6k8KNK8uTVSeKQ6Ync5
       REACT_APP_AWS_IDENTITY_POOL: {{aws_identity_pool}}
       REACT_APP_GA_TRACKING_CODE: {{ga_tracking_code}}
