@@ -50,12 +50,14 @@ exports.handler = function(event, context) {
             recordForDate.videos.push(videoDate);
         }
 
-        for(var i = 0; i < responseBody.length; i++) {
-        	let day = responseBody[i];
+        for(var o = 0; o < responseBody.length; o++) {
+        	let day = responseBody[o];
 
-        	day.videos.sort(function(videoA, videoB){return videoB.RecordedDate-videoA.RecordedDate});
+        	day.videos.sort(function(videoA, videoB) {
+        		return videoB.RecordedDate-videoA.RecordedDate;
+        	});
 
-            responseBody[i] = day;
+            responseBody[o] = day;
         }
 
         console.log("dayGroups: " + JSON.stringify(responseBody));
