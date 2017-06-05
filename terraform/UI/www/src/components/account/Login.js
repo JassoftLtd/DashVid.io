@@ -1,21 +1,28 @@
 import React, {Component} from 'react';
-var authUtils = require('../utils/auth.js');
-var api = require('../utils/api.js');
+import {Card, CardActions, CardTitle, CardText} from 'material-ui/Card';
+import RaisedButton from 'material-ui/RaisedButton';
+import TextField from 'material-ui/TextField';
 
-////////////////
-// Login //
-////////////////
+var authUtils = require('../../utils/auth.js');
+var api = require('../../utils/api.js');
 
-// Login Container
+const style = {
+    card: {
+        margin: 12,
+        float: 'left',
+    }
+};
 
-class Login extends Component {
+export default class Login extends Component {
 
     constructor(props) {
         super(props);
 
         this.state = {
             email: "",
+            emailError: null,
             password: "",
+            passwordError: null,
             message: null
         };
     }
@@ -24,16 +31,22 @@ class Login extends Component {
 
         e.preventDefault();
 
+        this.setState({
+            emailError: null,
+            passwordError: null,
+            message: null
+        });
+
         if(this.state.email.length === 0) {
             this.setState({
-                message: "Please enter an email address"
+                emailError: "Please enter an email address"
             });
             return
         }
 
         if(this.state.password.length === 0) {
             this.setState({
-                message: "Please enter your password"
+                passwordError: "Please enter your password"
             });
             return
         }
@@ -83,15 +96,24 @@ class Login extends Component {
 
         }).catch(function (ex) {
             console.log('parsing failed', ex)
+            _this.setState({
+                message: "Login Failed"
+            });
         })
 
     }
 
     handleLostPassword () {
 
+        this.setState({
+            emailError: null,
+            passwordError: null,
+            message: null
+        });
+
         if(this.state.email.length === 0) {
             this.setState({
-                message: "Please enter an email address"
+                emailError: "Please enter an email address"
             });
             return
         }
@@ -125,58 +147,65 @@ class Login extends Component {
             }
 
         }).catch(function (ex) {
-            console.log('parsing failed', ex)
+            console.log('parsing failed', ex);
+            _this.setState({
+                message: "Password Reset Failed"
+            });
         })
 
     }
 
     handleChangeEmail (e) {
+        this.setState({
+            emailError: null,
+        });
         this.setState({email: e.target.value});
     }
 
     handleChangePassword (e) {
+        this.setState({
+            passwordError: null
+        });
         this.setState({password: e.target.value});
     }
 
     render() {
-
-        if (!this.props.loggedIn) {
-            var message
-
-            if(this.state.message) {
-                message = (
-                    <tr>
-                        <td colSpan="2">
-                            <p>{this.state.message}</p>
-                        </td>
-                    </tr>
-                )
-            }
-
-            return (
-                <form onSubmit={this.handleLogin.bind(this)} className="pure-form pure-form-aligned">
-                    <fieldset>
-                        {message}
-                        <div className="pure-control-group">
-                            <label htmlFor="name">Email</label>
-                            <input className="pure-input-2-3" id="email" type="email" value={this.state.email} onChange={this.handleChangeEmail.bind(this)} placeholder="Email" />
-                        </div>
-                        <div className="pure-control-group">
-                            <label htmlFor="name">Password</label>
-                            <input className="pure-input-2-3" id="password" type="password" value={this.state.password} onChange={this.handleChangePassword.bind(this)} placeholder="Password" />
-                        </div>
-                        <div className="pure-controls">
-                            <button type="submit" className="pure-button button-success">Login</button>
-                            <br /><br />
-                            <a href="#" onClick={this.handleLostPassword.bind(this)}>Forgotten Password</a>
-                        </div>
-                    </fieldset>
+        return (
+            <Card style={style.card}>
+                <CardTitle title="Login" subtitle={this.state.message} />
+                <form onSubmit={this.handleLogin.bind(this)}>
+                    <CardText>
+                        <TextField
+                            id="email"
+                            hintText="Email"
+                            type="email"
+                            errorText={this.state.emailError}
+                            value={this.state.email}
+                            onChange={this.handleChangeEmail.bind(this)}
+                        />
+                        <br />
+                        <TextField
+                            id="password"
+                            hintText="Password"
+                            type="password"
+                            errorText={this.state.passwordError}
+                            value={this.state.password}
+                            onChange={this.handleChangePassword.bind(this)}
+                        />
+                    </CardText>
+                    <CardActions>
+                        <RaisedButton type="submit" label="Login" primary={true} />
+                        <RaisedButton label="Forgotten Password" onClick={this.handleLostPassword.bind(this)} />
+                    </CardActions>
+                    <CardActions>
+                        <RaisedButton label="Register" secondary={true} href="/signup" />
+                    </CardActions>
                 </form>
-            );
-        } else {
-            return ( <p>Logged In</p> )
-        }
+            </Card>
+        );
     }
 }
 
-export default Login
+Login.propTypes = {
+    loginCallback: React.PropTypes.func.isRequired
+}

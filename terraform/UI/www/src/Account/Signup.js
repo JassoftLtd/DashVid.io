@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import Login from './Login.js'
+import Login from '../components/account/Login.js'
 import './Signup.css';
 var api = require('../utils/api.js');
 
@@ -92,7 +92,6 @@ class Signup extends Component {
             return (
                 <div className="pure-g">
                     <div className="pure-u-1 pure-u-md-1-2">
-                        <h2 className="content-subhead">Login</h2>
                         <Login loggedIn={this.props.route.loggedIn} loggedInCallback={this.props.route.loggedInCallback}/>
                     </div>
                     <div className="pure-u-1 pure-u-md-1-2">
