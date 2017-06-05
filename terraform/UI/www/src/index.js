@@ -4,11 +4,12 @@ import './Video.css';
 // Import custom components
 import Home from './Home.js'
 import Account from './Account/Account.js'
-import Signup from './Account/Signup.js'
+import Login from './components/account/Login.js'
+import Signup from './components/account/Signup.js'
 import Verify from './Account/Verify.js'
 import Reset from './Account/Reset.js'
 import AddCard from './Subscription/AddCard.js'
-import Nav from './Nav.js'
+import Nav from './components/page/Nav.js'
 import Video from './Video.js'
 
 import { render } from 'react-dom';
@@ -46,9 +47,7 @@ class App extends Component {
         return (
             <MuiThemeProvider>
                 <div>
-                    <div className="pure-menu pure-menu-horizontal">
-                        <Nav homeRoute={homeRoute} loggedIn={this.state.loggedIn} loggedInCallback={(loggedIn) => this.onAuthStateChange(loggedIn)} />
-                    </div>
+                    <Nav homeRoute={homeRoute} loggedIn={this.state.loggedIn} loggedInCallback={(loggedIn) => this.onAuthStateChange(loggedIn)} />
 
 
                     <div className="banner">
@@ -65,7 +64,8 @@ class App extends Component {
                                 <IndexRoute component={Home} />
                                 <Route path="video" component={Video} />
                                 <Route path="account" component={Account} />
-                                <Route path="signup" component={Signup} loggedIn={this.state.loggedIn} loggedInCallback={(loggedIn) => this.onAuthStateChange(loggedIn)} />
+                                <Route path="login" component={Login} loggedIn={this.state.loggedIn} loggedInCallback={(loggedIn) => this.onAuthStateChange(loggedIn)} />
+                                <Route path="signup" component={Signup} />
                                 <Route path="verify" component={Verify} />
                                 <Route path="reset" component={Reset} />
                             </Route>

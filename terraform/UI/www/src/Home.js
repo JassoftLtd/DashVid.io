@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import Plans from './Plan/Plans.js'
+import Plans from './components/plan/Plans.js'
 
 class Home extends Component {
 
