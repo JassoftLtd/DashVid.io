@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {Card, CardActions, CardTitle, CardText} from 'material-ui/Card';
 import RaisedButton from 'material-ui/RaisedButton';
+import PropTypes from 'prop-types';
 
 const style = {
     card: {
@@ -30,8 +31,8 @@ export default class Plan extends Component {
 }
 
 Plan.propTypes = {
-  id: React.PropTypes.string.isRequired,
-  name: React.PropTypes.string.isRequired,
-  price: React.PropTypes.string.isRequired,
-  daysRetention: React.PropTypes.number.isRequired,
+  id: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  price: PropTypes.string.isRequired,
+  daysRetention: PropTypes.number.isRequired,
 };
