@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router';
 import {Card, CardActions, CardTitle, CardText} from 'material-ui/Card';
 import RaisedButton from 'material-ui/RaisedButton';
 import PropTypes from 'prop-types';
@@ -23,7 +24,7 @@ export default class Plan extends Component {
                     </ul>
                 </CardText>
                 <CardActions>
-                    <RaisedButton label="Signup" href={"/signup?plan=" + id}/>
+                    <Link to={"/signup/" + id}><RaisedButton label="Signup" /></Link>
                 </CardActions>
             </Card>
         )

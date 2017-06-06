@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import { Link } from 'react-router';
 import {Card, CardActions, CardTitle, CardText} from 'material-ui/Card';
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
@@ -199,7 +200,9 @@ export default class Login extends Component {
                         <RaisedButton label="Forgotten Password" onClick={this.handleLostPassword.bind(this)} />
                     </CardActions>
                     <CardActions>
-                        <RaisedButton label="Register" secondary={true} href="/signup" />
+                        <Link to="/signup">
+                            <RaisedButton label="Register" secondary={true}/>
+                        </Link>
                     </CardActions>
                 </form>
             </Card>

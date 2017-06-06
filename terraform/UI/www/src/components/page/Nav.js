@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import { IndexLink, Link } from 'react-router';
 import AppBar from 'material-ui/AppBar';
 import RaisedButton from 'material-ui/RaisedButton';
 import PropTypes from 'prop-types';
@@ -25,20 +26,20 @@ export default class Nav extends Component {
         if(this.props.loggedIn) {
             appLinks = (
                 <span>
-                    <RaisedButton label="Videos" href="/video" />
-                    <RaisedButton label="Account" href="/account" />
+                    <Link to="/video"><RaisedButton label="Videos" /></Link>
+                    <Link to="/account"><RaisedButton label="Account" /></Link>
                     {/* Which Plan */}
 
                 </span>
             )
-            authLink = (<RaisedButton label="Logout" href="#" />)
+            authLink = (<Link to="/"><RaisedButton label="Logout" /></Link>)
         } else {
-            authLink = (<RaisedButton label="Login" href="/login" />)
+            authLink = (<Link to="/login"><RaisedButton label="Login" /></Link>)
         }
 
         return (
             <AppBar style={style.bar}
-                    iconElementLeft={<a href="/"><img src="/images/DashVid.svg" alt="DashVid.io" style={style.logo} /></a>}
+                    iconElementLeft={<IndexLink to="/"><img src="/images/DashVid.svg" alt="DashVid.io" style={style.logo} /></IndexLink>}
                 onLeftIconButtonTouchTap={this.handleTouchTap}
                 iconElementRight={
                     <span>

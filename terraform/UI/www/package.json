@@ -5,9 +5,11 @@
   "devDependencies": {
     "@storybook/react": "^3.0.0",
     "@types/material-ui": "^0.16.48",
+    "extract-text-webpack-plugin": "^2.1.0",
     "react-scripts": "1.0.7",
     "storybook-addon-material-ui": "^0.7.9",
-    "extract-text-webpack-plugin": "^2.1.0"
+    "storybook-addon-specifications": "^2.0.0",
+    "storybook-router": "^0.2.6"
   },
   "dependencies": {
     "aws-api-gateway-client": "^0.1.11",
