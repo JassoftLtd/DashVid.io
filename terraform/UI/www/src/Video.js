@@ -1,19 +1,18 @@
 import React, {Component} from 'react';
-var Dropzone = require('react-dropzone');
 import Moment from 'moment';
 import './Video.css';
 import 'whatwg-fetch'
-var AWS = require('aws-sdk');
-var apigClientFactory = require('aws-api-gateway-client')
-var S3Upload = require('./s3upload.js')
-
 import VideoPlayer from './VideoPlayer.js'
-// import Share from './Share.js'
+
+const Dropzone = require('react-dropzone');
+const AWS = require('aws-sdk');
+const apigClientFactory = require('aws-api-gateway-client')
+const S3Upload = require('./s3upload.js')
 
 AWS.config.region = 'eu-west-1'; // Region
 
-var authUtils = require('./utils/auth.js');
-var api = require('./utils/api.js');
+const authUtils = require('./utils/auth.js');
+const api = require('./utils/api.js');
 
 class Video extends Component {
 

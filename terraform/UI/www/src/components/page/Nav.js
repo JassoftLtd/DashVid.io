@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import AppBar from 'material-ui/AppBar';
 import RaisedButton from 'material-ui/RaisedButton';
+import PropTypes from 'prop-types';
 
 const style = {
     bar: {
@@ -51,6 +52,6 @@ export default class Nav extends Component {
 }
 
 Nav.propTypes = {
-    homeRoute: React.PropTypes.string.isRequired,
-    loggedIn: React.PropTypes.bool.isRequired,
+    homeRoute: PropTypes.string.isRequired,
+    loggedIn: PropTypes.bool.isRequired,
 }

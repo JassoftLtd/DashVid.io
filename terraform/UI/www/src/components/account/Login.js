@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {Card, CardActions, CardTitle, CardText} from 'material-ui/Card';
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
+import PropTypes from 'prop-types';
 
 var authUtils = require('../../utils/auth.js');
 var api = require('../../utils/api.js');
@@ -207,5 +208,5 @@ export default class Login extends Component {
 }
 
 Login.propTypes = {
-    loginCallback: React.PropTypes.func.isRequired
+    loginCallback: PropTypes.func.isRequired
 }
