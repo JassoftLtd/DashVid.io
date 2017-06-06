@@ -78,7 +78,7 @@ class App extends Component {
 
                     <div className="footer l-box">
                         <p>
-                            <a href="#">Terms &amp; Conditions</a> | <a href="#">Privacy Policy</a>
+                            <a href="/">Terms &amp; Conditions</a> | <a href="/">Privacy Policy</a>
                         </p>
                     </div>
                 </div>
