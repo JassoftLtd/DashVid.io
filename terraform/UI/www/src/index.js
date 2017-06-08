@@ -1,7 +1,4 @@
 import React, {Component} from 'react';
-import { Provider } from 'react-redux'
-import { createStore } from 'redux'
-import dashvidApp from './reducers'
 
 import './Video.css';
 
@@ -26,7 +23,6 @@ injectTapEventPlugin();
 
 var authUtils = require('./utils/auth.js');
 
-let store = createStore(dashvidApp)
 
 class App extends Component {
 
@@ -52,38 +48,36 @@ class App extends Component {
         }
 
         return (
-            <Provider store={store}>
-                <MuiThemeProvider>
-                    <div>
-                        <Nav homeRoute={homeRoute} loggedIn={this.state.loggedIn} />
+            <MuiThemeProvider>
+                <div>
+                    <Nav homeRoute={homeRoute} loggedIn={this.state.loggedIn} />
 
-                        <div className="l-content">
+                    <div className="l-content">
 
-                            <Router history={browserHistory}>
-                                <Route path="/" >
-                                    <IndexRoute component={Home} />
-                                    <Route path="video" component={VideoPage} />
-                                    <Route path="account" component={Account} />
-                                    <Route path="login" component={LoginPage} />
-                                    <Route path="signup/:plan" component={SignupPage} />
-                                    <Route path="verify" component={Verify} />
-                                    <Route path="reset" component={Reset} />
-                                </Route>
-                                <Route path="subscription" >
-                                    <Route path="addCard" component={AddCard} />
-                                </Route>
-                            </Router>
+                        <Router history={browserHistory}>
+                            <Route path="/" >
+                                <IndexRoute component={Home} />
+                                <Route path="video" component={VideoPage} />
+                                <Route path="account" component={Account} />
+                                <Route path="login" component={LoginPage} />
+                                <Route path="signup/:plan" component={SignupPage} />
+                                <Route path="verify" component={Verify} />
+                                <Route path="reset" component={Reset} />
+                            </Route>
+                            <Route path="subscription" >
+                                <Route path="addCard" component={AddCard} />
+                            </Route>
+                        </Router>
 
-                        </div>
-
-                        <div className="footer l-box">
-                            <p>
-                                <a href="/">Terms &amp; Conditions</a> | <a href="/">Privacy Policy</a>
-                            </p>
-                        </div>
                     </div>
-                </MuiThemeProvider>
-            </Provider>
+
+                    <div className="footer l-box">
+                        <p>
+                            <a href="/">Terms &amp; Conditions</a> | <a href="/">Privacy Policy</a>
+                        </p>
+                    </div>
+                </div>
+            </MuiThemeProvider>
         );
     }
 

@@ -9,7 +9,7 @@ const AWS = require('aws-sdk');
 const apigClientFactory = require('aws-api-gateway-client')
 const S3Upload = require('./s3upload.js')
 
-AWS.config.region = 'eu-west-1'; // Region
+AWS.config.region = window.REACT_APP_AWS_REGION
 
 const authUtils = require('./utils/auth.js');
 const api = require('./utils/api.js');

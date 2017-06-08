@@ -84,6 +84,7 @@ jobs:
       REACT_APP_STRIPE_PUBLISHABLE_KEY: pk_test_ebVZiJokoWIbXD1TNNZ8lj2A
       REACT_APP_AWS_IDENTITY_POOL: {{aws_identity_pool_test}}
       REACT_APP_API_ADRESS: https://test-api.dashvid.io
+      REACT_APP_AWS_REGION: us-east-1
       AWS_ACCESS_KEY_ID: {{aws_access_key}}
       AWS_SECRET_ACCESS_KEY: {{aws_secret_key}}
     on_failure:
@@ -185,6 +186,7 @@ jobs:
       REACT_APP_AWS_IDENTITY_POOL: {{aws_identity_pool}}
       REACT_APP_GA_TRACKING_CODE: {{ga_tracking_code}}
       REACT_APP_API_ADRESS: https://api.dashvid.io
+      REACT_APP_AWS_REGION: eu-west-1
       AWS_ACCESS_KEY_ID: {{aws_access_key}}
       AWS_SECRET_ACCESS_KEY: {{aws_secret_key}}
     on_failure:

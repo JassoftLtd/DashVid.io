@@ -10,6 +10,8 @@ const apigClientFactory = require('aws-api-gateway-client');
 const authUtils = require('../utils/auth.js');
 const api = require('../utils/api.js');
 
+AWS.config.region = window.REACT_APP_AWS_REGION;
+
 export default class VideoPage extends Component {
 
     constructor(props) {
