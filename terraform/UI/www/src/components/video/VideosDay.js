@@ -67,7 +67,7 @@ export default class VideosDay extends Component {
 
                 let offsetSize = requiredOffset - totalOffset
                 offset = (
-                    <div style={{...style.progressBar, ...{width: offsetSize + "%"}}} role="offset"></div>
+                    <div style={{...style.progressBar, ...{width: offsetSize + "%"}}}></div>
                 )
                 totalOffset = requiredOffset;
             }
@@ -79,12 +79,12 @@ export default class VideosDay extends Component {
 
             return ([
                 offset,
-                <div style={{...style.progressBar, ...style.progressBarVideo, ...{"width": videoSize + "%"}}} role="video"></div>
+                <div style={{...style.progressBar, ...style.progressBarVideo, ...{"width": videoSize + "%"}}}></div>
             ]);
         });
 
         let finalOffset = (
-            <div style={{...style.progressBar, ...{width: 100 - totalOffset + "%"}}} role="offset"></div>
+            <div style={{...style.progressBar, ...{width: 100 - totalOffset + "%"}}}></div>
         )
 
         let videoRows = videos.map(function (video, i) {
@@ -96,7 +96,7 @@ export default class VideosDay extends Component {
                 <TableRow key={video.Id}>
                     <TableRowColumn>{start}</TableRowColumn>
                     <TableRowColumn>{end}</TableRowColumn>
-                    <TableRowColumn><RaisedButton label="Play" primary={true} onTouchTap={()=>{{playVideo(video.Id)}}}/></TableRowColumn>
+                    <TableRowColumn><RaisedButton label="Play" primary={true} onTouchTap={()=>{playVideo(video.Id)}}/></TableRowColumn>
                     <TableRowColumn><RaisedButton label="Share" secondary={true} /></TableRowColumn>
                 </TableRow>
             );
