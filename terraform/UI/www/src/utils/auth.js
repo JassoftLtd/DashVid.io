@@ -50,6 +50,7 @@ var runWithCredentials = function (callback) {
     if (AWS.config.credentials.needsRefresh()) {
         AWS.config.credentials.refresh(function (err) {
             if (err) {
+                console.error(err);
                 clearCredentials();
                 return
             }
