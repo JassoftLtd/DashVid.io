@@ -14,6 +14,7 @@ resource "aws_lambda_function" "transcodeVideo" {
   timeout          = "30"
   memory_size      = "256"
   source_code_hash = "${base64sha256(file("Lambda/TranscodingLambdas/transcodeVideo.zip"))}"
+  kms_key_arn      = "${aws_kms_key.lambda_variables.arn}"
 
   tracing_config {
     mode = "Active"
@@ -49,6 +50,7 @@ resource "aws_lambda_function" "videoTranscoded" {
   timeout          = "30"
   memory_size      = "256"
   source_code_hash = "${base64sha256(file("Lambda/TranscodingLambdas/videoTranscoded.zip"))}"
+  kms_key_arn      = "${aws_kms_key.lambda_variables.arn}"
 
   tracing_config {
     mode = "Active"

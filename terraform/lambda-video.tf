@@ -14,6 +14,11 @@ resource "aws_lambda_function" "getVideos" {
   timeout          = "30"
   memory_size      = "256"
   source_code_hash = "${base64sha256(file("Lambda/VideoLambdas/getVideos.zip"))}"
+  kms_key_arn      = "${aws_kms_key.lambda_variables.arn}"
+
+  tracing_config {
+    mode = "Active"
+  }
 }
 
 // Video Create
@@ -30,6 +35,11 @@ resource "aws_lambda_function" "createVideo" {
   timeout          = "30"
   memory_size      = "256"
   source_code_hash = "${base64sha256(file("Lambda/VideoLambdas/createVideo.zip"))}"
+  kms_key_arn      = "${aws_kms_key.lambda_variables.arn}"
+
+  tracing_config {
+    mode = "Active"
+  }
 
   environment {
     variables = {
@@ -53,6 +63,11 @@ resource "aws_lambda_function" "uploadedVideo" {
   timeout          = "300"
   memory_size      = "256"
   source_code_hash = "${base64sha256(file("Lambda/VideoLambdas/uploadedVideo.zip"))}"
+  kms_key_arn      = "${aws_kms_key.lambda_variables.arn}"
+
+  tracing_config {
+    mode = "Active"
+  }
 
   environment = {
     variables = {
@@ -91,6 +106,11 @@ resource "aws_lambda_function" "getVideo" {
   timeout          = "30"
   memory_size      = "256"
   source_code_hash = "${base64sha256(file("Lambda/VideoLambdas/getVideo.zip"))}"
+  kms_key_arn      = "${aws_kms_key.lambda_variables.arn}"
+
+  tracing_config {
+    mode = "Active"
+  }
 }
 
 // Video Expired
@@ -107,6 +127,11 @@ resource "aws_lambda_function" "expiredVideo" {
   timeout          = "300"
   memory_size      = "256"
   source_code_hash = "${base64sha256(file("Lambda/VideoLambdas/expiredVideo.zip"))}"
+  kms_key_arn      = "${aws_kms_key.lambda_variables.arn}"
+
+  tracing_config {
+    mode = "Active"
+  }
 }
 
 resource "aws_lambda_permission" "expiredVideo_allow_free_bucket" {
