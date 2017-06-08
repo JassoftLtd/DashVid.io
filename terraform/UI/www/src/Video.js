@@ -309,7 +309,7 @@ var VideoAdd = React.createClass({
 
         if(this.state.cameras) {
             cameras = this.state.cameras.map(function (camera, i) {
-                return <option value={camera.CameraKey}>{camera.Name}</option>
+                return <option key={camera.Id} value={camera.CameraKey}>{camera.Name}</option>
             });
         }
 
@@ -334,4 +334,4 @@ var VideoAdd = React.createClass({
 });
 
 
-export default Video;
+export default VideoAdd;

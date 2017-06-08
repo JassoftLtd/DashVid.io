@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 
 import VideosByDay from '../components/video/VideosByDay.js'
 
+import VideoAdd from '../Video.js'
 import VideoPlayer from '../VideoPlayer.js'
 
 const AWS = require('aws-sdk');
@@ -88,9 +89,9 @@ export default class VideoPage extends Component {
 
     onVideosModified(videoId) {
         this.setState({
-            videosRequiresReload: true,
             expectedVideos: this.state.expectedVideos.concat([videoId])
         })
+        this.loadVideos();
     }
 
     onVideosLoaded() {
@@ -105,8 +106,8 @@ export default class VideoPage extends Component {
         return (
             <div className="App">
                 <VideoPlayer videoId={this.state.videoToPlay}/>
-                <VideosByDay videosByDate={this.state.videos} playVideo={ this.props.onPlayVideo }/>
-                {/*<VideoAdd videoAddedCallback={(videoId) => this.onVideosModified(videoId)}/>*/}
+                <VideosByDay videosByDate={this.state.videos} playVideo={(videoId) => this.props.onPlayVideo(videoId)} />
+                <VideoAdd videoAddedCallback={(videoId) => this.onVideosModified(videoId)}/>
             </div>
         );
     }

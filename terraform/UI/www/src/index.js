@@ -59,7 +59,7 @@ class App extends Component {
                                 <IndexRoute component={Home} />
                                 <Route path="video" component={VideoPage} />
                                 <Route path="account" component={Account} />
-                                <Route path="login" component={LoginPage} />
+                                <Route path="login" component={LoginPage} loggedIn={() => {this.onAuthStateChange(true)}} />
                                 <Route path="signup/:plan" component={SignupPage} />
                                 <Route path="verify" component={Verify} />
                                 <Route path="reset" component={Reset} />

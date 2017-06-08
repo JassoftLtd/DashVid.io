@@ -41,7 +41,10 @@ export default class LoginPage extends Component {
 
                 authUtils.createCognitoIdentityCredentials(params)
 
-                window.location.href = '/video';
+                this.props.route.loggedIn();
+
+                this.props.router.push('/video');
+
             }
             else {
                 this.setState({
