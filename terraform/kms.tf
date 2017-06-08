@@ -3,6 +3,6 @@ resource "aws_kms_key" "lambda_variables" {
 }
 
 resource "aws_kms_alias" "lambda_variables" {
-  name          = "dashvid/lambda"
+  name          = "alias/dashvid/lambda"
   target_key_id = "${aws_kms_key.lambda_variables.key_id}"
 }

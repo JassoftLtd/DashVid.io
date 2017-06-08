@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import { IndexLink, Link } from 'react-router';
 import AppBar from 'material-ui/AppBar';
 import RaisedButton from 'material-ui/RaisedButton';
 import PropTypes from 'prop-types';

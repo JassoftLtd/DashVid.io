@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Card, CardText} from 'material-ui/Card';
+import {Card} from 'material-ui/Card';
 import PropTypes from 'prop-types';
 import VideosDay from "./VideosDay.js"
 
