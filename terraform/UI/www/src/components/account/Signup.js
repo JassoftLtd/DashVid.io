@@ -3,7 +3,7 @@ import {Card, CardActions, CardTitle, CardText} from 'material-ui/Card';
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 import Checkbox from 'material-ui/Checkbox';
-var api = require('../../utils/api.js');
+import PropTypes from 'prop-types';
 
 const style = {
     card: {
@@ -17,17 +17,13 @@ export default class Signup extends Component {
     constructor(props) {
         super(props);
 
-        var plan = (this.props.params.plan) ? this.props.params.plan : "free";
-
         this.state = {
-            plan: plan,
             email: "",
             emailError: null,
             password: "",
             passwordError: null,
             verifyPassword: "",
             verifyPasswordError: null,
-            message: null
         };
     }
 
@@ -70,44 +66,7 @@ export default class Signup extends Component {
             return
         }
 
-        const _this = this;
-
-        fetch(api.getApiAddress() + '/v1/auth/signup', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                email: this.state.email,
-                password: this.state.password,
-                plan: this.state.plan,
-            })
-        }).then(function (response) {
-            return response.json()
-        }).then(function (json) {
-            console.log('parsed json', json)
-
-            if(json.created) {
-                _this.setState({
-                    message: "User " + _this.state.email + " created. Please check your email to validate the user and enable login.",
-                    email: "",
-                    password: "",
-                    verifyPassword: "",
-                });
-            }
-            else {
-                _this.setState({
-                    message: "Failed to create User " + _this.state.email + "."
-                });
-            }
-
-        }).catch(function (ex) {
-            console.log('parsing failed', ex)
-            _this.setState({
-                message: "Signup Failed"
-            });
-        })
-
+        this.props.signup(this.state.email, this.state.password, this.props.plan)
     }
 
     handleChangeEmail (e) {
@@ -132,9 +91,11 @@ export default class Signup extends Component {
     }
 
     render() {
+        const {message} = this.props;
+
         return (
             <Card style={style.card}>
-                <CardTitle title="Signup" subtitle={this.state.message} />
+                <CardTitle title="Signup" subtitle={message} />
                 <form onSubmit={this.handleSignup.bind(this)}>
                     <CardText>
                         <TextField
@@ -174,4 +135,10 @@ export default class Signup extends Component {
             </Card>
         );
     }
+}
+
+Signup.propTypes = {
+    message: PropTypes.string,
+    plan: PropTypes.string.isRequired,
+    signup: PropTypes.func.isRequired
 }

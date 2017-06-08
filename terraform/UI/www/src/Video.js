@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import Moment from 'moment';
 import './Video.css';
 import 'whatwg-fetch'
 import VideoPlayer from './VideoPlayer.js'

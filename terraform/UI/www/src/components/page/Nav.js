@@ -26,20 +26,20 @@ export default class Nav extends Component {
         if(this.props.loggedIn) {
             appLinks = (
                 <span>
-                    <Link to="/video"><RaisedButton label="Videos" /></Link>
-                    <Link to="/account"><RaisedButton label="Account" /></Link>
+                    <RaisedButton label="Videos" href="/video" />
+                    <RaisedButton label="Account" href="/account" />
                     {/* Which Plan */}
 
                 </span>
             )
-            authLink = (<Link to="/"><RaisedButton label="Logout" /></Link>)
+            authLink = (<RaisedButton label="Logout" href="/" />)
         } else {
-            authLink = (<Link to="/login"><RaisedButton label="Login" /></Link>)
+            authLink = (<RaisedButton label="Login" href="/login" />)
         }
 
         return (
             <AppBar style={style.bar}
-                    iconElementLeft={<IndexLink to="/"><img src="/images/DashVid.svg" alt="DashVid.io" style={style.logo} /></IndexLink>}
+                    iconElementLeft={<a href="/"><img src="/images/DashVid.svg" alt="DashVid.io" style={style.logo} /></a>}
                 onLeftIconButtonTouchTap={this.handleTouchTap}
                 iconElementRight={
                     <span>

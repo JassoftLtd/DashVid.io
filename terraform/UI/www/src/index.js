@@ -4,13 +4,14 @@ import './Video.css';
 // Import custom components
 import Home from './Home.js'
 import Account from './Account/Account.js'
-import Login from './components/account/Login.js'
-import Signup from './components/account/Signup.js'
 import Verify from './Account/Verify.js'
 import Reset from './Account/Reset.js'
 import AddCard from './Subscription/AddCard.js'
 import Nav from './components/page/Nav.js'
 import Video from './Video.js'
+
+import LoginPage from './pages/LoginPage.js'
+import SignupPage from './pages/SignupPage.js'
 
 import { render } from 'react-dom';
 import {Router, Route, IndexRoute, browserHistory} from 'react-router';
@@ -49,14 +50,6 @@ class App extends Component {
                 <div>
                     <Nav homeRoute={homeRoute} loggedIn={this.state.loggedIn} loggedInCallback={(loggedIn) => this.onAuthStateChange(loggedIn)} />
 
-
-                    <div className="banner">
-                        <h1 className="banner-head">
-                            Simple Pricing.<br />
-                            Try before you buy.
-                        </h1>
-                    </div>
-
                     <div className="l-content">
 
                         <Router history={browserHistory}>
@@ -64,8 +57,8 @@ class App extends Component {
                                 <IndexRoute component={Home} />
                                 <Route path="video" component={Video} />
                                 <Route path="account" component={Account} />
-                                <Route path="login" component={Login} loggedIn={this.state.loggedIn} loggedInCallback={(loggedIn) => this.onAuthStateChange(loggedIn)} />
-                                <Route path="signup/:plan" component={Signup} />
+                                <Route path="login" component={LoginPage} />
+                                <Route path="signup/:plan" component={SignupPage} />
                                 <Route path="verify" component={Verify} />
                                 <Route path="reset" component={Reset} />
                             </Route>

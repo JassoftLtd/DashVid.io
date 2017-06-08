@@ -13,18 +13,10 @@ const stories = storiesOf('Button', module);
 storiesOf('Login', module)
     .addDecorator(muiTheme())
     .addDecorator(StoryRouter())
-    .add('Unauthenticated Login', () => <Login loginCallback={ action('LoggedIn') } />);
-
-const routes = (
-    <Route path="/signup/:plan" component={Signup}/>
-);
+    .add('Clean Login', () => <Login login={ action('Login') } lostPassword={ action('lostPassword') } />)
+    .add('Errored Login', () => <Login login={ action('Login') } lostPassword={ action('lostPassword') } message={"Login Failed"} />);
 
 storiesOf('Signup', module)
-    .addDecorator(StoryRouter({}, {autoRoute: false, initialEntry: ['/signup/free']}))
     .addDecorator(muiTheme())
-    .add('free', () => routes);
-
-storiesOf('Signup', module)
-    .addDecorator(StoryRouter({}, {autoRoute: false, initialEntry: ['/signup/standard']}))
-    .addDecorator(muiTheme())
-    .add('standard', () => routes);
+    .add('free', () => <Signup signup={ action('Signup') } plan={'free'} />)
+    .add('standard', () => <Signup signup={ action('Signup') } plan={'standard'} />);
