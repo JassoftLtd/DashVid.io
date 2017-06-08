@@ -29,8 +29,6 @@ export default class LoginPage extends Component {
         }).then(function (response) {
             return response.json()
         }).then(function (json) {
-            console.log('parsed json', json)
-
             if(json.login) {
 
                 var params = {
@@ -42,8 +40,6 @@ export default class LoginPage extends Component {
                 }
 
                 authUtils.createCognitoIdentityCredentials(params)
-
-                this.props.loggedInCallback(true)
 
                 window.location.href = '/video';
             }

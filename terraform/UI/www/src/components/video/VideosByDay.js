@@ -8,17 +8,22 @@ export default class VideosByDay extends Component {
     render() {
         const {videosByDate, playVideo} = this.props;
 
-        let days = videosByDate.map(function (day, i) {
-            return (
-                <VideosDay key={day.date} date={day.date} videos={day.videos} playVideo={ playVideo } />
-            )
-        });
+        if(videosByDate && videosByDate.length > 0) {
+            let days = videosByDate.map(function (day, i) {
+                return (
+                    <VideosDay key={day.date} date={day.date} videos={day.videos} playVideo={ playVideo }/>
+                )
+            });
 
-        return (
-            <Card>
-                {days}
-            </Card>
-        )
+            return (
+                <Card>
+                    {days}
+                </Card>
+            )
+        }
+
+        return null
+
     }
 }
 
