@@ -4,7 +4,7 @@ var apigClientFactory = require('aws-api-gateway-client')
 var authUtils = require('../utils/auth.js');
 var api = require('../utils/api.js');
 
-AWS.config.region = 'eu-west-1'; // Region
+AWS.config.region = window.REACT_APP_AWS_REGION;
 
 class ChangePassword extends Component {
 

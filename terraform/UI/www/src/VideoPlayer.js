@@ -5,7 +5,7 @@ import 'whatwg-fetch'
 var AWS = require('aws-sdk');
 var apigClientFactory = require('aws-api-gateway-client')
 
-AWS.config.region = 'eu-west-1'; // Region
+AWS.config.region = window.REACT_APP_AWS_REGION
 
 var authUtils = require('./utils/auth.js');
 var api = require('./utils/api.js');
