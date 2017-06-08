@@ -65,7 +65,7 @@ class App extends Component {
                                 <Route path="video" component={Video} />
                                 <Route path="account" component={Account} />
                                 <Route path="login" component={Login} loggedIn={this.state.loggedIn} loggedInCallback={(loggedIn) => this.onAuthStateChange(loggedIn)} />
-                                <Route path="signup" component={Signup} />
+                                <Route path="signup/:plan" component={Signup} />
                                 <Route path="verify" component={Verify} />
                                 <Route path="reset" component={Reset} />
                             </Route>

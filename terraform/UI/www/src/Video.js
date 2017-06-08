@@ -3,6 +3,7 @@ import Moment from 'moment';
 import './Video.css';
 import 'whatwg-fetch'
 import VideoPlayer from './VideoPlayer.js'
+import VideosByDay from './components/video/VideosByDay.js'
 
 const Dropzone = require('react-dropzone');
 const AWS = require('aws-sdk');
@@ -134,64 +135,9 @@ var VideoList = React.createClass({
     },
 
     render: function () {
-
-        const _this = this;
-
-        let days;
-
         if (this.state.data) {
-            days = this.state.data.map(function (dayData, i) {
-
-                var date = Moment(dayData.date).format('DD MMMM YYYY')
-
-                let videos = dayData.videos.map(function (video, i) {
-
-                    var start = Moment(video.RecordedDate).format('HH:mm:ss')
-                    var end = Moment(video.RecordedDate + video.VideoDuration).format('HH:mm:ss')
-
-                    return (
-                        <tr key={video.Id}>
-                            <td>{start}</td>
-                            <td>{end}</td>
-                            <td><button className="button-success pure-button" onClick={()=>{_this.props.playVideoCallback(video.Id)}}>Play</button></td>
-                            {/*<td><Share videoId={video.Id}/></td>*/}
-                        </tr>
-                    );
-                });
-
-                return (
-                    <tbody key={date}>
-                        <tr className="pure-table-odd">
-                            <td colSpan="3">
-                                <strong>
-                                    {date}
-                                </strong>
-                            </td>
-                        </tr>
-                        {videos}
-                    </tbody>
-                );
-            });
-
-            return (
-                <div ref="videocategory" className="pure-g">
-                    <div className="pure-u-1-1">
-                        <table className="pure-table pure-table-horizontal" width="100%">
-                            <thead>
-                            <tr>
-                                <td>Start</td>
-                                <td>End</td>
-                                <td>Play</td>
-                                {/*<td>Share</td>*/}
-                            </tr>
-                            </thead>
-                            {days}
-                        </table>
-                    </div>
-                </div>
-            );
+            <VideosByDay videosByDate={this.state.data} playVideo={ this.props.playVideoCallback }/>
         }
-
         return null
     }
 });

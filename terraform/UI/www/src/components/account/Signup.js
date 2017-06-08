@@ -17,7 +17,7 @@ export default class Signup extends Component {
     constructor(props) {
         super(props);
 
-        var plan = (this.props.location && this.props.location.query.plan) ? this.props.location.query.plan : "Free";
+        var plan = (this.props.params.plan) ? this.props.params.plan : "free";
 
         this.state = {
             plan: plan,
