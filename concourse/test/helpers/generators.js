@@ -2,7 +2,7 @@ var randomstring = require("randomstring");
 
 exports.email = function() {
 
-    prefix = randomstring.generate({
+    let prefix = randomstring.generate({
         length: 12,
         charset: 'alphabetic',
         capitalization: 'lowercase'

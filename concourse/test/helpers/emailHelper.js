@@ -47,6 +47,12 @@ exports.getVerifyTokenFromEmail = function (emailContent) {
     return matches[1];
 }
 
+exports.getVerifyLinkFromEmail = function (emailContent) {
+    var re = new RegExp('href=\"(.*)\">click');
+    var matches  = String(emailContent).match(re);
+    return matches[1];
+}
+
 exports.getResetTokenFromEmail = function (emailContent) {
     var re = new RegExp('lost=([a-zA-Z0-9]*)<');
     var matches  = String(emailContent).match(re);
