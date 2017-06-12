@@ -2,8 +2,8 @@ var assert = require('assert');
 
 var authHelper = require('./helpers/authHelper.js');
 var userHelper = require('./helpers/userHelper.js');
-var emailHelper = require('./helpers/emailHelper.js');
-var generator = require('./helpers/generators.js');
+var emailHelper = require('../../helpers/emailHelper.js');
+var generator = require('../../helpers/generators.js');
 
 describe('Auth', function () {
 

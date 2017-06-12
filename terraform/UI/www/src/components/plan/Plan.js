@@ -24,7 +24,7 @@ export default class Plan extends Component {
                     </ul>
                 </CardText>
                 <CardActions>
-                    <Link to={"/signup/" + id}><RaisedButton label="Signup" /></Link>
+                    <Link to={"/signup/" + id}><RaisedButton data-qa={"plans-btn-" + id} label="Signup" /></Link>
                 </CardActions>
             </Card>
         )

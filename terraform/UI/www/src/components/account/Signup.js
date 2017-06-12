@@ -95,7 +95,7 @@ export default class Signup extends Component {
 
         return (
             <Card style={style.card}>
-                <CardTitle title="Signup" subtitle={message} />
+                <CardTitle title="Signup" subtitle={message} data-qa="signup-form-message" />
                 <form onSubmit={this.handleSignup.bind(this)}>
                     <CardText>
                         <TextField
@@ -105,6 +105,7 @@ export default class Signup extends Component {
                             errorText={this.state.emailError}
                             value={this.state.email}
                             onChange={this.handleChangeEmail.bind(this)}
+                            data-qa="signup-field-email"
                         />
                         <br />
                         <TextField
@@ -114,6 +115,7 @@ export default class Signup extends Component {
                             errorText={this.state.passwordError}
                             value={this.state.password}
                             onChange={this.handleChangePassword.bind(this)}
+                            data-qa="signup-field-password"
                         />
                         <br />
                         <TextField
@@ -123,13 +125,16 @@ export default class Signup extends Component {
                             errorText={this.state.verifyPasswordError}
                             value={this.state.verifyPassword}
                             onChange={this.handleChangeVerifyPassword.bind(this)}
+                            data-qa="signup-field-password-verify"
                         />
                     </CardText>
                     <CardText>
-                        <Checkbox label="I've read the terms and conditions" />
+                        <Checkbox label="I've read the terms and conditions"
+                                  data-qa="signup-check-terms" />
                     </CardText>
                     <CardActions>
-                        <RaisedButton type="submit" label="Sign Up" primary={true} />
+                        <RaisedButton type="submit" label="Sign Up" primary={true}
+                                      data-qa="signup-btn-signup" />
                     </CardActions>
                 </form>
             </Card>
