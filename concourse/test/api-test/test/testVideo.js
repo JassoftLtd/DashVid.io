@@ -22,7 +22,7 @@ describe('Video', function () {
                                 .then(function (result) {
                                     assert(result.data.url);
 
-                                    let filepath = './test/testData/01291238_0160.MP4';
+                                    let filepath = '../testData/01291238_0160.MP4';
 
                                     let stream = fs.createReadStream(filepath)
                                     let stat = fs.statSync(filepath);
@@ -58,7 +58,7 @@ describe('Video', function () {
                                     assert(result.data.url);
                                     assert(result.data.url.indexOf(plan) > -1)
 
-                                    let filepath = './test/testData/01291238_0160.MP4';
+                                    let filepath = '../testData/01291238_0160.MP4';
 
                                     let stream = fs.createReadStream(filepath)
                                     let stat = fs.statSync(filepath);
@@ -108,7 +108,7 @@ describe('Video', function () {
                                 .then(function (result) {
                                     assert(result.data.url);
 
-                                    let filepath = './test/testData/01291238_0160.MP4';
+                                    let filepath = '../testData/01291238_0160.MP4';
 
                                     let stream = fs.createReadStream(filepath)
                                     let stat = fs.statSync(filepath);
@@ -154,7 +154,7 @@ describe('Video', function () {
                                 .then(function (result) {
                                     assert(result.data.url);
 
-                                    let filepath = './test/testData/01291238_0160.MP4';
+                                    let filepath = '../testData/01291238_0160.MP4';
 
                                     let stream = fs.createReadStream(filepath)
                                     let stat = fs.statSync(filepath);
@@ -212,7 +212,7 @@ describe('Video', function () {
                                 .then(function (result) {
                                     assert(result.data.url);
 
-                                    let filepath = './test/testData/01291238_0160.MP4';
+                                    let filepath = '../testData/01291238_0160.MP4';
 
                                     let stream = fs.createReadStream(filepath)
                                     let stat = fs.statSync(filepath);
