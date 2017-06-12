@@ -13,7 +13,9 @@ run:
   args:
   - -exc
   - |
-    cd source-code/concourse/test/ui-test
+    cd source-code/concourse/test/helpers
+    npm install --loglevel warn
+    cd ../ui-test
     echo $DASHVID_UI_ADDRESS
     npm install --loglevel warn
     npm test
