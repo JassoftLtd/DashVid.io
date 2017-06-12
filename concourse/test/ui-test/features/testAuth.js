@@ -49,10 +49,6 @@ describe('Auth', function () {
 
             expect(browser.getText(Verify.message)).to.equal('User verified.')
 
-            browser.click(Nav.loginButton)
-
-            expect(browser.getUrl()).to.equal('https://test.dashvid.io/login');
-
         });
     });
 

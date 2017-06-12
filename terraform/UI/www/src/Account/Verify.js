@@ -43,11 +43,12 @@ class Verify extends Component {
             if(json.verified) {
                 _this.setState({
                     message: (
-                        <p data-qa="verify-text-confirmation">User verified.</p>
+                        <div>
+                            <p data-qa="verify-text-confirmation">User verified.</p>
+                            <p>You may now <Link to="/login">Login</Link> and start using Dashvid.io</p>
+                        </div>
                     )
                 });
-
-                window.location.href = '/login';
             }
             else {
                 _this.setState({
