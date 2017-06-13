@@ -4,6 +4,7 @@ image_resource:
   type: docker-image
   source:
     repository: node
+    tag: '6'
 
 inputs:
 - name: source-code
@@ -18,5 +19,4 @@ run:
     cd ../ui-test
     echo $DASHVID_UI_ADDRESS
     npm install --loglevel warn
-    npm install -g chimp --loglevel warn
-    chimp --mocha
+    npm test
