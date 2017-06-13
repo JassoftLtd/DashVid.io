@@ -13,7 +13,6 @@ run:
   args:
   - -exc
   - |
-    apt-get install nodejs-legacy
     cd source-code/concourse/test/helpers
     npm install --loglevel warn
     cd ../ui-test
