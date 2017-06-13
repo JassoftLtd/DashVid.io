@@ -3,7 +3,8 @@ platform: linux
 image_resource:
   type: docker-image
   source:
-    repository: weareathlon/chimpjs-xfvb:0.1
+    repository: weareathlon/chimpjs-xfvb
+    tag: 0.1
 
 inputs:
 - name: source-code
