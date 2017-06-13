@@ -3,8 +3,7 @@ platform: linux
 image_resource:
   type: docker-image
   source:
-    repository: weareathlon/chimpjs-xfvb
-    tag: '0.1'
+    repository: node
 
 inputs:
 - name: source-code
@@ -14,9 +13,11 @@ run:
   args:
   - -exc
   - |
+    apt-get install nodejs-legacy
     cd source-code/concourse/test/helpers
     npm install --loglevel warn
     cd ../ui-test
     echo $DASHVID_UI_ADDRESS
     npm install --loglevel warn
-    npm test
+    npm install -g chimp --loglevel warn
+    chimp --mocha
