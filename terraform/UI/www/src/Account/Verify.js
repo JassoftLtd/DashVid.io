@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import { Link } from 'react-router';
 var api = require('../utils/api.js');
 
 class Verify extends Component {
