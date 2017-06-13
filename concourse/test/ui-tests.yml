@@ -18,5 +18,5 @@ run:
     cd ../ui-test
     echo $DASHVID_UI_ADDRESS
     npm install --loglevel warn
-    npm install -g chimp
+    sudo npm install -g chimp --loglevel warn
     chimp --mocha
