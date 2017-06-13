@@ -3,7 +3,7 @@ platform: linux
 image_resource:
   type: docker-image
   source:
-    repository: node
+    repository: weareathlon/chimpjs-xfvb:0.1
 
 inputs:
 - name: source-code
@@ -18,5 +18,4 @@ run:
     cd ../ui-test
     echo $DASHVID_UI_ADDRESS
     npm install --loglevel warn
-    sudo npm install -g chimp --loglevel warn
-    chimp --mocha
+    npm test
