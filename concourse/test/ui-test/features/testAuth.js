@@ -47,7 +47,7 @@ describe('Auth', function () {
 
             browser.waitForVisible(Verify.confirmationMessage, 5000);
 
-            expect(browser.getText(Verify.message)).to.equal('User verified.')
+            expect(browser.getText(Verify.confirmationMessage)).to.equal('User verified.')
 
         });
     });
