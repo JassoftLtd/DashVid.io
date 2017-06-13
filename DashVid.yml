@@ -128,6 +128,8 @@ jobs:
     file: source-code/concourse/test/ui-tests.yml
     params:
       DASHVID_UI_ADDRESS: https://test.dashvid.io
+      SAUCE_USER: {{sauce_user}}
+      SAUCE_KEY: {{sauce_key}}
     on_failure:
       put: slack-alert
       params:
