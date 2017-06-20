@@ -29,9 +29,9 @@ exports.getLoggedInUser = function (plan = "free") {
                             return authHelper.login(email, password)
                                 .then(function (result) {
 
-                                    let token = jws.decode(result.data)
+                                    let token = jws.decode(result.data.token);
 
-                                    let payload = JSON.parse(token.payload)
+                                    let payload = JSON.parse(token.payload);
 
                                     var params = {
                                         IdentityPoolId: payload.aud,
