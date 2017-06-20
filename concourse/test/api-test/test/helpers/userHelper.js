@@ -5,6 +5,7 @@ var emailHelper = require('../../../helpers/emailHelper.js');
 var authHelper = require('./authHelper.js');
 var Promise = require('promise');
 var promiseRetry = require('promise-retry');
+const jws = require('jws');
 
 var stripe = require('stripe')('pk_test_ebVZiJokoWIbXD1TNNZ8lj2A');
 
@@ -28,8 +29,12 @@ exports.getLoggedInUser = function (plan = "free") {
                             return authHelper.login(email, password)
                                 .then(function (result) {
 
+                                    let token = jws.decode(result.data)
+
+                                    let payload = JSON.parse(token.payload)
+
                                     var params = {
-                                        IdentityPoolId: process.env.aws_identity_pool,
+                                        IdentityPoolId: payload.aud,
                                         IdentityId: result.data.identityId,
                                         Logins: {
                                             'cognito-identity.amazonaws.com': result.data.token

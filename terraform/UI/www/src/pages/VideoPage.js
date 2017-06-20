@@ -79,10 +79,11 @@ export default class VideoPage extends Component {
                     //         this.loadContent(expectedVideos);
                     //     }, 2000);
                     // }
-                }.bind(this)).catch(function (result) {
-                //This is where you would put an error callback
-            });
-        });
+                }.bind(this))
+                .catch(function (result) {
+                    //This is where you would put an error callback
+                });
+        }.bind(this));
 
     }
 

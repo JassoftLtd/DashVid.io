@@ -11,6 +11,7 @@
   "devDependencies": {
     "aws-api-gateway-client": "^0.1.11",
     "aws-sdk": "^2.7.20",
+    "jws": "^3.1.4",
     "mocha": "^3.2.0"
   },
   "dependencies": {
