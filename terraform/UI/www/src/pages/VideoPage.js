@@ -27,7 +27,7 @@ export default class VideoPage extends Component {
     }
 
     componentDidMount() {
-        this.loadVideos();
+        this.loadVideos().bind(this);
     }
 
     loadVideos() {
