@@ -5,6 +5,8 @@ import Login from '../components/account/Login.js'
 const authUtils = require('../utils/auth.js');
 const api = require('../utils/api.js');
 
+const jws = require('jws');
+
 export default class LoginPage extends Component {
 
     constructor(props) {
@@ -31,8 +33,12 @@ export default class LoginPage extends Component {
         }).then(function (json) {
             if(json.login) {
 
+                let token = jws.decode(json.token)
+
+                let payload = JSON.parse(token.payload)
+
                 var params = {
-                    IdentityPoolId: window.REACT_APP_AWS_IDENTITY_POOL,
+                    IdentityPoolId: payload.aud,
                     IdentityId: json.identityId,
                     Logins: {
                         'cognito-identity.amazonaws.com': json.token
