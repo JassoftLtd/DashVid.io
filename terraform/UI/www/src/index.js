@@ -52,7 +52,7 @@ class App extends Component {
                 <div>
                     <Nav homeRoute={homeRoute} loggedIn={this.state.loggedIn} />
 
-                    <div className="l-content">
+                    <div className="content">
 
                         <Router history={browserHistory}>
                             <Route path="/" >

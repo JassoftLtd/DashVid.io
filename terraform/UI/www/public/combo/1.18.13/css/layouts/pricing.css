@@ -20,10 +20,6 @@ p {
 /*
  * -- Layout Styles --
  */
-.l-content {
-    margin: 0 auto;
-    display: inline-block;
-}
 
 .l-box {
     padding: 0.5em 2em;
