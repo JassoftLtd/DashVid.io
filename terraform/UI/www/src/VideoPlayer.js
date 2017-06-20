@@ -88,7 +88,7 @@ var VideoPlayer = React.createClass({
             )
         }
         else {
-            return (<p>Select video to play</p>)
+            return null
         }
     }
 });

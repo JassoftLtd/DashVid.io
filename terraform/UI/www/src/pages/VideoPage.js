@@ -27,7 +27,7 @@ export default class VideoPage extends Component {
     }
 
     componentDidMount() {
-        this.loadVideos().bind(this);
+        this.loadVideos();
     }
 
     loadVideos() {
@@ -107,7 +107,7 @@ export default class VideoPage extends Component {
         return (
             <div className="App">
                 <VideoPlayer videoId={this.state.videoToPlay}/>
-                <VideosByDay videosByDate={this.state.videos} playVideo={(videoId) => this.props.onPlayVideo(videoId)} />
+                <VideosByDay videosByDate={this.state.videos} playVideo={(videoId) => this.onPlayVideo(videoId)} />
                 <VideoAdd videoAddedCallback={(videoId) => this.onVideosModified(videoId)}/>
             </div>
         );
