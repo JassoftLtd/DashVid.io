@@ -18,5 +18,6 @@ storiesOf('VideosDay', module)
 
 storiesOf('VideoPlayer', module)
     .addDecorator(muiTheme())
-    .add('Playing Video', () => <VideoPlayer videoUrl="https://s3-eu-west-1.amazonaws.com/dashed-sample-videos/0361a703-ab1a-43af-a0ab-516221881401.mp4" />)
+    .add('Playing Video (Web)', () => <VideoPlayer videoUrl="https://s3-eu-west-1.amazonaws.com/dashed-sample-videos/0361a703-ab1a-43af-a0ab-516221881401.mp4" />)
+    .add('Playing Video (Original)', () => <VideoPlayer videoUrl="https://s3-eu-west-1.amazonaws.com/dashed-sample-videos/01230848_0015.MP4" />)
     .add('No Video', () => <VideoPlayer />)
