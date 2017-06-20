@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
 
 import VideosByDay from '../components/video/VideosByDay.js'
+import VideoPlayer from '../components/video/VideoPlayer.js'
 
 import VideoAdd from '../Video.js'
-import VideoPlayer from '../VideoPlayer.js'
 
 const AWS = require('aws-sdk');
 const apigClientFactory = require('aws-api-gateway-client');
@@ -101,12 +101,47 @@ export default class VideoPage extends Component {
 
     onPlayVideo(videoId) {
         this.setState({videoToPlay: videoId})
+
+        authUtils.runWithCredentials(function () {
+
+            var config = {
+                invokeUrl: api.getApiAddress(),
+                accessKey: AWS.config.credentials.accessKeyId,
+                secretKey: AWS.config.credentials.secretAccessKey,
+                sessionToken: AWS.config.credentials.sessionToken,
+                region: AWS.config.region
+            }
+            var apigClient = apigClientFactory.newClient(config);
+
+            var params = {
+                //This is where any header, path, or querystring request params go. The key is the parameter named as defined in the API
+                "videoId": videoId
+            };
+
+            // Template syntax follows url-template https://www.npmjs.com/package/url-template
+            var pathTemplate = '/v1/video/{videoId}'
+            var method = 'GET';
+            var additionalParams = {
+            };
+            var body = {};
+
+            apigClient.invokeApi(params, pathTemplate, method, additionalParams, body)
+                .then(function (result) {
+                    //This is where you would put a success callback
+                    this.setState({
+                        videoToPlayUrl: (result.data.urls.web) ? result.data.urls.web : result.data.urls.original
+                    })
+                }).bind(this)
+                .catch(function (result) {
+                    //This is where you would put an error callback
+                });
+        }.bind(this));
     }
 
     render() {
         return (
             <div className="App">
-                <VideoPlayer videoId={this.state.videoToPlay}/>
+                <VideoPlayer videoUrl={this.state.videoToPlayUrl}/>
                 <VideosByDay videosByDate={this.state.videos} playVideo={(videoId) => this.onPlayVideo(videoId)} />
                 <VideoAdd videoAddedCallback={(videoId) => this.onVideosModified(videoId)}/>
             </div>
