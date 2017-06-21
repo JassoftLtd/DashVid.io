@@ -95,6 +95,13 @@ jobs:
           Test Deploy Failed. Check it out at:
           http://concourse.jassoft.co.uk:8080/builds/$BUILD_ID
 
+  - task: Invalidate Cache
+    file: source-code/concourse/invalidate-cache.yml
+    params:
+      ENVIRONMENT_SUBDOMAIN: test.
+      AWS_ACCESS_KEY_ID: {{aws_access_key}}
+      AWS_SECRET_ACCESS_KEY: {{aws_secret_key}}
+
 - name: api-tests
   serial_groups: [DashVidAPITest]
   plan:
