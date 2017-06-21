@@ -41,42 +41,23 @@ class App extends Component {
     }
 
     render() {
-        var homeRoute = "/"
-
-        if(this.state.loggedIn) {
-            homeRoute = "/video"
-        }
 
         return (
             <MuiThemeProvider>
-                <div>
-                    <Nav homeRoute={homeRoute} loggedIn={this.state.loggedIn} />
-
-                    <div className="content">
-
-                        <Router history={browserHistory}>
-                            <Route path="/" >
-                                <IndexRoute component={Home} />
-                                <Route path="video" component={VideoPage} />
-                                <Route path="account" component={Account} />
-                                <Route path="login" component={LoginPage} loggedIn={() => {this.onAuthStateChange(true)}} />
-                                <Route path="signup/:plan" component={SignupPage} />
-                                <Route path="verify" component={Verify} />
-                                <Route path="reset" component={Reset} />
-                            </Route>
-                            <Route path="subscription" >
-                                <Route path="addCard" component={AddCard} />
-                            </Route>
-                        </Router>
-
-                    </div>
-
-                    <div className="footer l-box">
-                        <p>
-                            <a href="/">Terms &amp; Conditions</a> | <a href="/">Privacy Policy</a>
-                        </p>
-                    </div>
-                </div>
+                <Router history={browserHistory}>
+                    <Route path="/" component={PageWrapper} loggedIn={this.state.loggedIn}>
+                        <IndexRoute component={Home} />
+                        <Route path="video" component={VideoPage} />
+                        <Route path="account" component={Account} />
+                        <Route path="login" component={LoginPage} loggedIn={() => {this.onAuthStateChange(true)}} />
+                        <Route path="signup/:plan" component={SignupPage} />
+                        <Route path="verify" component={Verify} />
+                        <Route path="reset" component={Reset} />
+                    </Route>
+                    <Route path="subscription" >
+                        <Route path="addCard" component={AddCard} />
+                    </Route>
+                </Router>
             </MuiThemeProvider>
         );
     }
@@ -84,6 +65,27 @@ class App extends Component {
 }
 
 export default App;
+
+class PageWrapper extends Component {
+
+    render() {
+        return (
+            <div>
+                <Nav loggedIn={this.props.loggedIn} />
+
+                <div className="l-content">
+                    {this.props.children}
+                </div>
+
+                <div className="footer l-box">
+                    <p>
+                        <a href="/">Terms &amp; Conditions</a> | <a href="/">Privacy Policy</a>
+                    </p>
+                </div>
+            </div>
+        )
+    }
+}
 
 render(
     <App />,
