@@ -8,13 +8,19 @@ import VideoPlayer from './VideoPlayer';
 var videos = require('../../data/test-videos.json');
 
 
+
+var shareVideoSuccess = function (videoid) {
+    console.log("videoId", videoid)
+    return "Some String"
+}
+
 storiesOf('VideosByDay', module)
     .addDecorator(muiTheme())
-    .add('Multiple Days', () => <VideosByDay videosByDate={videos} playVideo={ action('Play Video') } />)
+    .add('Multiple Days', () => <VideosByDay videosByDate={videos} playVideo={ action('Play Video') } shareVideo={(videoId) => shareVideoSuccess(videoId)} />)
 
 storiesOf('VideosDay', module)
     .addDecorator(muiTheme())
-    .add('Neighbouring Videos', () => <VideosDay date={videos[0].date} videos={videos[0].videos} playVideo={ action('Play Video') } />)
+    .add('Neighbouring Videos', () => <VideosDay date={videos[0].date} videos={videos[0].videos} playVideo={ action('Play Video') } shareVideo={(videoId) => shareVideoSuccess(videoId)} />)
 
 storiesOf('VideoPlayer', module)
     .addDecorator(muiTheme())

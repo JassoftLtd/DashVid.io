@@ -7,6 +7,12 @@ const api = require('../utils/api.js');
 
 const jws = require('jws');
 
+const style = {
+    login: {
+        "display": "inline-block"
+    }
+};
+
 export default class LoginPage extends Component {
 
     constructor(props) {
@@ -47,6 +53,7 @@ export default class LoginPage extends Component {
 
                 authUtils.createCognitoIdentityCredentials(params)
 
+                this.props.routes[0].logIn()
                 this.props.route.loggedIn();
 
                 this.props.router.push('/video');
@@ -59,11 +66,11 @@ export default class LoginPage extends Component {
             }
 
         }.bind(this))
-            .catch(function (ex) {
+        .catch(function (ex) {
             console.log('parsing failed', ex)
             this.setState({
                 message: "Login Failed"
-            });
+        });
         }.bind(this))
 
     }
@@ -106,7 +113,9 @@ export default class LoginPage extends Component {
     render() {
 
         return (
-            <Login login={ this.handleLogin.bind(this) } lostPassword={ this.handleLostPassword.bind(this) } message={this.state.message} />
+            <div style={style.login}>
+                <Login login={ this.handleLogin.bind(this) } lostPassword={ this.handleLostPassword.bind(this) } message={this.state.message} />
+            </div>
         );
     }
 }

@@ -52,6 +52,7 @@ exports.handler = function(event, context) {
 
             var responseBody = {
                 Id: generatedId,
+                Link: process.env.shareUrlPrefix + generatedId,
             };
             var response = {
                 statusCode: 200,

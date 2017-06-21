@@ -1,10 +1,5 @@
 import React, {Component} from 'react';
-var AWS = require('aws-sdk');
-var apigClientFactory = require('aws-api-gateway-client')
 var authUtils = require('../utils/auth.js');
-var api = require('../utils/api.js');
-
-AWS.config.region = window.REACT_APP_AWS_REGION;
 
 class ChangePassword extends Component {
 
@@ -31,51 +26,43 @@ class ChangePassword extends Component {
 
         const _this = this;
 
-        authUtils.runWithCredentials(function () {
+        authUtils.getAuthApiGatewayClient()
+            .then(function (apigClient) {
 
-            var config = {
-                invokeUrl: api.getApiAddress(),
-                accessKey: AWS.config.credentials.accessKeyId,
-                secretKey: AWS.config.credentials.secretAccessKey,
-                sessionToken: AWS.config.credentials.sessionToken,
-                region: AWS.config.region
-            }
-            var apigClient = apigClientFactory.newClient(config);
+                var params = {
+                    //This is where any header, path, or querystring request params go. The key is the parameter named as defined in the API
+                };
 
-            var params = {
-                //This is where any header, path, or querystring request params go. The key is the parameter named as defined in the API
-            };
+                // Template syntax follows url-template https://www.npmjs.com/package/url-template
+                var pathTemplate = '/v1/auth/changePassword'
+                var method = 'POST';
+                var additionalParams = {};
+                var body = {
+                    oldPassword: _this.state.oldPassword,
+                    newPassword: _this.state.newPassword
+                };
 
-            // Template syntax follows url-template https://www.npmjs.com/package/url-template
-            var pathTemplate = '/v1/auth/changePassword'
-            var method = 'POST';
-            var additionalParams = {};
-            var body = {
-                oldPassword: _this.state.oldPassword,
-                newPassword: _this.state.newPassword
-            };
+                apigClient.invokeApi(params, pathTemplate, method, additionalParams, body)
+                    .then(function (result) {
+                        console.log('parsed json', result)
 
-            apigClient.invokeApi(params, pathTemplate, method, additionalParams, body)
-                .then(function (result) {
-                    console.log('parsed json', result)
-
-                    if (result.data.changed) {
-                        _this.setState({
-                            message: 'Password changed for user',
-                            oldPassword: "",
-                            newPassword: "",
-                            verifyPassword: "",
-                        });
-                    } else {
-                        _this.setState({
-                            message: 'Password not changed for user'
-                        });
-                    }
-                }).catch(function (result) {
-                //This is where you would put an error callback
-                console.error('failed', result)
+                        if (result.data.changed) {
+                            _this.setState({
+                                message: 'Password changed for user',
+                                oldPassword: "",
+                                newPassword: "",
+                                verifyPassword: "",
+                            });
+                        } else {
+                            _this.setState({
+                                message: 'Password not changed for user'
+                            });
+                        }
+                    }).catch(function (result) {
+                    //This is where you would put an error callback
+                    console.error('failed', result)
+                });
             });
-        });
 
 
     }

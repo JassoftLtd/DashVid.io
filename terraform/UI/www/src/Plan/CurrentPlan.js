@@ -4,8 +4,6 @@ var api = require('./../utils/api.js');
 var AWS = require('aws-sdk');
 var apigClientFactory = require('aws-api-gateway-client')
 
-AWS.config.region = window.REACT_APP_AWS_REGION;
-
 class CurrentPlan extends Component {
 
     constructor(props) {
@@ -14,38 +12,30 @@ class CurrentPlan extends Component {
         const _this = this;
 
         if (this.props.loggedIn) {
-            authUtils.runWithCredentials(function () {
+            authUtils.getAuthApiGatewayClient()
+                .then(function (apigClient) {
 
-                var config = {
-                    invokeUrl: api.getApiAddress(),
-                    accessKey: AWS.config.credentials.accessKeyId,
-                    secretKey: AWS.config.credentials.secretAccessKey,
-                    sessionToken: AWS.config.credentials.sessionToken,
-                    region: AWS.config.region
-                }
-                var apigClient = apigClientFactory.newClient(config);
+                    var params = {
+                        //This is where any header, path, or querystring request params go. The key is the parameter named as defined in the API
+                    };
 
-                var params = {
-                    //This is where any header, path, or querystring request params go. The key is the parameter named as defined in the API
-                };
+                    // Template syntax follows url-template https://www.npmjs.com/package/url-template
+                    var pathTemplate = '/v1/plan'
+                    var method = 'GET';
+                    var additionalParams = {};
+                    var body = {};
 
-                // Template syntax follows url-template https://www.npmjs.com/package/url-template
-                var pathTemplate = '/v1/plan'
-                var method = 'GET';
-                var additionalParams = {};
-                var body = {};
-
-                apigClient.invokeApi(params, pathTemplate, method, additionalParams, body)
-                    .then(function (result) {
-                        //This is where you would put a success callback
-                        _this.setState({
-                            plan: result.data.plan,
-                            status: result.data.status
-                        })
-                    }).catch(function (result) {
-                    //This is where you would put an error callback
+                    apigClient.invokeApi(params, pathTemplate, method, additionalParams, body)
+                        .then(function (result) {
+                            //This is where you would put a success callback
+                            _this.setState({
+                                plan: result.data.plan,
+                                status: result.data.status
+                            })
+                        }).catch(function (result) {
+                        //This is where you would put an error callback
+                    });
                 });
-            });
         }
     }
 

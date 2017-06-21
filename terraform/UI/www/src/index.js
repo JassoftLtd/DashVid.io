@@ -38,14 +38,23 @@ class App extends Component {
         this.state = {
             loggedIn: loggedIn
         };
+
+        // TODO workout how to reload Nav?
+        if(!loggedIn) {
+            authUtils.clearCredentials()
+            window.location.href = '/';
+        }
+        else {
+            window.location.href = '/video';
+        }
+
     }
 
     render() {
-
         return (
             <MuiThemeProvider>
                 <Router history={browserHistory}>
-                    <Route path="/" component={PageWrapper} loggedIn={this.state.loggedIn}>
+                    <Route path="/" component={PageWrapper} loggedIn={this.state.loggedIn} logIn={() => {this.onAuthStateChange(true)}} logOut={() => {this.onAuthStateChange(false)}} >
                         <IndexRoute component={Home} />
                         <Route path="video" component={VideoPage} />
                         <Route path="account" component={Account} />
@@ -71,9 +80,9 @@ class PageWrapper extends Component {
     render() {
         return (
             <div>
-                <Nav loggedIn={this.props.loggedIn} />
+                <Nav loggedIn={this.props.route.loggedIn} logIn={this.props.route.logIn} logOut={this.props.route.logOut} />
 
-                <div className="l-content">
+                <div>
                     {this.props.children}
                 </div>
 

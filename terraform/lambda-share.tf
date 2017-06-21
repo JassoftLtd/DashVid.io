@@ -19,6 +19,12 @@ resource "aws_lambda_function" "shareVideo" {
   tracing_config {
     mode = "Active"
   }
+
+  environment {
+    variables = {
+      shareUrlPrefix  = "http://${var.environment_subdomain}${var.domain_name}/share/"
+    }
+  }
 }
 
 // Get Shared Video
