@@ -13,4 +13,4 @@ run:
     apk -v --update add jq
     aws configure set preview.cloudfront true
     distributionId=$(aws cloudfront list-distributions --output=json | jq --arg ENVIRONMENT_DOMAIN "www.${ENVIRONMENT_SUBDOMAIN}dashvid.io" '.DistributionList.Items[] | select(.Aliases.Items[]==$ENVIRONMENT_DOMAIN) | .Id' --raw-output)
-    aws cloudfront create-invalidation --distribution-id $distributionId --paths /*
+    aws cloudfront create-invalidation --distribution-id $distributionId --paths "/*"
