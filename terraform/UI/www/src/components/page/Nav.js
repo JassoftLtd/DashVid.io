@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import AppBar from 'material-ui/AppBar';
 import RaisedButton from 'material-ui/RaisedButton';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router';
 
 const style = {
     bar: {
@@ -15,31 +16,26 @@ const style = {
 
 export default class Nav extends Component {
 
-    handleTouchTap() {
-        window.location.href = this.props.homeRoute;
-    }
-
     render() {
         let appLinks
         let authLink
         if(this.props.loggedIn) {
             appLinks = (
                 <span>
-                    <RaisedButton data-qa="nav-btn-videos" label="Videos" href="/video" />
-                    <RaisedButton data-qa="nav-btn-account" label="Account" href="/account" />
+                    <Link to="/video"><RaisedButton data-qa="nav-btn-videos" label="Videos"/></Link>
+                    <Link to="/account"><RaisedButton data-qa="nav-btn-account" label="Account" /></Link>
                     {/* Which Plan */}
 
                 </span>
             )
-            authLink = (<RaisedButton data-qa="nav-btn-logout" label="Logout" href="/" />)
+            authLink = (<Link to="/"><RaisedButton data-qa="nav-btn-logout" label="Logout" /></Link>)
         } else {
-            authLink = (<RaisedButton data-qa="nav-btn-login" label="Login" href="/login" />)
+            authLink = (<Link to="/login"><RaisedButton data-qa="nav-btn-login" label="Login" /></Link>)
         }
 
         return (
             <AppBar style={style.bar}
-                    iconElementLeft={<a data-qa="nav-link-home"  href="/"><img src="/images/DashVid.svg" alt="DashVid.io" style={style.logo} /></a>}
-                onLeftIconButtonTouchTap={this.handleTouchTap}
+                    iconElementLeft={<Link to="/"><img src="/images/DashVid.svg" alt="DashVid.io" data-qa="nav-link-home" style={style.logo} /></Link>}
                 iconElementRight={
                     <span>
                         {appLinks}
@@ -52,6 +48,5 @@ export default class Nav extends Component {
 }
 
 Nav.propTypes = {
-    homeRoute: PropTypes.string.isRequired,
     loggedIn: PropTypes.bool.isRequired,
 }
