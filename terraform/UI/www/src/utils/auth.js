@@ -47,6 +47,7 @@ var getAuthApiGatewayClient = function () {
     return AWS.config.credentials.getPromise()
         .catch(function (err) {
             console.error(err);
+            clearCredentials()
             window.location.href = '/';
         })
         .then(function () {

@@ -8,14 +8,6 @@ resource "aws_api_gateway_resource" "Share" {
   path_part   = "share"
 }
 
-// /video
-resource "aws_api_gateway_resource" "ShareVideo" {
-  depends_on  = ["aws_api_gateway_resource.Share", "aws_api_gateway_rest_api.DashCamAPI"]
-  rest_api_id = "${aws_api_gateway_rest_api.DashCamAPI.id}"
-  parent_id   = "${aws_api_gateway_resource.Share.id}"
-  path_part   = "{shareId}"
-}
-
 // /share OPTIONS
 module "share-OptionsCORS" {
   source        = "github.com/jonnyshaw89/terraform-api-gateway-cors-module"
@@ -37,6 +29,23 @@ module "ApiGatewayLambda-shareVideo" {
   aws_account_id                       = "${data.aws_caller_identity.current.account_id}"
   environment_name                     = "${var.environment_name}"
   aws_api_gateway_method_authorization = "AWS_IAM"
+}
+
+
+// /share/{shareId}
+resource "aws_api_gateway_resource" "ShareVideo" {
+  depends_on  = ["aws_api_gateway_resource.Share", "aws_api_gateway_rest_api.DashCamAPI"]
+  rest_api_id = "${aws_api_gateway_rest_api.DashCamAPI.id}"
+  parent_id   = "${aws_api_gateway_resource.Share.id}"
+  path_part   = "{shareId}"
+}
+
+// /share/{shareId} OPTIONS
+module "share-shareId-OptionsCORS" {
+  source        = "github.com/jonnyshaw89/terraform-api-gateway-cors-module"
+  resource_name = "${aws_api_gateway_resource.ShareVideo.path}"
+  resource_id   = "${aws_api_gateway_resource.ShareVideo.id}"
+  rest_api_id   = "${aws_api_gateway_rest_api.DashCamAPI.id}"
 }
 
 // /share GET
