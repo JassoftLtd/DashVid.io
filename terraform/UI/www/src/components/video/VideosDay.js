@@ -8,6 +8,8 @@ import {
     TableRow,
     TableRowColumn,
 } from 'material-ui/Table';
+import Dialog from 'material-ui/Dialog';
+import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
 import PropTypes from 'prop-types';
 import Moment from 'moment';
@@ -46,6 +48,35 @@ const style = {
 const millisecondsInDay = 86400000
 
 export default class VideosDay extends Component {
+
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            showShareVideoDialog: false,
+        }
+    }
+
+    shareVideoAction(video) {
+        const {shareVideo} = this.props;
+
+        shareVideo(video.Id).then(function (shareResult) {
+            video.shareLink = shareResult
+
+            this.setState({
+                showShareVideoDialog: true,
+                shareLink: shareResult.Link
+            });
+
+            console.log("ShareResult", shareResult)
+        }.bind(this));
+    }
+
+    handleShareDialogClose = () => {
+        this.setState({
+            showShareVideoDialog: false
+        });
+    };
 
     render() {
         const {date, videos, playVideo} = this.props;
@@ -92,15 +123,27 @@ export default class VideosDay extends Component {
             var start = Moment(video.RecordedDate).format('HH:mm:ss')
             var end = Moment(video.RecordedDate + video.VideoDuration).format('HH:mm:ss')
 
+            if(video.shareLink) {
+
+            }
+
             return (
                 <TableRow key={video.Id}>
                     <TableRowColumn>{start}</TableRowColumn>
                     <TableRowColumn>{end}</TableRowColumn>
-                    <TableRowColumn><RaisedButton label="Play" primary={true} onTouchTap={()=>{playVideo(video.Id)}}/></TableRowColumn>
-                    <TableRowColumn><RaisedButton label="Share" secondary={true} /></TableRowColumn>
+                    <TableRowColumn><RaisedButton label="Play" primary={true} onTouchTap={()=>{playVideo(video.Id)}} /></TableRowColumn>
+                    <TableRowColumn><RaisedButton label="Share" secondary={true} onTouchTap={()=>{this.shareVideoAction(video)}} /></TableRowColumn>
                 </TableRow>
             );
-        });
+        }.bind(this));
+
+        const shareDialogActions = [
+            <FlatButton
+                label="Close"
+                primary={true}
+                onTouchTap={this.handleShareDialogClose}
+            />,
+        ];
 
         return (
             <Card style={style.card}>
@@ -126,6 +169,19 @@ export default class VideosDay extends Component {
                         </TableBody>
                     </Table>
                 </CardText>
+                <Dialog
+                    title="Share Video"
+                    actions={shareDialogActions}
+                    modal={false}
+                    open={this.state.showShareVideoDialog}
+                    onRequestClose={this.handleShareDialogClose} >
+                    <p>Copy and Paste this link to share your video
+                        <br />
+                        <pre>{this.state.shareLink}</pre>
+                        {/*<br />*/}
+                        {/*Or Share on Social Media*/}
+                    </p>
+                </Dialog>
             </Card>
         )
     }
@@ -134,5 +190,6 @@ export default class VideosDay extends Component {
     VideosDay.propTypes = {
     date: PropTypes.number.isRequired,
     videos: PropTypes.array.isRequired,
-    playVideo: PropTypes.func.isRequired
+    playVideo: PropTypes.func.isRequired,
+    shareVideo: PropTypes.func.isRequired
 };

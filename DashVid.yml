@@ -180,7 +180,7 @@ jobs:
   - task: Invalidate Cache
     file: source-code/concourse/invalidate-cache.yml
     params:
-      ENVIRONMENT_SUBDOMAIN:
+      ENVIRONMENT_SUBDOMAIN: ''
       AWS_ACCESS_KEY_ID: {{aws_access_key}}
       AWS_SECRET_ACCESS_KEY: {{aws_secret_key}}
 

@@ -17,9 +17,11 @@ const style = {
 export default class Nav extends Component {
 
     render() {
+        const {loggedIn, logOut} = this.props;
+
         let appLinks
         let authLink
-        if(this.props.loggedIn) {
+        if(loggedIn) {
             appLinks = (
                 <span>
                     <Link to="/video"><RaisedButton data-qa="nav-btn-videos" label="Videos"/></Link>
@@ -28,7 +30,7 @@ export default class Nav extends Component {
 
                 </span>
             )
-            authLink = (<Link to="/"><RaisedButton data-qa="nav-btn-logout" label="Logout" /></Link>)
+            authLink = (<RaisedButton onTouchTap={logOut} data-qa="nav-btn-logout" label="Logout" />)
         } else {
             authLink = (<Link to="/login"><RaisedButton data-qa="nav-btn-login" label="Login" /></Link>)
         }
@@ -49,4 +51,5 @@ export default class Nav extends Component {
 
 Nav.propTypes = {
     loggedIn: PropTypes.bool.isRequired,
+    logOut: PropTypes.func.isRequired,
 }
