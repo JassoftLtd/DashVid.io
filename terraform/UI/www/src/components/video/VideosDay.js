@@ -147,7 +147,9 @@ export default class VideosDay extends Component {
 
         return (
             <Card style={style.card}>
-                <CardTitle title={dateFormatted} />
+                <CardTitle title={dateFormatted}
+                           actAsExpander={true}
+                           showExpandableButton={true} />
                 <CardText actAsExpander={true}>
                     <div style={style.progress}>
                         {videosFormatted}

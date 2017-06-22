@@ -27,8 +27,10 @@ export default class SharePage extends Component {
                 'Content-Type': 'application/json',
             }
         }).then(function (response) {
+            return response.json()
+        }).then(function (json) {
             this.setState({
-                videoToPlayUrl: (response.body.urls.web) ? response.body.urls.web : response.body.urls.original
+                videoToPlayUrl: (json.urls.web) ? json.urls.web : json.urls.original
             })
         }.bind(this));
     }

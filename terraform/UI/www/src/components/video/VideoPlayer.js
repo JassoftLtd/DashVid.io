@@ -2,6 +2,12 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ReactPlayer from 'react-player'
 
+const style = {
+    videoPlayer: {
+        marginTop: "1em"
+    }
+};
+
 export default class VideoPlayer extends Component {
 
     focus() {
@@ -15,7 +21,7 @@ export default class VideoPlayer extends Component {
 
         if(videoUrl) {
             return (
-                <div ref="videoPlayer">
+                <div ref="videoPlayer" style={style.videoPlayer}>
                     <ReactPlayer url={videoUrl}
                                  onStart={this.focus()}
                                  width="100%"
