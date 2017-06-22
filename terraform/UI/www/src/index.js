@@ -13,6 +13,7 @@ import Nav from './components/page/Nav.js'
 import LoginPage from './pages/LoginPage.js'
 import SignupPage from './pages/SignupPage.js'
 import VideoPage from './pages/VideoPage.js'
+import SharePage from './pages/SharePage.js'
 
 import { render } from 'react-dom';
 import {Router, Route, IndexRoute, browserHistory} from 'react-router';
@@ -62,6 +63,7 @@ class App extends Component {
                         <Route path="signup/:plan" component={SignupPage} />
                         <Route path="verify" component={Verify} />
                         <Route path="reset" component={Reset} />
+                        <Route path="share/:shareId" component={SharePage} />
                     </Route>
                     <Route path="subscription" >
                         <Route path="addCard" component={AddCard} />
