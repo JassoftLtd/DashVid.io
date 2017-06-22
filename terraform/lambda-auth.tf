@@ -24,7 +24,7 @@ resource "aws_lambda_function" "createUser" {
       subscriptions_db_table  = "${aws_dynamodb_table.subscriptions-table.name}"
       cameras_db_table        = "${aws_dynamodb_table.cameras-table.name}"
       auth_application_name   = "${var.application_name}"
-      auth_verification_page  = "http://${var.environment_subdomain}${var.domain_name}/verify"
+      auth_verification_page  = "https://${var.environment_subdomain}${var.domain_name}/verify"
       auth_email_from_address = "${var.auth_email_from_address}"
     }
   }
@@ -134,7 +134,7 @@ resource "aws_lambda_function" "lostPassword" {
     variables = {
       auth_db_table           = "${aws_dynamodb_table.users-table.name}"
       auth_application_name   = "${var.application_name}"
-      auth_reset_page         = "http://${var.environment_subdomain}${var.domain_name}/reset"
+      auth_reset_page         = "https://${var.environment_subdomain}${var.domain_name}/reset"
       auth_email_from_address = "${var.auth_email_from_address}"
     }
   }

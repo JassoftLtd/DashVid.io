@@ -4,6 +4,12 @@ import Signup from '../components/account/Signup.js'
 
 const api = require('../utils/api.js');
 
+const style = {
+    signup: {
+        "display": "inline-block"
+    }
+};
+
 export default class SignupPage extends Component {
 
     constructor(props) {
@@ -60,7 +66,9 @@ export default class SignupPage extends Component {
     render() {
 
         return (
-            <Signup signup={ this.handleSignup.bind(this) } plan={this.state.plan} message={this.state.message} />
+            <div style={style.signup}>
+                <Signup signup={ this.handleSignup.bind(this) } plan={this.state.plan} message={this.state.message} />
+            </div>
         );
     }
 }
