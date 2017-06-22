@@ -4,6 +4,7 @@ image_resource:
   type: docker-image
   source:
     repository: node
+    tag: '6'
 
 inputs:
 - name: source-code
@@ -13,4 +14,9 @@ run:
   args:
   - -exc
   - |
+    cd source-code/concourse/test/helpers
+    npm install --loglevel warn
+    cd ../ui-test
     echo $DASHVID_UI_ADDRESS
+    npm install --loglevel warn
+    npm test

@@ -14,6 +14,7 @@ resource "aws_lambda_function" "getCameras" {
   timeout          = "30"
   memory_size      = "256"
   source_code_hash = "${base64sha256(file("Lambda/CameraLambdas/getCameras.zip"))}"
+  kms_key_arn      = "${aws_kms_key.lambda_variables.arn}"
 
   tracing_config {
     mode = "Active"

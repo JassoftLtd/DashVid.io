@@ -13,7 +13,9 @@ run:
   args:
   - -exc
   - |
-    cd source-code/concourse/test/api-test
+    cd source-code/concourse/test/helpers
+    npm install --loglevel warn
+    cd ../api-test
     echo $DASHVID_API_ADDRESS
     npm install --loglevel warn
     npm test

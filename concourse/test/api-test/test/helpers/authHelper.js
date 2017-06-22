@@ -1,7 +1,7 @@
 var AWS = require('aws-sdk');
 var apigClientFactory = require('aws-api-gateway-client')
 
-var emailHelper = require('./emailHelper.js');
+var emailHelper = require('../../../helpers/emailHelper.js');
 
 exports.signup  = function (email, password, plan) {
     var config = {

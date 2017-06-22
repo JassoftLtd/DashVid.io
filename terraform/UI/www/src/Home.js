@@ -1,11 +1,17 @@
 import React, {Component} from 'react';
-import Plans from './Plan/Plans.js'
+import Plans from './components/plan/Plans.js'
 
 class Home extends Component {
 
     render() {
         return (
             <div className="Home">
+                <div className="banner">
+                    <h1 className="banner-head">
+                        Simple Pricing.<br />
+                        Try before you buy.
+                    </h1>
+                </div>
                 <Plans/>
                 <div className="information pure-g">
                     <div className="pure-u-1 pure-u-md-1-2">

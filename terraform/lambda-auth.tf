@@ -12,6 +12,7 @@ resource "aws_lambda_function" "createUser" {
   timeout          = "30"
   memory_size      = "256"
   source_code_hash = "${base64sha256(file("${path.module}/Lambda/AuthLambdas/CreateUser.zip"))}"
+  kms_key_arn      = "${aws_kms_key.lambda_variables.arn}"
 
   tracing_config {
     mode = "Active"
@@ -23,7 +24,7 @@ resource "aws_lambda_function" "createUser" {
       subscriptions_db_table  = "${aws_dynamodb_table.subscriptions-table.name}"
       cameras_db_table        = "${aws_dynamodb_table.cameras-table.name}"
       auth_application_name   = "${var.application_name}"
-      auth_verification_page  = "http://${var.environment_subdomain}${var.domain_name}/verify"
+      auth_verification_page  = "https://${var.environment_subdomain}${var.domain_name}/verify"
       auth_email_from_address = "${var.auth_email_from_address}"
     }
   }
@@ -42,6 +43,7 @@ resource "aws_lambda_function" "changePassword" {
   timeout          = "30"
   memory_size      = "256"
   source_code_hash = "${base64sha256(file("${path.module}/Lambda/AuthLambdas/ChangePassword.zip"))}"
+  kms_key_arn      = "${aws_kms_key.lambda_variables.arn}"
 
   tracing_config {
     mode = "Active"
@@ -67,6 +69,7 @@ resource "aws_lambda_function" "login" {
   timeout          = "30"
   memory_size      = "256"
   source_code_hash = "${base64sha256(file("${path.module}/Lambda/AuthLambdas/Login.zip"))}"
+  kms_key_arn      = "${aws_kms_key.lambda_variables.arn}"
 
   tracing_config {
     mode = "Active"
@@ -94,6 +97,7 @@ resource "aws_lambda_function" "loginCameraKey" {
   timeout          = "30"
   memory_size      = "256"
   source_code_hash = "${base64sha256(file("${path.module}/Lambda/AuthLambdas/CameraKeyAuth.zip"))}"
+  kms_key_arn      = "${aws_kms_key.lambda_variables.arn}"
 
   tracing_config {
     mode = "Active"
@@ -120,6 +124,7 @@ resource "aws_lambda_function" "lostPassword" {
   timeout          = "30"
   memory_size      = "256"
   source_code_hash = "${base64sha256(file("${path.module}/Lambda/AuthLambdas/LostPassword.zip"))}"
+  kms_key_arn      = "${aws_kms_key.lambda_variables.arn}"
 
   tracing_config {
     mode = "Active"
@@ -129,7 +134,7 @@ resource "aws_lambda_function" "lostPassword" {
     variables = {
       auth_db_table           = "${aws_dynamodb_table.users-table.name}"
       auth_application_name   = "${var.application_name}"
-      auth_reset_page         = "http://${var.environment_subdomain}${var.domain_name}/reset"
+      auth_reset_page         = "https://${var.environment_subdomain}${var.domain_name}/reset"
       auth_email_from_address = "${var.auth_email_from_address}"
     }
   }
@@ -148,6 +153,7 @@ resource "aws_lambda_function" "resetPassword" {
   timeout          = "30"
   memory_size      = "256"
   source_code_hash = "${base64sha256(file("${path.module}/Lambda/AuthLambdas/ResetPassword.zip"))}"
+  kms_key_arn      = "${aws_kms_key.lambda_variables.arn}"
 
   tracing_config {
     mode = "Active"
@@ -173,6 +179,7 @@ resource "aws_lambda_function" "verifyUser" {
   timeout          = "30"
   memory_size      = "256"
   source_code_hash = "${base64sha256(file("${path.module}/Lambda/AuthLambdas/VerifyUser.zip"))}"
+  kms_key_arn      = "${aws_kms_key.lambda_variables.arn}"
 
   tracing_config {
     mode = "Active"

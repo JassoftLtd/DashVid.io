@@ -10,6 +10,7 @@ resource "aws_lambda_function" "slack_alert" {
   runtime          = "nodejs6.10"
   timeout          = "10"
   source_code_hash = "${base64sha256(file("Lambda/SlackLambdas/slack-alert.zip"))}"
+  kms_key_arn      = "${aws_kms_key.lambda_variables.arn}"
 
   tracing_config {
     mode = "Active"

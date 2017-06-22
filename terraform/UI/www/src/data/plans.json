@@ -1,16 +1,18 @@
 [
   {
-    "Name":"Free",
-    "Cost": {
+    "id":"free",
+    "name":"Free",
+    "price": {
       "GBP": "0"
     },
-    "RetentionDays":"7"
+    "retentionDays":7
   },
   {
-    "Name":"Standard",
-    "Cost": {
+    "id":"standard",
+    "name":"Standard",
+    "price": {
       "GBP": "10"
     },
-    "RetentionDays":"30"
+    "retentionDays":30
   }
 ]

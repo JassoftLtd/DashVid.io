@@ -1,5 +1,10 @@
 var AWS = require('aws-sdk');
 
+const api = require('./api.js');
+var apigClientFactory = require('aws-api-gateway-client')
+
+AWS.config.region = window.REACT_APP_AWS_REGION;
+
 var createCognitoIdentityCredentials = function (params) {
 
     sessionStorage.setItem("CognitoParmas", JSON.stringify(params));
@@ -20,14 +25,6 @@ var reloadCredentials = function () {
 
 }
 
-var hasCredentials = function () {
-    if(AWS.config.credentials) {
-        return true
-    }
-
-    return false
-};
-
 var hasAuth = function () {
     if(AWS.config.credentials || sessionStorage.getItem("CognitoParmas")) {
         return true
@@ -41,36 +38,29 @@ var clearCredentials = function () {
     sessionStorage.clear()
 }
 
-var runWithCredentials = function (callback) {
+var getAuthApiGatewayClient = function () {
 
-    if(!hasCredentials()) {
+    if(!AWS.config.credentials) {
         reloadCredentials()
     }
 
-    if (AWS.config.credentials.needsRefresh()) {
-        AWS.config.credentials.refresh(function (err) {
-            if (err) {
-                clearCredentials();
-                return
-            }
-
-            console.log("Cognito Identity Id: " + AWS.config.credentials.identityId);
-            callback();
+    return AWS.config.credentials.getPromise()
+        .catch(function (err) {
+            console.error(err);
+            clearCredentials()
+            window.location.href = '/';
         })
-    }
-    else {
-
-        // We can set the get method of the Credentials object to retrieve
-        // the unique identifier for the end user (identityId) once the provider
-        // has refreshed itself
-        AWS.config.credentials.get(function (err) {
-            if (err) {
-                return
+        .then(function () {
+            var config = {
+                invokeUrl: api.getApiAddress(),
+                accessKey: AWS.config.credentials.accessKeyId,
+                secretKey: AWS.config.credentials.secretAccessKey,
+                sessionToken: AWS.config.credentials.sessionToken,
+                region: AWS.config.region
             }
-            console.log("Cognito Identity Id: " + AWS.config.credentials.identityId);
-            callback();
-        });
-    }
+
+            return apigClientFactory.newClient(config);
+        })
 };
 
-export {runWithCredentials, hasAuth, createCognitoIdentityCredentials, clearCredentials};
+export {getAuthApiGatewayClient, hasAuth, createCognitoIdentityCredentials, clearCredentials};

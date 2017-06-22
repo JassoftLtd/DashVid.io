@@ -14,9 +14,16 @@ resource "aws_lambda_function" "shareVideo" {
   timeout          = "30"
   memory_size      = "256"
   source_code_hash = "${base64sha256(file("Lambda/ShareLambdas/shareVideo.zip"))}"
+  kms_key_arn      = "${aws_kms_key.lambda_variables.arn}"
 
   tracing_config {
     mode = "Active"
+  }
+
+  environment {
+    variables = {
+      shareUrlPrefix  = "https://${var.environment_subdomain}${var.domain_name}/share/"
+    }
   }
 }
 
@@ -34,6 +41,7 @@ resource "aws_lambda_function" "getSharedVideo" {
   timeout          = "30"
   memory_size      = "256"
   source_code_hash = "${base64sha256(file("Lambda/ShareLambdas/getSharedVideo.zip"))}"
+  kms_key_arn      = "${aws_kms_key.lambda_variables.arn}"
 
   tracing_config {
     mode = "Active"

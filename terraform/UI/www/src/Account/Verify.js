@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import { Link } from 'react-router';
 var api = require('../utils/api.js');
 
 class Verify extends Component {
@@ -7,7 +8,9 @@ class Verify extends Component {
         super(props);
 
         this.state = {
-            message: "Verifying..."
+            message: (
+                <p data-qa="verify-text-pending">Verifying...</p>
+            )
         };
 
         var email = this.props.location.query.email
@@ -15,7 +18,9 @@ class Verify extends Component {
 
         if(!email || !verify) {
             this.state = {
-                message: "Unable to extract email and token from url"
+                message: (
+                    <p data-qa="verify-text-failed">Unable to extract email and token from url</p>
+                )
             };
             return
         }
@@ -38,10 +43,20 @@ class Verify extends Component {
 
             if(json.verified) {
                 _this.setState({
-                    message: "User verified."
+                    message: (
+                        <div>
+                            <p data-qa="verify-text-confirmation">User verified.</p>
+                            <p>You may now <Link to="/login">Login</Link> and start using Dashvid.io</p>
+                        </div>
+                    )
                 });
-
-                window.location.href = '/signup';
+            }
+            else {
+                _this.setState({
+                    message: (
+                        <p data-qa="verify-text-failed">User verification failed.</p>
+                    )
+                });
             }
 
         }).catch(function (ex) {
@@ -51,7 +66,7 @@ class Verify extends Component {
     }
 
     render() {
-        return (<p>{this.state.message}</p>);
+        return this.state.message;
     }
 }
 
