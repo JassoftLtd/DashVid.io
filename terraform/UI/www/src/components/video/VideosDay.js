@@ -11,6 +11,10 @@ import {
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
+import IconMenu from 'material-ui/IconMenu';
+import MenuItem from 'material-ui/MenuItem';
+import IconButton from 'material-ui/IconButton';
+import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 import PropTypes from 'prop-types';
 import Moment from 'moment';
 
@@ -42,6 +46,9 @@ const style = {
     },
     progressBarVideo: {
         "backgroundColor": "#5cb85c",
+    },
+    menuColumn: {
+        "width": "50px",
     }
 };
 
@@ -133,6 +140,15 @@ export default class VideosDay extends Component {
                     <TableRowColumn>{end}</TableRowColumn>
                     <TableRowColumn><RaisedButton label="Play" primary={true} onTouchTap={()=>{playVideo(video.Id)}} /></TableRowColumn>
                     <TableRowColumn><RaisedButton label="Share" secondary={true} onTouchTap={()=>{this.shareVideoAction(video)}} /></TableRowColumn>
+                    <TableRowColumn style={style.menuColumn} >
+                        <IconMenu
+                            iconButtonElement={<IconButton><MoreVertIcon /></IconButton>}
+                            anchorOrigin={{horizontal: 'right', vertical: 'top'}}
+                            targetOrigin={{horizontal: 'right', vertical: 'top'}}
+                        >
+                            <MenuItem primaryText="Download" />
+                        </IconMenu>
+                    </TableRowColumn>
                 </TableRow>
             );
         }.bind(this));
@@ -157,13 +173,14 @@ export default class VideosDay extends Component {
                     </div>
                 </CardText>
                 <CardText expandable={true}>
-                    <Table>
+                    <Table selectable={false} >
                         <TableHeader displaySelectAll={false} adjustForCheckbox={false}>
                             <TableRow>
                                 <TableHeaderColumn>Start</TableHeaderColumn>
                                 <TableHeaderColumn>End</TableHeaderColumn>
                                 <TableHeaderColumn>Play</TableHeaderColumn>
                                 <TableHeaderColumn>Share</TableHeaderColumn>
+                                <TableHeaderColumn style={style.menuColumn} />
                             </TableRow>
                         </TableHeader>
                         <TableBody displayRowCheckbox={false}>
