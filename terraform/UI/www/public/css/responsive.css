@@ -1,0 +1,22 @@
+@media screen and (min-width: 48em) {
+    .feature-box {
+        display: inline-block;
+        *display: inline;
+        zoom: 1;
+        letter-spacing: normal;
+        word-spacing: normal;
+        vertical-align: top;
+        text-rendering: auto;
+        width: 50%;
+        *width: 49.9690%;
+    }
+}
+
+.feature-box {
+    letter-spacing: normal;
+    word-spacing: normal;
+    vertical-align: top;
+    text-rendering: auto;
+    display: inline-block;
+    zoom: 1;
+}

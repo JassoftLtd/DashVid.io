@@ -77,6 +77,18 @@ class App extends Component {
 
 export default App;
 
+const style = {
+    footer: {
+        background: "#111",
+        color: "#888",
+        textAlign: "center",
+        padding: "0.5em 2em"
+    },
+    footerLink: {
+        color: "#ddd",
+    }
+};
+
 class PageWrapper extends Component {
 
     render() {
@@ -88,9 +100,9 @@ class PageWrapper extends Component {
                     {this.props.children}
                 </div>
 
-                <div className="footer l-box">
+                <div style={style.footer}>
                     <p>
-                        <a href="/">Terms &amp; Conditions</a> | <a href="/">Privacy Policy</a>
+                        <a style={style.footerLink} href="/">Terms &amp; Conditions</a> | <a href="/">Privacy Policy</a>
                     </p>
                 </div>
             </div>

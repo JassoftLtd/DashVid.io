@@ -93,8 +93,8 @@ class ChangePassword extends Component {
         }
 
         return (
-        <div className="pure-g">
-            <div className="pure-u-1 pure-u-md-1-2">
+        <div>
+            <div className="feature-box">
                 <h2 className="content-subhead">Change Password</h2>
                 <form onSubmit={this.handleChangePassword.bind(this)} className="pure-form pure-form-aligned">
                     <fieldset>

@@ -6,6 +6,7 @@ var plans = require('../../data/plans.json');
 
 const style = {
     display: "inline-block",
+    clear: "both"
 };
 
 export default class Plans extends Component {
