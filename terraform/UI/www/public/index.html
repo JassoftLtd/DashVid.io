@@ -3,39 +3,37 @@
 <head>
     <title>Dashvid.io</title>
     <meta charset="utf-8">
+    <meta name="description" content="Cloud storage of Dashcam footage">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="shortcut icon" type="image/svg+xml" href="%PUBLIC_URL%/favicon.svg">
-    <!--
-      Notice the use of %PUBLIC_URL% in the tag above.
-      It will be replaced with the URL of the `public` folder during the build.
-      Only files inside the `public` folder can be referenced from the HTML.
 
-      Unlike "/favicon.svg" or "favicon.svg", "%PUBLIC_URL%/favicon.svg" will
-      work correctly both with client-side routing and a non-root public URL.
-      Learn how to configure a non-root public URL by running `npm run build`.
-    -->
+    <link rel="stylesheet" href="css/responsive.css">
 
-    <link rel="stylesheet" href="https://unpkg.com/purecss@0.6.2/build/pure-min.css" integrity="sha384-UQiGfs9ICog+LwheBSRCt1o5cbyKIHbwjWscjemyBMT9YCUMZffs6UqUTd0hObXD" crossorigin="anonymous">
 
-    <!--[if lte IE 8]>
-    <link rel="stylesheet" href="https://unpkg.com/purecss@0.6.2/build/grids-responsive-old-ie-min.css">
-    <![endif]-->
-    <!--[if gt IE 8]><!-->
-    <link rel="stylesheet" href="https://unpkg.com/purecss@0.6.2/build/grids-responsive-min.css">
-    <!--<![endif]-->
+    <style type="text/css">
+        html {
+            font-family: sans-serif;
+            -ms-text-size-adjust: 100%;
+            -webkit-text-size-adjust: 100%;
+        }
 
-    <link rel="stylesheet" href="https://unpkg.com/purecss@0.6.2/build/base-min.css">
+        body {
+            margin: 0;
+            color: #526066;
+        }
 
-    <!--[if gt IE 8]><!-->
-    <link rel="stylesheet" href="/combo/1.18.13/css/layouts/pricing.css">
-    <!--<![endif]-->
-    <!--[if lt IE 9]>
-    <script src="http://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.js"></script>
-    <![endif]-->
+        h2, h3 {
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+    </style>
+
     <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
     <script type="text/javascript">
         Stripe.setPublishableKey('%REACT_APP_STRIPE_PUBLISHABLE_KEY%');
     </script>
+
     <script>
         window.REACT_APP_AWS_REGION = '%REACT_APP_AWS_REGION%';
         window.REACT_APP_API_ADRESS = '%REACT_APP_API_ADRESS%';

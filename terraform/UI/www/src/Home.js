@@ -1,53 +1,87 @@
 import React, {Component} from 'react';
 import Plans from './components/plan/Plans.js'
 
+const style = {
+    banner: {
+        background: "transparent url('../../../../images/banner.jpg') 0 0 no-repeat local",
+        textAlign: "center",
+        backgroundSize: "cover",
+        filter: "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../../../../images/banner.jpg', sizingMethod='scale')",
+        height: "200px",
+        width: "100%",
+        marginBottom: "3em",
+        display: "table",
+    },
+
+    bannerHead: {
+        display: "table-cell",
+        verticalAlign: "middle",
+        marginBottom: 0,
+        fontSize: "2em",
+        color: "white",
+        fontWeight: 500,
+        textShadow: "0 1px 1px black",
+    },
+
+    features: {
+    },
+    feature: {
+        padding: "0.5em 2em"
+    },
+    featureHead: {
+        color: "black",
+        fontWeight: 500
+    }
+};
+
 class Home extends Component {
 
     render() {
         return (
             <div className="Home">
-                <div className="banner">
-                    <h1 className="banner-head">
+                <div style={style.banner}>
+                    <h1 style={style.bannerHead}>
                         Simple Pricing.<br />
                         Try before you buy.
                     </h1>
                 </div>
+                <h1>
+                    DashVid.io - Cloud storage for your Dashcam footage.
+                </h1>
                 <Plans/>
-                <div className="information pure-g">
-                    <div className="pure-u-1 pure-u-md-1-2">
-                        <div className="l-box">
-                            <h3 className="information-head">Get started today</h3>
+                <div>
+                    <div className="feature-box">
+                        <div style={style.feature} >
+                            <h3 style={style.featureHead} >Secure Cloud Storage</h3>
                             <p>
-                                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.
+                                All of your videos are stored encrypted in the cloud. This gives you the peace of mind that your Dashcam wont overwrite footage you may need in the future
                             </p>
                         </div>
                     </div>
 
-                    <div className="pure-u-1 pure-u-md-1-2">
-                        <div className="l-box">
-                            <h3 className="information-head">Pay monthly or annually</h3>
+                    <div className="feature-box">
+                        <div style={style.feature}>
+                            <h3 style={style.featureHead} >Mobile Optimised</h3>
                             <p>
-                                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ullamco laboris nisi ut aliquip ex ea commodo
-                                consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse.
+                                All of your footage will be transcoded to a mobile friendly format. This means you can easily view your footage without having to worry about it eating all of your data.
                             </p>
                         </div>
                     </div>
 
-                    <div className="pure-u-1 pure-u-md-1-2">
-                        <div className="l-box">
-                            <h3 className="information-head">24/7 customer support</h3>
+                    <div className="feature-box">
+                        <div style={style.feature}>
+                            <h3 style={style.featureHead} >Share your clips</h3>
                             <p>
-                                Cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                                Share selected footage publicly. Either by sharing a link or posting it to your favorite social media platform
                             </p>
                         </div>
                     </div>
 
-                    <div className="pure-u-1 pure-u-md-1-2">
-                        <div className="l-box">
-                            <h3 className="information-head">Cancel your plan anytime</h3>
+                    <div className="feature-box">
+                        <div style={style.feature}>
+                            <h3 style={style.featureHead} >Sign up for Free today</h3>
                             <p>
-                                Duis aute irure dolor in reprehenderit in voluptate velit esse
-                                cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                                Its Free to signup to our basic plan. However if you choose to opt for one of our paid plans, you can cancel at anytime.
                             </p>
                         </div>
                     </div>
