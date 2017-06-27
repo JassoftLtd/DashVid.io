@@ -14,9 +14,13 @@ import LoginPage from './pages/LoginPage.js'
 import SignupPage from './pages/SignupPage.js'
 import VideoPage from './pages/VideoPage.js'
 import SharePage from './pages/SharePage.js'
+import PrivacyPolicyPage from './pages/PrivacyPolicyPage.js'
+import TermsAndConditionsPage from './pages/TermsAndConditionsPage.js'
+import AcceptableUsePolicyPage from './pages/AcceptableUsePolicyPage.js'
+import CookiesPolicyPage from './pages/CookiesPolicyPage.js'
 
 import { render } from 'react-dom';
-import {Router, Route, IndexRoute, browserHistory} from 'react-router';
+import {Router, Route, IndexRoute, browserHistory, Link} from 'react-router';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
@@ -64,6 +68,10 @@ class App extends Component {
                         <Route path="verify" component={Verify} />
                         <Route path="reset" component={Reset} />
                         <Route path="share/:shareId" component={SharePage} />
+                        <Route path="privacy-policy" component={PrivacyPolicyPage} />
+                        <Route path="terms-and-conditions" component={TermsAndConditionsPage} />
+                        <Route path="acceptable-use-policy" component={AcceptableUsePolicyPage} />
+                        <Route path="cookies-policy" component={CookiesPolicyPage} />
                     </Route>
                     <Route path="subscription" >
                         <Route path="addCard" component={AddCard} />
@@ -102,7 +110,10 @@ class PageWrapper extends Component {
 
                 <div style={style.footer}>
                     <p>
-                        <a style={style.footerLink} href="/">Terms &amp; Conditions</a> | <a href="/">Privacy Policy</a>
+                        <Link to="/terms-and-conditions" style={style.footerLink}>Terms &amp; Conditions</Link> |
+                        <Link to="/privacy-policy" style={style.footerLink}>Privacy Policy</Link> |
+                        <Link to="/acceptable-use-policy" style={style.footerLink}>Acceptable use Policy</Link> |
+                        <Link to="/cookies-policy" style={style.footerLink}>Cookies Policy</Link>
                     </p>
                 </div>
             </div>
