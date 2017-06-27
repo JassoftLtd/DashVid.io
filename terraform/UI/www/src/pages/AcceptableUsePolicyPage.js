@@ -17,8 +17,6 @@ Some important details about us:
 
 Our registered office is at: 51 Watleys End Road, Bristol, BS36 1PH
 
-Our trading office is at: 51 Watleys End Road, Bristol, BS36 1PH
-
 Our VAT number is: 174 7208 96
 
 ### **3.What you must not do**
@@ -43,13 +41,11 @@ Our standards for interactive services, such as chat rooms and bulletin boards, 
 
 Please note, however, that we are not required to moderate our interactive service. We will not be responsible for any loss to anyone who does not use our site according to our standards (whether or not we have moderated the service).
 
-### **6.Important Notice for Parents**
-
-### **7.Disclosure to Courts**
+### **6.Disclosure to Courts**
 
 If you have to disclose Confidential Information by order of a court or other public body you may do so.
 
-### **8.Suspension and Termination**
+### **7.Suspension and Termination**
 
 If we think you have breached this policy, we will take whatever steps we think are necessary.
 

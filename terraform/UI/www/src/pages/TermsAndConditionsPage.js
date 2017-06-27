@@ -19,8 +19,6 @@ Some important details about us:
 
 Our registered office is at: 51 Watleys End Road, Bristol, BS36 1PH
 
-Our trading office is at: 51 Watleys End Road, Bristol, BS36 1PH
-
 Our VAT number is: 174 7208 96
 
 ### **3.Use of the Site**
@@ -93,31 +91,27 @@ Links from our site to other sites are only for information. We don&#39;t accept
 
 We change these terms from time to time and you must check them for changes because they are binding on you.
 
-### **11.Trade Mark**
+### **11.Applicable Law**
 
-[Trademark] is our [UK Registered] trademark.
+11.1 The Parties will use their best efforts to negotiate in good faith and settle any dispute that may arise out of or relate to this Agreement or any breach of it.
 
-### **12.Applicable Law**
+11.2 If any such dispute cannot be settled amicably through ordinary negotiations between the Parties, or either or both is or are unwilling to engage in this process, either Party may propose to the other in writing that structured negotiations be entered into with the assistance of a fully accredited mediator before resorting to litigation.
 
-12.1 The Parties will use their best efforts to negotiate in good faith and settle any dispute that may arise out of or relate to this Agreement or any breach of it.
+11.3 If the Parties are unable to agree upon a mediator, or if the mediator agreed upon is unable or unwilling to act and an alternative mediator cannot be agreed, any party may within 14 days of the date of knowledge of either event apply to LawBite to appoint a mediator under the LawBite Mediation Procedure.
 
-12.2 If any such dispute cannot be settled amicably through ordinary negotiations between the Parties, or either or both is or are unwilling to engage in this process, either Party may propose to the other in writing that structured negotiations be entered into with the assistance of a fully accredited mediator before resorting to litigation.
+11.4 Within 14 days of the appointment of the mediator (either by mutual agreement of the Parties or by LawBite in accordance with their mediation procedure), the Parties will meet with the mediator to agree the procedure to be adopted for the mediation, unless otherwise agreed between the parties and the mediator.
 
-12.3 If the Parties are unable to agree upon a mediator, or if the mediator agreed upon is unable or unwilling to act and an alternative mediator cannot be agreed, any party may within 14 days of the date of knowledge of either event apply to LawBite to appoint a mediator under the LawBite Mediation Procedure.
+11.5 All negotiations connected with the relevant dispute(s) will be conducted in confidence and without prejudice to the rights of the Parties in any further proceedings.
 
-12.4 Within 14 days of the appointment of the mediator (either by mutual agreement of the Parties or by LawBite in accordance with their mediation procedure), the Parties will meet with the mediator to agree the procedure to be adopted for the mediation, unless otherwise agreed between the parties and the mediator.
+11.6 If the Parties agree on a resolution of the dispute at mediation, the agreement shall be reduced to writing and, once signed by the duly authorised representatives of both Parties, shall be final and binding on them.
 
-12.5 All negotiations connected with the relevant dispute(s) will be conducted in confidence and without prejudice to the rights of the Parties in any further proceedings.
+11.7 If the Parties fail to resolve the dispute(s) within 60 days (or such longer term as may be agreed between the Parties) of the mediator being appointed, or if either Party withdraws from the mediation procedure, then either Party may exercise any right to seek a remedy through arbitration by an arbitrator to be appointed by LawBite under the Rules of the LawBite Arbitration Scheme.
 
-12.6 If the Parties agree on a resolution of the dispute at mediation, the agreement shall be reduced to writing and, once signed by the duly authorised representatives of both Parties, shall be final and binding on them.
+11.8 Any dispute shall not affect the Parties&#39; ongoing obligations under the Agreement.
 
-12.7 If the Parties fail to resolve the dispute(s) within 60 days (or such longer term as may be agreed between the Parties) of the mediator being appointed, or if either Party withdraws from the mediation procedure, then either Party may exercise any right to seek a remedy through arbitration by an arbitrator to be appointed by LawBite under the Rules of the LawBite Arbitration Scheme.
+11.9 The English courts have the only right to hear claims related to our site, and all disputes are governed by English law.
 
-12.8 Any dispute shall not affect the Parties&#39; ongoing obligations under the Agreement.
-
-12.9 The English courts have the only right to hear claims related to our site, and all disputes are governed by English law.
-
-### **13.Contact Us**
+### **12.Contact Us**
 
 Please email us at website@DashVid.io to contact us about any issues.
 `;
