@@ -13,14 +13,15 @@ exports.handler = function(event, context) {
 
     var email = event.requestContext.identity.cognitoAuthenticationProvider.split(':').pop();
 
-    getUserPlan(email, function (err, plan, status) {
+    getUserPlan(email, function (err, plan, status, pendingPlan) {
         if (err) {
             context.fail(err);
         }
 
         var responseBody = {
             plan: plan,
-            status: status
+            status: status,
+            pendingPlan: pendingPlan
         };
         var response = {
             statusCode: responseCode,
@@ -62,10 +63,30 @@ function getUserPlan(email, fn) {
                 fn('User had multiple active Subscriptions', null); // User not found
             }
 
-            var plan = data.Items[0].Plan;
-            var status = data.Items[0].PlanStatus;
+            var activePlan = data.Items[0].filter(activePlan)[0];
+            var pendingPlans = data.Items[0].filter(pendingPlan);
+
+            var plan = activePlan.Plan;
+            var status = activePlan.PlanStatus;
+            var pendingPlan;
+
+            if(pendingPlans.length > 0) {
+                pendingPlan = {
+                    plan: pendingPlans[0].Plan,
+                    status: pendingPlans[0].PlanStatus
+                };
+	    }
+
             console.log("User plan is " + plan);
-            fn(null, plan, status);
+            fn(null, plan, status, pendingPlan);
         }
     });
+}
+
+function activePlan(plan) {
+    return plan.PlanStatus == "Active";
+}
+
+function pendingPlan(plan) {
+    return plan.PlanStatus == "Pending";
 }

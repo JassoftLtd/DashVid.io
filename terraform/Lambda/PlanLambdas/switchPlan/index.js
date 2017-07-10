@@ -45,7 +45,7 @@ exports.handler = function(event, context) {
             console.log("Pending plan found for user");
 
             if(pendingPlan === switchToPlan) {
-                conosle.log("User is already pending switch to this plan");
+                console.log("User is already pending switch to this plan");
                 successfulResponse(context, pendingPlan, pendingStatus);
             }
 

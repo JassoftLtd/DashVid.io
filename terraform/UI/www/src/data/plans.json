@@ -5,7 +5,11 @@
     "price": {
       "GBP": "0"
     },
-    "retentionDays":7
+    "features": [
+      "7 Days Retention of original video",
+      "Free transcoding into web and mobile friendly sizes",
+      "Transcoded videos kept forever"
+    ]
   },
   {
     "id":"standard",
@@ -13,6 +17,9 @@
     "price": {
       "GBP": "10"
     },
-    "retentionDays":30
+    "features": [
+      "All the features of the Free plan",
+      "30 Days Retention of original video"
+    ]
   }
 ]

@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router';
 import {Card, CardActions, CardTitle, CardText} from 'material-ui/Card';
 import RaisedButton from 'material-ui/RaisedButton';
 import PropTypes from 'prop-types';
@@ -13,18 +12,39 @@ const style = {
 
 export default class Plan extends Component {
 
+    handlePlanSelect (id) {
+        this.props.planSelected(id)
+    }
+
     render() {
-        const {id, name, price, daysRetention} = this.props;
+        const {id, name, price, features, currentPlan} = this.props;
+
+        let action = (
+            <RaisedButton data-qa={"plans-btn-" + id} label="Select Plan" onClick={() => this.handlePlanSelect(id)}  />
+        );
+
+        if (currentPlan) {
+            action = (
+                <span>Current Plan</span>
+            )
+        }
+
+        let priceDisplay = price > 0 ? "£" + price + " Per Month" : 'Free'
+
+        let featuresDisplay = features.map(function (feature, i) {
+            return (<li key={i}>{feature}</li>)
+        })
+
         return (
             <Card style={style.card}>
-                <CardTitle title={name} subtitle={price}/>
+                <CardTitle title={name} subtitle={priceDisplay}/>
                 <CardText>
                     <ul>
-                        <li>{daysRetention} Days Retention of original video</li>
+                        {featuresDisplay}
                     </ul>
                 </CardText>
                 <CardActions>
-                    <Link to={"/signup/" + id}><RaisedButton data-qa={"plans-btn-" + id} label="Signup" /></Link>
+                    {action}
                 </CardActions>
             </Card>
         )
@@ -32,8 +52,10 @@ export default class Plan extends Component {
 }
 
 Plan.propTypes = {
+  planSelected: PropTypes.func.isRequired,
   id: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   price: PropTypes.string.isRequired,
-  daysRetention: PropTypes.number.isRequired,
+  features: PropTypes.array.isRequired,
+  currentPlan: PropTypes.bool.isRequired,
 };

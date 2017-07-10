@@ -4,12 +4,12 @@ import './Video.css';
 
 // Import custom components
 import Home from './Home.js'
-import Account from './Account/Account.js'
 import Verify from './Account/Verify.js'
 import Reset from './Account/Reset.js'
 import AddCard from './Subscription/AddCard.js'
 import Nav from './components/page/Nav.js'
 
+import AccountPage from './pages/AccountPage.js'
 import LoginPage from './pages/LoginPage.js'
 import SignupPage from './pages/SignupPage.js'
 import VideoPage from './pages/VideoPage.js'
@@ -52,7 +52,6 @@ class App extends Component {
         else {
             window.location.href = '/video';
         }
-
     }
 
     render() {
@@ -62,7 +61,7 @@ class App extends Component {
                     <Route path="/" component={PageWrapper} loggedIn={this.state.loggedIn} logIn={() => {this.onAuthStateChange(true)}} logOut={() => {this.onAuthStateChange(false)}} >
                         <IndexRoute component={Home} />
                         <Route path="video" component={VideoPage} />
-                        <Route path="account" component={Account} />
+                        <Route path="account" component={AccountPage} plan={this.state.plan} />
                         <Route path="login" component={LoginPage} loggedIn={() => {this.onAuthStateChange(true)}} />
                         <Route path="signup/:plan" component={SignupPage} />
                         <Route path="verify" component={Verify} />
