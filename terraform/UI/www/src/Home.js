@@ -36,6 +36,10 @@ const style = {
 
 class Home extends Component {
 
+    handlePlanSelect(id) {
+        this.props.router.push('/signup/' + id);
+    }
+
     render() {
         return (
             <div className="Home">
@@ -48,7 +52,7 @@ class Home extends Component {
                 <h1>
                     DashVid.io - Cloud storage for your Dashcam footage.
                 </h1>
-                <Plans/>
+                <Plans planSelected={(id) => this.handlePlanSelect(id)}/>
                 <div>
                     <div className="feature-box">
                         <div style={style.feature} >

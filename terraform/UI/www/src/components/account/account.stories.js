@@ -7,6 +7,7 @@ import {muiTheme} from 'storybook-addon-material-ui';
 
 import Login from './Login';
 import Signup from './Signup';
+import ChangePassword from './ChangePassword';
 
 const stories = storiesOf('Button', module);
 
@@ -20,3 +21,7 @@ storiesOf('Signup', module)
     .addDecorator(muiTheme())
     .add('free', () => <Signup signup={ action('Signup') } plan={'free'} />)
     .add('standard', () => <Signup signup={ action('Signup') } plan={'standard'} />);
+
+storiesOf('Change Password', module)
+    .addDecorator(muiTheme())
+    .add('form', () => <ChangePassword changePassword={ action('Change Password') } />)

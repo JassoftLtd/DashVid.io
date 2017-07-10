@@ -51,5 +51,5 @@ export default class Nav extends Component {
 
 Nav.propTypes = {
     loggedIn: PropTypes.bool.isRequired,
-    logOut: PropTypes.func.isRequired,
+    logOut: PropTypes.func.isRequired
 }
