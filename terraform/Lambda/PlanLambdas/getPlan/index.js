@@ -63,8 +63,8 @@ function getUserPlan(email, fn) {
                 fn('User had multiple active Subscriptions', null); // User not found
             }
 
-            var activePlan = data.Items[0].filter(activePlan)[0];
-            var pendingPlans = data.Items[0].filter(pendingPlan);
+            var activePlan = data.Items.filter(activePlan)[0];
+            var pendingPlans = data.Items.filter(pendingPlan);
 
             var plan = activePlan.Plan;
             var status = activePlan.PlanStatus;
