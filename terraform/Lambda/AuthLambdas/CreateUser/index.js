@@ -98,18 +98,14 @@ function storeUser(email, hash, salt, fn) {
 
 function storePlan(email, plan, token, fn) {
 
-	// TODO, if not free plan, insert active free plan and pending plan of choice
-
-	planStatus = plan == "free" ? "Active" : "Pending";
-
     console.log('Storing Plan: ' + plan);
 
 	dynamodb.put({
 		TableName: process.env.subscriptions_db_table,
 		Item: {
 			User: email,
-			Plan: plan,
-            PlanStatus: planStatus,
+			Plan: "free",
+            PlanStatus: "Active",
             SubscriptionTime: new Date().getTime()
 		},
 		ConditionExpression: 'attribute_not_exists (email)'
@@ -118,7 +114,40 @@ function storePlan(email, plan, token, fn) {
             responseError.body = new Error('Error storing plan: ' + err);
             context.fail(responseError);
 		}
-		else fn(email, token);
+		else {
+			// If plan is free then carry on
+			if(plan == "free") {
+                fn(email, token);
+            }
+            else {
+			//	If plan isn't free then add it as pending
+				storePaidPlan(email, plan, token, fn);
+			}
+        }
+	});
+}
+
+function storePaidPlan(email, plan, token, fn) {
+
+    console.log('Storing Plan: ' + plan);
+
+	dynamodb.put({
+		TableName: process.env.subscriptions_db_table,
+		Item: {
+			User: email,
+			Plan: plan,
+            PlanStatus: "Pending",
+            SubscriptionTime: new Date().getTime()
+		},
+		ConditionExpression: 'attribute_not_exists (email)'
+	}, function(err, data) {
+		if (err) {
+            responseError.body = new Error('Error storing plan: ' + err);
+            context.fail(responseError);
+		}
+		else {
+			fn(email, token);
+        }
 	});
 }
 
