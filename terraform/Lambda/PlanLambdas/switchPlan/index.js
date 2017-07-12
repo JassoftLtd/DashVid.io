@@ -109,8 +109,7 @@ function updateUserPlan(context, email, plan, status) {
             Plan: plan,
             PlanStatus: status,
             SubscriptionTime: new Date().getTime()
-        },
-        ConditionExpression: 'attribute_not_exists (email)'
+        }
     }, function(err, data) {
         if (err) {
             responseError.body = new Error('Error storing plan: ' + err);
