@@ -35,6 +35,13 @@ exports.handler = function(event, context) {
     });
 };
 
+function activePlanFilter(plan) {
+    return plan.PlanStatus == "Active";
+}
+
+function pendingPlanFilter(plan) {
+    return plan.PlanStatus == "Pending";
+}
 
 function getUserPlan(email, fn) {
     console.log('Getting plan for user: ' + email);
@@ -63,8 +70,8 @@ function getUserPlan(email, fn) {
                 fn('User had multiple active Subscriptions', null); // User not found
             }
 
-            var activePlan = data.Items.filter(activePlan)[0];
-            var pendingPlans = data.Items.filter(pendingPlan);
+            var activePlan = data.Items.filter(activePlanFilter)[0];
+            var pendingPlans = data.Items.filter(pendingPlanFilter);
 
             var plan = activePlan.Plan;
             var status = activePlan.PlanStatus;
@@ -81,12 +88,4 @@ function getUserPlan(email, fn) {
             fn(null, plan, status, pendingPlan);
         }
     });
-}
-
-function activePlan(plan) {
-    return plan.PlanStatus == "Active";
-}
-
-function pendingPlan(plan) {
-    return plan.PlanStatus == "Pending";
 }
