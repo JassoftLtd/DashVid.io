@@ -93,8 +93,10 @@ describe('Subscription', function () {
                             return planHelper.getPlan(user)
                                 .then(function (result) {
                                     assert(result.data.plan);
-                                    assert.equal(result.data.plan, "standard");
-                                    assert.equal(result.data.status, "Pending");
+                                    assert.equal(result.data.plan, "free");
+                                    assert.equal(result.data.status, "Active");
+                                    assert.equal(result.data.pendingPlan.plan, "standard");
+                                    assert.equal(result.data.pendingPlan.status, "Pending");
                                 });
                         })
                 });
@@ -109,8 +111,10 @@ describe('Subscription', function () {
                             return planHelper.getPlan(user)
                                 .then(function (result) {
                                     assert(result.data.plan);
-                                    assert.equal(result.data.plan, "standard");
-                                    assert.equal(result.data.status, "Pending");
+                                    assert.equal(result.data.plan, "free");
+                                    assert.equal(result.data.status, "Active");
+                                    assert.equal(result.data.pendingPlan.plan, "standard");
+                                    assert.equal(result.data.pendingPlan.status, "Pending");
 
                                     // Now cancel the upgrade
                                 });
