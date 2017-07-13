@@ -104,7 +104,7 @@ function handleInvoicePaymentSucceeded(context, payload) {
                 "#planStatus":"PlanStatus",
             },
             ExpressionAttributeValues: {
-                ":user":customer,
+                ":user":user,
                 ":statusPending":"Pending"
             },
             TableName: "Subscriptions"
@@ -135,7 +135,7 @@ function handleInvoicePaymentSucceeded(context, payload) {
                             dynamodb.put({
                                 TableName: "Subscriptions",
                                 Item: {
-                                    User: customer,
+                                    User: user,
                                     Plan: plan,
                                     PlanStatus: "Active",
                                     SubscriptionTime: new Date().getTime()

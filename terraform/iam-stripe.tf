@@ -38,7 +38,8 @@ data "aws_iam_policy_document" "IamForStripeWebhookLambda" {
     "effect" = "Allow"
 
     "actions" = [
-      "dynamodb:UpdateItem",
+      "dynamodb:Query",
+      "dynamodb:DeleteItem",
       "dynamodb:PutItem",
     ]
 
