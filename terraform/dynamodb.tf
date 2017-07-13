@@ -62,10 +62,16 @@ resource "aws_dynamodb_table" "subscriptions-table" {
   read_capacity  = "${var.subscriptions_table_read_capacity}"
   write_capacity = "${var.subscriptions_table_write_capacity}"
   hash_key       = "User"
+  range_key      = "SubscriptionTime"
 
   attribute {
     name = "User"
     type = "S"
+  }
+
+  attribute {
+    name = "SubscriptionTime"
+    type = "N"
   }
 }
 
