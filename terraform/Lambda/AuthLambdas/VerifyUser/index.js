@@ -62,6 +62,14 @@ function updateUser(event, email, fn) {
 		fn);
 }
 
+function activePlanFilter(plan) {
+    return plan.PlanStatus == "Active";
+}
+
+function pendingPlanFilter(plan) {
+    return plan.PlanStatus == "Pending";
+}
+
 function getUserPlanAndStatus(email, fn) {
     console.log('Getting plan for user: ' + email);
 
@@ -80,15 +88,22 @@ function getUserPlanAndStatus(email, fn) {
             fn('User not found', null, null);
         }
         else {
-            if(data.Count > 1) {
-                console.error("User had multiple pending Subscriptions: " + JSON.stringify(data));
-                fn('User had multiple pending Subscriptions', null, null); // User not found
+            var activePlan = data.Items.filter(activePlanFilter)[0];
+            var pendingPlans = data.Items.filter(pendingPlanFilter);
+
+            var plan = activePlan.Plan;
+            var status = activePlan.PlanStatus;
+            var pendingPlan;
+
+            if(pendingPlans.length > 0) {
+                pendingPlan = {
+                    plan: pendingPlans[0].Plan,
+                    status: pendingPlans[0].PlanStatus
+                };
             }
 
-            var plan = data.Items[0].Plan;
-            var status = data.Items[0].PlanStatus;
             console.log("User plan is " + plan);
-            fn(null, plan, status);
+            fn(null, plan, status, pendingPlan);
         }
     });
 }
@@ -119,7 +134,7 @@ exports.handler = function(event, context) {
 					responseError.body = new Error('Error in updateUser: ' + err);
 					context.fail(responseError);
 				} else {
-					getUserPlanAndStatus(email, function (err, plan, status) {
+					getUserPlanAndStatus(email, function (err, plan, status, pendingPlan) {
                         if (err) {
                             responseError.body = new Error('Error in getting user plan: ' + err);
                             context.fail(responseError);
@@ -128,8 +143,9 @@ exports.handler = function(event, context) {
                             console.log('User verified: ' + email);
                             responseSuccess.body = JSON.stringify({
                                 verified: true,
-								plan: plan,
-								status: status
+                                plan: plan,
+                                status: status,
+                                pendingPlan: pendingPlan
                             });
                             console.log("response: " + JSON.stringify(responseSuccess));
                             context.succeed(responseSuccess);
