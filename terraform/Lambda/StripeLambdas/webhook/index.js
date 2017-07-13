@@ -95,48 +95,80 @@ function handleInvoicePaymentSucceeded(context, payload) {
 
     getUserByStripeCustomerId(context, customer, function (user) {
 
-        // TODO: Only update if plan is Pending
-
-        dynamodb.update({
-            TableName: "Subscriptions",
-            Key: {
-                "User": user
-            },
-            ConditionExpression: '#plan = :plan AND #planStatus = :statusPending',
+        //Get Pending
+        dynamodb.query({
+            KeyConditionExpression:"#user = :user",
+            FilterExpression: '#planStatus = :statusPending',
             ExpressionAttributeNames: {
-                "#plan": "Plan",
-                "#planStatus": "PlanStatus",
+                "#user":"User",
+                "#planStatus":"PlanStatus",
             },
-            UpdateExpression: "set #planStatus = :statusActive",
             ExpressionAttributeValues: {
-                ":statusPending": "Pending",
-                ":statusActive": "Active",
-                ":plan": plan
+                ":user":customer,
+                ":statusPending":"Pending"
             },
-            ReturnValues: "UPDATED_NEW"
-        }, function (err, data) {
+            TableName: "Subscriptions"
+        }, function(err, data) {
             if (err) {
-                console.error("Unable to update subscription. Error JSON:", JSON.stringify(err, null, 2));
-                context.fail();
-                return;
-            } else {
+                console.error("Error finding Pending plan: " + JSON.stringify(err));
+                context.fail("Error finding Pending plan");
+            }
+            else {
+                if (data.Items.length > 0) {
+                    let pendingSubscription = data.Items[0];
 
-                console.log("Updated plan to Active");
+                    //Delete Pending
+                    dynamodb.delete({
+                        TableName : 'Subscriptions',
+                        Key: {
+                            "User": pendingSubscription.User,
+                            "SubscriptionTime": pendingSubscription.SubscriptionTime,
+                        }
+                    }, function (err, data) {
+                        if (err) {
+                            console.error("Error deleting Pending plan: " + JSON.stringify(err));
+                            context.fail("Error deleting Pending plan");
+                        }
+                        else {
+                            //Put Active
 
-                var response = {
-                    statusCode: 200,
-                    headers: {
-                        'Access-Control-Allow-Origin': '*'
-                    },
-                    body: JSON.stringify({
-                        message: "Updated plan to Active"
-                    })
-                };
-                console.log("response: " + JSON.stringify(response));
-                context.succeed(response);
+                            dynamodb.put({
+                                TableName: "Subscriptions",
+                                Item: {
+                                    User: customer,
+                                    Plan: plan,
+                                    PlanStatus: "Active",
+                                    SubscriptionTime: new Date().getTime()
+                                }
+                            }, function(err, data) {
+                                if (err) {
+                                    responseError.body = new Error('Error storing Active plan: ' + err);
+                                    context.fail("Error storing Active plan");
+                                }
+                                else {
+                                    console.log("Updated plan to Active", plan);
 
+                                    var response = {
+                                        statusCode: 200,
+                                        headers: {
+                                            'Access-Control-Allow-Origin': '*'
+                                        },
+                                        body: JSON.stringify({
+                                            message: "Updated plan to Active"
+                                        })
+                                    };
+                                    console.log("response: " + JSON.stringify(response));
+                                    context.succeed(response);
+                                }
+                            });
+
+                        }
+
+                    });
+                }
             }
         });
+
     });
 }
 
