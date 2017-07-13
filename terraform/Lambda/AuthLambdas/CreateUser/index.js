@@ -98,7 +98,7 @@ function storeUser(email, hash, salt, fn) {
 
 function storePlan(email, plan, token, fn) {
 
-    console.log('Storing Plan: ' + plan);
+    console.log('Storing Plan: Free');
 
 	dynamodb.put({
 		TableName: process.env.subscriptions_db_table,
@@ -107,8 +107,7 @@ function storePlan(email, plan, token, fn) {
 			Plan: "free",
             PlanStatus: "Active",
             SubscriptionTime: new Date().getTime()
-		},
-		ConditionExpression: 'attribute_not_exists (email)'
+		}
 	}, function(err, data) {
 		if (err) {
             responseError.body = new Error('Error storing plan: ' + err);
@@ -138,8 +137,7 @@ function storePaidPlan(email, plan, token, fn) {
 			Plan: plan,
             PlanStatus: "Pending",
             SubscriptionTime: new Date().getTime()
-		},
-		ConditionExpression: 'attribute_not_exists (email)'
+		}
 	}, function(err, data) {
 		if (err) {
             responseError.body = new Error('Error storing plan: ' + err);

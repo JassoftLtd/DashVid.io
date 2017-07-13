@@ -65,13 +65,12 @@ function getUserPlan(email, fn) {
             fn('User not found', null);
         }
         else {
-            if(data.Count > 1) {
-                console.error("User had multiple active Subscriptions: " + JSON.stringify(data));
-                fn('User had multiple active Subscriptions', null); // User not found
-            }
 
             var activePlan = data.Items.filter(activePlanFilter)[0];
             var pendingPlans = data.Items.filter(pendingPlanFilter);
+
+            console.log("activePlan", activePlan);
+            console.log("pendingPlans", pendingPlans);
 
             var plan = activePlan.Plan;
             var status = activePlan.PlanStatus;
