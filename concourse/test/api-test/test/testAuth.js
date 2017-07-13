@@ -60,8 +60,10 @@ describe('Auth', function () {
                             return authHelper.verify(email, token)
                                 .then(function (result) {
                                     assert.equal(result.data.verified, true);
-                                    assert.equal(result.data.plan, "standard");
-                                    assert.equal(result.data.status, "Pending");
+                                    assert.equal(result.data.plan, "free");
+                                    assert.equal(result.data.status, "Active");
+                                    assert.equal(result.data.pendingPlan.plan, "standard");
+                                    assert.equal(result.data.pendingPlan.status, "Pending");
                                 });
                         });
                 });
