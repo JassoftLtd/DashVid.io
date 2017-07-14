@@ -73,6 +73,7 @@ function getUserPlan(context, email, status, found, notFound) {
             ":user":email,
             ":status":status
         },
+        ScanIndexForward: false,
         TableName: process.env.subscriptions_db_table,
     }, function(err, data) {
         if (err) {

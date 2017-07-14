@@ -81,7 +81,8 @@ function getUserPlanAndStatus(email, fn) {
         ExpressionAttributeValues: {
             ":user":email,
         },
-        "TableName": "Subscriptions"
+        ScanIndexForward: false,
+        TableName: "Subscriptions"
     }, function(err, data) {
         if (err) {
             console.error("User Plan Error: " + JSON.stringify(err));

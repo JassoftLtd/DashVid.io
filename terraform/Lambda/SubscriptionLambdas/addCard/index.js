@@ -154,7 +154,8 @@ function getUserPendingPlan(email, fn) {
             ":user":email,
             ":statusPending":"Pending"
         },
-        "TableName": "Subscriptions"
+        ScanIndexForward: false,
+        TableName: "Subscriptions"
     }, function(err, data) {
         if (err) {
             console.error("User not found: " + JSON.stringify(err));

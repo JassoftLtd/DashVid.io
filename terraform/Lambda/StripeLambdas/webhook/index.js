@@ -57,7 +57,7 @@ function getUserByStripeCustomerId(context, stripeCustomer, fn) {
         ExpressionAttributeValues: {
             ":stripeCustomer": stripeCustomer
         },
-        "TableName": "Users"
+        TableName: "Users"
     }, function (err, data) {
         if (err) {
             console.error("User not found for Stripe Customer", stripeCustomer, err);
@@ -107,6 +107,7 @@ function handleInvoicePaymentSucceeded(context, payload) {
                 ":user":user,
                 ":statusPending":"Pending"
             },
+            ScanIndexForward: false,
             TableName: "Subscriptions"
         }, function(err, data) {
             if (err) {
