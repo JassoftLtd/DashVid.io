@@ -24,7 +24,7 @@ exports.handler = function(event, context) {
 		ExpressionAttributeValues: {
 			":user":currentUser
 		},
-		"TableName": "Videos"
+		TableName: "Videos"
 	}, function(err, data) {
 		if (err) {
             return context.fail(err);

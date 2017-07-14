@@ -33,7 +33,7 @@ function getUserByCameraKey(context, cameraKey, fn) {
         ExpressionAttributeValues: {
             ":cameraKey": cameraKey
         },
-        "TableName": "Cameras"
+        TableName: "Cameras"
     }, function (err, data) {
         if (err) {
             console.error("Camera not found for key: " + cameraKey + " Error: " + err);

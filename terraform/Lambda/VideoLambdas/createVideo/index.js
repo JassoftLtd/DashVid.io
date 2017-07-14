@@ -72,7 +72,7 @@ function getUserPlan(context, email, fn) {
             ":user": email,
             ":status": "Active"
         },
-        "TableName": "Subscriptions"
+        TableName: "Subscriptions"
     }, function (err, data) {
         if (err) {
             console.error("User not found: " + JSON.stringify(err));
@@ -106,7 +106,7 @@ function getCameraId(context, email, cameraKey, fn) {
             ":user": email,
             ":cameraKey": cameraKey
         },
-        "TableName": "Cameras"
+        TableName: "Cameras"
     }, function (err, data) {
         if (err) {
             console.error("Camera not found for User: " + email + " Error: " + err);
