@@ -148,6 +148,7 @@ jobs:
   plan:
   - get: source-code
     passed: [api-tests, ui-tests]
+    trigger: true
   - task: Production Deploy
     file: source-code/concourse/build-api.yml
     params:
