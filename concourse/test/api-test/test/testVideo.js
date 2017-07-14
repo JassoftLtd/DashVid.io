@@ -48,7 +48,7 @@ describe('Video', function () {
 
         it('Given I have a verified paid account, When I request to upload a video, Then I should be given the URL to upload it to in the paid bucket', function () {
             let plan = "standard";
-           return userHelper.getLoggedInUserOnPaidPlan(plan)
+            return userHelper.getLoggedInUserOnPaidPlan(plan)
                 .then(function (user) {
 
                     return cameraHelper.getCameras(user)

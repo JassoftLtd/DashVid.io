@@ -72,6 +72,7 @@ function getUserPlan(context, email, fn) {
             ":user": email,
             ":status": "Active"
         },
+        ScanIndexForward: false,
         TableName: "Subscriptions"
     }, function (err, data) {
         if (err) {
@@ -79,11 +80,6 @@ function getUserPlan(context, email, fn) {
             context.fail();
         }
         else {
-            if (data.Count > 1) {
-                console.error("User had multiple active Subscriptions: " + JSON.stringify(data));
-                context.fail();
-            }
-
             var plan = data.Items[0].Plan;
             console.log("User plan is " + plan);
             fn(plan);
