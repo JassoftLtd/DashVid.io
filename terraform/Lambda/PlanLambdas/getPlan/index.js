@@ -67,6 +67,8 @@ function getUserPlan(email, fn) {
         }
         else {
 
+            console.log("Plans", data.Items);
+
             var activePlan = data.Items.filter(activePlanFilter)[0];
             var pendingPlans = data.Items.filter(pendingPlanFilter);
 
