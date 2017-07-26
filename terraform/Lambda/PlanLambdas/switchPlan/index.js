@@ -54,6 +54,7 @@ exports.handler = function(event, context) {
 
         }, function () { // Pending Plan Not Found
             console.log("No Active or Pending plan found for User", email);
+            setNewPlan(context, email, switchToPlan);
         });
     });
 
