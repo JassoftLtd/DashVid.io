@@ -1,5 +1,5 @@
 # Created by .ignore support plugin (hsz.mobi)
-secrets.yml
+*secrets.yml
 
 terraform/UI/www/build
 s3_dashvid-io.tf

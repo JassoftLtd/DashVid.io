@@ -89,7 +89,7 @@ export default class Login extends Component {
 
         return (
             <Card style={style.card}>
-                <CardTitle title="Login" subtitle={message} />
+                <CardTitle title="Login" subtitle={message} data-qa="login-form-message" />
                 <form onSubmit={this.handleSubmit.bind(this)}>
                     <CardText>
                         <TextField
@@ -99,6 +99,7 @@ export default class Login extends Component {
                             errorText={this.state.emailError}
                             value={this.state.email}
                             onChange={this.handleChangeEmail.bind(this)}
+                            data-qa="login-field-email"
                         />
                         <br />
                         <TextField
@@ -108,15 +109,19 @@ export default class Login extends Component {
                             errorText={this.state.passwordError}
                             value={this.state.password}
                             onChange={this.handleChangePassword.bind(this)}
+                            data-qa="login-field-password"
                         />
                     </CardText>
                     <CardActions>
-                        <RaisedButton type="submit" label="Login" primary={true} />
-                        <RaisedButton label="Forgotten Password" onClick={this.handleLostPassword.bind(this)} />
+                        <RaisedButton type="submit" label="Login" primary={true}
+                                      data-qa="login-btn-login" />
+                        <RaisedButton label="Forgotten Password" onClick={this.handleLostPassword.bind(this)}
+                                      data-qa="login-btn-forgotten-password" />
                     </CardActions>
                     <CardActions>
                         <Link to="/signup/free">
-                            <RaisedButton label="Register" secondary={true}/>
+                            <RaisedButton label="Register" secondary={true}
+                                          data-qa="login-btn-register" />
                         </Link>
                     </CardActions>
                 </form>

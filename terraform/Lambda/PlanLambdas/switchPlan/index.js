@@ -87,11 +87,6 @@ function getUserPlan(context, email, status, found, notFound) {
                 return;
             }
 
-            if(data.Count > 1) {
-                console.error("User has multiple active Subscriptions: " + JSON.stringify(data));
-                context.fail('User has multiple active Subscriptions');
-            }
-
             console.log("Items", JSON.stringify(data.Items));
 
             var plan = data.Items[0].Plan;

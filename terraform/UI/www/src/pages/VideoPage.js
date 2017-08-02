@@ -139,7 +139,7 @@ export default class VideoPage extends Component {
 
     render() {
         return (
-            <div className="App">
+            <div className="App" data-qa="video-page">
                 <VideoPlayer videoUrl={this.state.videoToPlayUrl}/>
                 <VideosByDay videosByDate={this.state.videos} playVideo={(videoId) => this.onPlayVideo(videoId)} shareVideo={(videoId) => this.onShareVideo(videoId)} />
                 <VideoAdd videoAddedCallback={(videoId) => this.onVideosModified(videoId)}/>

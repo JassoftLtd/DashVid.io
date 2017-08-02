@@ -46,8 +46,8 @@ resource "aws_cloudwatch_metric_alarm" "dynamodb-videos-UserVideosByDay-consumed
   statistic           = "Maximum"
   threshold           = "${aws_dynamodb_table.videos-table.read_capacity}"
   treat_missing_data  = "notBreaching"
-  alarm_description   = "DynamoDB table ${aws_dynamodb_table.videos-table.name} GSI UserVideosByDay is consuming 100% of its provisioned read capacity"
-  alarm_actions       = ["${aws_sns_topic.slack_alert.arn}"]
+//  alarm_description   = "DynamoDB table ${aws_dynamodb_table.videos-table.name} GSI UserVideosByDay is consuming 100% of its provisioned read capacity"
+//  alarm_actions       = ["${aws_sns_topic.slack_alert.arn}"]
 
   dimensions {
     TableName                = "${aws_dynamodb_table.videos-table.name}"
