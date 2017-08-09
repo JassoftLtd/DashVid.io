@@ -6,7 +6,6 @@ import './Video.css';
 import Home from './Home.js'
 import Verify from './Account/Verify.js'
 import Reset from './Account/Reset.js'
-import AddCard from './Subscription/AddCard.js'
 import Nav from './components/page/Nav.js'
 
 import AccountPage from './pages/AccountPage.js'
@@ -14,6 +13,7 @@ import LoginPage from './pages/LoginPage.js'
 import SignupPage from './pages/SignupPage.js'
 import VideoPage from './pages/VideoPage.js'
 import SharePage from './pages/SharePage.js'
+import AddCardPage from './pages/AddCardPage.js'
 import PrivacyPolicyPage from './pages/PrivacyPolicyPage.js'
 import TermsAndConditionsPage from './pages/TermsAndConditionsPage.js'
 import AcceptableUsePolicyPage from './pages/AcceptableUsePolicyPage.js'
@@ -71,9 +71,7 @@ class App extends Component {
                         <Route path="terms-and-conditions" component={TermsAndConditionsPage} />
                         <Route path="acceptable-use-policy" component={AcceptableUsePolicyPage} />
                         <Route path="cookies-policy" component={CookiesPolicyPage} />
-                    </Route>
-                    <Route path="subscription" >
-                        <Route path="addCard" component={AddCard} />
+                        <Route path="subscription/addCard" component={AddCardPage} />
                     </Route>
                 </Router>
             </MuiThemeProvider>

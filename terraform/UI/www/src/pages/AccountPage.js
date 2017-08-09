@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import { Link } from 'react-router';
 
 import ChangePassword from '../components/account/ChangePassword.js'
 import Plans from '../components/plan/Plans.js'
@@ -112,14 +113,13 @@ export default class AccountPage extends Component {
 
                 apigClient.invokeApi(params, pathTemplate, method, additionalParams, body)
                     .then(function (result) {
-                        if (result.data.changed) {
-                            this.setState({
-                                changePlanMessage: 'Plan Updated',
-                            });
-                        } else {
-                            this.setState({
-                                changePlanMessage: 'Failed to change plan'
-                            });
+                        if (result.data.plan === id) {
+                            if(result.data.status === 'Pending') {
+                                this.props.router.push('/subscription/addCard');
+                            }
+                            if(result.data.status === 'Active') {
+                                this.loadCurrentPlan()
+                            }
                         }
                     }.bind(this)).catch(function (result) {
                     //This is where you would put an error callback
@@ -128,11 +128,23 @@ export default class AccountPage extends Component {
             }.bind(this));
     }
 
+    renderPlanOutput() {
+        if(!this.state.plan) {
+            return
+        }
+
+        if (this.state.plan.pendingPlan) {
+            return <p data-qa="account-current-plan">{this.state.plan.pendingPlan.status} Plan: {this.state.plan.pendingPlan.plan} - <Link to="/subscription/addCard">Add Card Details</Link></p>
+        }
+
+        return <p data-qa="account-current-plan">Current Plan: {this.state.plan.plan}</p>
+    }
+
     render() {
-        let currentPlan = this.state.plan ? this.state.plan.plan : "...."
+        let currentPlan = this.renderPlanOutput()
         return (
-            <div style={style.account}>
-                <p>Current Plan: {currentPlan}</p>
+            <div style={style.account} data-qa="account-page">
+                {currentPlan}
                 <ChangePassword changePassword={this.handleChangePassword.bind(this)} message={this.state.changePasswordMessage}/>
                 <br />
                 <Plans planSelected={(id) => this.handlePlanChange(id)} />
