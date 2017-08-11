@@ -48,13 +48,7 @@
 
         // Track basic JavaScript errors
         window.addEventListener('error', function(e) {
-            _gaq.push([
-                '_trackEvent',
-                'JavaScript Error',
-                e.message,
-                e.filename + ':  ' + e.lineno,
-                true
-            ]);
+            ga('send', 'event', 'UI', 'JavaScript Error', e.filename + ':  ' + e.lineno, e.message);
         });
 
     </script>
