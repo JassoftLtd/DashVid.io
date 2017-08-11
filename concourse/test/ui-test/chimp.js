@@ -18,6 +18,7 @@ let sauceLabsConfig = {
 }
 
 if(process.env.DASHVID_UI_ADDRESS) {
+    console.log("Testing with Sauce Labs")
     config = Object.assign(config, sauceLabsConfig);
 }
 
