@@ -46,6 +46,17 @@
         ga('create', '%REACT_APP_GA_TRACKING_CODE%', 'auto');
         ga('send', 'pageview');
 
+        // Track basic JavaScript errors
+        window.addEventListener('error', function(e) {
+            _gaq.push([
+                '_trackEvent',
+                'JavaScript Error',
+                e.message,
+                e.filename + ':  ' + e.lineno,
+                true
+            ]);
+        });
+
     </script>
 </head>
 <body>
