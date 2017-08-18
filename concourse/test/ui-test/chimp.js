@@ -2,7 +2,7 @@ let config = {
     name: "Dashvid.io Test UI",
 
     webdriverio: {
-        baseUrl: "http://localhost:3000"
+        baseUrl: process.env.DASHVID_UI_ADDRESS ? process.env.DASHVID_UI_ADDRESS : "http://localhost:3000"
     }
 }
 
@@ -17,7 +17,7 @@ let sauceLabsConfig = {
     }
 }
 
-if(process.env.DASHVID_UI_ADDRESS) {
+if(process.env.SAUCE_USER) {
     console.log("Testing with Sauce Labs")
     config = Object.assign(config, sauceLabsConfig);
 }
