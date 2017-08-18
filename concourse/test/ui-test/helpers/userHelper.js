@@ -53,5 +53,5 @@ exports.getLoggedInUser = function () {
     // Login
     browser.click(Login.loginButton)
 
-    browser.waitForVisible(Video.pageContent, 5000);
+    browser.waitForVisible(Video.pageContent, 10000);
 }

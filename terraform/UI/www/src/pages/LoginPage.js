@@ -7,6 +7,8 @@ const api = require('../utils/api.js');
 
 const jws = require('jws');
 
+var AWS = require('aws-sdk');
+
 const style = {
     login: {
         "display": "inline-block"
@@ -53,11 +55,19 @@ export default class LoginPage extends Component {
 
                 authUtils.createCognitoIdentityCredentials(params)
 
-                this.props.routes[0].logIn()
-                this.props.route.loggedIn();
+                AWS.config.credentials.getPromise()
+                    .catch(function (err) {
+                        console.error(err);
+                        authUtils.clearCredentials()
+                        this.setState({
+                            message: "Login Failed"
+                        });
+                    }.bind(this))
+                    .then(function () {
+                        this.props.routes[0].logIn();
 
-                this.props.router.push('/video');
-
+                        // this.props.router.push('/video');
+                    }.bind(this))
             }
             else {
                 this.setState({
