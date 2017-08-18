@@ -14,6 +14,28 @@ import RaisedButton from 'material-ui/RaisedButton';
 import PropTypes from 'prop-types';
 import Moment from 'moment';
 
+import {
+    ShareButtons,
+    generateShareIcon
+} from 'react-share';
+
+const {
+    FacebookShareButton,
+    GooglePlusShareButton,
+    LinkedinShareButton,
+    TwitterShareButton,
+    TelegramShareButton,
+    WhatsappShareButton,
+} = ShareButtons;
+
+const FacebookIcon = generateShareIcon('facebook');
+const TwitterIcon = generateShareIcon('twitter');
+const TelegramIcon = generateShareIcon('telegram');
+const WhatsappIcon = generateShareIcon('whatsapp');
+const GooglePlusIcon = generateShareIcon('google');
+const LinkedinIcon = generateShareIcon('linkedin');
+
+
 const style = {
     card: {
     },
@@ -177,12 +199,16 @@ export default class VideosDay extends Component {
                     modal={false}
                     open={this.state.showShareVideoDialog}
                     onRequestClose={this.handleShareDialogClose} >
-                    <p>Copy and Paste this link to share your video
-                        <br />
-                        <pre>{this.state.shareLink}</pre>
-                        {/*<br />*/}
-                        {/*Or Share on Social Media*/}
-                    </p>
+                    <p>Copy and Paste this link to share your video</p>
+                    <pre>{this.state.shareLink}</pre>
+                    <div>
+                        <FacebookShareButton url={this.state.shareLink}><FacebookIcon/></FacebookShareButton>
+                        <GooglePlusShareButton url={this.state.shareLink}><GooglePlusIcon/></GooglePlusShareButton>
+                        <LinkedinShareButton url={this.state.shareLink}><LinkedinIcon/></LinkedinShareButton>
+                        <TwitterShareButton url={this.state.shareLink}><TwitterIcon/></TwitterShareButton>
+                        <TelegramShareButton url={this.state.shareLink}><TelegramIcon/></TelegramShareButton>
+                        <WhatsappShareButton url={this.state.shareLink}><WhatsappIcon/></WhatsappShareButton>
+                    </div>
                 </Dialog>
             </Card>
         )
