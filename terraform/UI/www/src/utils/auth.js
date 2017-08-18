@@ -7,14 +7,14 @@ AWS.config.region = window.REACT_APP_AWS_REGION;
 
 var createCognitoIdentityCredentials = function (params) {
 
-    sessionStorage.setItem("CognitoParmas", JSON.stringify(params));
+    localStorage.setItem("CognitoParmas", JSON.stringify(params));
 
     AWS.config.credentials = new AWS.CognitoIdentityCredentials(params);
 }
 
 var reloadCredentials = function () {
 
-    var sessionParams = sessionStorage.getItem("CognitoParmas");
+    var sessionParams = localStorage.getItem("CognitoParmas");
 
     if(!sessionParams) {
         window.location.href = '/';
@@ -26,7 +26,7 @@ var reloadCredentials = function () {
 }
 
 var hasAuth = function () {
-    if(AWS.config.credentials || sessionStorage.getItem("CognitoParmas")) {
+    if(AWS.config.credentials || localStorage.getItem("CognitoParmas")) {
         return true
     }
 
@@ -35,7 +35,7 @@ var hasAuth = function () {
 
 var clearCredentials = function () {
     AWS.config.credentials = null;
-    sessionStorage.clear()
+    localStorage.clear()
 }
 
 var getAuthApiGatewayClient = function () {
