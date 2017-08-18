@@ -6,6 +6,7 @@ import VideoPlayer from '../components/video/VideoPlayer.js'
 import VideoAdd from '../Video.js'
 
 const authUtils = require('../utils/auth.js');
+const promiseRetry = require('promise-retry');
 
 export default class VideoPage extends Component {
 
@@ -26,7 +27,7 @@ export default class VideoPage extends Component {
 
     loadVideos() {
 
-        authUtils.getAuthApiGatewayClient()
+        return authUtils.getAuthApiGatewayClient()
             .then(function (apigClient) {
 
                 var params = {
@@ -41,30 +42,13 @@ export default class VideoPage extends Component {
 
                 apigClient.invokeApi(params, pathTemplate, method, additionalParams, body)
                     .then(function (result) {
-                        // _this.props.reloadedCallback();
 
                         this.setState({
                             videos: result.data,
                             mounted: true
                         });
 
-                        // for (var i = 0; i < result.data.length; i++) {
-                        //     let day = result.data[i]
-                        //     for (var o = 0; o < day.videos.length; o++) {
-                        //         let video = day.videos[o]
-                        //         var index = expectedVideos.indexOf(video.Id);
-                        //
-                        //         if (index > -1) {
-                        //             expectedVideos.splice(index, 1);
-                        //         }
-                        //     }
-                        // }
-                        //
-                        // if(expectedVideos && expectedVideos.length > 0) {
-                        //     setTimeout(function() {
-                        //         this.loadContent(expectedVideos);
-                        //     }, 2000);
-                        // }
+
                     }.bind(this))
                     .catch(function (result) {
                         //This is where you would put an error callback
@@ -78,7 +62,31 @@ export default class VideoPage extends Component {
         this.setState({
             expectedVideos: this.state.expectedVideos.concat([videoId])
         })
-        this.loadVideos();
+
+        promiseRetry(function (retry, number) {
+            return this.loadVideos()
+                .then(function(result) {
+                    for (var i = 0; i < this.state.videos.length; i++) {
+
+                        let day = this.state.videos[i]
+                        for (var o = 0; o < day.videos.length; o++) {
+                            let video = day.videos[o]
+                            var index = this.state.expectedVideos.indexOf(video.Id);
+
+                            if (index > -1) {
+                                this.setState({
+                                    expectedVideos: this.state.expectedVideos.splice(index, 1)
+                                });
+                                return
+                            }
+                        }
+                    }
+
+                    if(this.state.expectedVideos && this.state.expectedVideos.length > 0) {
+                        retry()
+                    }
+                }.bind(this))
+        }.bind(this));
     }
 
     onVideosLoaded() {
