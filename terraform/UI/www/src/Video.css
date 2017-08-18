@@ -31,3 +31,8 @@
   border-style: dashed;
   border-radius: 5px;
 }
+
+div.SocialMediaShareButton {
+  float: left;
+  display: inline-block;
+}
