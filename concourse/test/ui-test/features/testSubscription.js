@@ -36,11 +36,11 @@ describe('Subscription', function () {
             browser.click(AddCard.addCardButton)
 
             // Then
-            browser.waitForVisible(Account.pageContent, 5000);
+            browser.waitForVisible(Account.pageContent, 10000);
 
             browser.waitForVisible(Account.currentPlan, 5000);
 
-            browser.pause(5000)
+            browser.pause(10000)
             browser.url('/account')
 
             browser.waitForVisible(Account.pageContent, 5000);
