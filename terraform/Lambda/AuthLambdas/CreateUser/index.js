@@ -49,7 +49,7 @@ function computeHash(password, salt, fn) {
 	}
 }
 
-function storeUser(email, hash, salt, fn) {
+function storeUser(context, email, hash, salt, fn) {
 
 	// Bytesize
 	var len = 128;
@@ -218,7 +218,7 @@ exports.handler = function(event, context) {
     var plan = payload.plan.toLowerCase();
 
 	computeHash(clearPassword, function(salt, hash) {
-		storeUser(email, hash, salt, function(token) {
+		storeUser(context, email, hash, salt, function(token) {
 			storePlan(email, plan, token, function (email, token) {
 				createCamera(email, function (email) {
 					sendVerificationEmail(email, token, function(err, data) {
