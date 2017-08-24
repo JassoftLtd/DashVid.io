@@ -17,5 +17,5 @@ run:
     ./test.sh
     cd ../
     ./build.sh
-    terraform get
+    terraform init -backend-config="bucket=$TF_VAR_aws_terraform_state_bucket"
     terraform validate
