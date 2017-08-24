@@ -1,6 +1,6 @@
 FROM ubuntu:latest
 
-ENV TERRAFORM_VERSION=0.9.6
+ENV TERRAFORM_VERSION=0.10.2
 
 RUN apt-get update -y && \
     apt-get install -y curl && \
