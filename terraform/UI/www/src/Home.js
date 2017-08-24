@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import Plans from './components/plan/Plans.js'
 
+const ReactGA = require('react-ga');
+
 const style = {
     banner: {
         background: "transparent url('../../../../images/banner.jpg') 0 0 no-repeat local",
@@ -37,6 +39,11 @@ const style = {
 class Home extends Component {
 
     handlePlanSelect(id) {
+        ReactGA.event({
+            category: 'Signup',
+            action: 'Plan Selected',
+            value: id
+        });
         this.props.router.push('/signup/' + id);
     }
 

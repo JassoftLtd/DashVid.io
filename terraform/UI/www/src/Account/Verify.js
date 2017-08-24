@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import { Link } from 'react-router';
-var api = require('../utils/api.js');
+const api = require('../utils/api.js');
+
+const ReactGA = require('react-ga');
 
 class Verify extends Component {
 
@@ -24,6 +26,11 @@ class Verify extends Component {
             };
             return
         }
+
+        ReactGA.event({
+            category: 'Signup',
+            action: 'User Verified'
+        });
 
         const _this = this;
 

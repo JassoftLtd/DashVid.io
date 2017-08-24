@@ -8,6 +8,8 @@ import VideoAdd from '../Video.js'
 const authUtils = require('../utils/auth.js');
 const promiseRetry = require('promise-retry');
 
+const ReactGA = require('react-ga');
+
 export default class VideoPage extends Component {
 
     constructor(props) {
@@ -51,7 +53,10 @@ export default class VideoPage extends Component {
 
                     }.bind(this))
                     .catch(function (result) {
-                        //This is where you would put an error callback
+                        ReactGA.exception({
+                            description: 'Failed to Load Videos',
+                            fatal: true
+                        });
                     });
             }.bind(this));
 
@@ -59,6 +64,12 @@ export default class VideoPage extends Component {
 
 
     onVideosModified(videoId) {
+
+        ReactGA.event({
+            category: 'Video',
+            action: 'Video Added'
+        });
+
         this.setState({
             expectedVideos: this.state.expectedVideos.concat([videoId])
         })
@@ -94,6 +105,12 @@ export default class VideoPage extends Component {
     }
 
     onPlayVideo(videoId) {
+
+        ReactGA.event({
+            category: 'Video',
+            action: 'Video Played'
+        });
+
         this.setState({videoToPlay: videoId})
 
         authUtils.getAuthApiGatewayClient()
@@ -119,12 +136,20 @@ export default class VideoPage extends Component {
                         })
                     }.bind(this))
                     .catch(function (result) {
-                        //This is where you would put an error callback
+                        ReactGA.exception({
+                            description: 'Failed to Play Video',
+                            fatal: true
+                        });
                     });
             }.bind(this));
     }
 
     onShareVideo(videoId) {
+        ReactGA.event({
+            category: 'Video',
+            action: 'Video Shared'
+        });
+
         return authUtils.getAuthApiGatewayClient()
             .then(function (apigClient) {
 

@@ -4,7 +4,9 @@ import { Link } from 'react-router';
 import ChangePassword from '../components/account/ChangePassword.js'
 import Plans from '../components/plan/Plans.js'
 
-var authUtils = require('../utils/auth.js');
+const authUtils = require('../utils/auth.js');
+
+const ReactGA = require('react-ga');
 
 const style = {
     account: {
@@ -48,12 +50,19 @@ export default class AccountPage extends Component {
                             plan: result.data
                         });
                     }.bind(this)).catch(function (result) {
-                    //This is where you would put an error callback
+                        ReactGA.exception({
+                            description: 'Failed to load Plan',
+                        });
                 });
             }.bind(this));
     }
 
     handleChangePassword (oldPassword, password) {
+
+        ReactGA.event({
+            category: 'Account',
+            action: 'Password Changed'
+        });
 
         this.setState({
             changePasswordMessage: 'Loading...',
@@ -87,14 +96,20 @@ export default class AccountPage extends Component {
                             });
                         }
                     }.bind(this)).catch(function (result) {
-                    //This is where you would put an error callback
-                    console.error('failed', result)
+                        ReactGA.exception({
+                            description: 'Failed to Change Password',
+                            fatal: true
+                        });
                 });
             }.bind(this));
     }
 
     handlePlanChange (id) {
-        console.log("Change Plan", id)
+
+        ReactGA.event({
+            category: 'Account',
+            action: 'Change Plan'
+        });
 
         authUtils.getAuthApiGatewayClient()
             .then(function (apigClient) {
@@ -122,8 +137,10 @@ export default class AccountPage extends Component {
                             }
                         }
                     }.bind(this)).catch(function (result) {
-                    //This is where you would put an error callback
-                    console.error('failed', result)
+                        ReactGA.exception({
+                            description: 'Failed to Change Plan',
+                            fatal: true
+                        });
                 });
             }.bind(this));
     }

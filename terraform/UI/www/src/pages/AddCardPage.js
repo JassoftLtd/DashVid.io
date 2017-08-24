@@ -1,6 +1,9 @@
 import React, {Component} from 'react';
 import AddCard from '../components/account/AddCard.js'
+
 const authUtils = require('../utils/auth.js');
+
+const ReactGA = require('react-ga');
 
 const style = {
     addCard: {
@@ -20,6 +23,11 @@ export default class AddCardPage extends Component {
 
     onSubmit(name, number, exp_month, exp_year, cvc) {
 
+        ReactGA.event({
+            category: 'Signup',
+            action: 'Card Added'
+        });
+
         const _this = this
         /* global Stripe:false */
         Stripe.card.createToken({
@@ -34,6 +42,10 @@ export default class AddCardPage extends Component {
                     message: "Adding Card Failed"
                 });
                 console.error('Adding card failed with error: ' + response.error.message);
+                ReactGA.exception({
+                    description: 'Stripe failed to generate card token',
+                    fatal: true
+                });
             } else {
                 const cardToken = response.id;
 
@@ -58,10 +70,13 @@ export default class AddCardPage extends Component {
                                     this.props.router.push('/account');
                                 }
                             }.bind(this)).catch(function (error) {
-                                console.error(error)
-                            this.setState({
-                                message: "Adding Card Failed"
-                            });
+                                this.setState({
+                                    message: "Adding Card Failed"
+                                });
+                                ReactGA.exception({
+                                    description: 'Failed to Add Card',
+                                    fatal: true
+                                });
                             });
                     }.bind(this));
             }
