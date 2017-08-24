@@ -48,6 +48,24 @@ jobs:
     trigger: true
   - task: Test
     file: source-code/concourse/test-code.yml
+    params:
+      TF_VAR_aws_terraform_state_bucket: dashvid-terraform-state-tests
+      TF_VAR_aws_region: us-east-1
+      TF_VAR_environment_name: test-
+      TF_VAR_environment_subdomain: test.
+      TF_VAR_auth_email_from_address: no-reply@test.dashvid.io
+      TF_VAR_bucket_force_destroy: true
+      TF_VAR_aws_access_key: {{aws_access_key}}
+      TF_VAR_aws_secret_key: {{aws_secret_key}}
+      TF_VAR_stripe_api_key: {{stripe_api_key_test}}
+      TF_VAR_aws_identity_pool: {{aws_identity_pool_test}}
+      TF_VAR_dns_zone_id: {{dns_zone_id}}
+      TF_VAR_dns_zone_name: {{dns_zone_name}}
+      TF_VAR_acm_certificate_arn: {{acm_certificate_arn_test}}
+      TF_VAR_api_certificate_arn: {{api_certificate_arn_test}}
+      TF_VAR_slack_webhook_url: {{slack_webhook_url}}
+      AWS_ACCESS_KEY_ID: {{aws_access_key}}
+      AWS_SECRET_ACCESS_KEY: {{aws_secret_key}}
     on_failure:
       put: slack-alert
       params:
@@ -205,6 +223,24 @@ jobs:
 #  Test Lambda funcitons
   - task: Test
     file: pull-request/concourse/test-code.yml
+    params:
+      TF_VAR_aws_terraform_state_bucket: dashvid-terraform-state-tests
+      TF_VAR_aws_region: us-east-1
+      TF_VAR_environment_name: test-
+      TF_VAR_environment_subdomain: test.
+      TF_VAR_auth_email_from_address: no-reply@test.dashvid.io
+      TF_VAR_bucket_force_destroy: true
+      TF_VAR_aws_access_key: {{aws_access_key}}
+      TF_VAR_aws_secret_key: {{aws_secret_key}}
+      TF_VAR_stripe_api_key: {{stripe_api_key_test}}
+      TF_VAR_aws_identity_pool: {{aws_identity_pool_test}}
+      TF_VAR_dns_zone_id: {{dns_zone_id}}
+      TF_VAR_dns_zone_name: {{dns_zone_name}}
+      TF_VAR_acm_certificate_arn: {{acm_certificate_arn_test}}
+      TF_VAR_api_certificate_arn: {{api_certificate_arn_test}}
+      TF_VAR_slack_webhook_url: {{slack_webhook_url}}
+      AWS_ACCESS_KEY_ID: {{aws_access_key}}
+      AWS_SECRET_ACCESS_KEY: {{aws_secret_key}}
     input_mapping: {source-code: pull-request}
     on_success:
       put: pull-request

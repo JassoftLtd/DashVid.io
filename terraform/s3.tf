@@ -16,7 +16,6 @@ resource "aws_s3_bucket" "dash-cam-videos-bucket" {
   lifecycle_rule {
     prefix                                 = ""
     enabled                                = true
-    abort_incomplete_multipart_upload_days = 1
 
     tags {
       "plan"      = "free"
@@ -30,7 +29,6 @@ resource "aws_s3_bucket" "dash-cam-videos-bucket" {
   lifecycle_rule {
     prefix                                 = ""
     enabled                                = true
-    abort_incomplete_multipart_upload_days = 1
 
     tags {
       "plan"      = "standard"
