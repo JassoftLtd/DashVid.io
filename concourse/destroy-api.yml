@@ -15,6 +15,5 @@ run:
   - |
     cd build-source-api/terraform
     terraform init -backend-config="bucket=$TF_VAR_aws_terraform_state_bucket"
-    terraform get
     ls -ltrh .terraform
     terraform destroy -force
