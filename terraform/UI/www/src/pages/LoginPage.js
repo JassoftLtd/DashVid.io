@@ -7,7 +7,9 @@ const api = require('../utils/api.js');
 
 const jws = require('jws');
 
-var AWS = require('aws-sdk');
+const AWS = require('aws-sdk');
+
+const ReactGA = require('react-ga');
 
 const style = {
     login: {
@@ -26,6 +28,11 @@ export default class LoginPage extends Component {
     }
 
     handleLogin (email, password) {
+
+        ReactGA.event({
+            category: 'Login',
+            action: 'User Login'
+        });
 
         fetch(api.getApiAddress() + '/v1/auth/login', {
             method: 'POST',
@@ -77,15 +84,24 @@ export default class LoginPage extends Component {
 
         }.bind(this))
         .catch(function (ex) {
-            console.log('parsing failed', ex)
             this.setState({
                 message: "Login Failed"
-        });
+            });
+            ReactGA.exception({
+                description: 'Failed to Login',
+                fatal: true
+            });
+
         }.bind(this))
 
     }
 
     handleLostPassword (email) {
+
+        ReactGA.event({
+            category: 'Login',
+            action: 'Lost Password'
+        });
 
         fetch(api.getApiAddress() + '/v1/auth/lostPassword', {
             method: 'POST',
@@ -112,9 +128,12 @@ export default class LoginPage extends Component {
             }
 
         }.bind(this)).catch(function (ex) {
-            console.log('parsing failed', ex);
             this.setState({
                 message: "Password Reset Failed"
+            });
+            ReactGA.exception({
+                description: 'Failed to handle Lost Password',
+                fatal: true
             });
         }.bind(this))
 

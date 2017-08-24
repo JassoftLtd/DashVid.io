@@ -4,6 +4,8 @@ import VideoPlayer from '../components/video/VideoPlayer.js'
 
 const api = require('../utils/api.js');
 
+const ReactGA = require('react-ga');
+
 export default class SharePage extends Component {
 
     constructor(props) {
@@ -20,6 +22,11 @@ export default class SharePage extends Component {
 
 
     playVideo() {
+
+        ReactGA.event({
+            category: 'Shared Video',
+            action: 'Play'
+        });
 
         fetch(api.getApiAddress() + '/v1/share/' + this.state.shareId, {
             method: 'GET',

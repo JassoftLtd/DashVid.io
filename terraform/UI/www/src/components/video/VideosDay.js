@@ -89,8 +89,6 @@ export default class VideosDay extends Component {
                 showShareVideoDialog: true,
                 shareLink: shareResult.Link
             });
-
-            console.log("ShareResult", shareResult)
         }.bind(this));
     }
 

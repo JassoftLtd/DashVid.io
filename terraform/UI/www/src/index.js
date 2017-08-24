@@ -26,7 +26,10 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 injectTapEventPlugin();
 
-var authUtils = require('./utils/auth.js');
+const authUtils = require('./utils/auth.js');
+
+const ReactGA = require('react-ga');
+ReactGA.initialize(window.REACT_APP_GA_TRACKING_CODE);
 
 
 class App extends Component {
@@ -54,11 +57,22 @@ class App extends Component {
         }
     }
 
+    logPageView() {
+        ReactGA.set({ page: window.location.pathname });
+        ReactGA.pageview(window.location.pathname);
+    }
+
     render() {
         return (
             <MuiThemeProvider>
                 <Router history={browserHistory}>
-                    <Route path="/" component={PageWrapper} loggedIn={this.state.loggedIn} logIn={() => {this.onAuthStateChange(true)}} logOut={() => {this.onAuthStateChange(false)}} >
+                    <Route path="/"
+                           component={PageWrapper}
+                           loggedIn={this.state.loggedIn}
+                           logIn={() => {this.onAuthStateChange(true)}}
+                           logOut={() => {this.onAuthStateChange(false)}}
+                           onUpdate={this.logPageView}
+                    >
                         <IndexRoute component={Home} />
                         <Route path="video" component={VideoPage} />
                         <Route path="account" component={AccountPage} plan={this.state.plan} />

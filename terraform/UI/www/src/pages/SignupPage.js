@@ -4,6 +4,8 @@ import Signup from '../components/account/Signup.js'
 
 const api = require('../utils/api.js');
 
+const ReactGA = require('react-ga');
+
 const style = {
     signup: {
         "display": "inline-block"
@@ -24,6 +26,11 @@ export default class SignupPage extends Component {
     }
 
     handleSignup (email, password, plan) {
+
+        ReactGA.event({
+            category: 'Signup',
+            action: 'Form Submitted'
+        });
 
         this.setState({
             message: null
@@ -55,9 +62,12 @@ export default class SignupPage extends Component {
             }
 
         }.bind(this)).catch(function (ex) {
-            console.log('parsing failed', ex)
             this.setState({
                 message: "Signup Failed"
+            });
+            ReactGA.exception({
+                description: 'Failed Signup',
+                fatal: true
             });
         }.bind(this))
 
