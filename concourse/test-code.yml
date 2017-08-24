@@ -17,4 +17,5 @@ run:
     ./test.sh
     cd ../
     ./build.sh
+    terraform get
     terraform validate
