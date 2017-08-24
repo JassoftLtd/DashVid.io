@@ -19,9 +19,8 @@ run:
     cd source-code/terraform
     ./build.sh
     cp -R ../../source-code/terraform ../../build-source-api/terraform
-    terraform get
-    terraform validate
     terraform init -backend-config="bucket=$TF_VAR_aws_terraform_state_bucket"
+    terraform validate
     terraform plan
     ls -ltrh .terraform
     terraform apply
