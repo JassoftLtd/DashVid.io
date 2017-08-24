@@ -43,8 +43,7 @@ resource "aws_lambda_function" "createVideo" {
 
   environment {
     variables = {
-      plan_bucket_free     = "${aws_s3_bucket.dash-cam-videos-free-bucket.bucket}"
-      plan_bucket_standard = "${aws_s3_bucket.dash-cam-videos-standard-bucket.bucket}"
+      plan_bucket     = "${aws_s3_bucket.dash-cam-videos-bucket.bucket}"
     }
   }
 }
@@ -76,20 +75,12 @@ resource "aws_lambda_function" "uploadedVideo" {
   }
 }
 
-resource "aws_lambda_permission" "uploadedVideo_allow_free_bucket" {
+resource "aws_lambda_permission" "uploadedVideo_allow_bucket" {
   statement_id  = "AllowExecutionFromFreeS3Bucket"
   action        = "lambda:InvokeFunction"
   function_name = "${aws_lambda_function.uploadedVideo.arn}"
   principal     = "s3.amazonaws.com"
-  source_arn    = "${aws_s3_bucket.dash-cam-videos-free-bucket.arn}"
-}
-
-resource "aws_lambda_permission" "uploadedVideo_allow_standard_bucket" {
-  statement_id  = "AllowExecutionFromStandardS3Bucket"
-  action        = "lambda:InvokeFunction"
-  function_name = "${aws_lambda_function.uploadedVideo.arn}"
-  principal     = "s3.amazonaws.com"
-  source_arn    = "${aws_s3_bucket.dash-cam-videos-standard-bucket.arn}"
+  source_arn    = "${aws_s3_bucket.dash-cam-videos-bucket.arn}"
 }
 
 // Video GET
@@ -134,18 +125,10 @@ resource "aws_lambda_function" "expiredVideo" {
   }
 }
 
-resource "aws_lambda_permission" "expiredVideo_allow_free_bucket" {
+resource "aws_lambda_permission" "expiredVideo_allow_bucket" {
   statement_id  = "AllowExecutionFromFreeS3BucketForExpiredVideo"
   action        = "lambda:InvokeFunction"
   function_name = "${aws_lambda_function.expiredVideo.arn}"
   principal     = "s3.amazonaws.com"
-  source_arn    = "${aws_s3_bucket.dash-cam-videos-free-bucket.arn}"
-}
-
-resource "aws_lambda_permission" "expiredVideo_allow_standard_bucket" {
-  statement_id  = "AllowExecutionFromStandardS3BucketForExpiredVideo"
-  action        = "lambda:InvokeFunction"
-  function_name = "${aws_lambda_function.expiredVideo.arn}"
-  principal     = "s3.amazonaws.com"
-  source_arn    = "${aws_s3_bucket.dash-cam-videos-standard-bucket.arn}"
+  source_arn    = "${aws_s3_bucket.dash-cam-videos-bucket.arn}"
 }
