@@ -25,7 +25,7 @@ exports.handler = function (event, context) {
     var fileExtension = payload.fileName.split('.').pop();
 
     getUserPlan(context, email, function (plan) {
-        let bucket = process.env['plan_bucket_' + plan.toLowerCase()];
+        let bucket = process.env.plan_bucket;
 
         getCameraId(context, email, payload.cameraKey, function (cameraId) {
             var s3 = new AWS.S3({
@@ -37,7 +37,8 @@ exports.handler = function (event, context) {
                 Bucket: bucket,
                 Key: currentUser + '/' + cameraId + '/' + generatedId + '.' + fileExtension,
                 Expires: signedUrlExpireSeconds,
-                ContentType: 'text/plain;charset=UTF-8'
+                ContentType: 'text/plain;charset=UTF-8',
+                Tagging: "plan=" + plan
             });
 
             var responseBody = {

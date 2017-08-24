@@ -1,8 +1,8 @@
 // S3
 
 // Video Store
-resource "aws_s3_bucket" "dash-cam-videos-free-bucket" {
-  bucket              = "${var.environment_name}dash-cam-videos-free"
+resource "aws_s3_bucket" "dash-cam-videos-bucket" {
+  bucket              = "${var.environment_name}dash-cam-videos"
   acl                 = "private"
   force_destroy       = "${var.bucket_force_destroy}"
   acceleration_status = "Enabled"
@@ -17,30 +17,24 @@ resource "aws_s3_bucket" "dash-cam-videos-free-bucket" {
     prefix                                 = ""
     enabled                                = true
     abort_incomplete_multipart_upload_days = 1
+
+    tags {
+      "plan"      = "free"
+    }
 
     expiration {
       days = 7
     }
   }
-}
-
-// Video Store
-resource "aws_s3_bucket" "dash-cam-videos-standard-bucket" {
-  bucket              = "${var.environment_name}dash-cam-videos-standard"
-  acl                 = "private"
-  force_destroy       = "${var.bucket_force_destroy}"
-  acceleration_status = "Enabled"
-
-  cors_rule {
-    allowed_headers = ["*"]
-    allowed_methods = ["PUT", "POST", "GET", "HEAD"]
-    allowed_origins = ["*"]
-  }
 
   lifecycle_rule {
     prefix                                 = ""
     enabled                                = true
     abort_incomplete_multipart_upload_days = 1
+
+    tags {
+      "plan"      = "standard"
+    }
 
     expiration {
       days = 30
@@ -49,24 +43,9 @@ resource "aws_s3_bucket" "dash-cam-videos-standard-bucket" {
 }
 
 // Trigger Lambda when events
-resource "aws_s3_bucket_notification" "free_bucket_created_notification" {
-  depends_on = ["aws_s3_bucket.dash-cam-videos-free-bucket"]
-  bucket     = "${aws_s3_bucket.dash-cam-videos-free-bucket.id}"
-
-  lambda_function {
-    lambda_function_arn = "${aws_lambda_function.uploadedVideo.arn}"
-    events              = ["s3:ObjectCreated:*"]
-  }
-
-  lambda_function {
-    lambda_function_arn = "${aws_lambda_function.expiredVideo.arn}"
-    events              = ["s3:ObjectRemoved:*"]
-  }
-}
-
-resource "aws_s3_bucket_notification" "standard_bucket_created_notification" {
-  depends_on = ["aws_s3_bucket.dash-cam-videos-standard-bucket"]
-  bucket     = "${aws_s3_bucket.dash-cam-videos-standard-bucket.id}"
+resource "aws_s3_bucket_notification" "videos_bucket_created_notification" {
+  depends_on = ["aws_s3_bucket.dash-cam-videos-bucket"]
+  bucket     = "${aws_s3_bucket.dash-cam-videos-bucket.id}"
 
   lambda_function {
     lambda_function_arn = "${aws_lambda_function.uploadedVideo.arn}"

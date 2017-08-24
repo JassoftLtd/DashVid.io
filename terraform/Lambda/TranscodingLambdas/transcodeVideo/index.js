@@ -30,19 +30,8 @@ exports.handler = function(event, context) {
             }
             else {
                 let key = data.Item.Files.Original.Key;
-                console.log('video located at Bucket [' + data.Item.Files.Original.Bucket + '] Key [' + key + ']');
 
-                var pipeline;
-
-                if(data.Item.Files.Original.Bucket.indexOf("free") > -1) {
-                    pipeline = process.env.PipelineIdFree;
-                }
-                else if (data.Item.Files.Original.Bucket.indexOf("standard") > -1) {
-                    pipeline = process.env.PipelineIdStandard;
-                }
-                else {
-                    context.fail("Unknown Source Bucket");
-                }
+                var pipeline = process.env.PipelineId;
 
                 var params = {
                     Input: {
