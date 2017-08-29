@@ -14,6 +14,8 @@ describe('Subscription', function () {
 
         it('Given I am a new User on a Free plan, When i upgrade and add my card details, Then i should be on a Standard plan', function () {
 
+            this.timeout(120000);
+
             // Given
             userHelper.getLoggedInUser()
 
@@ -40,7 +42,7 @@ describe('Subscription', function () {
 
             browser.waitForVisible(Account.currentPlan, 5000);
 
-            browser.pause(10000)
+            browser.pause(15000)
             browser.url('/account')
 
             browser.waitForVisible(Account.pageContent, 5000);
