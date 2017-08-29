@@ -189,7 +189,7 @@ function deleteFile (bucket, key) {
 }
 
 function getUserByCameraId(context, cameraId, fn) {
-    console.log('Getting camera for key: ' + cameraKey);
+    console.log('Getting camera for key: ' + cameraId);
 
     dynamodb.get({
         TableName: "Cameras",
@@ -201,7 +201,7 @@ function getUserByCameraId(context, cameraId, fn) {
         ]
     }, function (err, data) {
         if (err) {
-            console.error("Camera not found for key: " + cameraKey + " Error: " + err);
+            console.error("Camera not found for id: " + cameraId + " Error: " + err);
             context.fail();
         }
         else {

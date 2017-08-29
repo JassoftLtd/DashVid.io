@@ -25,24 +25,18 @@ describe('Video Expiry', function () {
                 });
         });
 
-        // it('Given I have a verified paid account with an uploaded video, When that video is stored in S3, Then it should have a defined Expiry time', function () {
-        //     return userHelper.getLoggedInUserOnPaidPlan()
-        //         .then(function (user) {
-        //             console.log("gotLoggedInUserOnPaidPlan")
-        //             return videoHelper.createVideoForUser(user)
-        //                 .then(function (video) {
-        //                     console.log("createdVideoForUser")
-        //                     return s3Helper.getObject(video)
-        //                         .then(function (videoObject) {
-        //                             console.log("gotObject")
-        //                             assert(videoObject.Expiration)
-        //                         });
-        //                 })
-        //                 .catch(function (error) {
-        //                     console.error(error)
-        //                 });
-        //         });
-        // });
+        it('Given I have a verified paid account with an uploaded video, When that video is stored in S3, Then it should have a defined Expiry time', function () {
+            return userHelper.getLoggedInUserOnPaidPlan()
+                .then(function (user) {
+                    return videoHelper.createVideoForUser(user)
+                        .then(function (video) {
+                            return s3Helper.getObject(video)
+                                .then(function (videoObject) {
+                                    assert(videoObject.Expiration)
+                                });
+                        });
+                });
+        });
     });
 
     describe('Video Expired', function () {
