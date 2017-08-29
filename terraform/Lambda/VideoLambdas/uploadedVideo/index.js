@@ -205,7 +205,7 @@ function getUserByCameraId(context, cameraId, fn) {
             context.fail();
         }
         else {
-            let email = data.Items.User;
+            let email = data.Item.User;
             console.log("User is " + email);
             fn(email);
         }
