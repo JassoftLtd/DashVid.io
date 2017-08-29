@@ -187,6 +187,30 @@ data "aws_iam_policy_document" "IamForUploadedVideoLambda" {
     "effect" = "Allow"
 
     "actions" = [
+      "dynamodb:GetItem",
+    ]
+
+    "resources" = [
+      "${aws_dynamodb_table.cameras-table.arn}",
+    ]
+  }
+
+  "statement" = {
+    "effect" = "Allow"
+
+    "actions" = [
+      "dynamodb:Query",
+    ]
+
+    "resources" = [
+      "${aws_dynamodb_table.subscriptions-table.arn}",
+    ]
+  }
+
+  "statement" = {
+    "effect" = "Allow"
+
+    "actions" = [
       "SNS:Publish",
     ]
 
