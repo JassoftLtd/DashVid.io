@@ -51,7 +51,10 @@ exports.handler = function(event, context) {
                     }
                 };
                 s3.putObjectTagging(params, function(err, data) {
-                    if (err) context.fail(err); // an error occurred
+                    if (err) {
+                        context.fail(err);
+                        return;
+                    }
 
                     console.log('Requesting signed URL for bucket [' + bucket + '], Key [' + key + ']');
 
@@ -73,6 +76,7 @@ exports.handler = function(event, context) {
 
                             if(!result.Mediainfo.File) {
                                 deleteFile(bucket, key);
+                                return;
                             }
 
                             var videoRecord;
@@ -90,6 +94,7 @@ exports.handler = function(event, context) {
 
                             if(!videoRecord) {
                                 deleteFile(bucket, key);
+                                return;
                             }
                             else {
 
@@ -128,6 +133,7 @@ exports.handler = function(event, context) {
                                     if (err) {
                                         context.fail('Unable to create video record for key [' + key + ']. Error: ' + err);
                                         deleteFile(bucket, key);
+                                        return;
                                     } else {
                                         console.log("Video create DynammoDb record succeeded. ID: " + videoId);
 
