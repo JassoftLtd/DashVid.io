@@ -13,7 +13,7 @@ describe('Video', function () {
     describe('Create Video', function () {
 
         it('Given I have a verified account, When I request to upload a video, Then I should be given the URL to upload it to', function () {
-           return userHelper.getLoggedInUser()
+            return userHelper.getLoggedInUser()
                 .then(function (user) {
 
                     return cameraHelper.getCameras(user)
@@ -21,42 +21,6 @@ describe('Video', function () {
                             return videoHelper.createVideo(user, result.data[0].CameraKey, "01291238_0160.MP4", ".MP4")
                                 .then(function (result) {
                                     assert(result.data.url);
-
-                                    let filepath = '../testData/01291238_0160.MP4';
-
-                                    let stream = fs.createReadStream(filepath)
-                                    let stat = fs.statSync(filepath);
-
-                                    let options = {
-                                        method: 'PUT',
-                                        uri: result.data.url,
-                                        body: stream,
-                                        headers: {
-                                            'content-type': 'text/plain;charset=UTF-8',
-                                            'Content-Length': stat.size
-                                        }
-                                    };
-
-                                    return rp(options)
-                                        .then(function () {
-                                            assert(true)
-                                        });
-                                });
-                        });
-                });
-        });
-
-        it('Given I have a verified paid account, When I request to upload a video, Then I should be given the URL to upload it to in the paid bucket', function () {
-            let plan = "standard";
-            return userHelper.getLoggedInUserOnPaidPlan(plan)
-                .then(function (user) {
-
-                    return cameraHelper.getCameras(user)
-                        .then(function (result) {
-                            return videoHelper.createVideo(user, result.data[0].CameraKey, "01291238_0160.MP4", ".MP4")
-                                .then(function (result) {
-                                    assert(result.data.url);
-                                    assert(result.data.url.indexOf(plan) > -1)
 
                                     let filepath = '../testData/01291238_0160.MP4';
 
