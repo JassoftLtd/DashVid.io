@@ -37,7 +37,7 @@ export default class VideoPage extends Component {
                 };
 
                 // Template syntax follows url-template https://www.npmjs.com/package/url-template
-                var pathTemplate = '/v1/video'
+                var pathTemplate = '/v1/video';
                 var method = 'GET';
                 var additionalParams = {};
                 var body = {};

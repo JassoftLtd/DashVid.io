@@ -37,8 +37,7 @@ exports.handler = function (event, context) {
                 Bucket: bucket,
                 Key: currentUser + '/' + cameraId + '/' + generatedId + '.' + fileExtension,
                 Expires: signedUrlExpireSeconds,
-                ContentType: 'text/plain;charset=UTF-8',
-                Tagging: "plan=" + plan
+                ContentType: 'text/plain;charset=UTF-8'
             });
 
             var responseBody = {
