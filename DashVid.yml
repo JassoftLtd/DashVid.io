@@ -391,9 +391,7 @@ jobs:
         - -exc
         - |
           cd dashvid-ui-source
-          npm install
-          npm run build
-          zip -r ../artifacts/dashvid-ui.zip build/*
+          zip -r ../artifacts/dashvid-ui.zip *
     on_failure:
       put: slack-alert
       params:
