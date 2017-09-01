@@ -6,14 +6,14 @@ resource "aws_lambda_function" "transcodeVideo" {
     "aws_iam_role_policy.IamForTranscodeVideoLambda",
   ]
 
-  filename         = "PackagedLambdas/TranscodingLambdas/transcodeVideo.zip"
+  filename         = "PackagedLambdas/transcodeVideo.zip"
   function_name    = "transcodeVideo"
   role             = "${aws_iam_role.IamForTranscodeVideoLambda.arn}"
   handler          = "transcodeVideo.handler"
   runtime          = "nodejs6.10"
   timeout          = "30"
   memory_size      = "256"
-  source_code_hash = "${base64sha256(file("PackagedLambdas/TranscodingLambdas/transcodeVideo.zip"))}"
+  source_code_hash = "${base64sha256(file("PackagedLambdas/transcodeVideo.zip"))}"
   kms_key_arn      = "${aws_kms_key.lambda_variables.arn}"
 
   tracing_config {
@@ -41,14 +41,14 @@ resource "aws_lambda_function" "videoTranscoded" {
     "aws_iam_role_policy.IamForVideoTranscodedLambda",
   ]
 
-  filename         = "PackagedLambdas/TranscodingLambdas/videoTranscoded.zip"
+  filename         = "PackagedLambdas/videoTranscoded.zip"
   function_name    = "videoTranscoded"
   role             = "${aws_iam_role.IamForVideoTranscodedLambda.arn}"
   handler          = "videoTranscoded.handler"
   runtime          = "nodejs6.10"
   timeout          = "30"
   memory_size      = "256"
-  source_code_hash = "${base64sha256(file("PackagedLambdas/TranscodingLambdas/videoTranscoded.zip"))}"
+  source_code_hash = "${base64sha256(file("PackagedLambdas/videoTranscoded.zip"))}"
   kms_key_arn      = "${aws_kms_key.lambda_variables.arn}"
 
   tracing_config {

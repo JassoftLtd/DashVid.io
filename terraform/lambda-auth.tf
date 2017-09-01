@@ -4,14 +4,14 @@ resource "aws_lambda_function" "createUser" {
     "aws_iam_role_policy.LambdAuthCreateUser",
   ]
 
-  filename         = "${path.module}/PackagedLambdas/AuthLambdas/CreateUser.zip"
+  filename         = "${path.module}/PackagedLambdas/CreateUser.zip"
   function_name    = "LambdAuthCreateUser"
   role             = "${aws_iam_role.LambdAuthCreateUser.arn}"
   handler          = "CreateUser.handler"
   runtime          = "nodejs6.10"
   timeout          = "30"
   memory_size      = "256"
-  source_code_hash = "${base64sha256(file("${path.module}/PackagedLambdas/AuthLambdas/CreateUser.zip"))}"
+  source_code_hash = "${base64sha256(file("${path.module}/PackagedLambdas/CreateUser.zip"))}"
   kms_key_arn      = "${aws_kms_key.lambda_variables.arn}"
 
   tracing_config {
@@ -35,14 +35,14 @@ resource "aws_lambda_function" "changePassword" {
     "aws_iam_role_policy.LambdAuthChangePassword",
   ]
 
-  filename         = "${path.module}/PackagedLambdas/AuthLambdas/ChangePassword.zip"
+  filename         = "${path.module}/PackagedLambdas/ChangePassword.zip"
   function_name    = "LambdAuthChangePassword"
   role             = "${aws_iam_role.LambdAuthChangePassword.arn}"
   handler          = "ChangePassword.handler"
   runtime          = "nodejs6.10"
   timeout          = "30"
   memory_size      = "256"
-  source_code_hash = "${base64sha256(file("${path.module}/PackagedLambdas/AuthLambdas/ChangePassword.zip"))}"
+  source_code_hash = "${base64sha256(file("${path.module}/PackagedLambdas/ChangePassword.zip"))}"
   kms_key_arn      = "${aws_kms_key.lambda_variables.arn}"
 
   tracing_config {
@@ -61,14 +61,14 @@ resource "aws_lambda_function" "login" {
     "aws_iam_role_policy.LambdAuthLogin",
   ]
 
-  filename         = "${path.module}/PackagedLambdas/AuthLambdas/Login.zip"
+  filename         = "${path.module}/PackagedLambdas/Login.zip"
   function_name    = "LambdAuthLogin"
   role             = "${aws_iam_role.LambdAuthLogin.arn}"
   handler          = "Login.handler"
   runtime          = "nodejs6.10"
   timeout          = "30"
   memory_size      = "256"
-  source_code_hash = "${base64sha256(file("${path.module}/PackagedLambdas/AuthLambdas/Login.zip"))}"
+  source_code_hash = "${base64sha256(file("${path.module}/PackagedLambdas/Login.zip"))}"
   kms_key_arn      = "${aws_kms_key.lambda_variables.arn}"
 
   tracing_config {
@@ -89,14 +89,14 @@ resource "aws_lambda_function" "loginCameraKey" {
     "aws_iam_role_policy.LambdAuthLoginCameraKey",
   ]
 
-  filename         = "${path.module}/PackagedLambdas/AuthLambdas/CameraKeyAuth.zip"
+  filename         = "${path.module}/PackagedLambdas/CameraKeyAuth.zip"
   function_name    = "CameraKeyAuth"
   role             = "${aws_iam_role.LambdAuthLoginCameraKey.arn}"
   handler          = "CameraKeyAuth.handler"
   runtime          = "nodejs6.10"
   timeout          = "30"
   memory_size      = "256"
-  source_code_hash = "${base64sha256(file("${path.module}/PackagedLambdas/AuthLambdas/CameraKeyAuth.zip"))}"
+  source_code_hash = "${base64sha256(file("${path.module}/PackagedLambdas/CameraKeyAuth.zip"))}"
   kms_key_arn      = "${aws_kms_key.lambda_variables.arn}"
 
   tracing_config {
@@ -116,14 +116,14 @@ resource "aws_lambda_function" "lostPassword" {
     "aws_iam_role_policy.LambdAuthLostPassword",
   ]
 
-  filename         = "${path.module}/PackagedLambdas/AuthLambdas/LostPassword.zip"
+  filename         = "${path.module}/PackagedLambdas/LostPassword.zip"
   function_name    = "LambdAuthLostPassword"
   role             = "${aws_iam_role.LambdAuthLostPassword.arn}"
   handler          = "LostPassword.handler"
   runtime          = "nodejs6.10"
   timeout          = "30"
   memory_size      = "256"
-  source_code_hash = "${base64sha256(file("${path.module}/PackagedLambdas/AuthLambdas/LostPassword.zip"))}"
+  source_code_hash = "${base64sha256(file("${path.module}/PackagedLambdas/LostPassword.zip"))}"
   kms_key_arn      = "${aws_kms_key.lambda_variables.arn}"
 
   tracing_config {
@@ -145,14 +145,14 @@ resource "aws_lambda_function" "resetPassword" {
     "aws_iam_role_policy.LambdAuthResetPassword",
   ]
 
-  filename         = "${path.module}/PackagedLambdas/AuthLambdas/ResetPassword.zip"
+  filename         = "${path.module}/PackagedLambdas/ResetPassword.zip"
   function_name    = "LambdAuthResetPassword"
   role             = "${aws_iam_role.LambdAuthResetPassword.arn}"
   handler          = "ResetPassword.handler"
   runtime          = "nodejs6.10"
   timeout          = "30"
   memory_size      = "256"
-  source_code_hash = "${base64sha256(file("${path.module}/PackagedLambdas/AuthLambdas/ResetPassword.zip"))}"
+  source_code_hash = "${base64sha256(file("${path.module}/PackagedLambdas/ResetPassword.zip"))}"
   kms_key_arn      = "${aws_kms_key.lambda_variables.arn}"
 
   tracing_config {
@@ -171,14 +171,14 @@ resource "aws_lambda_function" "verifyUser" {
     "aws_iam_role_policy.LambdAuthVerifyUser",
   ]
 
-  filename         = "${path.module}/PackagedLambdas/AuthLambdas/VerifyUser.zip"
+  filename         = "${path.module}/PackagedLambdas/VerifyUser.zip"
   function_name    = "LambdAuthVerifyUser"
   role             = "${aws_iam_role.LambdAuthVerifyUser.arn}"
   handler          = "VerifyUser.handler"
   runtime          = "nodejs6.10"
   timeout          = "30"
   memory_size      = "256"
-  source_code_hash = "${base64sha256(file("${path.module}/PackagedLambdas/AuthLambdas/VerifyUser.zip"))}"
+  source_code_hash = "${base64sha256(file("${path.module}/PackagedLambdas/VerifyUser.zip"))}"
   kms_key_arn      = "${aws_kms_key.lambda_variables.arn}"
 
   tracing_config {
