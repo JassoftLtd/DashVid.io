@@ -41,11 +41,11 @@ resources:
   source:
     url: {{slack_webhook_url}}
 
-- name: pull-request
+- name: pull-request-functions
   type: pull-request
   source:
     access_token: {{github-access-token}}
-    repo: JassoftLtd/DashVid.io
+    repo: JassoftLtd/DashVid.io-Functions
     base: master
 
 - name: gh-release-uploader
@@ -106,7 +106,7 @@ groups:
   - api-tests
   - ui-tests
   - production-deploy
-- name: Pull Requests
+- name: Functions Pull Requests
   jobs:
   - test-pull-request
 - name: Build UI
@@ -262,44 +262,44 @@ jobs:
 # test a pull request
 - name: test-pull-request
   plan:
-  - get: pull-request
+  - get: pull-request-functions
     trigger: true
     version: every
-  - put: pull-request
+  - put: pull-request-functions
     params:
-      path: pull-request
+      path: pull-request-functions
       status: pending
-#  Test Lambda funcitons
   - task: Test
-    file: pull-request/concourse/test-code.yml
-    params:
-      TF_VAR_aws_terraform_state_bucket: dashvid-terraform-state-tests
-      TF_VAR_aws_region: us-east-1
-      TF_VAR_environment_name: test-
-      TF_VAR_environment_subdomain: test.
-      TF_VAR_auth_email_from_address: no-reply@test.dashvid.io
-      TF_VAR_bucket_force_destroy: true
-      TF_VAR_aws_access_key: {{aws_access_key}}
-      TF_VAR_aws_secret_key: {{aws_secret_key}}
-      TF_VAR_stripe_api_key: {{stripe_api_key_test}}
-      TF_VAR_aws_identity_pool: {{aws_identity_pool_test}}
-      TF_VAR_dns_zone_id: {{dns_zone_id}}
-      TF_VAR_dns_zone_name: {{dns_zone_name}}
-      TF_VAR_acm_certificate_arn: {{acm_certificate_arn_test}}
-      TF_VAR_api_certificate_arn: {{api_certificate_arn_test}}
-      TF_VAR_slack_webhook_url: {{slack_webhook_url}}
-      AWS_ACCESS_KEY_ID: {{aws_access_key}}
-      AWS_SECRET_ACCESS_KEY: {{aws_secret_key}}
-    input_mapping: {source-code: pull-request}
+    config:
+      platform: linux
+
+      image_resource:
+        type: docker-image
+        source:
+          repository: jonnyshaw89/dashvid-build
+
+      inputs:
+      - name: dashvid-functions-source
+
+      outputs:
+      - name: PackagedLambdas
+
+      run:
+        path: sh
+        args:
+        - -exc
+        - |
+          cd dashvid-functions-source/Lambda
+          ./test.sh
     on_success:
-      put: pull-request
+      put: pull-request-functions
       params:
-        path: pull-request
+        path: pull-request-functions
         status: success
     on_failure:
-      put: pull-request
+      put: pull-request-functions
       params:
-        path: pull-request
+        path: pull-request-functions
         status: failure
 
 - name: DashVid-Uploader
