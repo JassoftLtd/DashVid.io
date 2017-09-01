@@ -6,14 +6,14 @@ resource "aws_lambda_function" "getVideos" {
     "aws_iam_role_policy.IamForGetVideosLambda",
   ]
 
-  filename         = "Lambda/VideoLambdas/getVideos.zip"
+  filename         = "PackagedLambdas/VideoLambdas/getVideos.zip"
   function_name    = "getVideos"
   role             = "${aws_iam_role.IamForGetVideosLambda.arn}"
   handler          = "getVideos.handler"
   runtime          = "nodejs6.10"
   timeout          = "30"
   memory_size      = "256"
-  source_code_hash = "${base64sha256(file("Lambda/VideoLambdas/getVideos.zip"))}"
+  source_code_hash = "${base64sha256(file("PackagedLambdas/VideoLambdas/getVideos.zip"))}"
   kms_key_arn      = "${aws_kms_key.lambda_variables.arn}"
 
   tracing_config {
@@ -27,14 +27,14 @@ resource "aws_lambda_function" "createVideo" {
     "aws_iam_role_policy.IamForCreateVideoLambda",
   ]
 
-  filename         = "Lambda/VideoLambdas/createVideo.zip"
+  filename         = "PackagedLambdas/VideoLambdas/createVideo.zip"
   function_name    = "createVideo"
   role             = "${aws_iam_role.IamForCreateVideoLambda.arn}"
   handler          = "createVideo.handler"
   runtime          = "nodejs6.10"
   timeout          = "30"
   memory_size      = "256"
-  source_code_hash = "${base64sha256(file("Lambda/VideoLambdas/createVideo.zip"))}"
+  source_code_hash = "${base64sha256(file("PackagedLambdas/VideoLambdas/createVideo.zip"))}"
   kms_key_arn      = "${aws_kms_key.lambda_variables.arn}"
 
   tracing_config {
@@ -54,14 +54,14 @@ resource "aws_lambda_function" "uploadedVideo" {
     "aws_iam_role_policy.IamForUploadedVideoLambda",
   ]
 
-  filename         = "Lambda/VideoLambdas/uploadedVideo.zip"
+  filename         = "PackagedLambdas/VideoLambdas/uploadedVideo.zip"
   function_name    = "uploadedVideo"
   role             = "${aws_iam_role.IamForUploadedVideoLambda.arn}"
   handler          = "uploadedVideo.handler"
   runtime          = "nodejs6.10"
   timeout          = "300"
   memory_size      = "256"
-  source_code_hash = "${base64sha256(file("Lambda/VideoLambdas/uploadedVideo.zip"))}"
+  source_code_hash = "${base64sha256(file("PackagedLambdas/VideoLambdas/uploadedVideo.zip"))}"
   kms_key_arn      = "${aws_kms_key.lambda_variables.arn}"
 
   tracing_config {
@@ -89,14 +89,14 @@ resource "aws_lambda_function" "getVideo" {
     "aws_iam_role_policy.IamForGetVideoLambda",
   ]
 
-  filename         = "Lambda/VideoLambdas/getVideo.zip"
+  filename         = "PackagedLambdas/VideoLambdas/getVideo.zip"
   function_name    = "getVideo"
   role             = "${aws_iam_role.IamForGetVideoLambda.arn}"
   handler          = "getVideo.handler"
   runtime          = "nodejs6.10"
   timeout          = "30"
   memory_size      = "256"
-  source_code_hash = "${base64sha256(file("Lambda/VideoLambdas/getVideo.zip"))}"
+  source_code_hash = "${base64sha256(file("PackagedLambdas/VideoLambdas/getVideo.zip"))}"
   kms_key_arn      = "${aws_kms_key.lambda_variables.arn}"
 
   tracing_config {
@@ -110,14 +110,14 @@ resource "aws_lambda_function" "expiredVideo" {
     "aws_iam_role_policy.IamForExpiredVideoLambda",
   ]
 
-  filename         = "Lambda/VideoLambdas/expiredVideo.zip"
+  filename         = "PackagedLambdas/VideoLambdas/expiredVideo.zip"
   function_name    = "expiredVideo"
   role             = "${aws_iam_role.IamForExpiredVideoLambda.arn}"
   handler          = "expiredVideo.handler"
   runtime          = "nodejs6.10"
   timeout          = "300"
   memory_size      = "256"
-  source_code_hash = "${base64sha256(file("Lambda/VideoLambdas/expiredVideo.zip"))}"
+  source_code_hash = "${base64sha256(file("PackagedLambdas/VideoLambdas/expiredVideo.zip"))}"
   kms_key_arn      = "${aws_kms_key.lambda_variables.arn}"
 
   tracing_config {

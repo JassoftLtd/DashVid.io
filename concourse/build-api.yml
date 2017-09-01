@@ -8,6 +8,7 @@ image_resource:
 inputs:
 - name: source-code
 - name: gh-release-ui
+- name: gh-release-functions
 
 outputs:
 - name: build-source-api
@@ -18,6 +19,7 @@ run:
   - -exc
   - |
     unzip gh-release-ui/dashvid-ui.zip
+    cp gh-release-functions/PackagedLambdas source-code/terraform/PackagedLambdas
     cd source-code/terraform
     ./build.sh
     cp -R ../../source-code/terraform ../../build-source-api/terraform
