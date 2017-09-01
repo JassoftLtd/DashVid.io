@@ -19,6 +19,7 @@ run:
   - -exc
   - |
     ls -ltrh gh-release-ui
+    mkdir gh-release-ui/source
     unzip gh-release-ui/dashvid-ui.zip gh-release-ui/source
     ls -ltrh gh-release-ui
     mkdir source-code/terraform/PackagedLambdas
