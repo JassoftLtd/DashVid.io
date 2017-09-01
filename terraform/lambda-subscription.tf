@@ -6,14 +6,14 @@ resource "aws_lambda_function" "addCard" {
     "aws_iam_role_policy.IamForAddCardLambda",
   ]
 
-  filename         = "Lambda/SubscriptionLambdas/addCard.zip"
+  filename         = "PackagedLambdas/SubscriptionLambdas/addCard.zip"
   function_name    = "addCard"
   role             = "${aws_iam_role.IamForAddCardLambda.arn}"
   handler          = "addCard.handler"
   runtime          = "nodejs6.10"
   timeout          = "30"
   memory_size      = "256"
-  source_code_hash = "${base64sha256(file("Lambda/SubscriptionLambdas/addCard.zip"))}"
+  source_code_hash = "${base64sha256(file("PackagedLambdas/SubscriptionLambdas/addCard.zip"))}"
   kms_key_arn      = "${aws_kms_key.lambda_variables.arn}"
 
   tracing_config {
