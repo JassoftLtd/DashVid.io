@@ -6,14 +6,14 @@ resource "aws_lambda_function" "getPlan" {
     "aws_iam_role_policy.IamForGetPlanLambda",
   ]
 
-  filename         = "Lambda/PlanLambdas/getPlan.zip"
+  filename         = "PackagedLambdas/PlanLambdas/getPlan.zip"
   function_name    = "getPlan"
   role             = "${aws_iam_role.IamForGetPlanLambda.arn}"
   handler          = "getPlan.handler"
   runtime          = "nodejs6.10"
   timeout          = "30"
   memory_size      = "256"
-  source_code_hash = "${base64sha256(file("Lambda/PlanLambdas/getPlan.zip"))}"
+  source_code_hash = "${base64sha256(file("PackagedLambdas/PlanLambdas/getPlan.zip"))}"
   kms_key_arn      = "${aws_kms_key.lambda_variables.arn}"
 
   tracing_config {
@@ -27,14 +27,14 @@ resource "aws_lambda_function" "switchPlan" {
     "aws_iam_role_policy.IamForSwitchPlanLambda",
   ]
 
-  filename         = "Lambda/PlanLambdas/switchPlan.zip"
+  filename         = "PackagedLambdas/PlanLambdas/switchPlan.zip"
   function_name    = "switchPlan"
   role             = "${aws_iam_role.IamForSwitchPlanLambda.arn}"
   handler          = "switchPlan.handler"
   runtime          = "nodejs6.10"
   timeout          = "30"
   memory_size      = "256"
-  source_code_hash = "${base64sha256(file("Lambda/PlanLambdas/switchPlan.zip"))}"
+  source_code_hash = "${base64sha256(file("PackagedLambdas/PlanLambdas/switchPlan.zip"))}"
   kms_key_arn      = "${aws_kms_key.lambda_variables.arn}"
 
   tracing_config {

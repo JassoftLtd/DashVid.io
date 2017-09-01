@@ -30,6 +30,12 @@ resources:
     uri: https://github.com/JassoftLtd/DashVid.io-UI.git
     branch: master
 
+- name: dashvid-functions-source
+  type: git
+  source:
+    uri: https://github.com/JassoftLtd/DashVid.io-Functions.git
+    branch: master
+
 - name: slack-alert
   type: slack-notification
   source:
@@ -58,6 +64,14 @@ resources:
     access_token: {{github-access-token}}
     base: master
 
+- name: gh-release-functions
+  type: github-release
+  source:
+    owner: JassoftLtd
+    repository: DashVid.io-Functions
+    access_token: {{github-access-token}}
+    base: master
+
 - name: dashvid-uploader-version
   type: semver
   source:
@@ -76,10 +90,18 @@ resources:
     file: version
     private_key: {{concourse-repo-private-key-ui}}
 
+- name: dashvid-functions-version
+  type: semver
+  source:
+    driver: git
+    uri: git@github.com:JassoftLtd/DashVid.io-Functions.git
+    branch: version
+    file: version
+    private_key: {{concourse-repo-private-key-functions}}
+
 groups:
 - name: Deployment
   jobs:
-  - test-lambdas
   - test-deploy
   - api-tests
   - ui-tests
@@ -90,51 +112,23 @@ groups:
 - name: Build UI
   jobs:
   - DashVid-UI
+- name: Build Functions
+  jobs:
+  - DashVid-Functions
 - name: Build Uploader
   jobs:
   - DashVid-Uploader
 
 jobs:
-- name: test-lambdas
-  plan:
-  - get: source-code
-    trigger: true
-  - task: Test
-    file: source-code/concourse/test-code.yml
-    params:
-      TF_VAR_aws_terraform_state_bucket: dashvid-terraform-state-tests
-      TF_VAR_aws_region: us-east-1
-      TF_VAR_environment_name: test-
-      TF_VAR_environment_subdomain: test.
-      TF_VAR_auth_email_from_address: no-reply@test.dashvid.io
-      TF_VAR_bucket_force_destroy: true
-      TF_VAR_aws_access_key: {{aws_access_key}}
-      TF_VAR_aws_secret_key: {{aws_secret_key}}
-      TF_VAR_stripe_api_key: {{stripe_api_key_test}}
-      TF_VAR_aws_identity_pool: {{aws_identity_pool_test}}
-      TF_VAR_dns_zone_id: {{dns_zone_id}}
-      TF_VAR_dns_zone_name: {{dns_zone_name}}
-      TF_VAR_acm_certificate_arn: {{acm_certificate_arn_test}}
-      TF_VAR_api_certificate_arn: {{api_certificate_arn_test}}
-      TF_VAR_slack_webhook_url: {{slack_webhook_url}}
-      AWS_ACCESS_KEY_ID: {{aws_access_key}}
-      AWS_SECRET_ACCESS_KEY: {{aws_secret_key}}
-    on_failure:
-      put: slack-alert
-      params:
-        channel: '#build-notifications'
-        text: |
-          Test Lambda Failed. Check it out at:
-          http://concourse.jassoft.co.uk/builds/$BUILD_ID
-
 - name: test-deploy
   serial_groups: [DashVidTestDeploy, DashVidAPITest, DashVidUITest]
   plan:
   - aggregate:
     - get: source-code
-      passed: [test-lambdas]
       trigger: true
     - get: gh-release-ui
+      trigger: true
+    - get: gh-release-functions
       trigger: true
   - task: Deploy
     file: source-code/concourse/build-api.yml
@@ -423,4 +417,60 @@ jobs:
       channel: '#build-notifications'
       text: |
         DashVid UI Build Successful. Check it out at:
+        http://concourse.jassoft.co.uk/builds/$BUILD_ID
+
+- name: DashVid-Functions
+  plan:
+  - get: dashvid-functions-source
+    trigger: true
+  - get: dashvid-functions-version
+    params: {bump: minor}
+
+  - task: Build
+    config:
+      platform: linux
+
+      image_resource:
+        type: docker-image
+        source:
+          repository: jonnyshaw89/dashvid-build
+
+      inputs:
+      - name: dashvid-functions-source
+
+      outputs:
+      - name: PackagedLambdas
+
+      run:
+        path: sh
+        args:
+        - -exc
+        - |
+          cd dashvid-functions-source/Lambda
+          ./test.sh
+          cd ../
+          ./build.sh
+    on_failure:
+      put: slack-alert
+      params:
+        channel: '#build-notifications'
+        text: |
+          Build Failed. Check it out at:
+          http://concourse.jassoft.co.uk/builds/$BUILD_ID
+
+  - put: gh-release-functions
+    params:
+      name: dashvid-functions-version/version
+      tag: dashvid-functions-version/version
+      globs:
+      - PackagedLambdas/*.zip
+
+  - put: dashvid-functions-version
+    params: {file: dashvid-functions-version/version}
+
+  - put: slack-alert
+    params:
+      channel: '#build-notifications'
+      text: |
+        DashVid Functions Build Successful. Check it out at:
         http://concourse.jassoft.co.uk/builds/$BUILD_ID
