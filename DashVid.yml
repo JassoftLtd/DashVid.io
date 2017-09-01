@@ -17,6 +17,19 @@ resources:
     uri: https://github.com/JassoftLtd/DashVid.io.git
     branch: master
 
+
+- name: dashvid-uploader-source
+  type: git
+  source:
+    uri: https://github.com/JassoftLtd/DashVid-Uploader.git
+    branch: master
+
+- name: dashvid-ui-source
+  type: git
+  source:
+    uri: https://github.com/JassoftLtd/DashVid.io-UI.git
+    branch: master
+
 - name: slack-alert
   type: slack-notification
   source:
@@ -29,6 +42,40 @@ resources:
     repo: JassoftLtd/DashVid.io
     base: master
 
+- name: gh-release-uploader
+  type: github-release
+  source:
+    owner: JassoftLtd
+    repository: DashVid-Uploader
+    access_token: {{github-access-token}}
+    base: master
+
+- name: gh-release-ui
+  type: github-release
+  source:
+    owner: JassoftLtd
+    repository: DashVid.io-UI
+    access_token: {{github-access-token}}
+    base: master
+
+- name: dashvid-uploader-version
+  type: semver
+  source:
+    driver: git
+    uri: git@github.com:JassoftLtd/DashVid-Uploader.git
+    branch: version
+    file: version
+    private_key: {{concourse-repo-private-key-uploader}}
+
+- name: dashvid-ui-version
+  type: semver
+  source:
+    driver: git
+    uri: git@github.com:JassoftLtd/DashVid.io-UI.git
+    branch: version
+    file: version
+    private_key: {{concourse-repo-private-key-ui}}
+
 groups:
 - name: Deployment
   jobs:
@@ -40,6 +87,12 @@ groups:
 - name: Pull Requests
   jobs:
   - test-pull-request
+- name: Build UI
+  jobs:
+  - DashVid-UI
+- name: Build Uploader
+  jobs:
+  - DashVid-Uploader
 
 jobs:
 - name: test-lambdas
@@ -72,7 +125,7 @@ jobs:
         channel: '#build-notifications'
         text: |
           Test Lambda Failed. Check it out at:
-          http://concourse.jassoft.co.uk:8080/builds/$BUILD_ID
+          http://concourse.jassoft.co.uk/builds/$BUILD_ID
 
 - name: test-deploy
   serial_groups: [DashVidTestDeploy, DashVidAPITest, DashVidUITest]
@@ -80,6 +133,8 @@ jobs:
   - aggregate:
     - get: source-code
       passed: [test-lambdas]
+      trigger: true
+    - get: gh-release-ui
       trigger: true
   - task: Deploy
     file: source-code/concourse/build-api.yml
@@ -111,7 +166,7 @@ jobs:
         channel: '#build-notifications'
         text: |
           Test Deploy Failed. Check it out at:
-          http://concourse.jassoft.co.uk:8080/builds/$BUILD_ID
+          http://concourse.jassoft.co.uk/builds/$BUILD_ID
 
   - task: Invalidate Cache
     file: source-code/concourse/invalidate-cache.yml
@@ -138,7 +193,7 @@ jobs:
         channel: '#build-notifications'
         text: |
           API Tests Failed. Check it out at:
-          http://concourse.jassoft.co.uk:8080/builds/$BUILD_ID
+          http://concourse.jassoft.co.uk/builds/$BUILD_ID
 
 - name: ui-tests
   serial_groups: [DashVidUITest]
@@ -159,7 +214,7 @@ jobs:
         channel: '#build-notifications'
         text: |
           UI Tests Failed. Check it out at:
-          http://concourse.jassoft.co.uk:8080/builds/$BUILD_ID
+          http://concourse.jassoft.co.uk/builds/$BUILD_ID
 
 - name: production-deploy
   serial_groups: [DashVidProdDeploy]
@@ -194,7 +249,7 @@ jobs:
         channel: '#build-notifications'
         text: |
           Production Deploy Failed. Check it out at:
-          http://concourse.jassoft.co.uk:8080/builds/$BUILD_ID
+          http://concourse.jassoft.co.uk/builds/$BUILD_ID
 
   - task: Invalidate Cache
     file: source-code/concourse/invalidate-cache.yml
@@ -208,7 +263,7 @@ jobs:
       channel: '#build-notifications'
       text: |
         Production Deployment Successful. Check it out at:
-        http://concourse.jassoft.co.uk:8080/builds/$BUILD_ID
+        http://concourse.jassoft.co.uk/builds/$BUILD_ID
 
 # test a pull request
 - name: test-pull-request
@@ -252,3 +307,120 @@ jobs:
       params:
         path: pull-request
         status: failure
+
+- name: DashVid-Uploader
+  plan:
+  - get: dashvid-uploader-source
+    trigger: true
+  - get: dashvid-uploader-version
+    params: {bump: minor}
+
+  - task: Build
+    privileged: true
+    config:
+      platform: linux
+
+      image_resource:
+        type: docker-image
+        source:
+          repository: amidos/dcind
+
+      inputs:
+      - name: dashvid-uploader-source
+
+      outputs:
+      - name: artifact
+
+      run:
+        path: sh
+        args:
+        - -exc
+        - |
+          source /docker-lib.sh
+          start_docker
+          cd dashvid-uploader-source
+          docker run -e BUILD_GOOS="linux darwin windows" -e BUILD_GOARCH="386 amd64" -v $(pwd)/DashVid:/src jonnyshaw89/golang-builder
+          docker run -e BUILD_GOOS="linux" -e BUILD_GOARCH="arm" -v $(pwd)/DashVid:/src jonnyshaw89/golang-builder
+          ls -ltrh DashVid
+          mkdir ../artifact/bin
+          cp DashVid/DashVid-Uploader* ../artifact/bin
+    on_failure:
+      put: slack-alert
+      params:
+        channel: '#build-notifications'
+        text: |
+          Build Failed. Check it out at:
+          http://concourse.jassoft.co.uk/builds/$BUILD_ID
+
+  - put: gh-release-uploader
+    params:
+      name: dashvid-uploader-version/version
+      tag: dashvid-uploader-version/version
+      globs:
+      - artifact/bin/*
+
+  - put: dashvid-uploader-version
+    params: {file: dashvid-uploader-version/version}
+
+  - put: slack-alert
+    params:
+      channel: '#build-notifications'
+      text: |
+        DashVid Uploader Build Successful. Check it out at:
+        http://concourse.jassoft.co.uk/builds/$BUILD_ID
+
+- name: DashVid-UI
+  plan:
+  - get: dashvid-ui-source
+    trigger: true
+  - get: dashvid-ui-version
+    params: {bump: minor}
+
+  - task: Build
+    config:
+      platform: linux
+
+      image_resource:
+        type: docker-image
+        source:
+          repository: jonnyshaw89/dashvid-build
+
+      inputs:
+      - name: dashvid-ui-source
+
+      outputs:
+      - name: artifacts
+
+      run:
+        path: sh
+        args:
+        - -exc
+        - |
+          cd dashvid-ui-source
+          npm install
+          npm run build
+          zip -r ../artifacts/dashvid-ui.zip build/*
+    on_failure:
+      put: slack-alert
+      params:
+        channel: '#build-notifications'
+        text: |
+          Build Failed. Check it out at:
+          http://concourse.jassoft.co.uk/builds/$BUILD_ID
+
+  - put: gh-release-ui
+    params:
+      name: dashvid-ui-version/version
+      tag: dashvid-ui-version/version
+      globs:
+      - artifacts/dashvid-ui.zip
+
+  - put: dashvid-ui-version
+    params: {file: dashvid-ui-version/version}
+
+  - put: slack-alert
+    params:
+      channel: '#build-notifications'
+      text: |
+        DashVid UI Build Successful. Check it out at:
+        http://concourse.jassoft.co.uk/builds/$BUILD_ID

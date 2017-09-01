@@ -44,4 +44,4 @@ popd
 echo "Creating terraform s3 for website"
 
 websiteBucket=dashvid.io
-$GOPATH/bin/terraform-s3-dir ./UI/www/build/ $TF_VAR_environment_name$websiteBucket aws_s3_bucket.dashvid-io-bucket > s3_dashvid-io.tf
+$GOPATH/bin/terraform-s3-dir ../../build/ $TF_VAR_environment_name$websiteBucket aws_s3_bucket.dashvid-io-bucket > s3_dashvid-io.tf

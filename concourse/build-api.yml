@@ -7,6 +7,7 @@ image_resource:
 
 inputs:
 - name: source-code
+- name: gh-release-ui
 
 outputs:
 - name: build-source-api
@@ -16,6 +17,7 @@ run:
   args:
   - -exc
   - |
+    unzip gh-release-ui/dashvid-ui.zip
     cd source-code/terraform
     ./build.sh
     cp -R ../../source-code/terraform ../../build-source-api/terraform
