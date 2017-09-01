@@ -33,14 +33,6 @@ export GOPATH=$(pwd)/gopath
 go get -u github.com/jonnyshaw89/terraform-s3-dir
 go install github.com/jonnyshaw89/terraform-s3-dir
 
-pushd UI/www/
-
-echo "Building UI"
-npm install
-npm run build
-
-popd
-
 echo "Creating terraform s3 for website"
 
 websiteBucket=dashvid.io
