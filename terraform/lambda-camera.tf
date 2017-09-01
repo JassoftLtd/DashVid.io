@@ -6,14 +6,14 @@ resource "aws_lambda_function" "getCameras" {
     "aws_iam_role_policy.IamForGetCamerasLambda",
   ]
 
-  filename         = "PackagedLambdas/CameraLambdas/getCameras.zip"
+  filename         = "PackagedLambdas/getCameras.zip"
   function_name    = "getCameras"
   role             = "${aws_iam_role.IamForGetCamerasLambda.arn}"
   handler          = "getCameras.handler"
   runtime          = "nodejs6.10"
   timeout          = "30"
   memory_size      = "256"
-  source_code_hash = "${base64sha256(file("PackagedLambdas/CameraLambdas/getCameras.zip"))}"
+  source_code_hash = "${base64sha256(file("PackagedLambdas/getCameras.zip"))}"
   kms_key_arn      = "${aws_kms_key.lambda_variables.arn}"
 
   tracing_config {
