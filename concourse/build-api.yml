@@ -18,10 +18,10 @@ run:
   args:
   - -exc
   - |
-    ls -ltrh
+    ls -ltrh gh-release-functions
     unzip gh-release-ui/dashvid-ui.zip
     mkdir source-code/terraform/PackagedLambdas
-    cp gh-release-functions/PackagedLambdas source-code/terraform/PackagedLambdas
+    cp gh-release-functions/* source-code/terraform/PackagedLambdas
     cd source-code/terraform
     ./build.sh
     cp -R ../../source-code/terraform ../../build-source-api/terraform
