@@ -176,6 +176,12 @@ jobs:
     - get: source-code
       passed: [test-deploy]
       trigger: true
+    - get: gh-release-ui
+      passed: [test-deploy]
+      trigger: true
+    - get: gh-release-functions
+      passed: [test-deploy]
+      trigger: true
   - task: API Tests
     file: source-code/concourse/test/api-tests.yml
     params:
@@ -196,6 +202,12 @@ jobs:
     - get: source-code
       passed: [test-deploy]
       trigger: true
+    - get: gh-release-ui
+      passed: [test-deploy]
+      trigger: true
+    - get: gh-release-functions
+      passed: [test-deploy]
+      trigger: true
   - task: UI Tests
     file: source-code/concourse/test/ui-tests.yml
     params:
@@ -213,9 +225,16 @@ jobs:
 - name: production-deploy
   serial_groups: [DashVidProdDeploy]
   plan:
-  - get: source-code
-    passed: [api-tests, ui-tests]
-    trigger: true
+  - aggregate:
+    - get: source-code
+      passed: [api-tests, ui-tests]
+      trigger: true
+    - get: gh-release-ui
+      passed: [api-tests, ui-tests]
+      trigger: true
+    - get: gh-release-functions
+      passed: [api-tests, ui-tests]
+      trigger: true
   - task: Production Deploy
     file: source-code/concourse/build-api.yml
     params:
