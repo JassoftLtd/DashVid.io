@@ -22,7 +22,7 @@ resource "aws_lambda_function" "transcodeVideo" {
 
   environment {
     variables = {
-      PipelineId     = "${aws_elastictranscoder_pipeline.videos.id}"
+      PipelineId = "${aws_elastictranscoder_pipeline.videos.id}"
     }
   }
 }

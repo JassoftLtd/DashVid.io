@@ -229,7 +229,7 @@ data "aws_iam_policy_document" "IamForUploadedVideoLambda" {
     ]
 
     "resources" = [
-      "arn:aws:s3:::${aws_s3_bucket.dash-cam-videos-bucket.bucket}/*"
+      "arn:aws:s3:::${aws_s3_bucket.dash-cam-videos-bucket.bucket}/*",
     ]
   }
 

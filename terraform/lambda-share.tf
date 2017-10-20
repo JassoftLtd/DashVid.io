@@ -22,7 +22,7 @@ resource "aws_lambda_function" "shareVideo" {
 
   environment {
     variables = {
-      shareUrlPrefix  = "https://${var.environment_subdomain}${var.domain_name}/share/"
+      shareUrlPrefix = "https://${var.environment_subdomain}${var.domain_name}/share/"
     }
   }
 }

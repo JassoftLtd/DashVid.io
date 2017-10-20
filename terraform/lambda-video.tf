@@ -43,7 +43,7 @@ resource "aws_lambda_function" "createVideo" {
 
   environment {
     variables = {
-      plan_bucket     = "${aws_s3_bucket.dash-cam-videos-bucket.bucket}"
+      plan_bucket = "${aws_s3_bucket.dash-cam-videos-bucket.bucket}"
     }
   }
 }

@@ -31,7 +31,6 @@ module "ApiGatewayLambda-shareVideo" {
   aws_api_gateway_method_authorization = "AWS_IAM"
 }
 
-
 // /share/{shareId}
 resource "aws_api_gateway_resource" "ShareVideo" {
   depends_on  = ["aws_api_gateway_resource.Share", "aws_api_gateway_rest_api.DashCamAPI"]

@@ -135,7 +135,7 @@ data "aws_iam_policy_document" "IamForGetSharedVideoLambda" {
 
     "resources" = [
       "arn:aws:s3:::${aws_s3_bucket.dash-cam-videos-bucket.bucket}/*",
-      "arn:aws:s3:::${aws_s3_bucket.dash-cam-videos-transcoded.bucket}/*"
+      "arn:aws:s3:::${aws_s3_bucket.dash-cam-videos-transcoded.bucket}/*",
     ]
   }
 

@@ -14,11 +14,11 @@ resource "aws_s3_bucket" "dash-cam-videos-bucket" {
   }
 
   lifecycle_rule {
-    prefix                                 = ""
-    enabled                                = true
+    prefix  = ""
+    enabled = true
 
     tags {
-      "plan"      = "free"
+      "plan" = "free"
     }
 
     expiration {
@@ -27,11 +27,11 @@ resource "aws_s3_bucket" "dash-cam-videos-bucket" {
   }
 
   lifecycle_rule {
-    prefix                                 = ""
-    enabled                                = true
+    prefix  = ""
+    enabled = true
 
     tags {
-      "plan"      = "standard"
+      "plan" = "standard"
     }
 
     expiration {
