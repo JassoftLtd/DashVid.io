@@ -16,12 +16,31 @@ resource "aws_batch_compute_environment" "batch_compute" {
       "${aws_subnet.batch_compute.id}"
     ]
     type = "SPOT"
+    spot_iam_fleet_role = "${aws_iam_role.spot_iam_fleet_role.arn}"
   }
   service_role = "${aws_iam_role.aws_batch_service_role.arn}"
   type = "MANAGED"
   depends_on = ["aws_iam_role_policy_attachment.ecs_instance_role"]
 }
 
+
+resource "aws_iam_role" "spot_iam_fleet_role" {
+  name = "ecs_instance_role"
+  assume_role_policy = <<EOF
+{
+    "Version": "2012-10-17",
+    "Statement": [
+    {
+        "Action": "sts:AssumeRole",
+        "Effect": "Allow",
+        "Principal": {
+        "Service": "batch.amazonaws.com"
+        }
+    }
+    ]
+}
+EOF
+}
 
 resource "aws_iam_instance_profile" "batch_compute_ecs_instance_role" {
   name  = "batch_compute_ecs_instance_role"
