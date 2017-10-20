@@ -25,7 +25,7 @@ resource "aws_batch_compute_environment" "batch_compute" {
 
 
 resource "aws_iam_role" "spot_iam_fleet_role" {
-  name = "ecs_instance_role"
+  name = "spot_iam_fleet_role"
   assume_role_policy = <<EOF
 {
     "Version": "2012-10-17",
@@ -49,7 +49,7 @@ resource "aws_iam_instance_profile" "batch_compute_ecs_instance_role" {
 
 
 resource "aws_iam_role" "batch_compute_ecs_instance_role" {
-  name = "ecs_instance_role"
+  name = "batch_compute_ecs_instance_role"
   assume_role_policy = <<EOF
 {
     "Version": "2012-10-17",
