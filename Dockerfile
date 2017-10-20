@@ -23,5 +23,3 @@ ENV PATH $GOROOT/bin:$GOPATH/bin:$PATH
 RUN chown -R root:root $GOROOT/bin/go
 
 WORKDIR /code
-
-#CMD ./build.sh
