@@ -115,6 +115,7 @@ data "aws_iam_policy_document" "aws_batch_service" {
 
     "actions" = [
       "logs:*",
+      "ecs:*",
     ]
 
     "resources" = [
