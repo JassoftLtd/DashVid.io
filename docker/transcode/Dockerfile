@@ -13,6 +13,7 @@ RUN set -ex \
     mp4v2-utils \
     mpv \
     handbrake-cli \
+    awscli \
   && apt-get remove -y software-properties-common && apt-get autoremove -y \
   && rm -rf /var/lib/apt/lists/* \
   && gem install video_transcoding -v "$GEM_VERSION" \
@@ -20,4 +21,6 @@ RUN set -ex \
 
 WORKDIR /data
 
-CMD [ "sh", "docker-entrypoint.sh" ]
+ADD docker-entrypoint.sh /
+
+CMD [ "sh", "/docker-entrypoint.sh" ]

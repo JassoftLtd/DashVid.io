@@ -23,6 +23,7 @@ run:
     mkdir source-code/terraform/PackagedLambdas
     cp gh-release-functions/* source-code/terraform/PackagedLambdas
     cd source-code/terraform
+    ls -ltrh PackagedLambdas
     ./build.sh
     cp -R ../../source-code/terraform ../../build-source-api/terraform
     terraform init -backend-config="bucket=$TF_VAR_aws_terraform_state_bucket"
