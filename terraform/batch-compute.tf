@@ -1,4 +1,4 @@
-§resource "aws_batch_compute_environment" "batch_compute" {
+resource "aws_batch_compute_environment" "batch_compute" {
   compute_environment_name = "Dashvid"
 
   compute_resources {
