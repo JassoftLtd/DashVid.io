@@ -12,17 +12,9 @@ resource "aws_batch_job_definition" "Transcode" {
           "value": "$${INPUT_BUCKET}"
         },
         {
-          "name": "INPUT_FILE",
-          "value": "${INPUT_FILE}"
-        },
-        {
           "name": "OUTPUT_BUCKET",
           "value": "$${OUTPUT_BUCKET}"
-        },
-        {
-          "name": "OUTPUT_FILE",
-          "value": "${OUTPUT_FILE}"
-        },
+        }
     ],
     "ulimits": [
       {
