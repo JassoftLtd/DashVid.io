@@ -1,5 +1,5 @@
 resource "aws_batch_job_definition" "Transcode" {
-  name = "video-transcode"
+  name = "video_transcode"
   type = "container"
   container_properties = <<CONTAINER_PROPERTIES
 {
