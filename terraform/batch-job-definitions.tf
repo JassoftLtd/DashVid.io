@@ -9,7 +9,7 @@ resource "aws_batch_job_definition" "Transcode" {
     "environment": [
         {
           "name": "INPUT_BUCKET",
-          "value": "${INPUT_BUCKET}"
+          "value": "$${INPUT_BUCKET}"
         },
         {
           "name": "INPUT_FILE",
@@ -17,7 +17,7 @@ resource "aws_batch_job_definition" "Transcode" {
         },
         {
           "name": "OUTPUT_BUCKET",
-          "value": "${OUTPUT_BUCKET}"
+          "value": "$${OUTPUT_BUCKET}"
         },
         {
           "name": "OUTPUT_FILE",
