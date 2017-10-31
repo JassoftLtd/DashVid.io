@@ -121,6 +121,7 @@ data "aws_iam_policy_document" "aws_batch_service" {
       "logs:*",
       "ecs:*",
       "ec2:*",
+      "iam:GetInstanceProfile",
     ]
 
     "resources" = [
