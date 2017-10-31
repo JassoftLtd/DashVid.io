@@ -9,7 +9,7 @@ resource "aws_batch_compute_environment" "batch_compute" {
       "c4.xlarge",
     ]
 
-    max_vcpus = 16
+    max_vcpus = 256
     min_vcpus = 0
 
     security_group_ids = [
