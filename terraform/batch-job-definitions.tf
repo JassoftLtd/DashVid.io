@@ -9,11 +9,11 @@ resource "aws_batch_job_definition" "Transcode" {
     "environment": [
         {
           "name": "INPUT_BUCKET",
-          "value": "$${INPUT_BUCKET}"
+          "value": "${aws_s3_bucket.dash-cam-videos-bucket.bucket}"
         },
         {
           "name": "OUTPUT_BUCKET",
-          "value": "$${OUTPUT_BUCKET}"
+          "value": "${aws_s3_bucket.dash-cam-videos-transcoded.bucket}"
         }
     ],
     "ulimits": [
@@ -25,8 +25,4 @@ resource "aws_batch_job_definition" "Transcode" {
     ]
 }
 CONTAINER_PROPERTIES
-  parameters {
-    INPUT_BUCKET = "${aws_s3_bucket.dash-cam-videos-bucket.bucket}"
-    OUTPUT_BUCKET = "${aws_s3_bucket.dash-cam-videos-transcoded.bucket}"
-  }
 }
