@@ -48,9 +48,24 @@ resource "aws_iam_role" "spot_iam_fleet_role" {
 EOF
 }
 
-resource "aws_iam_role_policy_attachment" "spot_iam_fleet_role" {
-  role       = "${aws_iam_role.spot_iam_fleet_role.name}"
-  policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonEC2SpotFleetTaggingRole"
+data "aws_iam_policy_document" "spot_iam_fleet_role" {
+  "statement" = {
+    "effect" = "Allow"
+
+    "actions" = [
+      "*",
+    ]
+
+    "resources" = [
+      "*",
+    ]
+  }
+}
+
+resource "aws_iam_role_policy" "spot_iam_fleet_role" {
+  name   = "${var.environment_name}spot_iam_fleet_role"
+  role   = "${aws_iam_role.spot_iam_fleet_role.id}"
+  policy = "${data.aws_iam_policy_document.spot_iam_fleet_role.json}"
 }
 
 
