@@ -18,6 +18,12 @@ resource "aws_sns_topic_subscription" "new_video_lambda_transcode_video" {
   endpoint  = "${aws_lambda_function.transcodeVideo.arn}"
 }
 
+resource "aws_sns_topic_subscription" "new_video_lambda_transcode_on_batch_video" {
+  topic_arn = "${aws_sns_topic.new_video.arn}"
+  protocol  = "lambda"
+  endpoint  = "${aws_lambda_function.transcodeVideoOnBatch.arn}"
+}
+
 // Video Transcoded
 resource "aws_sns_topic" "video_transcoded" {
   name         = "${var.environment_name}video-transcoded-topic"
