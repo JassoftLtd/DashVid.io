@@ -79,10 +79,14 @@ resource "aws_iam_role_policy_attachment" "ecs_instance_role" {
 
 resource "aws_security_group" "batch_compute" {
   name = "aws_batch_compute_environment_security_group"
+  vpc_id = "${aws_vpc.batch_compute.id}"
 }
 
 resource "aws_vpc" "batch_compute" {
   cidr_block = "10.1.0.0/16"
+  tags {
+    Name  = "DashVid Batch VPC"
+  }
 }
 
 resource "aws_subnet" "batch_compute" {
