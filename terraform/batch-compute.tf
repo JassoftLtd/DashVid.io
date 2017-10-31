@@ -48,6 +48,78 @@ resource "aws_iam_role" "spot_iam_fleet_role" {
 EOF
 }
 
+data "aws_iam_policy_document" "spot_iam_fleet_role" {
+  "statement" = {
+    "effect" = "Allow"
+
+    "actions" = [
+      "ec2:DescribeAccountAttributes",
+      "ec2:DescribeInstances",
+      "ec2:DescribeSubnets",
+      "ec2:DescribeSecurityGroups",
+      "ec2:DescribeKeyPairs",
+      "ec2:DescribeImages",
+      "ec2:DescribeImageAttribute",
+      "ec2:DescribeSpotFleetInstances",
+      "ec2:DescribeSpotFleetRequests",
+      "ec2:DescribeSpotPriceHistory",
+      "ec2:RequestSpotFleet",
+      "ec2:CancelSpotFleetRequests",
+      "ec2:ModifySpotFleetRequest",
+      "ec2:TerminateInstances",
+      "autoscaling:DescribeAccountLimits",
+      "autoscaling:DescribeAutoScalingGroups",
+      "autoscaling:DescribeLaunchConfigurations",
+      "autoscaling:DescribeAutoScalingInstances",
+      "autoscaling:CreateLaunchConfiguration",
+      "autoscaling:CreateAutoScalingGroup",
+      "autoscaling:UpdateAutoScalingGroup",
+      "autoscaling:SetDesiredCapacity",
+      "autoscaling:DeleteLaunchConfiguration",
+      "autoscaling:DeleteAutoScalingGroup",
+      "autoscaling:CreateOrUpdateTags",
+      "autoscaling:SuspendProcesses",
+      "autoscaling:PutNotificationConfiguration",
+      "autoscaling:TerminateInstanceInAutoScalingGroup",
+      "ecs:DescribeClusters",
+      "ecs:DescribeContainerInstances",
+      "ecs:DescribeTaskDefinitions",
+      "ecs:DescribeTasks",
+      "ecs:ListClusters",
+      "ecs:ListContainerInstances",
+      "ecs:ListTaskDefinitionFamilies",
+      "ecs:ListTaskDefinitions",
+      "ecs:ListTasks",
+      "ecs:CreateCluster",
+      "ecs:DeleteCluster",
+      "ecs:RegisterTaskDefinition",
+      "ecs:DeregisterTaskDefinition",
+      "ecs:RunTask",
+      "ecs:StartTask",
+      "ecs:StopTask",
+      "ecs:UpdateContainerAgent",
+      "ecs:DeregisterContainerInstance",
+      "logs:CreateLogGroup",
+      "logs:CreateLogStream",
+      "logs:PutLogEvents",
+      "logs:DescribeLogGroups",
+      "iam:GetInstanceProfile",
+      "iam:PassRole",
+    ]
+
+    "resources" = [
+      "*",
+    ]
+  }
+}
+
+resource "aws_iam_role_policy" "spot_iam_fleet_role" {
+  name   = "${var.environment_name}spot_iam_fleet_role"
+  role   = "${aws_iam_role.spot_iam_fleet_role.id}"
+  policy = "${data.aws_iam_policy_document.spot_iam_fleet_role.json}"
+}
+
+
 resource "aws_iam_instance_profile" "batch_compute_ecs_instance_role" {
   name = "${var.environment_name}batch_compute_ecs_instance_role"
   role = "${aws_iam_role.batch_compute_ecs_instance_role.name}"
