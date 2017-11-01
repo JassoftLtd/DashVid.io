@@ -50,7 +50,7 @@ EOF
 
 resource "aws_iam_role_policy_attachment" "spot_iam_fleet_role" {
   role       = "${aws_iam_role.spot_iam_fleet_role.name}"
-  policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonEC2SpotFleetTaggingRole"
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonEC2SpotFleetRole"
 }
 
 
