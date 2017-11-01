@@ -40,7 +40,7 @@ resource "aws_iam_role" "spot_iam_fleet_role" {
         "Action": "sts:AssumeRole",
         "Effect": "Allow",
         "Principal": {
-        "Service": "batch.amazonaws.com"
+        "Service": "spotfleet.amazonaws.com"
         }
     }
     ]
