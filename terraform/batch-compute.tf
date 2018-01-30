@@ -53,7 +53,6 @@ resource "aws_iam_role_policy_attachment" "spot_iam_fleet_role" {
   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonEC2SpotFleetRole"
 }
 
-
 resource "aws_iam_instance_profile" "batch_compute_ecs_instance_role" {
   name = "${var.environment_name}batch_compute_ecs_instance_role"
   role = "${aws_iam_role.batch_compute_ecs_instance_role.name}"
@@ -84,20 +83,22 @@ resource "aws_iam_role_policy_attachment" "ecs_instance_role" {
 }
 
 resource "aws_security_group" "batch_compute" {
-  name = "aws_batch_compute_environment_security_group"
+  name   = "aws_batch_compute_environment_security_group"
   vpc_id = "${aws_vpc.batch_compute.id}"
 }
 
 resource "aws_vpc" "batch_compute" {
   cidr_block = "10.1.0.0/16"
+
   tags {
-    Name  = "DashVid Batch VPC"
+    Name = "DashVid Batch VPC"
   }
 }
 
 resource "aws_subnet" "batch_compute" {
-  vpc_id     = "${aws_vpc.batch_compute.id}"
-  cidr_block = "10.1.1.0/24"
+  vpc_id                  = "${aws_vpc.batch_compute.id}"
+  cidr_block              = "10.1.1.0/24"
+  map_public_ip_on_launch = true
 }
 
 resource "aws_iam_role" "aws_batch_service_role" {
