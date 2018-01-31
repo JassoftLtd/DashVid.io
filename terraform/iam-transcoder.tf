@@ -133,7 +133,6 @@ resource "aws_iam_role_policy" "IamForTranscodeVideoLambda" {
   policy = "${data.aws_iam_policy_document.IamForTranscodeVideoLambda.json}"
 }
 
-
 // transcodeVideoOnBatch
 resource "aws_iam_role" "IamForTranscodeVideoOnBatchLambda" {
   name = "${var.environment_name}iam_for_video_transcoder_batch_lambda"

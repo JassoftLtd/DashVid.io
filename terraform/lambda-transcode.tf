@@ -58,8 +58,8 @@ resource "aws_lambda_function" "transcodeVideoOnBatch" {
   environment {
     variables = {
       jobDefinition = "${aws_batch_job_definition.Transcode.name}"
-      jobName = "Transcode"
-      jobQueue = "${aws_batch_job_queue.video_transcoding_queue.name}"
+      jobName       = "Transcode"
+      jobQueue      = "${aws_batch_job_queue.video_transcoding_queue.name}"
     }
   }
 }
