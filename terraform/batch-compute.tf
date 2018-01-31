@@ -2,7 +2,7 @@ resource "aws_batch_compute_environment" "batch_compute" {
   compute_environment_name = "Dashvid"
 
   compute_resources {
-//    bid_percentage = "30"
+    bid_percentage = "30"
     instance_role  = "${aws_iam_instance_profile.batch_compute_ecs_instance_role.arn}"
 
     instance_type = [
@@ -20,8 +20,8 @@ resource "aws_batch_compute_environment" "batch_compute" {
       "${aws_subnet.batch_compute.id}",
     ]
 
-    type                = "EC2"
-//    spot_iam_fleet_role = "${aws_iam_role.spot_iam_fleet_role.arn}"
+    type                = "SPOT"
+    spot_iam_fleet_role = "${aws_iam_role.spot_iam_fleet_role.arn}"
   }
 
   service_role = "${aws_iam_role.aws_batch_service_role.arn}"
