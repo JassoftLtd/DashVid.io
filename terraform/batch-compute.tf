@@ -6,7 +6,12 @@ resource "aws_batch_compute_environment" "batch_compute" {
     instance_role  = "${aws_iam_instance_profile.batch_compute_ecs_instance_role.arn}"
 
     instance_type = [
-      "c4.xlarge",
+      "c5.large",
+      "c5.xlarge",
+      "c5.2xlarge",
+      "c5.4xlarge",
+      "c5.9xlarge",
+      "c5.18xlarge",
     ]
 
     max_vcpus = 256
