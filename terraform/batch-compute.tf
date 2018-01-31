@@ -115,6 +115,35 @@ resource "aws_subnet" "batch_compute" {
   map_public_ip_on_launch = true
 }
 
+resource "aws_route_table" "batch_compute" {
+  vpc_id = "${aws_vpc.batch_compute.id}"
+
+  tags {
+    Name        = "${var.environment_name}-batch-route-table"
+    Environment = "${var.environment_name}"
+    Type        = "Public"
+  }
+}
+
+resource "aws_internet_gateway" "batch_compute_internet_gateway" {
+  count  = 1
+  vpc_id = "${aws_vpc.batch_compute.id}"
+  tags {
+    Name = "${var.environment_name}-batch-internet-gateway"
+  }
+}
+
+resource "aws_route_table_association" "public" {
+  subnet_id      = "${aws_subnet.batch_compute.id}"
+  route_table_id = "${aws_route_table.batch_compute.id}"
+}
+
+resource "aws_route" "public_internet_gateway" {
+  route_table_id         = "${aws_route_table.batch_compute.id}"
+  destination_cidr_block = "0.0.0.0/0"
+  gateway_id             = "${aws_internet_gateway.batch_compute_internet_gateway.id}"
+}
+
 resource "aws_iam_role" "aws_batch_service_role" {
   name = "${var.environment_name}aws_batch_service_role"
 
