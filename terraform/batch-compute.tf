@@ -20,7 +20,7 @@ resource "aws_batch_compute_environment" "batch_compute" {
       "${aws_subnet.batch_compute.id}",
     ]
 
-    type                = "MANAGED"
+    type                = "EC2"
 //    spot_iam_fleet_role = "${aws_iam_role.spot_iam_fleet_role.arn}"
   }
 
