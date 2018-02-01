@@ -24,25 +24,13 @@ resource "aws_s3_bucket" "dash-cam-videos-transcoded" {
   }
 }
 
-resource "aws_s3_bucket" "dash-cam-videos-thumbnails" {
-  bucket              = "${var.environment_name}dash-cam-videos-thumbnails"
-  acl                 = "private"
-  force_destroy       = "${var.bucket_force_destroy}"
-  acceleration_status = "Enabled"
+// Trigger Lambda when events
+resource "aws_s3_bucket_notification" "videos_bucket_created_notification" {
+  depends_on = ["aws_s3_bucket.dash-cam-videos-transcoded"]
+  bucket     = "${aws_s3_bucket.dash-cam-videos-transcoded.id}"
 
-  cors_rule {
-    allowed_headers = ["*"]
-    allowed_methods = ["GET", "HEAD"]
-    allowed_origins = ["*"]
-  }
-
-  lifecycle_rule {
-    prefix  = ""
-    enabled = true
-
-    transition {
-      days          = 30
-      storage_class = "STANDARD_IA"
-    }
+  lambda_function {
+    lambda_function_arn = "${aws_lambda_function.videoTranscoded.arn}"
+    events              = ["s3:ObjectCreated:*"]
   }
 }
