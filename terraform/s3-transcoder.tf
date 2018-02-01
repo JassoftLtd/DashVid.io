@@ -25,7 +25,7 @@ resource "aws_s3_bucket" "dash-cam-videos-transcoded" {
 }
 
 // Trigger Lambda when events
-resource "aws_s3_bucket_notification" "videos_bucket_created_notification" {
+resource "aws_s3_bucket_notification" "videos_transcoded_bucket_created_notification" {
   depends_on = ["aws_s3_bucket.dash-cam-videos-transcoded"]
   bucket     = "${aws_s3_bucket.dash-cam-videos-transcoded.id}"
 
