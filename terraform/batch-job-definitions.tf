@@ -6,7 +6,7 @@ resource "aws_batch_job_definition" "Transcode" {
 {
     "image": "jassoftltd/video-transcode",
     "memory": 4096,
-    "vcpus": 4,
+    "vcpus": 2,
     "jobRoleArn": "${aws_iam_role.IamForBatchTranscode.arn}",
     "environment": [
         {
