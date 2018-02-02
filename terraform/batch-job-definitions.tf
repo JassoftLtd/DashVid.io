@@ -20,9 +20,9 @@ resource "aws_batch_job_definition" "Transcode" {
     ],
     "ulimits": [
       {
-        "hardLimit": 2048,
+        "hardLimit": 6144,
         "name": "nofile",
-        "softLimit": 2048
+        "softLimit": 6144
       }
     ]
 }
