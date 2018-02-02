@@ -5,8 +5,8 @@ resource "aws_batch_job_definition" "Transcode" {
   container_properties = <<CONTAINER_PROPERTIES
 {
     "image": "jassoftltd/video-transcode",
-    "memory": 1024,
-    "vcpus": 2,
+    "memory": 4096,
+    "vcpus": 4,
     "jobRoleArn": "${aws_iam_role.IamForBatchTranscode.arn}",
     "environment": [
         {
@@ -17,13 +17,6 @@ resource "aws_batch_job_definition" "Transcode" {
           "name": "OUTPUT_BUCKET",
           "value": "${aws_s3_bucket.dash-cam-videos-transcoded.bucket}"
         }
-    ],
-    "ulimits": [
-      {
-        "hardLimit": 6144,
-        "name": "nofile",
-        "softLimit": 6144
-      }
     ]
 }
 CONTAINER_PROPERTIES
